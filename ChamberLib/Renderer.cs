@@ -116,7 +116,7 @@ namespace ChamberLib
             SpriteBatch.End();
         }
 
-        public void Draw (
+        public void DrawImage(
             Texture2D texture,
             Rectangle destinationRectangle,
             Color color
@@ -124,7 +124,7 @@ namespace ChamberLib
         {
             SpriteBatch.Draw(texture, destinationRectangle, color);
         }
-        public void Draw (
+        public void DrawImage(
             Texture2D texture,
             Vector2 position,
             Nullable<Rectangle> sourceRectangle,

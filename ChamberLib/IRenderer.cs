@@ -19,7 +19,7 @@ namespace ChamberLib
                         float rotation = 0, Vector2 origin = default(Vector2), float scale = 1,
                         SpriteEffects effects = SpriteEffects.None, float layerDepth = 0);
 
-        void Draw(Texture2D texture, Rectangle destinationRectangle, Color color);
+        void DrawImage(Texture2D texture, Rectangle destinationRectangle, Color color);
 
         void Clear(Color color);
 
