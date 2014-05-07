@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace ChamberLib
 {
-    public class Renderer
+    public class Renderer : IRenderer
     {
         public Renderer(GraphicsDevice device)
         {
