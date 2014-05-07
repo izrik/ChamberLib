@@ -119,24 +119,9 @@ namespace ChamberLib
         public void DrawImage(
             Texture2D texture,
             Rectangle destinationRectangle,
-            Color color
-            )
+            Color color)
         {
             SpriteBatch.Draw(texture, destinationRectangle, color);
-        }
-        public void DrawImage(
-            Texture2D texture,
-            Vector2 position,
-            Nullable<Rectangle> sourceRectangle,
-            Color color,
-            float rotation,
-            Vector2 origin,
-            Vector2 scale,
-            SpriteEffects effects,
-            float layerDepth
-            )
-        {
-            SpriteBatch.Draw(texture, position, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
         }
 
         public DepthStencilState DepthStencilState
