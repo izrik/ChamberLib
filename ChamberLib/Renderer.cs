@@ -121,7 +121,15 @@ namespace ChamberLib
             Rectangle destinationRectangle,
             Color color)
         {
-            SpriteBatch.Draw(texture, destinationRectangle, color);
+            DrawImages(new DrawImagesEntry(texture, destinationRectangle, color));
+        }
+
+        public void DrawImages(params DrawImagesEntry[] entries)
+        {
+            foreach (var entry in entries)
+            {
+                SpriteBatch.Draw(entry.Texture, entry.DestinationRectangle, entry.Color);
+            }
         }
 
         public DepthStencilState DepthStencilState

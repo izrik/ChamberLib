@@ -20,6 +20,7 @@ namespace ChamberLib
                         SpriteEffects effects = SpriteEffects.None, float layerDepth = 0);
 
         void DrawImage(Texture2D texture, Rectangle destinationRectangle, Color color);
+        void DrawImages(params DrawImagesEntry[] entries);
 
         void Clear(Color color);
 
@@ -29,5 +30,24 @@ namespace ChamberLib
         Viewport Viewport { get; set; }
         GraphicsDevice Device { get; }
     }
+
+    public struct DrawImagesEntry
+    {
+        public DrawImagesEntry(Texture2D texture, Rectangle dest)
+            : this(texture, dest, Color.White)
+        {
+        }
+        public DrawImagesEntry(Texture2D texture, Rectangle dest, Color color)
+        {
+            Texture = texture;
+            DestinationRectangle = dest;
+            Color = color;
+        }
+
+        public Texture2D Texture;
+        public Rectangle DestinationRectangle;
+        public Color Color;
+    }
+
 }
 
