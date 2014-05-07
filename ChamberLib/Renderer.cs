@@ -124,21 +124,12 @@ namespace ChamberLib
             SpriteFont spriteFont,
             string text,
             Vector2 position,
-            Color color
-            )
-        {
-            SpriteBatch.DrawString(spriteFont, text, position, color);
-        }
-        public void DrawString (
-            SpriteFont spriteFont,
-            string text,
-            Vector2 position,
             Color color,
-            float rotation,
-            Vector2 origin,
-            float scale,
-            SpriteEffects effects,
-            float layerDepth
+            float rotation=0,
+            Vector2 origin=default(Vector2),
+            float scale=1,
+            SpriteEffects effects=SpriteEffects.None,
+            float layerDepth=0
             )
         {
             SpriteBatch.DrawString( spriteFont, text, position, color, rotation, origin, scale, effects, layerDepth);
