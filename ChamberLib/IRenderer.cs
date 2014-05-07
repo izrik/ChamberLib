@@ -21,9 +21,7 @@ namespace ChamberLib
 
         void DrawImage(Texture2D texture, Rectangle destinationRectangle, Color color);
         void DrawImages(params DrawImagesEntry[] entries);
-        void DrawImageWithBeginEnd(Texture2D texture, Rectangle destinationRectangle, Color color);
-        void DrawImagesWithBeginEnd(params DrawImagesEntry[] entries);
-        void DrawImagesWithBeginEnd(Effect effect, params DrawImagesEntry[] entries);
+        void DrawImages(Effect effect, params DrawImagesEntry[] entries);
 
         void Clear(Color color);
 

@@ -123,33 +123,17 @@ namespace ChamberLib
         {
             DrawImages(new DrawImagesEntry(texture, destinationRectangle, color));
         }
-
         public void DrawImages(params DrawImagesEntry[] entries)
         {
+            this.DrawImages(null, entries);
+        }
+        public void DrawImages(Effect effect, params DrawImagesEntry[] entries)
+        {
+            this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, effect);
             foreach (var entry in entries)
             {
                 SpriteBatch.Draw(entry.Texture, entry.DestinationRectangle, entry.Color);
             }
-        }
-
-        public void DrawImageWithBeginEnd(
-            Texture2D texture,
-            Rectangle destinationRectangle,
-            Color color)
-        {
-            this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            DrawImage(texture, destinationRectangle, color);
-            this.End();
-        }
-
-        public void DrawImagesWithBeginEnd(params DrawImagesEntry[] entries)
-        {
-            this.DrawImagesWithBeginEnd(null, entries);
-        }
-        public void DrawImagesWithBeginEnd(Effect effect, params DrawImagesEntry[] entries)
-        {
-            this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, effect);
-            DrawImages(entries);
             this.End();
         }
 
