@@ -144,7 +144,11 @@ namespace ChamberLib
 
         public void DrawImagesWithBeginEnd(params DrawImagesEntry[] entries)
         {
-            this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            this.DrawImagesWithBeginEnd(null, entries);
+        }
+        public void DrawImagesWithBeginEnd(Effect effect, params DrawImagesEntry[] entries)
+        {
+            this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, effect);
             DrawImages(entries);
             this.End();
         }
