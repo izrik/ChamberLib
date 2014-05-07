@@ -132,6 +132,23 @@ namespace ChamberLib
             }
         }
 
+        public void DrawImageWithBeginEnd(
+            Texture2D texture,
+            Rectangle destinationRectangle,
+            Color color)
+        {
+            this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            DrawImage(texture, destinationRectangle, color);
+            this.End();
+        }
+
+        public void DrawImagesWithBeginEnd(params DrawImagesEntry[] entries)
+        {
+            this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            DrawImages(entries);
+            this.End();
+        }
+
         public DepthStencilState DepthStencilState
         {
             get { return Device.DepthStencilState; }
