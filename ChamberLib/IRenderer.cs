@@ -16,8 +16,9 @@ namespace ChamberLib
         void DrawLine(Color color, Vector2 v1, Vector2 v2);
 
         void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color,
-                        float rotation = 0, Vector2 origin = default(Vector2), float scale = 1,
-                        SpriteEffects effects = SpriteEffects.None, float layerDepth = 0);
+                        float rotation = 0,
+                        Vector2 origin = default(Vector2),
+                        float scale = 1);
 
         void DrawImage(Texture2D texture, Rectangle destinationRectangle, Color color);
         void DrawImages(params DrawImagesEntry[] entries);

@@ -103,11 +103,11 @@ namespace ChamberLib
             Color color,
             float rotation=0,
             Vector2 origin=default(Vector2),
-            float scale=1,
-            SpriteEffects effects=SpriteEffects.None,
-            float layerDepth=0
-            )
+            float scale=1)
         {
+            SpriteEffects effects = SpriteEffects.None;
+            float layerDepth = 0;
+
             SpriteBatch.DrawString( spriteFont, text, position, color, rotation, origin, scale, effects, layerDepth);
         }
 
