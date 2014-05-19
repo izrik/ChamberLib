@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Vector2 = ChamberLib.Vector2;
 
 namespace ChamberLib
 {
@@ -38,8 +39,8 @@ namespace ChamberLib
             float length = Vector2.Distance(v1, v2);
 
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            SpriteBatch.Draw(_drawLineTexture, v1, null, color,
-                             angle, Vector2.Zero, new Vector2(length, width),
+            SpriteBatch.Draw(_drawLineTexture, v1.ToXna(), null, color,
+                             angle, Vector2.Zero.ToXna(), new Vector2(length, width).ToXna(),
                              SpriteEffects.None, 0);
             SpriteBatch.End();
         }
@@ -48,8 +49,8 @@ namespace ChamberLib
         public void DrawLine(Color color, Vector2 v1, Vector2 v2)
         {
             VertexPositionNormalTexture[] verts = new VertexPositionNormalTexture[]{
-                new VertexPositionNormalTexture(new Vector3(v1.X, v1.Y, 0), Vector3.UnitZ, Vector2.Zero),
-                new VertexPositionNormalTexture(new Vector3(v2.X, v2.Y, 0), Vector3.UnitZ, Vector2.Zero),
+                new VertexPositionNormalTexture(new Vector3(v1.X, v1.Y, 0), Vector3.UnitZ, Vector2.Zero.ToXna()),
+                new VertexPositionNormalTexture(new Vector3(v2.X, v2.Y, 0), Vector3.UnitZ, Vector2.Zero.ToXna()),
             };
 
             _drawLineEffect.World = Matrix.Identity;
@@ -108,7 +109,7 @@ namespace ChamberLib
             SpriteEffects effects = SpriteEffects.None;
             float layerDepth = 0;
 
-            SpriteBatch.DrawString( spriteFont, text, position, color, rotation, origin, scale, effects, layerDepth);
+            SpriteBatch.DrawString( spriteFont, text, position.ToXna(), color, rotation, origin.ToXna(), scale, effects, layerDepth);
         }
 
         public void End()
