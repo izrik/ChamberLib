@@ -45,6 +45,8 @@
     <Compile Include="VectorHelper.cs" />
     <Compile Include="Vector4.cs" />
     <Compile Include="Vector3.cs" />
+    <Compile Include="RectangleF.cs" />
+    <Compile Include="RectangleHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />
