@@ -120,7 +120,7 @@ namespace ChamberLib
         }
 
         public void DrawImage(
-            Texture2D texture,
+            ITexture2D texture,
             RectangleI destinationRectangle,
             Color color)
         {
@@ -135,7 +135,8 @@ namespace ChamberLib
             this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, effect);
             foreach (var entry in entries)
             {
-                SpriteBatch.Draw(entry.Texture, entry.DestinationRectangle.ToXna(), entry.Color);
+                Texture2D texture = ((Texture2DAdapter)entry.Texture).Texture;
+                SpriteBatch.Draw(texture, entry.DestinationRectangle.ToXna(), entry.Color);
             }
             this.End();
         }

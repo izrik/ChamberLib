@@ -51,6 +51,8 @@
     <Compile Include="Point2.cs" />
     <Compile Include="IFont.cs" />
     <Compile Include="SpriteFontAdapter.cs" />
+    <Compile Include="ITexture2D.cs" />
+    <Compile Include="Texture2DAdapter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />
