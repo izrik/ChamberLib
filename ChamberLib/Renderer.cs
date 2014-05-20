@@ -129,11 +129,7 @@ namespace ChamberLib
         }
         public void DrawImages(params DrawImagesEntry[] entries)
         {
-            this.DrawImages(null, entries);
-        }
-        public void DrawImages(Effect effect, params DrawImagesEntry[] entries)
-        {
-            this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, effect);
+            this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             foreach (var entry in entries)
             {
                 Texture2D texture = ((Texture2DAdapter)entry.Texture).Texture;
