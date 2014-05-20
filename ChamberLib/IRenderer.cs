@@ -15,7 +15,7 @@ namespace ChamberLib
         void DrawLine(float width, Color color, Vector2 v1, Vector2 v2);
         void DrawLine(Color color, Vector2 v1, Vector2 v2);
 
-        void DrawString(SpriteFont spriteFont, string text, Vector2 position, Color color,
+        void DrawString(IFont font, string text, Vector2 position, Color color,
                         float rotation = 0,
                         Vector2 origin = default(Vector2),
                         float scale = 1);

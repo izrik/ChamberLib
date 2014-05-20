@@ -99,7 +99,7 @@ namespace ChamberLib
 
 
         public void DrawString (
-            SpriteFont spriteFont,
+            IFont font,
             string text,
             Vector2 position,
             Color color,
@@ -109,8 +109,9 @@ namespace ChamberLib
         {
             SpriteEffects effects = SpriteEffects.None;
             float layerDepth = 0;
+            SpriteFont sfont = ((SpriteFontAdapter)font).SpriteFont;
 
-            SpriteBatch.DrawString( spriteFont, text, position.ToXna(), color, rotation, origin.ToXna(), scale, effects, layerDepth);
+            SpriteBatch.DrawString( sfont, text, position.ToXna(), color, rotation, origin.ToXna(), scale, effects, layerDepth);
         }
 
         public void End()
