@@ -67,5 +67,24 @@ namespace ChamberLib
             return new RectangleF(left, top, right - left, bottom - top);
         }
 
+        public RectangleF Round()
+        {
+            int left = Left.RoundToInt();
+            int top = Top.RoundToInt();
+            int right = Right.RoundToInt();
+            int bottom = Bottom.RoundToInt();
+
+            return new RectangleF(left, top, right - left, bottom - top);
+        }
+
+        public RectangleI RoundToInt()
+        {
+            int left = Left.RoundToInt();
+            int top = Top.RoundToInt();
+            int right = Right.RoundToInt();
+            int bottom = Bottom.RoundToInt();
+
+            return new RectangleI(left, top, right - left, bottom - top);
+        }
     }
 }

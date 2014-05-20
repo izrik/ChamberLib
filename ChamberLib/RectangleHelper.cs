@@ -13,23 +13,24 @@ namespace ChamberLib
             return new Vector2(rect.Width, rect.Height);
         }
 
-        public static RectangleF ToRectangleF(this Rectangle rect)
+        public static RectangleI ToChamber(this Rectangle rect)
         {
-            return new RectangleF(
+            return new RectangleI(
                 rect.Left,
                 rect.Top,
                 rect.Width,
                 rect.Height);
         }
 
-        public static Rectangle ToXna(this RectangleF r)
+        public static Rectangle ToXna(this RectangleI r)
         {
             return
                 new Rectangle(
-                    r.Left.RoundToInt(),
-                    r.Top.RoundToInt(),
-                    r.Width.RoundToInt(),
-                    r.Height.RoundToInt());
+                    r.Left,
+                    r.Top,
+                    r.Width,
+                    r.Height);
         }
+
     }
 }

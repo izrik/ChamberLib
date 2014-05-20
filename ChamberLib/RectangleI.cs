@@ -67,5 +67,9 @@ namespace ChamberLib
             return new RectangleI(left, top, right - left, bottom - top);
         }
 
+        public RectangleF ToRectangleF()
+        {
+            return new RectangleF(Left, Top, Width, Height);
+        }
     }
 }
