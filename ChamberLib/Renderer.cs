@@ -86,18 +86,6 @@ namespace ChamberLib
             SpriteBatch.Begin(sortMode, blendState);
         }
 
-        public void Begin (
-            SpriteSortMode sortMode,
-            BlendState blendState,
-            SamplerState samplerState,
-            DepthStencilState depthStencilState,
-            RasterizerState rasterizerState,
-            Effect effect
-            )
-        {
-            SpriteBatch.Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, effect);
-        }
-
 
         public void DrawString (
             IFont font,

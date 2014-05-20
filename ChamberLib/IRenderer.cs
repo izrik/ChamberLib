@@ -8,9 +8,6 @@ namespace ChamberLib
     {
         void Begin();
         void Begin(SpriteSortMode sortMode, BlendState blendState);
-        void Begin(SpriteSortMode sortMode, BlendState blendState, 
-                   SamplerState samplerState, DepthStencilState depthStencilState,
-                   RasterizerState rasterizerState, Effect effect);
 
         void DrawLine(float width, Color color, Vector2 v1, Vector2 v2);
         void DrawLine(Color color, Vector2 v1, Vector2 v2);
