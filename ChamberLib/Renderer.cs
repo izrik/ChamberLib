@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Vector2 = ChamberLib.Vector2;
 using Vector3 = ChamberLib.Vector3;
+using Color = ChamberLib.Color;
 
 namespace ChamberLib
 {
@@ -16,7 +17,7 @@ namespace ChamberLib
             SpriteBatch = new SpriteBatch(device);
 
             _drawLineTexture = new Texture2D(this.Device, 1, 1);
-            _drawLineTexture.SetData(new Color[] { Color.White });
+            _drawLineTexture.SetData(new [] { Microsoft.Xna.Framework.Color.White });
             _drawLineEffect = new BasicEffect(this);
         }
 
@@ -40,7 +41,7 @@ namespace ChamberLib
             float length = Vector2.Distance(v1, v2);
 
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            SpriteBatch.Draw(_drawLineTexture, v1.ToXna(), null, color,
+            SpriteBatch.Draw(_drawLineTexture, v1.ToXna(), null, color.ToXna(),
                              angle, Vector2.Zero.ToXna(), new Vector2(length, width).ToXna(),
                              SpriteEffects.None, 0);
             SpriteBatch.End();
@@ -65,7 +66,7 @@ namespace ChamberLib
             _drawLineEffect.Projection = transform;
             _drawLineEffect.DiffuseColor = Vector3.Zero.ToXna();
             _drawLineEffect.AmbientLightColor = Vector3.Zero.ToXna();
-            _drawLineEffect.EmissiveColor = color.ToVector3();
+            _drawLineEffect.EmissiveColor = color.ToVector3().ToXna();
 
             _drawLineEffect.ApplyFirstPass();
 
@@ -111,7 +112,7 @@ namespace ChamberLib
             float layerDepth = 0;
             SpriteFont sfont = ((SpriteFontAdapter)font).SpriteFont;
 
-            SpriteBatch.DrawString( sfont, text, position.ToXna(), color, rotation, origin.ToXna(), scale, effects, layerDepth);
+            SpriteBatch.DrawString( sfont, text, position.ToXna(), color.ToXna(), rotation, origin.ToXna(), scale, effects, layerDepth);
         }
 
         public void End()
@@ -136,7 +137,7 @@ namespace ChamberLib
             foreach (var entry in entries)
             {
                 Texture2D texture = ((Texture2DAdapter)entry.Texture).Texture;
-                SpriteBatch.Draw(texture, entry.DestinationRectangle.ToXna(), entry.Color);
+                SpriteBatch.Draw(texture, entry.DestinationRectangle.ToXna(), entry.Color.ToXna());
             }
             this.End();
         }
@@ -155,7 +156,7 @@ namespace ChamberLib
 
         public void Clear(Color color)
         {
-            Device.Clear(color);
+            Device.Clear(color.ToXna());
         }
 
         public void DrawUserPrimitives<T> (

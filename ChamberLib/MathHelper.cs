@@ -18,6 +18,11 @@ namespace ChamberLib
         {
             return radians * 57.2957795130823f; // 180 / pi
         }
+
+        public static float Clamp(this float value, float min, float max)
+        {
+            return Math.Max(Math.Min(value, max), min);
+        }
     }
 }
 
