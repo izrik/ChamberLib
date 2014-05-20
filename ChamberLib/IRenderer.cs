@@ -20,7 +20,7 @@ namespace ChamberLib
                         Vector2 origin = default(Vector2),
                         float scale = 1);
 
-        void DrawImage(Texture2D texture, Rectangle destinationRectangle, Color color);
+        void DrawImage(Texture2D texture, RectangleI destinationRectangle, Color color);
         void DrawImages(params DrawImagesEntry[] entries);
         void DrawImages(Effect effect, params DrawImagesEntry[] entries);
 
@@ -35,11 +35,11 @@ namespace ChamberLib
 
     public struct DrawImagesEntry
     {
-        public DrawImagesEntry(Texture2D texture, Rectangle dest)
+        public DrawImagesEntry(Texture2D texture, RectangleI dest)
             : this(texture, dest, Color.White)
         {
         }
-        public DrawImagesEntry(Texture2D texture, Rectangle dest, Color color)
+        public DrawImagesEntry(Texture2D texture, RectangleI dest, Color color)
         {
             Texture = texture;
             DestinationRectangle = dest;
@@ -47,7 +47,7 @@ namespace ChamberLib
         }
 
         public Texture2D Texture;
-        public Rectangle DestinationRectangle;
+        public RectangleI DestinationRectangle;
         public Color Color;
     }
 
