@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Vector2 = ChamberLib.Vector2;
+using Vector3 = ChamberLib.Vector3;
 
 namespace ChamberLib
 {
@@ -49,8 +50,8 @@ namespace ChamberLib
         public void DrawLine(Color color, Vector2 v1, Vector2 v2)
         {
             VertexPositionNormalTexture[] verts = new VertexPositionNormalTexture[]{
-                new VertexPositionNormalTexture(new Vector3(v1.X, v1.Y, 0), Vector3.UnitZ, Vector2.Zero.ToXna()),
-                new VertexPositionNormalTexture(new Vector3(v2.X, v2.Y, 0), Vector3.UnitZ, Vector2.Zero.ToXna()),
+                new VertexPositionNormalTexture(new Vector3(v1.X, v1.Y, 0).ToXna(), Vector3.UnitZ.ToXna(), Vector2.Zero.ToXna()),
+                new VertexPositionNormalTexture(new Vector3(v2.X, v2.Y, 0).ToXna(), Vector3.UnitZ.ToXna(), Vector2.Zero.ToXna()),
             };
 
             _drawLineEffect.World = Matrix.Identity;
@@ -62,8 +63,8 @@ namespace ChamberLib
             Matrix transform = (halfPixelOffset * projection);
 
             _drawLineEffect.Projection = transform;
-            _drawLineEffect.DiffuseColor = Vector3.Zero;
-            _drawLineEffect.AmbientLightColor = Vector3.Zero;
+            _drawLineEffect.DiffuseColor = Vector3.Zero.ToXna();
+            _drawLineEffect.AmbientLightColor = Vector3.Zero.ToXna();
             _drawLineEffect.EmissiveColor = color.ToVector3();
 
             _drawLineEffect.ApplyFirstPass();
