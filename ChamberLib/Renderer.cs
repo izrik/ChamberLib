@@ -14,25 +14,25 @@ namespace ChamberLib
         {
             if (device == null) throw new ArgumentNullException("device");
 
-            Device = device;
-            SpriteBatch = new SpriteBatch(device);
+            _device = device;
+            _spriteBatch = new SpriteBatch(device);
 
-            _drawLineTexture = new Texture2D(this.Device, 1, 1);
+            _drawLineTexture = new Texture2D(this._device, 1, 1);
             _drawLineTexture.SetData(new [] { Microsoft.Xna.Framework.Color.White });
             _drawLineEffect = new BasicEffect(this);
         }
 
-        public GraphicsDevice Device { get; protected set; }
-        public SpriteBatch SpriteBatch { get; protected set; }
+        GraphicsDevice _device;
+        SpriteBatch _spriteBatch;
 
         public static implicit operator GraphicsDevice(Renderer r)
         {
-            return r.Device;
+            return r._device;
         }
 
         public static implicit operator SpriteBatch(Renderer r)
         {
-            return r.SpriteBatch;
+            return r._spriteBatch;
         }
 
         Texture2D _drawLineTexture;
@@ -41,11 +41,11 @@ namespace ChamberLib
             float angle = (float)Math.Atan2(v2.Y - v1.Y, v2.X - v1.X);
             float length = Vector2.Distance(v1, v2);
 
-            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            SpriteBatch.Draw(_drawLineTexture, v1.ToXna(), null, color.ToXna(),
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            _spriteBatch.Draw(_drawLineTexture, v1.ToXna(), null, color.ToXna(),
                              angle, Vector2.Zero.ToXna(), new Vector2(length, width).ToXna(),
                              SpriteEffects.None, 0);
-            SpriteBatch.End();
+            _spriteBatch.End();
         }
 
         BasicEffect _drawLineEffect;
@@ -76,7 +76,7 @@ namespace ChamberLib
 
         public void Begin()
         {
-            SpriteBatch.Begin();
+            _spriteBatch.Begin();
         }
 
         public void Begin (
@@ -84,7 +84,7 @@ namespace ChamberLib
             BlendState blendState
             )
         {
-            SpriteBatch.Begin(sortMode, blendState);
+            _spriteBatch.Begin(sortMode, blendState);
         }
 
 
@@ -101,12 +101,12 @@ namespace ChamberLib
             float layerDepth = 0;
             SpriteFont sfont = ((SpriteFontAdapter)font).SpriteFont;
 
-            SpriteBatch.DrawString( sfont, text, position.ToXna(), color.ToXna(), rotation, origin.ToXna(), scale, effects, layerDepth);
+            _spriteBatch.DrawString( sfont, text, position.ToXna(), color.ToXna(), rotation, origin.ToXna(), scale, effects, layerDepth);
         }
 
         public void End()
         {
-            SpriteBatch.End();
+            _spriteBatch.End();
         }
 
         public void DrawImage(
@@ -122,26 +122,26 @@ namespace ChamberLib
             foreach (var entry in entries)
             {
                 Texture2D texture = ((Texture2DAdapter)entry.Texture).Texture;
-                SpriteBatch.Draw(texture, entry.DestinationRectangle.ToXna(), entry.Color.ToXna());
+                _spriteBatch.Draw(texture, entry.DestinationRectangle.ToXna(), entry.Color.ToXna());
             }
             this.End();
         }
 
         public DepthStencilState DepthStencilState
         {
-            get { return Device.DepthStencilState; }
-            set { Device.DepthStencilState = value; }
+            get { return _device.DepthStencilState; }
+            set { _device.DepthStencilState = value; }
         }
 
         public Viewport Viewport
         {
-            get { return Device.Viewport; }
-            set { Device.Viewport = value; }
+            get { return _device.Viewport; }
+            set { _device.Viewport = value; }
         }
 
         public void Clear(Color color)
         {
-            Device.Clear(color.ToXna());
+            _device.Clear(color.ToXna());
         }
 
         public void DrawUserPrimitives<T> (
@@ -151,7 +151,7 @@ namespace ChamberLib
             int primitiveCount
             ) where T : struct, IVertexType
         {
-            Device.DrawUserPrimitives(primitiveType, vertexData, vertexOffset, primitiveCount);
+            _device.DrawUserPrimitives(primitiveType, vertexData, vertexOffset, primitiveCount);
         }
 
         public void DrawCircleXZ(Vector3 color, Matrix? world=null, Matrix? view=null, Matrix? projection=null)
@@ -186,7 +186,7 @@ namespace ChamberLib
             if (_circle != null && _circleEffect != null) return;
 
             //unit id circle
-            _circleEffect = new BasicEffect(this.Device);
+            _circleEffect = new BasicEffect(this._device);
             _circleEffect.AmbientLightColor = Vector3.Zero.ToXna();
             _circleEffect.DiffuseColor = Vector3.Zero.ToXna();
             _circleEffect.DirectionalLight0.DiffuseColor = Vector3.Zero.ToXna();

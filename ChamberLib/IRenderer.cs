@@ -28,7 +28,6 @@ namespace ChamberLib
 
         DepthStencilState DepthStencilState { get; set; }
         Viewport Viewport { get; set; }
-        GraphicsDevice Device { get; }
     }
 
     public struct DrawImagesEntry
