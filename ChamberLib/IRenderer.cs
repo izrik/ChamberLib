@@ -20,9 +20,11 @@ namespace ChamberLib
         void DrawImage(ITexture2D texture, RectangleI destinationRectangle, Color color);
         void DrawImages(params DrawImagesEntry[] entries);
 
-        void Clear(Color color);
 
         void End();
+
+        void Clear(Color color);
+        void DrawCircleXZ(Vector3 color, Matrix? world = null, Matrix? view = null, Matrix? projection = null);
 
         DepthStencilState DepthStencilState { get; set; }
         Viewport Viewport { get; set; }

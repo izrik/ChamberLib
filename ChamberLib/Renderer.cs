@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Vector2 = ChamberLib.Vector2;
 using Vector3 = ChamberLib.Vector3;
 using Color = ChamberLib.Color;
+using System.Collections.Generic;
 
 namespace ChamberLib
 {
@@ -151,6 +152,62 @@ namespace ChamberLib
             ) where T : struct, IVertexType
         {
             Device.DrawUserPrimitives(primitiveType, vertexData, vertexOffset, primitiveCount);
+        }
+
+        public void DrawCircleXZ(Vector3 color, Matrix? world=null, Matrix? view=null, Matrix? projection=null)
+        {
+            if (_circleEffect == null) InitCircle();
+
+            if (!world.HasValue)
+                world = Matrix.Identity;
+
+            if (!view.HasValue)
+                view = Matrix.Identity;
+
+            if (!projection.HasValue)
+                projection = Matrix.Identity;
+
+            _circleEffect.World = world.Value;
+            _circleEffect.View = view.Value;
+            _circleEffect.Projection = projection.Value;
+            _circleEffect.EmissiveColor = color.ToXna();
+            _circleEffect.ApplyFirstPass();
+
+            this.DrawUserPrimitives(PrimitiveType.LineList, _circle, 0, _circle.Length / 2);
+        }
+
+
+
+        BasicEffect _circleEffect;
+        VertexPositionNormalTexture[] _circle;
+
+        protected void InitCircle()
+        {
+            if (_circle != null && _circleEffect != null) return;
+
+            //unit id circle
+            _circleEffect = new BasicEffect(this.Device);
+            _circleEffect.AmbientLightColor = Vector3.Zero.ToXna();
+            _circleEffect.DiffuseColor = Vector3.Zero.ToXna();
+            _circleEffect.DirectionalLight0.DiffuseColor = Vector3.Zero.ToXna();
+            _circleEffect.DirectionalLight1.DiffuseColor = Vector3.Zero.ToXna();
+            _circleEffect.DirectionalLight2.DiffuseColor = Vector3.Zero.ToXna();
+            int n = 16;
+            int i;
+            float r = 0.4f;
+            List<VertexPositionNormalTexture> pts = new List<VertexPositionNormalTexture>();
+            pts.Add(new VertexPositionNormalTexture(new Vector3(r, 0.01f, 0).ToXna(), Vector3.Zero.ToXna(), Vector2.Zero.ToXna()));
+            for (i = 0; i < n; i++)
+            {
+                float theta = (float)(2 * Math.PI * i / (float)n);
+                float x = (float)(r * Math.Cos(theta));
+                float z = (float)(r * Math.Sin(theta));
+                VertexPositionNormalTexture v = new VertexPositionNormalTexture(new Vector3(x, 0.01f, z).ToXna(), Vector3.Zero.ToXna(), Vector2.Zero.ToXna());
+                pts.Add(v);
+                pts.Add(v);
+            }
+            pts.Add(pts[0]);
+            _circle = pts.ToArray();
         }
     }
 }
