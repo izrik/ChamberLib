@@ -132,12 +132,6 @@ namespace ChamberLib
             _device.DepthStencilState = DepthStencilState.Default;
         }
 
-        public DepthStencilState DepthStencilState
-        {
-            get { return _device.DepthStencilState; }
-            set { _device.DepthStencilState = value; }
-        }
-
         public Viewport Viewport
         {
             get { return _device.Viewport; }
