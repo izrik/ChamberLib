@@ -59,8 +59,7 @@ namespace ChamberLib
             _drawLineEffect.World = Matrix.Identity;
             _drawLineEffect.View = Matrix.Identity;
 
-            Viewport vp = this.Viewport;
-            Matrix projection = Matrix.CreateOrthographicOffCenter(0, vp.Width, vp.Height, 0, 0, 1);
+            Matrix projection = Matrix.CreateOrthographicOffCenter(0, _device.Viewport.Width, _device.Viewport.Height, 0, 0, 1);
             Matrix halfPixelOffset = Matrix.CreateTranslation(-0.5f, -0.5f, 0);
             Matrix transform = (halfPixelOffset * projection);
 
