@@ -133,8 +133,8 @@ namespace ChamberLib
 
         public Viewport Viewport
         {
-            get { return _device.Viewport; }
-            set { _device.Viewport = value; }
+            get { return _device.Viewport.ToChamber(); }
+            set { _device.Viewport = value.ToXna(); }
         }
 
         public void Clear(Color color)

@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Matrix = Microsoft.Xna.Framework.Matrix;
+
+namespace ChamberLib
+{
+    public static class ViewportHelper
+    {
+        public static RectangleI GetRectangle(this Viewport vp)
+        {
+            return new RectangleI(vp.X, vp.Y, vp.Width, vp.Height);
+        }
+
+        public static Vector2 GetPosition(this Viewport vp)
+        {
+            return new Vector2(vp.X, vp.Y);
+        }
+
+        public static Vector2 GetSize(this Viewport vp)
+        {
+            return new Vector2(vp.Width, vp.Height);
+        }
+
+        public static Matrix GenerateSpriteBatchProjection(this Viewport viewport)
+        {
+            return
+                Matrix.CreateTranslation(-0.5f, -0.5f, 0) *
+                    Matrix.CreateOrthographicOffCenter(
+                        0,
+                        viewport.Width,
+                        viewport.Height,
+                        0,
+                        0,
+                        1);
+        }
+
+        public static Microsoft.Xna.Framework.Graphics.Viewport ToXna(this ChamberLib.Viewport vp)
+        {
+            var vp2 = new Microsoft.Xna.Framework.Graphics.Viewport(vp.Bounds.ToXna());
+
+            vp2.MinDepth = vp.MinDepth;
+            vp2.MaxDepth = vp.MaxDepth;
+
+            return vp2;
+        }
+
+        public static ChamberLib.Viewport ToChamber(this Microsoft.Xna.Framework.Graphics.Viewport vp)
+        {
+            var vp2 = new ChamberLib.Viewport();
+
+            vp2.Bounds = vp.Bounds.ToChamber();
+            vp2.MinDepth = vp.MinDepth;
+            vp2.MaxDepth = vp.MaxDepth;
+
+            return vp2;
+        }
+    }
+}
