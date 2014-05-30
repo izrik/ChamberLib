@@ -91,6 +91,14 @@ namespace ChamberLib
             return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
         }
 
+        public static Vector3 Cross(Vector3 a, Vector3 b)
+        {
+            return new Vector3(
+                a.Y * b.Z - a.Z * b.Y,
+                a.Z * b.X - a.X * b.Z,
+                a.X * b.Y - a.Y * b.X);
+        }
+
         public Vector3 Normalized()
         {
             return Normalize(this);
@@ -136,7 +144,7 @@ namespace ChamberLib
             return u * (1 - s) + v * s;
         }
 
-        public static Vector3 Transform(Vector3 v, Microsoft.Xna.Framework.Matrix m)
+        public static Vector3 Transform(Vector3 v, Matrix m)
         {
             return new Vector3(
                 v.X * m.M11 + v.Y * m.M21 + v.Z * m.M31 + m.M41,

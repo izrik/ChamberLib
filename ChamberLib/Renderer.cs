@@ -5,6 +5,8 @@ using Vector2 = ChamberLib.Vector2;
 using Vector3 = ChamberLib.Vector3;
 using Color = ChamberLib.Color;
 using System.Collections.Generic;
+using Matrix = ChamberLib.Matrix;
+using XMatrix = Microsoft.Xna.Framework.Matrix;
 
 namespace ChamberLib
 {
@@ -56,12 +58,12 @@ namespace ChamberLib
                 new VertexPositionNormalTexture(new Vector3(v2.X, v2.Y, 0).ToXna(), Vector3.UnitZ.ToXna(), Vector2.Zero.ToXna()),
             };
 
-            _drawLineEffect.World = Matrix.Identity;
-            _drawLineEffect.View = Matrix.Identity;
+            _drawLineEffect.World = XMatrix.Identity;
+            _drawLineEffect.View = XMatrix.Identity;
 
-            Matrix projection = Matrix.CreateOrthographicOffCenter(0, _device.Viewport.Width, _device.Viewport.Height, 0, 0, 1);
-            Matrix halfPixelOffset = Matrix.CreateTranslation(-0.5f, -0.5f, 0);
-            Matrix transform = (halfPixelOffset * projection);
+            var projection = XMatrix.CreateOrthographicOffCenter(0, _device.Viewport.Width, _device.Viewport.Height, 0, 0, 1);
+            var halfPixelOffset = XMatrix.CreateTranslation(-0.5f, -0.5f, 0);
+            var transform = (halfPixelOffset * projection);
 
             _drawLineEffect.Projection = transform;
             _drawLineEffect.DiffuseColor = Vector3.Zero.ToXna();
@@ -165,9 +167,9 @@ namespace ChamberLib
             if (!projection.HasValue)
                 projection = Matrix.Identity;
 
-            _circleEffect.World = world.Value;
-            _circleEffect.View = view.Value;
-            _circleEffect.Projection = projection.Value;
+            _circleEffect.World = world.Value.ToXna();
+            _circleEffect.View = view.Value.ToXna();
+            _circleEffect.Projection = projection.Value.ToXna();
             _circleEffect.EmissiveColor = color.ToXna();
             _circleEffect.ApplyFirstPass();
 

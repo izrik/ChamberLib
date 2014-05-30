@@ -57,6 +57,8 @@
     <Compile Include="ColorHelper.cs" />
     <Compile Include="Viewport.cs" />
     <Compile Include="ViewportHelper.cs" />
+    <Compile Include="Matrix.cs" />
+    <Compile Include="MatrixHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />

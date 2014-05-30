@@ -135,6 +135,15 @@ namespace ChamberLib
                 Math.Max(u.Z, v.Z),
                 Math.Max(u.W, v.W));
         }
+
+        public static Vector4 Transform(Vector4 v, Matrix m)
+        {
+            return new Vector4(
+                v.X * m.M11 + v.Y * m.M21 + v.Z * m.M31 + v.W * m.M41,
+                v.X * m.M12 + v.Y * m.M22 + v.Z * m.M32 + v.W * m.M42,
+                v.X * m.M13 + v.Y * m.M23 + v.Z * m.M33 + v.W * m.M43,
+                v.X * m.M14 + v.Y * m.M24 + v.Z * m.M34 + v.W * m.M44);
+        }
     }
 }
 

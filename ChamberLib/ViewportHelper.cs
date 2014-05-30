@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Matrix = Microsoft.Xna.Framework.Matrix;
+using XMatrix = Microsoft.Xna.Framework.Matrix;
 
 namespace ChamberLib
 {
@@ -26,14 +26,14 @@ namespace ChamberLib
         public static Matrix GenerateSpriteBatchProjection(this Viewport viewport)
         {
             return
-                Matrix.CreateTranslation(-0.5f, -0.5f, 0) *
-                    Matrix.CreateOrthographicOffCenter(
+                (XMatrix.CreateTranslation(-0.5f, -0.5f, 0) *
+                XMatrix.CreateOrthographicOffCenter(
                         0,
                         viewport.Width,
                         viewport.Height,
                         0,
                         0,
-                        1);
+                    1)).ToChamber();
         }
 
         public static Microsoft.Xna.Framework.Graphics.Viewport ToXna(this ChamberLib.Viewport vp)
