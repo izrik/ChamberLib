@@ -77,15 +77,7 @@ namespace ChamberLib
 
         public void Begin()
         {
-            _spriteBatch.Begin();
-        }
-
-        public void Begin (
-            SpriteSortMode sortMode,
-            BlendState blendState
-            )
-        {
-            _spriteBatch.Begin(sortMode, blendState);
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
         }
 
 
@@ -119,7 +111,7 @@ namespace ChamberLib
         }
         public void DrawImages(params DrawImagesEntry[] entries)
         {
-            this.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            this.Begin();
             foreach (var entry in entries)
             {
                 Texture2D texture = ((Texture2DAdapter)entry.Texture).Texture;

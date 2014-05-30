@@ -7,7 +7,6 @@ namespace ChamberLib
     public interface IRenderer
     {
         void Begin();
-        void Begin(SpriteSortMode sortMode, BlendState blendState);
 
         void DrawLine(float width, Color color, Vector2 v1, Vector2 v2);
         void DrawLine(Color color, Vector2 v1, Vector2 v2);
