@@ -247,6 +247,40 @@ namespace ChamberLib
                 M31, M32, M33, M34,
                 M41, M42, M43, M44);
         }
+
+        public Vector4 Column1
+        {
+            get { return new Vector4(M11, M21, M31, M41); }
+        }
+        public Vector4 Column2
+        {
+            get { return new Vector4(M12, M22, M32, M42); }
+        }
+        public Vector4 Column3
+        {
+            get { return new Vector4(M13, M23, M33, M43); }
+        }
+        public Vector4 Column4
+        {
+            get { return new Vector4(M14, M24, M34, M44); }
+        }
+
+        public Vector4 Row1
+        {
+            get { return new Vector4(M11, M12, M13, M14); }
+        }
+        public Vector4 Row2
+        {
+            get { return new Vector4(M21, M22, M23, M24); }
+        }
+        public Vector4 Row3
+        {
+            get { return new Vector4(M31, M32, M33, M34); }
+        }
+        public Vector4 Row4
+        {
+            get { return new Vector4(M41, M42, M43, M44); }
+        }
     }
 }
 

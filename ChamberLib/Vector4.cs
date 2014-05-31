@@ -144,6 +144,11 @@ namespace ChamberLib
                 v.X * m.M13 + v.Y * m.M23 + v.Z * m.M33 + v.W * m.M43,
                 v.X * m.M14 + v.Y * m.M24 + v.Z * m.M34 + v.W * m.M44);
         }
+
+        public Vector3 ToVectorXYZ()
+        {
+            return new Vector3(X, Y, Z);
+        }
     }
 }
 
