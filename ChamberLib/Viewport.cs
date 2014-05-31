@@ -1,5 +1,7 @@
 ﻿using System;
-using Matrix = Microsoft.Xna.Framework.Matrix;
+using XMatrix = Microsoft.Xna.Framework.Matrix;
+using XVector3 = Microsoft.Xna.Framework.Vector3;
+
 
 namespace ChamberLib
 {
@@ -43,10 +45,10 @@ namespace ChamberLib
 
         public Vector3 Project(Vector3 v, Matrix projection, Matrix view, Matrix world)
         {
-            Microsoft.Xna.Framework.Vector4 v2 = new Microsoft.Xna.Framework.Vector4(v.ToXna(), 1);
-            v2 = Microsoft.Xna.Framework.Vector4.Transform(v2, world.ToXna());
-            v2 = Microsoft.Xna.Framework.Vector4.Transform(v2, view.ToXna());
-            v2 = Microsoft.Xna.Framework.Vector4.Transform(v2, projection.ToXna());
+            Vector4 v2 = new Vector4(v.X, v.Y, v.Z, 1);
+            v2 = Vector4.Transform(v2, world);
+            v2 = Vector4.Transform(v2, view);
+            v2 = Vector4.Transform(v2, projection);
 
             Vector3 v3 = new Vector3(v2.X / v2.W, v2.Y / v2.W, v2.Z / v2.W);
 
