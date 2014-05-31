@@ -1,6 +1,4 @@
 ﻿using System;
-using XMatrix = Microsoft.Xna.Framework.Matrix;
-using XVector3 = Microsoft.Xna.Framework.Vector3;
 
 
 namespace ChamberLib
