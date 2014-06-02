@@ -52,6 +52,42 @@ namespace ChamberLib
             get { return BoneAdapter.GetAdapter(Model.Root); }
             set { Model.Root = ((BoneAdapter)value).Bone; }
         }
+
+        public void SetAmbientLightColor(Vector3 color)
+        {
+            foreach (var mesh in Model.Meshes)
+            {
+                foreach (var effect in mesh.Effects)
+                {
+                    var iEffectLights = effect as Microsoft.Xna.Framework.Graphics.IEffectLights;
+                    if (iEffectLights != null)
+                    {
+                        iEffectLights.AmbientLightColor = color.ToXna();
+                    }
+                }
+            }
+        }
+
+        public void SetEmissiveColor(Vector3 color)
+        {
+            foreach (var mesh in Model.Meshes)
+            {
+                foreach (var effect in mesh.Effects)
+                {
+                    var effect2 = effect as Microsoft.Xna.Framework.Graphics.BasicEffect;
+                    if (effect2 != null)
+                    {
+                        effect2.EmissiveColor = color.ToXna();
+                    }
+                    var effect3 = effect as Microsoft.Xna.Framework.Graphics.SkinnedEffect;
+                    if (effect3 != null)
+                    {
+                        effect3.EmissiveColor = color.ToXna();
+                    }
+                }
+            }
+        }
+
     }
 }
 

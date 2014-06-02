@@ -12,6 +12,9 @@ namespace ChamberLib
         void Draw(Matrix world, Matrix view, Matrix projection);
 
         IBone Root { get; set; }
+
+        void SetAmbientLightColor(Vector3 value);
+        void SetEmissiveColor(Vector3 value);
     }
 }
 
