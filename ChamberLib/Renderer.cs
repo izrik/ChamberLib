@@ -75,7 +75,7 @@ namespace ChamberLib
 
             _drawLineEffect.ApplyFirstPass();
 
-            this.DrawUserPrimitives(PrimitiveType.LineList, verts, 0, 1);
+            _device.DrawUserPrimitives(PrimitiveType.LineList, verts, 0, 1);
         }
 
         public void Begin()
@@ -168,7 +168,7 @@ namespace ChamberLib
             _circleEffect.EmissiveColor = color.ToXna();
             _circleEffect.ApplyFirstPass();
 
-            this.DrawUserPrimitives(PrimitiveType.LineList, _circle, 0, _circle.Length / 2);
+            _device.DrawUserPrimitives(PrimitiveType.LineList, _circle, 0, _circle.Length / 2);
         }
 
 
@@ -214,7 +214,7 @@ namespace ChamberLib
             _draw3DEffect.DiffuseColor = Vector3.Zero.ToXna();
             _draw3DEffect.EmissiveColor = color.ToXna();
             _draw3DEffect.ApplyFirstPass();
-            _draw3DEffect.GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, verts, 0, verts.Length - 1);
+            _device.DrawUserPrimitives(PrimitiveType.LineStrip, verts, 0, verts.Length - 1);
         }
 
         public void DrawLine(Vector3 color, Matrix view, Matrix projection, Vector3 p1, Vector3 p2)
