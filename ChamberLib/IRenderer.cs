@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ChamberLib
 {
@@ -24,6 +25,9 @@ namespace ChamberLib
         void DrawCircleXZ(Vector3 color, Matrix? world = null, Matrix? view = null, Matrix? projection = null);
 
         void Reset3D();
+
+        void DrawLines(Vector3 color, Matrix view, Matrix projection, IEnumerable<Vector3> points);
+
         Viewport Viewport { get; set; }
     }
 

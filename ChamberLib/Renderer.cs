@@ -7,6 +7,7 @@ using Color = ChamberLib.Color;
 using System.Collections.Generic;
 using Matrix = ChamberLib.Matrix;
 using XMatrix = Microsoft.Xna.Framework.Matrix;
+using System.Linq;
 
 namespace ChamberLib
 {
@@ -22,6 +23,8 @@ namespace ChamberLib
             _drawLineTexture = new Texture2D(this._device, 1, 1);
             _drawLineTexture.SetData(new [] { Microsoft.Xna.Framework.Color.White });
             _drawLineEffect = new BasicEffect(this);
+
+            _draw3DEffect = new BasicEffect(this);
         }
 
         GraphicsDevice _device;
@@ -200,6 +203,18 @@ namespace ChamberLib
             }
             pts.Add(pts[0]);
             _circle = pts.ToArray();
+        }
+
+        readonly BasicEffect _draw3DEffect;
+        public void DrawLines(Vector3 color, Matrix view, Matrix projection, IEnumerable<Vector3> points)
+        {
+            this.Reset3D();
+            var verts = points.Select(v => new VertexPositionNormalTexture(v.ToXna(), Vector3.UnitY.ToXna(), Vector2.Zero.ToXna())).ToArray();
+            _draw3DEffect.SetMatrices(Matrix.Identity, view, projection);
+            _draw3DEffect.DiffuseColor = Vector3.Zero.ToXna();
+            _draw3DEffect.EmissiveColor = color.ToXna();
+            _draw3DEffect.ApplyFirstPass();
+            _draw3DEffect.GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, verts, 0, verts.Length - 1);
         }
     }
 }
