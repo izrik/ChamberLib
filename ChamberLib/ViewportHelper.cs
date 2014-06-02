@@ -8,21 +8,6 @@ namespace ChamberLib
 {
     public static class ViewportHelper
     {
-        public static RectangleI GetRectangle(this Viewport vp)
-        {
-            return new RectangleI(vp.X, vp.Y, vp.Width, vp.Height);
-        }
-
-        public static Vector2 GetPosition(this Viewport vp)
-        {
-            return new Vector2(vp.X, vp.Y);
-        }
-
-        public static Vector2 GetSize(this Viewport vp)
-        {
-            return new Vector2(vp.Width, vp.Height);
-        }
-
         public static Matrix GenerateSpriteBatchProjection(this Viewport viewport)
         {
             return
