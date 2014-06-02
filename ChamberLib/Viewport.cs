@@ -34,6 +34,11 @@ namespace ChamberLib
             }
         }
 
+        public Vector2 Position
+        {
+            get { return new Vector2(X, Y); }
+        }
+
         public RectangleI TitleSafeArea
         {
             get { return new RectangleI(X + 10, Y + 10, Width - 20, Height - 20); }
