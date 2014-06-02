@@ -54,5 +54,15 @@ namespace ChamberLib
                 queue.Enqueue(item);
             }
         }
+
+        // This method is useful if you intend to modify a collection while/after iterating over it.
+        public static IEnumerable<T> GetEnumeratorOfCopy<T>(this IEnumerable<T> collection)
+        {
+            var array = collection.ToArray();
+            foreach (var item in array)
+            {
+                yield return item;
+            }
+        }
     }
 }
