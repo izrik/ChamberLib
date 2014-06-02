@@ -2,6 +2,8 @@
 using XModel = Microsoft.Xna.Framework.Graphics.Model;
 using XMesh = Microsoft.Xna.Framework.Graphics.ModelMesh;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 
 namespace ChamberLib
 {
@@ -55,39 +57,34 @@ namespace ChamberLib
 
         public void SetAmbientLightColor(Vector3 color)
         {
-            foreach (var mesh in Model.Meshes)
+            var effects = Model.Meshes.SelectMany(m => m.Effects).Distinct();
+            foreach (var effect in effects)
             {
-                foreach (var effect in mesh.Effects)
+                var iEffectLights = effect as Microsoft.Xna.Framework.Graphics.IEffectLights;
+                if (iEffectLights != null)
                 {
-                    var iEffectLights = effect as Microsoft.Xna.Framework.Graphics.IEffectLights;
-                    if (iEffectLights != null)
-                    {
-                        iEffectLights.AmbientLightColor = color.ToXna();
-                    }
+                    iEffectLights.AmbientLightColor = color.ToXna();
                 }
             }
         }
 
         public void SetEmissiveColor(Vector3 color)
         {
-            foreach (var mesh in Model.Meshes)
+            var effects = Model.Meshes.SelectMany(m => m.Effects).Distinct();
+            foreach (var effect in effects)
             {
-                foreach (var effect in mesh.Effects)
+                var effect2 = effect as Microsoft.Xna.Framework.Graphics.BasicEffect;
+                if (effect2 != null)
                 {
-                    var effect2 = effect as Microsoft.Xna.Framework.Graphics.BasicEffect;
-                    if (effect2 != null)
-                    {
-                        effect2.EmissiveColor = color.ToXna();
-                    }
-                    var effect3 = effect as Microsoft.Xna.Framework.Graphics.SkinnedEffect;
-                    if (effect3 != null)
-                    {
-                        effect3.EmissiveColor = color.ToXna();
-                    }
+                    effect2.EmissiveColor = color.ToXna();
+                }
+                var effect3 = effect as Microsoft.Xna.Framework.Graphics.SkinnedEffect;
+                if (effect3 != null)
+                {
+                    effect3.EmissiveColor = color.ToXna();
                 }
             }
         }
-
     }
 }
 
