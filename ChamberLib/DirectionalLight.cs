@@ -4,6 +4,22 @@ namespace ChamberLib
 {
     public class DirectionalLight
     {
+        public DirectionalLight()
+        {
+        }
+
+        public DirectionalLight(
+            Vector3 direction,
+            Vector3 diffuseColor,
+            Vector3 specularColor,
+            bool enabled=true)
+        {
+            _direction = direction;
+            _diffuseColor = diffuseColor;
+            _specularColor = specularColor;
+            _enabled = enabled;
+        }
+
         Vector3 _diffuseColor;
         public Vector3 DiffuseColor
         {
