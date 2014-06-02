@@ -216,6 +216,11 @@ namespace ChamberLib
             _draw3DEffect.ApplyFirstPass();
             _draw3DEffect.GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, verts, 0, verts.Length - 1);
         }
+
+        public void DrawLine(Vector3 color, Matrix view, Matrix projection, Vector3 p1, Vector3 p2)
+        {
+            DrawLines(color, view, projection, new [] { p1, p2 });
+        }
     }
 }
 
