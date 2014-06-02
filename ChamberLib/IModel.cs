@@ -15,6 +15,8 @@ namespace ChamberLib
 
         void SetAmbientLightColor(Vector3 value);
         void SetEmissiveColor(Vector3 value);
+
+        void SetDirectionalLight(DirectionalLight light, int index=0);
     }
 }
 

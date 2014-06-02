@@ -55,10 +55,14 @@ namespace ChamberLib
             set { Model.Root = ((BoneAdapter)value).Bone; }
         }
 
+        protected IEnumerable<Effect> GetEffects()
+        {
+            return Model.Meshes.SelectMany(m => m.Effects).Distinct();
+        }
+
         public void SetAmbientLightColor(Vector3 color)
         {
-            var effects = Model.Meshes.SelectMany(m => m.Effects).Distinct();
-            foreach (var effect in effects)
+            foreach (var effect in GetEffects())
             {
                 var iEffectLights = effect as Microsoft.Xna.Framework.Graphics.IEffectLights;
                 if (iEffectLights != null)
@@ -70,8 +74,7 @@ namespace ChamberLib
 
         public void SetEmissiveColor(Vector3 color)
         {
-            var effects = Model.Meshes.SelectMany(m => m.Effects).Distinct();
-            foreach (var effect in effects)
+            foreach (var effect in GetEffects())
             {
                 var effect2 = effect as Microsoft.Xna.Framework.Graphics.BasicEffect;
                 if (effect2 != null)
@@ -82,6 +85,37 @@ namespace ChamberLib
                 if (effect3 != null)
                 {
                     effect3.EmissiveColor = color.ToXna();
+                }
+            }
+        }
+
+        public void SetDirectionalLight(DirectionalLight light, int index = 0)
+        {
+            foreach (var effect in GetEffects())
+            {
+                var effect2 = effect as Microsoft.Xna.Framework.Graphics.IEffectLights;
+                if (effect2 != null)
+                {
+                    Microsoft.Xna.Framework.Graphics.DirectionalLight destLight;
+                    if (index == 1)
+                    {
+                        destLight = effect2.DirectionalLight1;
+                    }
+                    else if (index == 2)
+                    {
+                        destLight = effect2.DirectionalLight2;
+                    }
+                    else
+                    {
+                        destLight = effect2.DirectionalLight0;
+                    }
+
+                    destLight.DiffuseColor = light.DiffuseColor.ToXna();
+                    destLight.Direction = light.Direction.ToXna();
+                    destLight.Enabled = light.Enabled;
+                    destLight.SpecularColor = light.SpecularColor.ToXna();
+
+                    effect2.LightingEnabled = true;
                 }
             }
         }
