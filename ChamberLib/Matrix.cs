@@ -149,9 +149,30 @@ namespace ChamberLib
                 0, 0, 0, 1);
         }
 
-        public static Matrix CreateFromQuaternion(Microsoft.Xna.Framework.Quaternion rotation)
+        public static Matrix CreateFromQuaternion(Quaternion rotation)
         {
-            return Microsoft.Xna.Framework.Matrix.CreateFromQuaternion(rotation).ToChamber();
+            var q2 = rotation;
+
+            var x = q2.X;
+            var y = q2.Y;
+            var z = q2.Z;
+            var w = q2.W;
+
+            var wx = 2 * w * x;
+            var wy = 2 * w * y;
+            var wz = 2 * w * z;
+            var xx = 2 * x * x;
+            var xy = 2 * x * y;
+            var xz = 2 * x * z;
+            var yy = 2 * y * y;
+            var yz = 2 * y * z;
+            var zz = 2 * z * z;
+
+            return new Matrix(
+                1 - (yy + zz), xy + wz, xz - wy, 0,
+                xy - wz, 1 - (xx + zz), yz + wx, 0,
+                xz + wy, yz - wx, 1 - (xx + yy), 0,
+                0, 0, 0, 1);
         }
 
         public float M11;
