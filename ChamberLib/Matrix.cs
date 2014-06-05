@@ -214,6 +214,11 @@ namespace ChamberLib
                 (m.M12 * m.M23 * m.M31 - m.M13 * m.M22 * m.M31 + m.M13 * m.M21 * m.M32 - m.M11 * m.M23 * m.M32 - m.M12 * m.M21 * m.M33 + m.M11 * m.M22 * m.M33) / det);
         }
 
+        public Matrix Inverted()
+        {
+            return Matrix.Invert(this);
+        }
+
         private float Determinant()
         {
             return 
@@ -301,6 +306,22 @@ namespace ChamberLib
         public Vector4 Row4
         {
             get { return new Vector4(M41, M42, M43, M44); }
+        }
+
+        public Vector3 Transform(Vector3 v)
+        {
+            return Vector3.Transform(v, this);
+        }
+
+        public Vector4 Transform(Vector4 v)
+        {
+            return Vector4.Transform(v, this);
+        }
+
+        public Vector3 TransformHomogeneous(Vector4 v)
+        {
+            var v2 = this.Transform(v);
+            return v2.ToVectorXYZ() / v2.W;
         }
     }
 }

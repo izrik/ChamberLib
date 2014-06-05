@@ -28,6 +28,11 @@ namespace ChamberLib
 
             return new Sphere(center, radius);
         }
+
+        public ContainmentType Contains(Frustum f)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

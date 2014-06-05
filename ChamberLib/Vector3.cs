@@ -90,6 +90,10 @@ namespace ChamberLib
         {
             return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
         }
+        public float Dot(Vector3 v)
+        {
+            return Dot(this, v);
+        }
 
         public static Vector3 Cross(Vector3 a, Vector3 b)
         {
@@ -139,6 +143,14 @@ namespace ChamberLib
                 Math.Max(u.Z, v.Z));
         }
 
+        public static Vector3 Min(Vector3 u, Vector3 v)
+        {
+            return new Vector3(
+                Math.Min(u.X, v.X),
+                Math.Min(u.Y, v.Y),
+                Math.Min(u.Z, v.Z));
+        }
+
         public static Vector3 Lerp(Vector3 u, Vector3 v, float s)
         {
             return u * (1 - s) + v * s;
@@ -159,6 +171,11 @@ namespace ChamberLib
         public static Vector3 FromAngleAboutY(float angle)
         {
             return new Vector3((float)Math.Cos(angle), 0, (float)Math.Sin(angle));
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{{X:{0} Y:{1} Z:{2}}}", X, Y, Z);
         }
     }
 }

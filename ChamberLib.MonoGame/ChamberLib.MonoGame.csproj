@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{28E3C5FB-C81F-462A-A693-48893EE3CAF0}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ChamberLib.MonoGame</RootNamespace>
+    <RootNamespace>ChamberLib</RootNamespace>
     <AssemblyName>ChamberLib.MonoGame</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -51,6 +51,7 @@
     <Compile Include="VectorHelper.cs" />
     <Compile Include="ViewportHelper.cs" />
     <Compile Include="Renderer.cs" />
+    <Compile Include="ContainmentTypeHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />
