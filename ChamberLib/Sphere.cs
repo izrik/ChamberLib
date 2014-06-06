@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ChamberLib
 {
@@ -31,7 +32,32 @@ namespace ChamberLib
 
         public ContainmentType Contains(Frustum f)
         {
-            throw new NotImplementedException();
+            var intersections = f.GetCorners().Select(Contains).Distinct().ToList();
+
+            if (intersections.Contains(ContainmentType.Intersects))
+            {
+                return ContainmentType.Intersects;
+            }
+
+            if (intersections.Contains(ContainmentType.Contains) &&
+                intersections.Contains(ContainmentType.Disjoint))
+            {
+                return ContainmentType.Intersects;
+            }
+
+            return intersections[0];
+        }
+
+        public ContainmentType Contains(Vector3 v)
+        {
+            var r2 = Radius * Radius;
+            var dist2 = (v - Center).LengthSquared();
+
+            if (dist2 > r2)
+                return ContainmentType.Disjoint;
+            if (dist2 <r2)
+                return ContainmentType.Contains;
+            return ContainmentType.Intersects;
         }
     }
 }
