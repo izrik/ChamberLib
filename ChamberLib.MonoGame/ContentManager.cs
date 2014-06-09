@@ -2,16 +2,18 @@
 using XContentManager = Microsoft.Xna.Framework.Content.ContentManager;
 using XTexture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using XModel = Microsoft.Xna.Framework.Graphics.Model;
+using XDevice = Microsoft.Xna.Framework.Graphics.GraphicsDevice;
 
 namespace ChamberLib
 {
     public class ContentManager : IContentManager
     {
-        public ContentManager(XContentManager manager, string rootDirectory=null)
+        public ContentManager(XDevice device, XContentManager manager, string rootDirectory=null)
         {
             if (manager == null)
                 throw new ArgumentNullException("manager");
 
+            Device = device;
             Manager = manager;
 
             if (rootDirectory != null)
@@ -20,6 +22,7 @@ namespace ChamberLib
             }
         }
 
+        public XDevice Device;
         public XContentManager Manager;
 
         public T Load<T>(string name)
