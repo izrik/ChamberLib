@@ -48,9 +48,13 @@ namespace ChamberLib
         {
             return SpriteFontAdapter.GetAdapter(Manager.Load<Microsoft.Xna.Framework.Graphics.SpriteFont>(name));
         }
-        public object LoadSong(string name)
+        public ISong LoadSong(string name)
         {
-            return Manager.Load<Microsoft.Xna.Framework.Media.Song>(name);
+            return SongAdapter.GetAdapter(Manager.Load<Microsoft.Xna.Framework.Media.Song>(name));
+        }
+        public ISoundEffect LoadSoundEffect(string name)
+        {
+            return SoundEffectAdapter.GetAdapter(Manager.Load<Microsoft.Xna.Framework.Audio.SoundEffect>(name));
         }
     }
 }
