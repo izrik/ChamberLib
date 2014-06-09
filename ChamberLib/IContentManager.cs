@@ -11,6 +11,8 @@ namespace ChamberLib
         IFont LoadFont(string name);
         ISong LoadSong(string name);
         ISoundEffect LoadSoundEffect(string name);
+
+        ITexture2D CreateTexture(int width, int height, Color[] data);
     }
 }
 

@@ -59,6 +59,13 @@ namespace ChamberLib
         {
             return SoundEffectAdapter.GetAdapter(Manager.Load<Microsoft.Xna.Framework.Audio.SoundEffect>(name));
         }
+
+        public ITexture2D CreateTexture(int width, int height, Color[] data)
+        {
+            var texture = new Microsoft.Xna.Framework.Graphics.Texture2D(Device, 1, 1);
+            texture.SetData(data.ToXna());
+            return Texture2DAdapter.GetAdapter(texture);
+        }
     }
 }
 
