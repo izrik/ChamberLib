@@ -35,6 +35,18 @@ namespace ChamberLib
             {
                 return (T)LoadTexture2D(name);
             }
+            if (typeof(T) == typeof(IFont))
+            {
+                return (T)LoadFont(name);
+            }
+            if (typeof(T) == typeof(ISong))
+            {
+                return (T)LoadSong(name);
+            }
+            if (typeof(T) == typeof(ISoundEffect))
+            {
+                return (T)LoadSoundEffect(name);
+            }
 
             return Manager.Load<T>(name);
         }
