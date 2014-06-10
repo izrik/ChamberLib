@@ -28,5 +28,13 @@ namespace ChamberLib
 
         public readonly XSong Song;
     }
+
+    public static class SongHelper
+    {
+        public static XSong ToXna(this ISong song)
+        {
+            return ((SongAdapter)song).Song;
+        }
+    }
 }
 

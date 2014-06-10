@@ -66,7 +66,7 @@
     <Compile Include="KeysHelper.cs" />
     <Compile Include="ButtonsHelper.cs" />
     <Compile Include="MonoGameSubsystem.cs" />
-    <Compile Include="MusicManager.cs" />
+    <Compile Include="MediaStateHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />
