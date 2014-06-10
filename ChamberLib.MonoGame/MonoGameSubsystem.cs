@@ -31,6 +31,16 @@ namespace ChamberLib
         internal MediaManager _mediaManager;
         public IMediaManager MediaManager { get { return _mediaManager; } }
 
+        public IGamePad GetGamePad(PlayerIndex index)
+        {
+            return GamePad.GetGamePad(index);
+        }
+
+        public IKeyboard GetKeyboard()
+        {
+            return Keyboard.GetKeyboard();
+        }
+
         XnaGame _xnagame;
 
         class XnaGame : Xna.Game

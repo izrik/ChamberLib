@@ -8,6 +8,9 @@ namespace ChamberLib
         IContentManager ContentManager { get; }
         IMediaManager MediaManager { get; }
 
+        IGamePad GetGamePad(PlayerIndex index);
+        IKeyboard GetKeyboard();
+
         string WindowTitle { get; set; }
         bool AllowUserResizing { get; set; }
         RectangleI ClientBounds { get; }
