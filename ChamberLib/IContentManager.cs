@@ -14,5 +14,18 @@ namespace ChamberLib
 
         ITexture2D CreateTexture(int width, int height, Color[] data);
     }
+
+    public static class IContentManagerHelper
+    {
+        public static T LoadIfNotNull<T>(this IContentManager content, string name)
+        {
+            if (name != null)
+            {
+                return content.Load<T>(name);
+            }
+
+            return default(T);
+        }
+    }
 }
 
