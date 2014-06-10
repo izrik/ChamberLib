@@ -3,146 +3,172 @@ using Xna = Microsoft.Xna.Framework;
 
 namespace ChamberLib
 {
-    public class MonoGameSubsystem : Xna.Game, ISubsystem
+    public class MonoGameSubsystem : ISubsystem
     {
         public MonoGameSubsystem(Action initializeMethod, Action loadContentMethod,
             Action<ChamberLib.GameTime> updateMethod, Action<ChamberLib.GameTime> drawMethod)
         {
-            graphics = new Xna.GraphicsDeviceManager(this);
-
             InitializeMethod = initializeMethod;
             LoadContentMethod = loadContentMethod;
             UpdateMethod = updateMethod;
             DrawMethod = drawMethod;
+
+            _xnagame = new XnaGame(this);
         }
 
-        protected Xna.GraphicsDeviceManager graphics;
 
         public readonly Action InitializeMethod;
         public readonly Action LoadContentMethod;
         public readonly Action<ChamberLib.GameTime> UpdateMethod;
         public readonly Action<ChamberLib.GameTime> DrawMethod;
 
-        public Renderer _renderer;
+        internal Renderer _renderer;
         public IRenderer Renderer { get { return _renderer; } }
 
-        public ContentManager _contentManager;
+        internal ContentManager _contentManager;
         public IContentManager ContentManager { get { return _contentManager; } }
 
-        public MediaManager _mediaManager;
+        internal MediaManager _mediaManager;
         public IMediaManager MediaManager { get { return _mediaManager; } }
 
-        protected override bool BeginDraw()
-        {
-            return base.BeginDraw();
-        }
-        protected override void Draw(Xna.GameTime gameTime)
-        {
-            base.Draw(gameTime);
+        XnaGame _xnagame;
 
-            if (DrawMethod != null)
+        class XnaGame : Xna.Game
+        {
+            public XnaGame(MonoGameSubsystem subsystem)
             {
-                DrawMethod(gameTime.ToChamber());
+                if (subsystem == null) throw new ArgumentNullException("subsystem");
+
+                _subsystem = subsystem;
+
+                graphics = new Xna.GraphicsDeviceManager(this);
             }
-        }
-        protected override void EndDraw()
-        {
-            base.EndDraw();
-        }
 
-        protected override void BeginRun()
-        {
-            base.BeginRun();
-        }
-        protected override void EndRun()
-        {
-            base.EndRun();
-        }
+            public readonly Xna.GraphicsDeviceManager graphics;
+            readonly MonoGameSubsystem _subsystem;
 
-        protected override void Initialize()
-        {
-            base.Initialize();
+            protected override bool BeginDraw()
+            {
+                return base.BeginDraw();
+            }
+            protected override void Draw(Xna.GameTime gameTime)
+            {
+                base.Draw(gameTime);
 
-            _renderer = new Renderer(GraphicsDevice);
+                if (_subsystem.DrawMethod != null)
+                {
+                    _subsystem.DrawMethod(gameTime.ToChamber());
+                }
+            }
+            protected override void EndDraw()
+            {
+                base.EndDraw();
+            }
+
+            protected override void BeginRun()
+            {
+                base.BeginRun();
+            }
+            protected override void EndRun()
+            {
+                base.EndRun();
+            }
+
+            protected override void Initialize()
+            {
+                base.Initialize();
+
+                _subsystem._renderer = new Renderer(GraphicsDevice);
 
 #if MONOMAC
-            var rootDirectory = "Content.MacOS";
+                var rootDirectory = "Content.MacOS";
 #else
-            var rootDirectory = "Content";
+                var rootDirectory = "Content";
 #endif
 
-            _contentManager = new ChamberLib.ContentManager(GraphicsDevice, Content, rootDirectory: rootDirectory);
-            _mediaManager = new MediaManager();
+                _subsystem._contentManager = new ChamberLib.ContentManager(GraphicsDevice, Content, rootDirectory: rootDirectory);
+                _subsystem._mediaManager = new MediaManager();
 
-            if (InitializeMethod != null)
+                if (_subsystem.InitializeMethod != null)
+                {
+                    _subsystem.InitializeMethod();
+                }
+            }
+
+            protected override void LoadContent()
             {
-                InitializeMethod();
+                base.LoadContent();
+
+                if (_subsystem.LoadContentMethod != null)
+                {
+                    _subsystem.LoadContentMethod();
+                }
+            }
+            protected override void UnloadContent()
+            {
+                base.UnloadContent();
+            }
+
+            protected override void OnActivated(object sender, EventArgs args)
+            {
+                base.OnActivated(sender, args);
+            }
+            protected override void OnDeactivated(object sender, EventArgs args)
+            {
+                base.OnDeactivated(sender, args);
+            }
+            protected override void OnExiting(object sender, EventArgs args)
+            {
+                base.OnExiting(sender, args);
+            }
+
+            protected override void Update(Xna.GameTime gameTime)
+            {
+                base.Update(gameTime);
+
+                if (_subsystem.UpdateMethod != null)
+                {
+                    _subsystem.UpdateMethod(gameTime.ToChamber());
+                }
             }
         }
 
-        protected override void LoadContent()
+        public void Run()
         {
-            base.LoadContent();
-
-            if (LoadContentMethod != null)
-            {
-                LoadContentMethod();
-            }
-        }
-        protected override void UnloadContent()
-        {
-            base.UnloadContent();
+            _xnagame.Run();
         }
 
-        protected override void OnActivated(object sender, EventArgs args)
+        public void Exit()
         {
-            base.OnActivated(sender, args);
-        }
-        protected override void OnDeactivated(object sender, EventArgs args)
-        {
-            base.OnDeactivated(sender, args);
-        }
-        protected override void OnExiting(object sender, EventArgs args)
-        {
-            base.OnExiting(sender, args);
-        }
-
-        protected override void Update(Xna.GameTime gameTime)
-        {
-            base.Update(gameTime);
-
-            if (UpdateMethod != null)
-            {
-                UpdateMethod(gameTime.ToChamber());
-            }
+            _xnagame.Exit();
         }
 
         public string WindowTitle
         {
-            get { return Window.Title; }
-            set { Window.Title = value; }
+            get { return _xnagame.Window.Title; }
+            set { _xnagame.Window.Title = value; }
         }
 
         public RectangleI ClientBounds
         {
-            get { return Window.ClientBounds.ToChamber(); }
+            get { return _xnagame.Window.ClientBounds.ToChamber(); }
         }
 
         public bool AllowUserResizing
         {
-            get { return Window.AllowUserResizing; }
-            set { Window.AllowUserResizing = value; }
+            get { return _xnagame.Window.AllowUserResizing; }
+            set { _xnagame.Window.AllowUserResizing = value; }
         }
 
         public event EventHandler<EventArgs> ClientSizeChanged
         {
             add
             {
-                Window.ClientSizeChanged += value;
+                _xnagame.Window.ClientSizeChanged += value;
             }
             remove
             {
-                Window.ClientSizeChanged -= value;
+                _xnagame.Window.ClientSizeChanged -= value;
             }
         }
     }
