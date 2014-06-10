@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace ChamberLib
 {
@@ -31,6 +32,11 @@ namespace ChamberLib
         public static ChamberLib.Matrix[] ToChamber(this Microsoft.Xna.Framework.Matrix[] m)
         {
             return m.Select(mm => mm.ToChamber()).ToArray();
+        }
+
+        public static List<ChamberLib.Matrix> ToChamber(this List<Microsoft.Xna.Framework.Matrix> m)
+        {
+            return m.Select(mm => mm.ToChamber()).ToList();
         }
     }
 }
