@@ -29,47 +29,26 @@ namespace ChamberLib
         {
             if (typeof(T) == typeof(IModel))
             {
-                return (T)LoadModel(name);
+                return (T)ModelAdapter.GetAdapter(Manager.Load<XModel>(name));
             }
             if (typeof(T) == typeof(ITexture2D))
             {
-                return (T)LoadTexture2D(name);
+                return (T)Texture2DAdapter.GetAdapter(Manager.Load<XTexture2D>(name));
             }
             if (typeof(T) == typeof(IFont))
             {
-                return (T)LoadFont(name);
+                return (T)SpriteFontAdapter.GetAdapter(Manager.Load<Microsoft.Xna.Framework.Graphics.SpriteFont>(name));
             }
             if (typeof(T) == typeof(ISong))
             {
-                return (T)LoadSong(name);
+                return (T)SongAdapter.GetAdapter(Manager.Load<Microsoft.Xna.Framework.Media.Song>(name));
             }
             if (typeof(T) == typeof(ISoundEffect))
             {
-                return (T)LoadSoundEffect(name);
+                return (T)SoundEffectAdapter.GetAdapter(Manager.Load<Microsoft.Xna.Framework.Audio.SoundEffect>(name));
             }
 
             return Manager.Load<T>(name);
-        }
-
-        public IModel LoadModel(string name)
-        {
-            return ModelAdapter.GetAdapter(Manager.Load<XModel>(name));
-        }
-        public ITexture2D LoadTexture2D(string name)
-        {
-            return Texture2DAdapter.GetAdapter(Manager.Load<XTexture2D>(name));
-        }
-        public IFont LoadFont(string name)
-        {
-            return SpriteFontAdapter.GetAdapter(Manager.Load<Microsoft.Xna.Framework.Graphics.SpriteFont>(name));
-        }
-        public ISong LoadSong(string name)
-        {
-            return SongAdapter.GetAdapter(Manager.Load<Microsoft.Xna.Framework.Media.Song>(name));
-        }
-        public ISoundEffect LoadSoundEffect(string name)
-        {
-            return SoundEffectAdapter.GetAdapter(Manager.Load<Microsoft.Xna.Framework.Audio.SoundEffect>(name));
         }
 
         public ITexture2D CreateTexture(int width, int height, Color[] data)
