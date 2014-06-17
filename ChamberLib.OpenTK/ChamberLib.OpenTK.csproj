@@ -46,6 +46,11 @@
     <Compile Include="GamePad.cs" />
     <Compile Include="Keyboard.cs" />
     <Compile Include="GameTimeHelper.cs" />
+    <Compile Include="FontAdapter.cs" />
+    <Compile Include="Model.cs" />
+    <Compile Include="TextureAdapter.cs" />
+    <Compile Include="Song.cs" />
+    <Compile Include="SoundEffect.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
