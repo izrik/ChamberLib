@@ -78,12 +78,6 @@ namespace ChamberLib
             _device.DrawUserPrimitives(PrimitiveType.LineList, verts, 0, 1);
         }
 
-        public void Begin()
-        {
-            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-        }
-
-
         public void DrawString (
             IFont font,
             string text,
@@ -97,11 +91,8 @@ namespace ChamberLib
             float layerDepth = 0;
             SpriteFont sfont = ((SpriteFontAdapter)font).SpriteFont;
 
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             _spriteBatch.DrawString( sfont, text, position.ToXna(), color.ToXna(), rotation, origin.ToXna(), scale, effects, layerDepth);
-        }
-
-        public void End()
-        {
             _spriteBatch.End();
         }
 
@@ -114,13 +105,13 @@ namespace ChamberLib
         }
         public void DrawImages(params DrawImagesEntry[] entries)
         {
-            this.Begin();
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             foreach (var entry in entries)
             {
                 Texture2D texture = ((Texture2DAdapter)entry.Texture).Texture;
                 _spriteBatch.Draw(texture, entry.DestinationRectangle.ToXna(), entry.Color.ToXna());
             }
-            this.End();
+            _spriteBatch.End();
         }
 
         public void Reset3D()

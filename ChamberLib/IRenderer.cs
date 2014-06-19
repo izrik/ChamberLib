@@ -5,8 +5,6 @@ namespace ChamberLib
 {
     public interface IRenderer
     {
-        void Begin();
-
         void DrawLine(float width, Color color, Vector2 v1, Vector2 v2);
         void DrawLine(Color color, Vector2 v1, Vector2 v2);
 
@@ -18,8 +16,6 @@ namespace ChamberLib
         void DrawImage(ITexture2D texture, RectangleI destinationRectangle, Color color);
         void DrawImages(params DrawImagesEntry[] entries);
 
-
-        void End();
 
         void Clear(Color color);
         void DrawCircleXZ(Vector3 color, Matrix? world = null, Matrix? view = null, Matrix? projection = null);

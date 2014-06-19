@@ -5,9 +5,6 @@ namespace ChamberLib
     public class Renderer : IRenderer
     {
         #region IRenderer implementation
-        public void Begin()
-        {
-        }
         public void DrawLine(float width, Color color, Vector2 v1, Vector2 v2)
         {
         }
@@ -21,9 +18,6 @@ namespace ChamberLib
         {
         }
         public void DrawImages(params DrawImagesEntry[] entries)
-        {
-        }
-        public void End()
         {
         }
         public void Clear(Color color)
