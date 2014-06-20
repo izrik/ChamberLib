@@ -22,7 +22,6 @@ namespace ChamberLib
         void Reset3D();
 
         void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> points);
-        void DrawLine(Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3 p1, Vector3 p2);
 
         Viewport Viewport { get; set; }
     }
@@ -43,6 +42,14 @@ namespace ChamberLib
         public ITexture2D Texture;
         public RectangleI DestinationRectangle;
         public Color Color;
+    }
+
+    public static class RendererHelper
+    {
+        public static void DrawLine(this IRenderer renderer, Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3 p1, Vector3 p2)
+        {
+            renderer.DrawLines(color, world, view, projection, new [] { p1, p2 });
+        }
     }
 
 }
