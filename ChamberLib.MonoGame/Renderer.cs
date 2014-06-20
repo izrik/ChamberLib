@@ -197,20 +197,20 @@ namespace ChamberLib
         }
 
         readonly BasicEffect _draw3DEffect;
-        public void DrawLines(Vector3 color, Matrix view, Matrix projection, IEnumerable<Vector3> points)
+        public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> points)
         {
             this.Reset3D();
             var verts = points.Select(v => new VertexPositionNormalTexture(v.ToXna(), Vector3.UnitY.ToXna(), Vector2.Zero.ToXna())).ToArray();
-            _draw3DEffect.SetMatrices(Matrix.Identity, view, projection);
+            _draw3DEffect.SetMatrices(world, view, projection);
             _draw3DEffect.DiffuseColor = Vector3.Zero.ToXna();
             _draw3DEffect.EmissiveColor = color.ToXna();
             _draw3DEffect.ApplyFirstPass();
             _device.DrawUserPrimitives(PrimitiveType.LineStrip, verts, 0, verts.Length - 1);
         }
 
-        public void DrawLine(Vector3 color, Matrix view, Matrix projection, Vector3 p1, Vector3 p2)
+        public void DrawLine(Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3 p1, Vector3 p2)
         {
-            DrawLines(color, view, projection, new [] { p1, p2 });
+            DrawLines(color, world, view, projection, new [] { p1, p2 });
         }
     }
 }

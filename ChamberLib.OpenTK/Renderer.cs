@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
+using System.Collections.Generic;
 
 namespace ChamberLib
 {
@@ -31,10 +32,10 @@ namespace ChamberLib
         public void Reset3D()
         {
         }
-        public void DrawLines(Vector3 color, Matrix view, Matrix projection, System.Collections.Generic.IEnumerable<Vector3> points)
+        public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> points)
         {
         }
-        public void DrawLine(Vector3 color, Matrix view, Matrix projection, Vector3 p1, Vector3 p2)
+        public void DrawLine(Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3 p1, Vector3 p2)
         {
         }
         public Viewport Viewport

@@ -22,8 +22,8 @@ namespace ChamberLib
 
         void Reset3D();
 
-        void DrawLines(Vector3 color, Matrix view, Matrix projection, IEnumerable<Vector3> points);
-        void DrawLine(Vector3 color, Matrix view, Matrix projection, Vector3 p1, Vector3 p2);
+        void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> points);
+        void DrawLine(Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3 p1, Vector3 p2);
 
         Viewport Viewport { get; set; }
     }
