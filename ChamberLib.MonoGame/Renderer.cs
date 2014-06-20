@@ -142,8 +142,6 @@ namespace ChamberLib
 
         public void DrawCircleXZ(Vector3 color, Matrix? world=null, Matrix? view=null, Matrix? projection=null)
         {
-            if (_circleEffect == null) InitCircle();
-
             if (!world.HasValue)
                 world = Matrix.Identity;
 
@@ -153,47 +151,22 @@ namespace ChamberLib
             if (!projection.HasValue)
                 projection = Matrix.Identity;
 
-            _circleEffect.World = world.Value.ToXna();
-            _circleEffect.View = view.Value.ToXna();
-            _circleEffect.Projection = projection.Value.ToXna();
-            _circleEffect.EmissiveColor = color.ToXna();
-            _circleEffect.ApplyFirstPass();
-
-            _device.DrawUserPrimitives(PrimitiveType.LineList, _circle, 0, _circle.Length / 2);
-        }
-
-
-
-        BasicEffect _circleEffect;
-        VertexPositionNormalTexture[] _circle;
-
-        protected void InitCircle()
-        {
-            if (_circle != null && _circleEffect != null) return;
-
-            //unit id circle
-            _circleEffect = new BasicEffect(this._device);
-            _circleEffect.AmbientLightColor = Vector3.Zero.ToXna();
-            _circleEffect.DiffuseColor = Vector3.Zero.ToXna();
-            _circleEffect.DirectionalLight0.DiffuseColor = Vector3.Zero.ToXna();
-            _circleEffect.DirectionalLight1.DiffuseColor = Vector3.Zero.ToXna();
-            _circleEffect.DirectionalLight2.DiffuseColor = Vector3.Zero.ToXna();
-            int n = 16;
+            const int n = 16;
+            const float r = 0.4f;
+            var pos = new List<Vector3>();
+            pos.Add(new Vector3(r, 0.01f, 0));
             int i;
-            float r = 0.4f;
-            List<VertexPositionNormalTexture> pts = new List<VertexPositionNormalTexture>();
-            pts.Add(new VertexPositionNormalTexture(new Vector3(r, 0.01f, 0).ToXna(), Vector3.Zero.ToXna(), Vector2.Zero.ToXna()));
             for (i = 0; i < n; i++)
             {
                 float theta = (float)(2 * Math.PI * i / (float)n);
                 float x = (float)(r * Math.Cos(theta));
                 float z = (float)(r * Math.Sin(theta));
-                VertexPositionNormalTexture v = new VertexPositionNormalTexture(new Vector3(x, 0.01f, z).ToXna(), Vector3.Zero.ToXna(), Vector2.Zero.ToXna());
-                pts.Add(v);
-                pts.Add(v);
+                var u = new Vector3(x, 0.01f, z);
+                pos.Add(u);
             }
-            pts.Add(pts[0]);
-            _circle = pts.ToArray();
+            pos.Add(pos[0]);
+
+            DrawLines(color, world.Value, view.Value, projection.Value, pos);
         }
 
         readonly BasicEffect _draw3DEffect;
