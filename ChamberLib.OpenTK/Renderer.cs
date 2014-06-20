@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenTK.Graphics.OpenGL;
 
 namespace ChamberLib
 {
@@ -22,6 +23,7 @@ namespace ChamberLib
         }
         public void Clear(Color color)
         {
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
         public void DrawCircleXZ(Vector3 color, Matrix? world = default(Matrix?), Matrix? view = default(Matrix?), Matrix? projection = default(Matrix?))
         {

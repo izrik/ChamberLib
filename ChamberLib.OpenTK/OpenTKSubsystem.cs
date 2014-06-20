@@ -3,6 +3,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using System.Threading.Tasks;
 using System.Threading;
+using OpenTK.Graphics.OpenGL;
 
 namespace ChamberLib
 {
@@ -103,6 +104,8 @@ namespace ChamberLib
             {
                 base.OnLoad(e);
 
+                GL.ClearColor(0, 0, 0, 0);
+
                 if (OnLoadMethod != null)
                 {
                     OnLoadMethod();
@@ -117,6 +120,8 @@ namespace ChamberLib
                 {
                     OnRenderFrameMethod(e.Time.ToChamber());
                 }
+
+                SwapBuffers();
             }
 
             protected override void OnUpdateFrame(FrameEventArgs e)
