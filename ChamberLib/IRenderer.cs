@@ -18,7 +18,6 @@ namespace ChamberLib
 
 
         void Clear(Color color);
-        void DrawCircleXZ(Vector3 color, Matrix? world = null, Matrix? view = null, Matrix? projection = null);
 
         void Reset3D();
 

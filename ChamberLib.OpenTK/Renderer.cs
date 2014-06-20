@@ -26,9 +26,6 @@ namespace ChamberLib
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
-        public void DrawCircleXZ(Vector3 color, Matrix? world = default(Matrix?), Matrix? view = default(Matrix?), Matrix? projection = default(Matrix?))
-        {
-        }
         public void Reset3D()
         {
         }

@@ -140,35 +140,6 @@ namespace ChamberLib
             _device.DrawUserPrimitives(primitiveType, vertexData, vertexOffset, primitiveCount);
         }
 
-        public void DrawCircleXZ(Vector3 color, Matrix? world=null, Matrix? view=null, Matrix? projection=null)
-        {
-            if (!world.HasValue)
-                world = Matrix.Identity;
-
-            if (!view.HasValue)
-                view = Matrix.Identity;
-
-            if (!projection.HasValue)
-                projection = Matrix.Identity;
-
-            const int n = 16;
-            const float r = 0.4f;
-            var pos = new List<Vector3>();
-            pos.Add(new Vector3(r, 0.01f, 0));
-            int i;
-            for (i = 0; i < n; i++)
-            {
-                float theta = (float)(2 * Math.PI * i / (float)n);
-                float x = (float)(r * Math.Cos(theta));
-                float z = (float)(r * Math.Sin(theta));
-                var u = new Vector3(x, 0.01f, z);
-                pos.Add(u);
-            }
-            pos.Add(pos[0]);
-
-            DrawLines(color, world.Value, view.Value, projection.Value, pos);
-        }
-
         readonly BasicEffect _draw3DEffect;
         public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> points)
         {
