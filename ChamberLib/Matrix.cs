@@ -56,6 +56,20 @@ namespace ChamberLib
                 0, 0, zFarPlane * zNearPlane / diff, 0);
         }
 
+        public static Matrix CreatePerspectiveOffCenter(float left, float right, float bottom, float top, float near, float far)
+        {
+            float width = right - left;
+            float cx2 = (right + left);
+            float height = top - bottom;
+            float cy2 = (top + bottom);
+            float diff = near - far;
+            return new Matrix(
+                2*near/width, 0, 0, 0,
+                0, 2*near/height, 0, 0,
+                cx2/width, cy2/height, far / diff, -1,
+                0, 0, far * near / diff, 0);
+        }
+
         public static Matrix CreateOrthographic(float width, float height, float zNearPlane, float zFarPlane)
         {
             float diff = zFarPlane - zNearPlane;
@@ -64,6 +78,20 @@ namespace ChamberLib
                 0, 2 / height, 0, 0,
                 0, 0, -1 / diff, 0,
                 0, 0, -zNearPlane / diff, 1);
+        }
+
+        public static Matrix CreateOrthographicOffCenter(float left, float right, float bottom, float top, float near, float far)
+        {
+            float width = right - left;
+            float cx2 = (right + left);
+            float height = top - bottom;
+            float cy2 = (top + bottom);
+            float diff = far - near;
+            return new Matrix(
+                2 / width, 0, 0, 0,
+                0, 2 / height, 0, 0,
+                0, 0, -1 / diff, 0,
+                -cx2/width, -cy2/height, -near/ diff, 1);
         }
 
         public static Matrix CreateScale(float s)

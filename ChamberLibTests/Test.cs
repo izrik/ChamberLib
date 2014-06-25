@@ -88,6 +88,64 @@ namespace ChamberLibTests
             Assert.AreEqual(reference.ToChamber(), m);
         }
 
+        [Test]
+        [TestCase(-3f, 3f, -2f, 2f, 0.05f, 10f)]
+        [TestCase(-4f, 2f, -1f, 3f, 0.05f, 10f)]
+        [TestCase(4f, 5f, 1f, 3f, 0.05f, 10f)]
+        [TestCase(4f, 5f, 2f, 1f, 0.05f, 10f)]
+        [TestCase(-3f, 3f, -2f, 2f, 0.2f, 1f)]
+        public void TestMatrixCreatePerspectiveOffCenter(float left, float right, float bottom, float top, float near, float far)
+        {
+            var m = Matrix.CreatePerspectiveOffCenter(left, right, bottom, top, near, far);
+            var xm = XMatrix.CreatePerspectiveOffCenter(left, right, bottom, top, near, far);
+
+            Assert.AreEqual(xm.M11, m.M11, 0.000001f);
+            Assert.AreEqual(xm.M12, m.M12, 0.000001f);
+            Assert.AreEqual(xm.M13, m.M13, 0.000001f);
+            Assert.AreEqual(xm.M14, m.M14, 0.000001f);
+            Assert.AreEqual(xm.M21, m.M21, 0.000001f);
+            Assert.AreEqual(xm.M22, m.M22, 0.000001f);
+            Assert.AreEqual(xm.M23, m.M23, 0.000001f);
+            Assert.AreEqual(xm.M24, m.M24, 0.000001f);
+            Assert.AreEqual(xm.M31, m.M31, 0.000001f);
+            Assert.AreEqual(xm.M32, m.M32, 0.000001f);
+            Assert.AreEqual(xm.M33, m.M33, 0.000001f);
+            Assert.AreEqual(xm.M34, m.M34, 0.000001f);
+            Assert.AreEqual(xm.M41, m.M41, 0.000001f);
+            Assert.AreEqual(xm.M42, m.M42, 0.000001f);
+            Assert.AreEqual(xm.M43, m.M43, 0.000001f);
+            Assert.AreEqual(xm.M44, m.M44, 0.000001f);
+        }
+
+        [Test]
+        [TestCase(-3f, 3f, -2f, 2f, 0.05f, 10f)]
+        [TestCase(-4f, 2f, -1f, 3f, 0.05f, 10f)]
+        [TestCase(4f, 5f, 1f, 3f, 0.05f, 10f)]
+        [TestCase(4f, 5f, 2f, 1f, 0.05f, 10f)]
+        [TestCase(-3f, 3f, -2f, 2f, 0.2f, 1f)]
+        public void TestMatrixCreateOrthographicOffCenter(float left, float right, float bottom, float top, float near, float far)
+        {
+            var m = Matrix.CreateOrthographicOffCenter(left, right, bottom, top, near, far);
+            var xm = XMatrix.CreateOrthographicOffCenter(left, right, bottom, top, near, far);
+
+            Assert.AreEqual(xm.M11, m.M11, 0.000001f);
+            Assert.AreEqual(xm.M12, m.M12, 0.000001f);
+            Assert.AreEqual(xm.M13, m.M13, 0.000001f);
+            Assert.AreEqual(xm.M14, m.M14, 0.000001f);
+            Assert.AreEqual(xm.M21, m.M21, 0.000001f);
+            Assert.AreEqual(xm.M22, m.M22, 0.000001f);
+            Assert.AreEqual(xm.M23, m.M23, 0.000001f);
+            Assert.AreEqual(xm.M24, m.M24, 0.000001f);
+            Assert.AreEqual(xm.M31, m.M31, 0.000001f);
+            Assert.AreEqual(xm.M32, m.M32, 0.000001f);
+            Assert.AreEqual(xm.M33, m.M33, 0.000001f);
+            Assert.AreEqual(xm.M34, m.M34, 0.000001f);
+            Assert.AreEqual(xm.M41, m.M41, 0.000001f);
+            Assert.AreEqual(xm.M42, m.M42, 0.000001f);
+            Assert.AreEqual(xm.M43, m.M43, 0.000001f);
+            Assert.AreEqual(xm.M44, m.M44, 0.000001f);
+        }
+
         float NextFloat()
         {
             return (float)rand.NextDouble();
