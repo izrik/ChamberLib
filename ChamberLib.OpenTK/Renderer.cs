@@ -23,6 +23,21 @@ namespace ChamberLib
         }
         public void DrawLine(Color color, Vector2 v1, Vector2 v2)
         {
+            var viewport = Viewport;
+            float w = viewport.Width;
+            float h = viewport.Height;
+            var proj = Matrix.CreateOrthographicOffCenter(0, w, 0, h, 0, 1);
+            SetMatrices(Matrix.Identity, Matrix.Identity, proj);
+
+            GL.Begin(PrimitiveType.LineStrip);
+
+            var color2 = color.ToVector3();
+            GL.Color3(color2.X, color2.Y, color2.Z);
+
+            GL.Vertex3(v1.X, h - v1.Y, 0.5f);
+            GL.Vertex3(v2.X, h - v2.Y, 0.5f);
+
+            GL.End();
         }
         public void DrawString(IFont font, string text, Vector2 position, Color color, float rotation = 0f, Vector2 origin = default(Vector2), float scale = 1f)
         {
