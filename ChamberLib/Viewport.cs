@@ -5,33 +5,22 @@ namespace ChamberLib
 {
     public struct Viewport
     {
-        public Viewport(int x, int y, int width, int height, float minDepth=0, float maxDepth=1)
+        public Viewport(int x, int y, int width, int height)
         {
             X = x;
             Y = y;
             Width = width;
             Height = height;
-            MinDepth = minDepth;
-            MaxDepth = maxDepth;
         }
 
-        public int Height;
-        public int Width;
-        public int X;
-        public int Y;
-        public float MaxDepth;
-        public float MinDepth;
+        public readonly int Height;
+        public readonly int Width;
+        public readonly int X;
+        public readonly int Y;
 
         public RectangleI Bounds
         {
             get { return new RectangleI(X, Y, Width, Height); }
-            set
-            {
-                X = value.Left;
-                Y = value.Top;
-                Width = value.Width;
-                Height = value.Height;
-            }
         }
 
         public Vector2 Position
@@ -57,7 +46,6 @@ namespace ChamberLib
 
             v3.X = (((v3.X + 1) * 0.5f) * this.Width) + this.X;
             v3.Y = (((1 - v3.Y) * 0.5f) * this.Height) + this.Y;
-            v3.Z = (v3.Z * (MaxDepth - MinDepth)) + MinDepth;
 
             return v3;
         }
@@ -67,7 +55,7 @@ namespace ChamberLib
             var v2 = new Vector4(
                 ((v.X - this.X) / this.Width * 2) - 1,
                 1 - ((v.Y - this.Y) / this.Height * 2),
-                (v.Z - MinDepth) / (MaxDepth - MinDepth),
+                v.Z,
                 1
             );
 

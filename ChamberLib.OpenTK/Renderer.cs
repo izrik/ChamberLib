@@ -98,7 +98,6 @@ namespace ChamberLib
                     value.Width,
                     value.Height
                 );
-                GL.DepthRange(value.MinDepth, value.MaxDepth);
             }
         }
         #endregion
