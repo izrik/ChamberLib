@@ -16,11 +16,10 @@ namespace ChamberLib
             Action<GameTime> onRenderFrameMethod=null,
             Action<GameTime> onUpdateFrameMethod=null)
         {
-            _renderer = new Renderer();
             _content = new ContentManager();
             _media = new MediaManager();
 
-            _window = new ChamberGameWindow(
+            Window = new ChamberGameWindow(
                 width: 800,
                 height: 600,
                 major: openglMajorVersion,
@@ -28,9 +27,11 @@ namespace ChamberLib
                 onLoadMethod: onLoadMethod,
                 onRenderFrameMethod: onRenderFrameMethod,
                 onUpdateFrameMethod: onUpdateFrameMethod);
+
+            _renderer = new Renderer(this);
         }
 
-        readonly ChamberGameWindow _window;
+        public readonly ChamberGameWindow Window;
 
         readonly Renderer _renderer;
         public IRenderer Renderer { get { return _renderer; } }
@@ -52,8 +53,8 @@ namespace ChamberLib
 
         public string WindowTitle
         {
-            get { return _window.Title; }
-            set { _window.Title = value; }
+            get { return Window.Title; }
+            set { Window.Title = value; }
         }
 
         public bool AllowUserResizing
@@ -66,20 +67,20 @@ namespace ChamberLib
 
         public event EventHandler<EventArgs> ClientSizeChanged
         {
-            add { _window.Resize += value; }
-            remove { _window.Resize -= value; }
+            add { Window.Resize += value; }
+            remove { Window.Resize -= value; }
         }
 
         public void Run()
         {
-            _window.Run();
+            Window.Run();
         }
         public void Exit()
         {
-            _window.Exit();
+            Window.Exit();
         }
 
-        class ChamberGameWindow : GameWindow
+        public class ChamberGameWindow : GameWindow
         {
             public ChamberGameWindow(
                     int width=800,

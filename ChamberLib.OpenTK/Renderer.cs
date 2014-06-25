@@ -6,6 +6,17 @@ namespace ChamberLib
 {
     public class Renderer : IRenderer
     {
+        public Renderer(OpenTKSubsystem subsystem)
+        {
+            if (subsystem == null) throw new ArgumentNullException("subsystem");
+
+            _subsystem = subsystem;
+
+            _viewport = new Viewport(0, 0, _subsystem.Window.Width, _subsystem.Window.Height);
+        }
+
+        readonly OpenTKSubsystem _subsystem;
+
         #region IRenderer implementation
         public void DrawLine(float width, Color color, Vector2 v1, Vector2 v2)
         {
@@ -32,14 +43,25 @@ namespace ChamberLib
         public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> points)
         {
         }
+
+        Viewport _viewport;
         public Viewport Viewport
         {
             get
             {
-                return new Viewport();
+                return _viewport;
             }
             set
             {
+                _viewport = value;
+
+                GL.Viewport(
+                    value.X,
+                    value.Y,
+                    value.Width,
+                    value.Height
+                );
+                GL.DepthRange(value.MinDepth, value.MaxDepth);
             }
         }
         #endregion
