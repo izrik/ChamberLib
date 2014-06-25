@@ -12,7 +12,7 @@ namespace ChamberLib
 
         public Vector2 GetSize()
         {
-            return Vector2.Zero;
+            return new Vector2(25, 25);
         }
 
         #endregion

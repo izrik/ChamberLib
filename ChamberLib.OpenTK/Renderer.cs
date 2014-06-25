@@ -47,9 +47,17 @@ namespace ChamberLib
         }
         public void DrawImage(ITexture2D texture, RectangleI destinationRectangle, Color color)
         {
+            DrawImages(new DrawImagesEntry(texture, destinationRectangle, color));
         }
         public void DrawImages(params DrawImagesEntry[] entries)
         {
+            foreach (var entry in entries)
+            {
+                DrawLine(entry.Color, entry.DestinationRectangle.TopLeft.ToVector2(), entry.DestinationRectangle.TopRight.ToVector2());
+                DrawLine(entry.Color, entry.DestinationRectangle.TopLeft.ToVector2(), entry.DestinationRectangle.BottomLeft.ToVector2());
+                DrawLine(entry.Color, entry.DestinationRectangle.BottomRight.ToVector2(), entry.DestinationRectangle.BottomLeft.ToVector2());
+                DrawLine(entry.Color, entry.DestinationRectangle.BottomRight.ToVector2(), entry.DestinationRectangle.TopRight.ToVector2());
+            }
         }
         public void Clear(Color color)
         {
