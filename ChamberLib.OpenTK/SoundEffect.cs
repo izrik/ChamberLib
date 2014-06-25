@@ -12,7 +12,6 @@ namespace ChamberLib
 
         public void Play()
         {
-            throw new NotImplementedException();
         }
 
         public ISoundEffectInstance CreateInstance()
