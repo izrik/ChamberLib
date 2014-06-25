@@ -66,6 +66,11 @@ namespace ChamberLib
                 Math.Max(u.X, v.X),
                 Math.Max(u.Y, v.Y));
         }
+
+        public Vector2 ToVector2()
+        {
+            return new Vector2(X, Y);
+        }
     }
 }
 
