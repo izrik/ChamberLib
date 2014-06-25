@@ -20,6 +20,7 @@ namespace ChamberLib
         #region IRenderer implementation
         public void DrawLine(float width, Color color, Vector2 v1, Vector2 v2)
         {
+            DrawLine(color, v1, v2);
         }
         public void DrawLine(Color color, Vector2 v1, Vector2 v2)
         {
