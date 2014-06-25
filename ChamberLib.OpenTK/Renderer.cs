@@ -65,6 +65,35 @@ namespace ChamberLib
             }
         }
         #endregion
+
+        public void SetMatrices(Matrix? world, Matrix? view, Matrix? projection)
+        {
+            if (world.HasValue && view.HasValue)
+            {
+                var m = (world * view).Value.ToOpenTK();
+                GL.MatrixMode(MatrixMode.Modelview);
+                GL.LoadMatrix(ref m);
+            }
+            else if (world.HasValue)
+            {
+                var m = world.Value.ToOpenTK();
+                GL.MatrixMode(MatrixMode.Modelview);
+                GL.LoadMatrix(ref m);
+            }
+            else if (view.HasValue)
+            {
+                var m = view.Value.ToOpenTK();
+                GL.MatrixMode(MatrixMode.Modelview);
+                GL.LoadMatrix(ref m);
+            }
+
+            if (projection.HasValue)
+            {
+                var m = projection.Value.ToOpenTK();
+                GL.MatrixMode(MatrixMode.Projection);
+                GL.LoadMatrix(ref m);
+            }
+        }
     }
 }
 
