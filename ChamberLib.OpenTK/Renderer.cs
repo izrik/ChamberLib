@@ -68,6 +68,17 @@ namespace ChamberLib
         }
         public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> points)
         {
+            SetMatrices(world, view, projection);
+            GL.Begin(PrimitiveType.LineStrip);
+
+            GL.Color3(color.X, color.Y, color.Z);
+
+            foreach (var p in points)
+            {
+                GL.Vertex3(p.X, p.Y, p.Z);
+            }
+
+            GL.End();
         }
 
         Viewport _viewport;
