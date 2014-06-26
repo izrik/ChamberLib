@@ -38,6 +38,28 @@ namespace ChamberLib
 
             GL.End();
         }
+        public void DrawLines(Color color, params Vector2[] vs)
+        {
+            DrawLines(color, (IEnumerable<Vector2>)vs);
+        }
+        public void DrawLines(Color color, IEnumerable<Vector2> vs)
+        {
+            Reset2D();
+
+            float h = Viewport.Height;
+
+            GL.Begin(PrimitiveType.LineStrip);
+
+            var color2 = color.ToVector3();
+            GL.Color3(color2.X, color2.Y, color2.Z);
+
+            foreach (var v in vs)
+            {
+                GL.Vertex3(v.X, h - v.Y, 0.5f);
+            }
+
+            GL.End();
+        }
         public void DrawString(IFont font, string text, Vector2 position, Color color, float rotation = 0f, Vector2 origin = default(Vector2), float scale = 1f)
         {
             position -= origin;
