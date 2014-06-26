@@ -24,11 +24,9 @@ namespace ChamberLib
         }
         public void DrawLine(Color color, Vector2 v1, Vector2 v2)
         {
-            var viewport = Viewport;
-            float w = viewport.Width;
-            float h = viewport.Height;
-            var proj = Matrix.CreateOrthographicOffCenter(0, w, 0, h, 0, 1);
-            SetMatrices(Matrix.Identity, Matrix.Identity, proj);
+            Reset2D();
+
+            float h = Viewport.Height;
 
             GL.Begin(PrimitiveType.LineStrip);
 
@@ -52,12 +50,31 @@ namespace ChamberLib
         }
         public void DrawImages(params DrawImagesEntry[] entries)
         {
+            Reset2D();
+            GL.Enable(EnableCap.Texture2D);
+            float h = Viewport.Height;
+
             foreach (var entry in entries)
             {
-                DrawLine(entry.Color, entry.DestinationRectangle.TopLeft.ToVector2(), entry.DestinationRectangle.TopRight.ToVector2());
-                DrawLine(entry.Color, entry.DestinationRectangle.TopLeft.ToVector2(), entry.DestinationRectangle.BottomLeft.ToVector2());
-                DrawLine(entry.Color, entry.DestinationRectangle.BottomRight.ToVector2(), entry.DestinationRectangle.BottomLeft.ToVector2());
-                DrawLine(entry.Color, entry.DestinationRectangle.BottomRight.ToVector2(), entry.DestinationRectangle.TopRight.ToVector2());
+                var texture = (TextureAdapter)entry.Texture;
+                if (texture.Bitmap == null) continue;
+
+                var rect = entry.DestinationRectangle;
+
+                texture.Bind();
+
+                GL.Begin(PrimitiveType.Quads);
+
+                GL.Color3(entry.Color.ToVector3().ToOpenTK());
+
+                GL.TexCoord2(0, 0); GL.Vertex3(rect.Left,  h - rect.Top, 0.4f);
+                GL.TexCoord2(1, 0); GL.Vertex3(rect.Right, h - rect.Top, 0.4f);
+                GL.TexCoord2(1, 1); GL.Vertex3(rect.Right, h - rect.Bottom, 0.4f);
+                GL.TexCoord2(0, 1); GL.Vertex3(rect.Left,  h - rect.Bottom, 0.4f);
+
+                GL.End();
+
+                TextureAdapter.Unbind();
             }
         }
         public void Clear(Color color)
@@ -130,6 +147,15 @@ namespace ChamberLib
                 GL.MatrixMode(MatrixMode.Projection);
                 GL.LoadMatrix(ref m);
             }
+        }
+
+        void Reset2D()
+        {
+            var viewport = Viewport;
+            float w = viewport.Width;
+            float h = viewport.Height;
+            var proj = Matrix.CreateOrthographicOffCenter(0, w, 0, h, 0, 1);
+            SetMatrices(Matrix.Identity, Matrix.Identity, proj);
         }
     }
 }

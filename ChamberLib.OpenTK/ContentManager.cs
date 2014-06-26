@@ -20,7 +20,7 @@ namespace ChamberLib
             }
             if (typeof(T) == typeof(ITexture2D))
             {
-                return (T)(object)new TextureAdapter();
+                return (T)(object)TextureAdapter.LoadTextureFromFile(name);
             }
             if (typeof(T) == typeof(IFont))
             {
