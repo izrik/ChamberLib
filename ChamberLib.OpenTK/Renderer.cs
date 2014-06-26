@@ -62,9 +62,8 @@ namespace ChamberLib
         }
         public void DrawString(IFont font, string text, Vector2 position, Color color, float rotation = 0f, Vector2 origin = default(Vector2), float scale = 1f)
         {
-            position -= origin;
             var font2 = (FontAdapter)font;
-            DrawLine(color, position, position + new Vector2(text.Length * font2.CharacterWidth * scale, 0));
+            font2.DrawString(this, text, position, color, rotation, origin, scale);
         }
         public void DrawImage(ITexture2D texture, RectangleI destinationRectangle, Color color)
         {
