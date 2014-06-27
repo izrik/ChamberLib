@@ -126,6 +126,9 @@ namespace ChamberLib
             var tailright = tail + right;
 
             var glyphs = new Dictionary<char, Vector2[][]>();
+
+            glyphs.Add('\0', Paths(Path(qx + qy, q3x + qy, q3x + q3y, qx + q3y, qx + qy))); // the 'missing' glyph
+
             glyphs.Add('A', Paths(Path(bottomleft, topcenter, bottomright), Path(middle + qx, middle + q3x)));
             glyphs.Add('B', Paths(Path(middleleft, middleright, bottomright, bottomleft, topleft, topcenter, middlecenter)));
             glyphs.Add('C', Paths(Path(bottomright, bottomleft, topleft, topright)));
@@ -192,7 +195,29 @@ namespace ChamberLib
             glyphs.Add('9', Paths(Path(middleright, middleleft, topleft, topright, bottomright)));
             glyphs.Add('.', Paths(Path(bottomcenter, bottomcenter + dotoffset)));
             glyphs.Add(' ', Paths());
-            glyphs.Add('\0', Paths(Path(qx + qy, q3x + qy, q3x + q3y, qx + q3y, qx + qy)));
+            glyphs.Add('%', Paths(Path(topright, bottomleft), Path(topleft, q3y, q3y + center, topcenter, topleft), Path(bottomright, qy + right, qy + center, bottomcenter, bottomright)));
+            glyphs.Add(':', Paths(Path(qy + center, qy + center + dotoffset), Path(q3y + center, q3y + center + dotoffset)));
+            glyphs.Add('\'', Paths(Path(topcenter, q3y + center)));
+            glyphs.Add('/', Paths(Path(topright, bottomleft)));
+            glyphs.Add('\\', Paths(Path(topleft, bottomright)));
+            glyphs.Add(',', Paths(Path(bottomcenter, qy + right)));
+            glyphs.Add('@', Paths(Path(qy + q3x, q3y + q3x, q3y + qx, qy + qx, qy + right, topright, topleft, bottomleft, bottomright)));
+            glyphs.Add('=', Paths(Path(q3y + left, q3y + right), Path(qy + left, qy + right)));
+            glyphs.Add('-', Paths(Path(middleleft, middleright)));
+            glyphs.Add('#', Paths(Path(q3y + left, q3y + right), Path(qy + left, qy + right), Path(top + qx, bottom + qx), Path(top + q3x, bottom + q3x)));
+            glyphs.Add('+', Paths(Path(middleleft, middleright), Path(q3y + center, qy + center)));
+            glyphs.Add('(', Paths(Path(topright, q3y + center, qy + center, bottomright)));
+            glyphs.Add(')', Paths(Path(topleft, q3y + center, qy + center, bottomleft)));
+            glyphs.Add('$', Paths(Path(q3y + q3x, q3y + qx, middle + qx, middle + q3x, qy + q3x, qy + qx), Path(topcenter, bottomcenter)));
+            glyphs.Add('^', Paths(Path(q3y + left, topcenter, q3y + right)));
+            glyphs.Add('&', Paths(Path(bottomright, q3y + left, top + qx, q3y + center, qy + left, middleright)));
+            glyphs.Add('!', Paths(Path(topcenter, qy + center), Path(bottomcenter, bottomcenter + dotoffset)));
+            glyphs.Add('~', Paths(Path(middleleft, q3y + qx, qy + q3x, middleright)));
+            var o3y = top * 3f / 8f;
+            var o5y = top * 5f / 8f;
+            glyphs.Add('*', Paths(Path(q3y + center, qy + center), Path(o5y + q3x, o3y + qx), Path(o5y + qx, o3y + q3x)));
+            glyphs.Add('[', Paths(Path(topright, topcenter, bottomcenter, bottomright)));
+            glyphs.Add(']', Paths(Path(topleft, topcenter, bottomcenter, bottomleft)));
 
             return glyphs;
         }
