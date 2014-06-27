@@ -21,7 +21,7 @@ namespace ChamberLib
 
             Window = new ChamberGameWindow(
                 width: 800,
-                height: 600,
+                height: 480,
                 major: openglMajorVersion,
                 minor: openglMinorVersion,
                 onLoadMethod: onLoadMethod,
