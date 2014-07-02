@@ -81,6 +81,9 @@
     <Compile Include="GamePadDPad.cs" />
     <Compile Include="ISubsystem.cs" />
     <Compile Include="MediaState.cs" />
+    <Compile Include="IVertex.cs" />
+    <Compile Include="ImportExportHelper.cs" />
+    <Compile Include="VertexHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />

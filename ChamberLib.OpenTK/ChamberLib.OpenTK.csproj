@@ -54,6 +54,7 @@
     <Compile Include="SoundEffect.cs" />
     <Compile Include="MatrixHelper.cs" />
     <Compile Include="VectorHelper.cs" />
+    <Compile Include="ModelImporter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

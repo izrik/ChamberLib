@@ -178,6 +178,24 @@ namespace ChamberLib
             var proj = Matrix.CreateOrthographicOffCenter(0, w, 0, h, 0, 1);
             SetMatrices(Matrix.Identity, Matrix.Identity, proj);
         }
+
+        public void DrawTriangles(IVertex[] vertices, short[] indices, int startIndex, int numTriangles)
+        {
+            GL.Begin(PrimitiveType.Triangles);
+
+            int i;
+            int ii = startIndex + 3 * numTriangles;
+            for (i = startIndex; i < ii;i++)
+            {
+                var index = indices[i];
+                var p = vertices[index].GetPosition();
+                var n = vertices[index].GetNormal();
+                GL.Vertex3(p.X, p.Y, p.Z);
+                GL.Normal3(n.X, n.Y, n.Z);
+            }
+
+            GL.End();
+        }
     }
 }
 

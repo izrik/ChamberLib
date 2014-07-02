@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ChamberLib
 {
     public class Model : IModel
     {
-        public Model()
+        public Model(Renderer renderer)
         {
+            Renderer = renderer;
         }
+
+        public readonly Renderer Renderer;
 
         #region IModel implementation
 
@@ -17,6 +21,10 @@ namespace ChamberLib
 
         public void Draw(Matrix world, Matrix view, Matrix projection)
         {
+            foreach (var mesh in Meshes)
+            {
+                mesh.Draw(Renderer, world, view, projection);
+            }
         }
 
         public void EnableDefaultLighting()
@@ -70,6 +78,50 @@ namespace ChamberLib
         }
 
         #endregion
+
+        public List<Mesh> Meshes = new List<Mesh>();
+        public List<Bone> Bones = new List<Bone>();
+        public Bone RootBone;
+
+        public class Bone
+        {
+            public string Name;
+            public int Index;
+            public Matrix Transform;
+
+            public Bone Parent;
+            public List<Bone> Children = new List<Bone>();
+        }
+
+        public class Mesh
+        {
+            public List<Part> Parts = new List<Part>();
+
+            public void Draw(Renderer renderer, Matrix world, Matrix view, Matrix projection)
+            {
+                foreach (var part in Parts)
+                {
+                    part.Draw(renderer, world, view, projection);
+                }
+            }
+        }
+
+        public class Part
+        {
+            public short[] Indexes;
+            public IVertex[] Vertexes;
+            public int StartIndex;
+            public int PrimitiveCount;
+            public int VertexOffset;
+            public int NumVertexes;
+
+            public void Draw(Renderer renderer, Matrix world, Matrix view, Matrix projection)
+            {
+                renderer.SetMatrices(world, view, projection);
+
+                renderer.DrawTriangles(Vertexes, Indexes, StartIndex, PrimitiveCount);
+            }
+        }
     }
 }
 

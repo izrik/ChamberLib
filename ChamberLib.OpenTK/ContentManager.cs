@@ -1,14 +1,38 @@
 ﻿using System;
+using System.IO;
 
 namespace ChamberLib
 {
     public class ContentManager : IContentManager
     {
+        public ContentManager(Renderer renderer)
+        {
+            if (renderer == null) throw new ArgumentNullException("renderer");
+
+            Renderer = renderer;
+        }
+
+        public readonly Renderer Renderer;
+
         public T Load<T>(string name)
         {
             if (typeof(T) == typeof(IModel))
             {
-                return (T)(object)new Model();
+                name = GetContentFilename(name);
+                string filename;
+                if (File.Exists(name + ".chmodel"))
+                {
+                    filename = name + ".chmodel";
+                }
+                else
+                {
+                    throw new FileNotFoundException(name);
+                }
+
+                var mi = new ModelImporter();
+                var model = mi.ImportModel(filename, Renderer);
+
+                return (T)(object)model;
             }
             if (typeof(T) == typeof(ISong))
             {
@@ -33,6 +57,11 @@ namespace ChamberLib
         public ITexture2D CreateTexture(int width, int height, Color[] data)
         {
             return null;
+        }
+
+        static string GetContentFilename(string name)
+        {
+            return Path.Combine("Content.OpenTK", name).Replace('\\', '/');
         }
     }
 }

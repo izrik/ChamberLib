@@ -16,7 +16,6 @@ namespace ChamberLib
             Action<GameTime> onRenderFrameMethod=null,
             Action<GameTime> onUpdateFrameMethod=null)
         {
-            _content = new ContentManager();
             _media = new MediaManager();
 
             Window = new ChamberGameWindow(
@@ -29,6 +28,7 @@ namespace ChamberLib
                 onUpdateFrameMethod: onUpdateFrameMethod);
 
             _renderer = new Renderer(this);
+            _content = new ContentManager(_renderer);
         }
 
         public readonly ChamberGameWindow Window;
