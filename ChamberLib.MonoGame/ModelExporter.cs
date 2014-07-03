@@ -21,16 +21,20 @@ namespace ChamberLib
                 }
                 var vbuffersset = new HashSet<VertexBuffer>();
                 var ibuffersset = new HashSet<IndexBuffer>();
+                var materialsset = new HashSet<Effect>();
                 foreach (var mesh in model.Meshes)
                 {
+                    materialsset.AddRange(mesh.Effects);
                     foreach (var part in mesh.MeshParts)
                     {
                         vbuffersset.Add(part.VertexBuffer);
                         ibuffersset.Add(part.IndexBuffer);
+                        materialsset.Add(part.Effect);
                     }
                 }
                 var vbuffers = vbuffersset.ToList();
                 var ibuffers = ibuffersset.ToList();
+                var materials = materialsset.ToList();
                 writer.WriteLine("VertexBuffers {0}", vbuffers.Count);
                 foreach (var vb in vbuffers)
                 {
@@ -41,10 +45,15 @@ namespace ChamberLib
                 {
                     WriteIndexBuffer(writer, ib);
                 }
+                writer.WriteLine("Materials {0}", materials.Count);
+                foreach (var mat in materials)
+                {
+                    WriteMaterial(writer, mat);
+                }
                 writer.WriteLine("Meshes {0}", model.Meshes.Count);
                 foreach (var mesh in model.Meshes)
                 {
-                    WriteMesh(writer, mesh, model, vbuffers, ibuffers);
+                    WriteMesh(writer, mesh, model, vbuffers, ibuffers, materials);
                 }
                 writer.WriteLine(model.Root != null ? model.Bones.IndexOf(model.Root) : -1);
             }
@@ -167,20 +176,38 @@ namespace ChamberLib
             }
         }
 
-        void WriteMesh(StreamWriter writer, ModelMesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers)
+        void WriteMaterial(StreamWriter writer, Effect mat)
+        {
+            if (mat is BasicEffect)
+            {
+                var mat2 = (BasicEffect)mat;
+                writer.WriteLine(ImportExportHelper.Convert(mat2.DiffuseColor.ToChamber()));
+            }
+            else if (mat is SkinnedEffect)
+            {
+                var mat2 = (SkinnedEffect)mat;
+                writer.WriteLine(ImportExportHelper.Convert(mat2.DiffuseColor.ToChamber()));
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+        void WriteMesh(StreamWriter writer, ModelMesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Effect> materials)
         {
             writer.WriteLine(mesh.Name);
             writer.WriteLine(mesh.ParentBone != null ? model.Bones.IndexOf(mesh.ParentBone) : -1);
             writer.WriteLine("MeshParts {0}", mesh.MeshParts.Count);
             foreach (var part in mesh.MeshParts)
             {
-                WriteMeshPart(writer, part, vbuffers, ibuffers);
+                WriteMeshPart(writer, part, vbuffers, ibuffers, materials);
             }
         }
 
-        void WriteMeshPart(StreamWriter writer, ModelMeshPart part, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers)
+        void WriteMeshPart(StreamWriter writer, ModelMeshPart part, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Effect> materials)
         {
-            writer.WriteLine(part.Effect.Name);
+            writer.WriteLine(part.Effect != null ? materials.IndexOf(part.Effect) : -1);
             writer.WriteLine(part.IndexBuffer != null ? ibuffers.IndexOf(part.IndexBuffer) : -1);
             writer.WriteLine(part.NumVertices);
             writer.WriteLine(part.PrimitiveCount);

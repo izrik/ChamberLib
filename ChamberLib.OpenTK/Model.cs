@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL;
 
 namespace ChamberLib
 {
@@ -114,12 +115,31 @@ namespace ChamberLib
             public int PrimitiveCount;
             public int VertexOffset;
             public int NumVertexes;
+            public Material Material;
 
             public void Draw(Renderer renderer, Matrix world, Matrix view, Matrix projection)
             {
                 renderer.SetMatrices(world, view, projection);
 
+                Material.Apply();
+
                 renderer.DrawTriangles(Vertexes, Indexes, StartIndex, PrimitiveCount);
+
+                Material.UnApply();
+            }
+        }
+
+        public class Material
+        {
+            public Vector3 DiffuseColor;
+
+            public void Apply()
+            {
+                GL.Color3(DiffuseColor.X, DiffuseColor.Y, DiffuseColor.Z);
+            }
+
+            public void UnApply()
+            {
             }
         }
     }

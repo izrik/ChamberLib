@@ -77,6 +77,15 @@ namespace ChamberLib
                     ibuffers.Add(indexes);
                 }
 
+                // Materials
+                var materials = new List<Model.Material>();
+                num = int.Parse(reader.ReadLine().Split(' ')[1]);
+                for (i = 0; i < num; i++)
+                {
+                    var material = ReadMaterial(reader);
+                    materials.Add(material);
+                }
+
                 // Meshes
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
                 var meshes = new List<Model.Mesh>();
@@ -84,7 +93,7 @@ namespace ChamberLib
                 for (i = 0; i < num; i++)
                 {
                     int parentBone;
-                    var mesh = ReadMesh(reader, vbuffers, ibuffers, out parentBone);
+                    var mesh = ReadMesh(reader, vbuffers, ibuffers, materials, out parentBone);
                     meshes.Add(mesh);
                     meshParentBones.Add(parentBone);
                 }
@@ -171,7 +180,14 @@ namespace ChamberLib
             return indexes;
         }
 
-        static Model.Mesh ReadMesh(RememberingReader reader, List<IVertex[]> vbuffers, List<short[]> ibuffers, out int parentBone)
+        Model.Material ReadMaterial(RememberingReader reader)
+        {
+            var mat = new Model.Material();
+            mat.DiffuseColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
+            return mat;
+        }
+
+        static Model.Mesh ReadMesh(RememberingReader reader, List<IVertex[]> vbuffers, List<short[]> ibuffers, List<Model.Material> materials, out int parentBone)
         {
             var name = reader.ReadLine();
             parentBone = int.Parse(reader.ReadLine());
@@ -182,7 +198,7 @@ namespace ChamberLib
             var parts = new List<Model.Part>();
             for (j = 0; j < num2; j++)
             {
-                var part = ReadMeshPart(reader, vbuffers, ibuffers);
+                var part = ReadMeshPart(reader, vbuffers, ibuffers, materials);
                 parts.Add(part);
             }
             var mesh = new Model.Mesh() {
@@ -191,9 +207,9 @@ namespace ChamberLib
             return mesh;
         }
 
-        static Model.Part ReadMeshPart(RememberingReader reader, List<IVertex[]> vbuffers, List<short[]> ibuffers)
+        static Model.Part ReadMeshPart(RememberingReader reader, List<IVertex[]> vbuffers, List<short[]> ibuffers, List<Model.Material> materials)
         {
-            var effectName = reader.ReadLine();
+            var materialIndex = int.Parse(reader.ReadLine());
             var indexBufferIndex = int.Parse(reader.ReadLine());
             int numvertices = int.Parse(reader.ReadLine());
             var primCount = int.Parse(reader.ReadLine());
@@ -207,6 +223,7 @@ namespace ChamberLib
                 VertexOffset = vertexOffset,
                 NumVertexes = numvertices,
                 PrimitiveCount = primCount,
+                Material = (materialIndex >= 0 ? materials[materialIndex] : null),
             };
             return part;
         }
