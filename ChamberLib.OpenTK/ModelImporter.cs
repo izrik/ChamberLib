@@ -128,7 +128,7 @@ namespace ChamberLib
             var vertBufferName = reader.ReadLine();
             int numvertices2 = int.Parse(reader.ReadLine());
             int vertexType = int.Parse(reader.ReadLine());
-            if (vertexType != 0 && vertexType != 1 && vertexType != 2)
+            if (vertexType < 0 || vertexType > 3)
                 throw new InvalidOperationException();
             var vs = new IVertex[numvertices2];
             int k;
@@ -146,7 +146,7 @@ namespace ChamberLib
                     v = new Vertex_PN();
                     values = new float[6];
                 }
-                else if (vertexType == 2)
+                else if (vertexType == 2 || vertexType == 3)
                 {
                     v = new Vertex_PNT();
                     values = new float[8];

@@ -113,6 +113,34 @@ namespace ChamberLib
         }
     }
 
+    public struct Vertex_PNTT : IVertex
+    {
+        public Vector3 Position;
+        public Vector3 Normal;
+        public Vector2 TextureCoords;
+        public Vector2 TextureCoords2;
+
+        public Vector3 GetPosition() { return Position; }
+        public Vector4 GetBlendIndices() { return Vector4.Zero; }
+        public Vector4 GetBlendWeights() { return Vector4.Zero; }
+        public Vector3 GetNormal() { return Normal; }
+        public Vector2 GetTextureCoords() { return TextureCoords; }
+
+        public void SetPosition(       Vector3 value) { Position = value; }
+        public void SetBlendIndices(   Vector4 value) { }
+        public void SetBlendWeights(   Vector4 value) { }
+        public void SetNormal(         Vector3 value) { Normal = value; }
+        public void SetTextureCoords(  Vector2 value) { TextureCoords = value; }
+
+        public VertexDescription GetDescription()
+        {
+            return 
+                VertexDescription.HasPosition |
+                VertexDescription.HasNormal |
+                VertexDescription.HasTextureCoords;
+        }
+    }
+
     public class VertexList
     {
         public readonly List<IVertex> Vertices = new List<IVertex>();

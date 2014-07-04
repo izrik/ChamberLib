@@ -77,6 +77,7 @@ namespace ChamberLib
             bool hasBlendWeights = false;
             bool hasNormal = false;
             bool hasTexCoords = false;
+            bool hasTexCoords2 = false;
             foreach (var elem in decl.GetVertexElements())
             {
                 switch (elem.VertexElementUsage)
@@ -94,6 +95,8 @@ namespace ChamberLib
                         hasNormal = true;
                         break;
                     case VertexElementUsage.TextureCoordinate:
+                        if (hasTexCoords)
+                            hasTexCoords2 = true;
                         hasTexCoords = true;
                         break;
                     default:
@@ -109,9 +112,13 @@ namespace ChamberLib
             {
                 vertexType = 1;
             }
-            else if (hasPosition && !hasBlendIndices && !hasBlendWeights && hasNormal && hasTexCoords)
+            else if (hasPosition && !hasBlendIndices && !hasBlendWeights && hasNormal && hasTexCoords && !hasTexCoords2)
             {
                 vertexType = 2;
+            }
+            else if (hasPosition && !hasBlendIndices && !hasBlendWeights && hasNormal && hasTexCoords && hasTexCoords2)
+            {
+                vertexType = 3;
             }
             else
             {
@@ -150,6 +157,20 @@ namespace ChamberLib
             else if (vertexType == 2)
             {
                 var vs = new Vertex_PNT[vb.VertexCount];
+                vb.GetData(vs);
+
+                foreach (var v in vs)
+                {
+                    var values = v.GetValues();
+                    foreach (var value in values)
+                    {
+                        writer.WriteLine(value);
+                    }
+                }
+            }
+            else if (vertexType == 3)
+            {
+                var vs = new Vertex_PNTT[vb.VertexCount];
                 vb.GetData(vs);
 
                 foreach (var v in vs)

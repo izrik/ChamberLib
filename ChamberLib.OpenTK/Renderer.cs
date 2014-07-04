@@ -188,7 +188,7 @@ namespace ChamberLib
         {
             Reset3D();
 
-            GL.Begin(PrimitiveType.Triangles);
+
 
             var desc = vertices[0].GetDescription();
             bool hasPosition = ((desc & VertexDescription.HasPosition) == VertexDescription.HasPosition);
@@ -199,6 +199,8 @@ namespace ChamberLib
 
             int i;
             int ii = startIndex + 3 * numTriangles;
+
+            GL.Begin(PrimitiveType.Triangles);
             for (i = startIndex; i < ii;i++)
             {
                 var index = indices[i] + vertexOffset;
@@ -219,7 +221,6 @@ namespace ChamberLib
                     GL.Vertex3(p.X, p.Y, p.Z);
                 }
             }
-
             GL.End();
         }
     }
