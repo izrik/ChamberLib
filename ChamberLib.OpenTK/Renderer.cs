@@ -196,11 +196,6 @@ namespace ChamberLib
             {
                 var index = indices[i];
 
-                if (hasPosition)
-                {
-                    var p = vertices[index].GetPosition();
-                    GL.Vertex3(p.X, p.Y, p.Z);
-                }
                 if (hasNormal)
                 {
                     var n = vertices[index].GetNormal();
@@ -210,6 +205,11 @@ namespace ChamberLib
                 {
                     var t = vertices[index].GetTextureCoords();
                     GL.TexCoord2(t.ToOpenTK());
+                }
+                if (hasPosition)
+                {
+                    var p = vertices[index].GetPosition();
+                    GL.Vertex3(p.X, p.Y, p.Z);
                 }
             }
 
