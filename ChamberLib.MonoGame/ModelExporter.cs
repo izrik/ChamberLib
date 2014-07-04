@@ -10,7 +10,7 @@ namespace ChamberLib
 {
     public class ModelExporter
     {
-        public void ExportModel(XModel model, string filename)
+        public void ExportModel(XModel model, string filename, IContentManager content)
         {
             using (var writer = new StreamWriter(filename))
             {
@@ -48,7 +48,7 @@ namespace ChamberLib
                 writer.WriteLine("Materials {0}", materials.Count);
                 foreach (var mat in materials)
                 {
-                    WriteMaterial(writer, mat);
+                    WriteMaterial(writer, mat, content);
                 }
                 writer.WriteLine("Meshes {0}", model.Meshes.Count);
                 foreach (var mesh in model.Meshes)
@@ -176,22 +176,41 @@ namespace ChamberLib
             }
         }
 
-        void WriteMaterial(StreamWriter writer, Effect mat)
+        void WriteMaterial(StreamWriter writer, Effect mat, IContentManager content)
         {
+            Texture2D texture;
+            Vector3 diffuse;
             if (mat is BasicEffect)
             {
                 var mat2 = (BasicEffect)mat;
-                writer.WriteLine(ImportExportHelper.Convert(mat2.DiffuseColor.ToChamber()));
+                diffuse = mat2.DiffuseColor.ToChamber();
+                texture = mat2.Texture;
             }
             else if (mat is SkinnedEffect)
             {
                 var mat2 = (SkinnedEffect)mat;
-                writer.WriteLine(ImportExportHelper.Convert(mat2.DiffuseColor.ToChamber()));
+                diffuse = mat2.DiffuseColor.ToChamber();
+                texture = mat2.Texture;
             }
             else
             {
                 throw new InvalidOperationException();
             }
+
+            writer.WriteLine(ImportExportHelper.Convert(diffuse));
+            string texname = "";
+            if (texture != null)
+            {
+                var texadapter = Texture2DAdapter.GetAdapter(texture);
+                if (texadapter != null)
+                {
+                    texname = content.LookupObjectName(texadapter);
+                    if (texname == null)
+                    {
+                    }
+                }
+            }
+            writer.WriteLine(texname);
         }
 
         void WriteMesh(StreamWriter writer, ModelMesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Effect> materials)

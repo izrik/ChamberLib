@@ -162,6 +162,11 @@ namespace ChamberLib
                 Math.Max(u.X, v.X),
                 Math.Max(u.Y, v.Y));
         }
+
+        public override string ToString()
+        {
+            return string.Format("{{X:{0} Y:{1}}}", X, Y);
+        }
     }
 }
 

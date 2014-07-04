@@ -183,15 +183,34 @@ namespace ChamberLib
         {
             GL.Begin(PrimitiveType.Triangles);
 
+            var desc = vertices[0].GetDescription();
+            bool hasPosition = ((desc & VertexDescription.HasPosition) == VertexDescription.HasPosition);
+            bool hasBlendIndices = ((desc & VertexDescription.HasBlendIndices) == VertexDescription.HasBlendIndices);
+            bool hasBlendWeights = ((desc & VertexDescription.HasBlendWeights) == VertexDescription.HasBlendWeights);
+            bool hasNormal = ((desc & VertexDescription.HasNormal) == VertexDescription.HasNormal);
+            bool hasTexCoords = ((desc & VertexDescription.HasTextureCoords) == VertexDescription.HasTextureCoords);
+
             int i;
             int ii = startIndex + 3 * numTriangles;
             for (i = startIndex; i < ii;i++)
             {
                 var index = indices[i];
-                var p = vertices[index].GetPosition();
-                var n = vertices[index].GetNormal();
-                GL.Vertex3(p.X, p.Y, p.Z);
-                GL.Normal3(n.X, n.Y, n.Z);
+
+                if (hasPosition)
+                {
+                    var p = vertices[index].GetPosition();
+                    GL.Vertex3(p.X, p.Y, p.Z);
+                }
+                if (hasNormal)
+                {
+                    var n = vertices[index].GetNormal();
+                    GL.Normal3(n.X, n.Y, n.Z);
+                }
+                if (hasTexCoords)
+                {
+                    var t = vertices[index].GetTextureCoords();
+                    GL.TexCoord2(t.ToOpenTK());
+                }
             }
 
             GL.End();

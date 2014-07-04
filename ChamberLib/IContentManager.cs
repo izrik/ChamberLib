@@ -5,6 +5,7 @@ namespace ChamberLib
     public interface IContentManager
     {
         T Load<T>(string name);
+        string LookupObjectName(object o);
 
         ITexture2D CreateTexture(int width, int height, Color[] data);
     }

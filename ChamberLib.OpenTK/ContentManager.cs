@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace ChamberLib
 {
@@ -14,7 +15,19 @@ namespace ChamberLib
 
         public readonly Renderer Renderer;
 
+        readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
         public T Load<T>(string name)
+        {
+            if (_cache.ContainsKey(name))
+            {
+                return (T)_cache[name];
+            }
+
+            var x = LoadInternal<T>(name);
+            _cache[name] = x;
+            return x;
+        }
+        T LoadInternal<T>(string name)
         {
             if (typeof(T) == typeof(IModel))
             {
@@ -30,7 +43,7 @@ namespace ChamberLib
                 }
 
                 var mi = new ModelImporter();
-                var model = mi.ImportModel(filename, Renderer);
+                var model = mi.ImportModel(filename, Renderer, this);
 
                 return (T)(object)model;
             }
@@ -52,6 +65,19 @@ namespace ChamberLib
             }
 
             return default(T);
+        }
+
+        public string LookupObjectName(object o)
+        {
+            foreach (var kvp in _cache)
+            {
+                if (kvp.Value == o)
+                {
+                    return kvp.Key;
+                }
+            }
+
+            return null;
         }
 
         public ITexture2D CreateTexture(int width, int height, Color[] data)

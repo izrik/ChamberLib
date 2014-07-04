@@ -132,14 +132,23 @@ namespace ChamberLib
         public class Material
         {
             public Vector3 DiffuseColor;
+            public TextureAdapter Texture;
 
             public void Apply()
             {
                 GL.Color3(DiffuseColor.X, DiffuseColor.Y, DiffuseColor.Z);
+                if (Texture != null)
+                {
+                    Texture.Bind();
+                }
             }
 
             public void UnApply()
             {
+                if (Texture != null)
+                {
+                    TextureAdapter.Unbind();
+                }
             }
         }
     }

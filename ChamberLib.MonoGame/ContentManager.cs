@@ -64,6 +64,19 @@ namespace ChamberLib
             return Manager.Load<T>(name);
         }
 
+        public string LookupObjectName(object o)
+        {
+            foreach (var kvp in _cache)
+            {
+                if (kvp.Value == o)
+                {
+                    return kvp.Key;
+                }
+            }
+
+            return null;
+        }
+
         public ITexture2D CreateTexture(int width, int height, Color[] data)
         {
             var texture = new Microsoft.Xna.Framework.Graphics.Texture2D(Device, 1, 1);

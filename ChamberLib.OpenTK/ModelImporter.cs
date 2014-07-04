@@ -34,7 +34,7 @@ namespace ChamberLib
             }
         }
 
-        public Model ImportModel(string filename, Renderer renderer)
+        public Model ImportModel(string filename, Renderer renderer, IContentManager content)
         {
             using (var reader = new RememberingReader(filename))
             {
@@ -82,7 +82,7 @@ namespace ChamberLib
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
                 for (i = 0; i < num; i++)
                 {
-                    var material = ReadMaterial(reader);
+                    var material = ReadMaterial(reader, content);
                     materials.Add(material);
                 }
 
@@ -180,10 +180,17 @@ namespace ChamberLib
             return indexes;
         }
 
-        Model.Material ReadMaterial(RememberingReader reader)
+        Model.Material ReadMaterial(RememberingReader reader, IContentManager content)
         {
             var mat = new Model.Material();
             mat.DiffuseColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
+            var texname = reader.ReadLine();
+            if (!string.IsNullOrEmpty(texname))
+            {
+                var texture = content.Load<ITexture2D>(texname);
+                mat.Texture = (TextureAdapter)texture;
+            }
+
             return mat;
         }
 

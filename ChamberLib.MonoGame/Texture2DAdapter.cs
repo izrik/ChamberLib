@@ -8,15 +8,15 @@ namespace ChamberLib
     {
         protected static readonly Dictionary<Texture2D, Texture2DAdapter> _cache = new Dictionary<Texture2D, Texture2DAdapter>();
 
-        public static ITexture2D GetAdapter(Texture2D font)
+        public static ITexture2D GetAdapter(Texture2D texture)
         {
-            if (_cache.ContainsKey(font))
+            if (_cache.ContainsKey(texture))
             {
-                return _cache[font];
+                return _cache[texture];
             }
 
-            var adapter = new Texture2DAdapter(font);
-            _cache[font] = adapter;
+            var adapter = new Texture2DAdapter(texture);
+            _cache[texture] = adapter;
             return adapter;
         }
 
