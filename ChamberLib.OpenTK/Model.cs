@@ -123,7 +123,7 @@ namespace ChamberLib
 
                 Material.Apply();
 
-                renderer.DrawTriangles(Vertexes, Indexes, StartIndex, PrimitiveCount);
+                renderer.DrawTriangles(Vertexes, Indexes, StartIndex, PrimitiveCount, VertexOffset);
 
                 Material.UnApply();
             }

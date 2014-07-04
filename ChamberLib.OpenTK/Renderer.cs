@@ -184,7 +184,7 @@ namespace ChamberLib
             SetMatrices(Matrix.Identity, Matrix.Identity, proj);
         }
 
-        public void DrawTriangles(IVertex[] vertices, short[] indices, int startIndex, int numTriangles)
+        public void DrawTriangles(IVertex[] vertices, short[] indices, int startIndex, int numTriangles, int vertexOffset)
         {
             Reset3D();
 
@@ -201,7 +201,7 @@ namespace ChamberLib
             int ii = startIndex + 3 * numTriangles;
             for (i = startIndex; i < ii;i++)
             {
-                var index = indices[i];
+                var index = indices[i] + vertexOffset;
 
                 if (hasNormal)
                 {
