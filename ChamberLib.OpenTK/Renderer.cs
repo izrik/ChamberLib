@@ -104,9 +104,13 @@ namespace ChamberLib
         }
         public void Reset3D()
         {
+            GL.Enable(EnableCap.DepthTest);
+            GL.DepthMask(true);
         }
         public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> points)
         {
+            Reset3D();
+
             SetMatrices(world, view, projection);
             GL.Begin(PrimitiveType.LineStrip);
 
@@ -172,6 +176,7 @@ namespace ChamberLib
 
         void Reset2D()
         {
+            GL.Disable(EnableCap.DepthTest);
             var viewport = Viewport;
             float w = viewport.Width;
             float h = viewport.Height;
@@ -181,6 +186,8 @@ namespace ChamberLib
 
         public void DrawTriangles(IVertex[] vertices, short[] indices, int startIndex, int numTriangles)
         {
+            Reset3D();
+
             GL.Begin(PrimitiveType.Triangles);
 
             var desc = vertices[0].GetDescription();
