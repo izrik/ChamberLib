@@ -113,25 +113,35 @@ namespace ChamberLib
                 }
             }
 
+
             protected override void OnRenderFrame(FrameEventArgs e)
             {
                 base.OnRenderFrame(e);
 
                 if (OnRenderFrameMethod != null)
                 {
-                    OnRenderFrameMethod(e.Time.ToChamber());
+                    OnRenderFrameMethod(_gameTime);
                 }
 
                 SwapBuffers();
             }
 
+            float _totalSeconds = 0;
+            GameTime _gameTime;
+
             protected override void OnUpdateFrame(FrameEventArgs e)
             {
                 base.OnUpdateFrame(e);
 
+                _totalSeconds += (float)e.Time;
+                _gameTime = 
+                    new GameTime(
+                        TimeSpan.FromSeconds(_totalSeconds),
+                        TimeSpan.FromSeconds(e.Time));
+
                 if (OnUpdateFrameMethod != null)
                 {
-                    OnUpdateFrameMethod(e.Time.ToChamber());
+                    OnUpdateFrameMethod(_gameTime);
                 }
             }
         }
