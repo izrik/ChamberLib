@@ -41,7 +41,7 @@ namespace ChamberLib
                 int num;
                 // Bones
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
-                var bones = new List<Model.Bone>();
+                var bones = new List<Bone>();
                 var parentIndexes = new List<int>();
                 int i;
                 for (i = 0; i < num; i++)
@@ -78,7 +78,7 @@ namespace ChamberLib
                 }
 
                 // Materials
-                var materials = new List<Model.Material>();
+                var materials = new List<Material>();
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
                 for (i = 0; i < num; i++)
                 {
@@ -88,7 +88,7 @@ namespace ChamberLib
 
                 // Meshes
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
-                var meshes = new List<Model.Mesh>();
+                var meshes = new List<Mesh>();
                 var meshParentBones = new List<int>();
                 for (i = 0; i < num; i++)
                 {
@@ -109,13 +109,13 @@ namespace ChamberLib
             }
         }
 
-        static Model.Bone ReadBone(RememberingReader reader, out int parentIndex)
+        static Bone ReadBone(RememberingReader reader, out int parentIndex)
         {
             var name = reader.ReadLine();
             var index = int.Parse(reader.ReadLine());
             parentIndex = int.Parse(reader.ReadLine());
             var tr = ImportExportHelper.ConvertMatrix(reader.ReadLine());
-            var bone = new Model.Bone {
+            var bone = new Bone {
                 Name = name,
                 Index = index,
                 Transform = tr,
@@ -180,10 +180,10 @@ namespace ChamberLib
             return indexes;
         }
 
-        Model.Material ReadMaterial(RememberingReader reader, IContentManager content)
+        Material ReadMaterial(RememberingReader reader, IContentManager content)
         {
-            var mat = new Model.Material();
-            mat.DiffuseColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
+            var mat = new Material();
+            mat.Diffuse = ImportExportHelper.ConvertVector3(reader.ReadLine());
             var texname = reader.ReadLine();
             if (!string.IsNullOrEmpty(texname))
             {
@@ -194,7 +194,7 @@ namespace ChamberLib
             return mat;
         }
 
-        static Model.Mesh ReadMesh(RememberingReader reader, List<IVertex[]> vbuffers, List<short[]> ibuffers, List<Model.Material> materials, out int parentBone)
+        static Mesh ReadMesh(RememberingReader reader, List<IVertex[]> vbuffers, List<short[]> ibuffers, List<Material> materials, out int parentBone)
         {
             var name = reader.ReadLine();
             parentBone = int.Parse(reader.ReadLine());
@@ -202,19 +202,19 @@ namespace ChamberLib
             int j;
             // MeshParts
             num2 = int.Parse(reader.ReadLine().Split(' ')[1]);
-            var parts = new List<Model.Part>();
+            var parts = new List<Part>();
             for (j = 0; j < num2; j++)
             {
                 var part = ReadMeshPart(reader, vbuffers, ibuffers, materials);
                 parts.Add(part);
             }
-            var mesh = new Model.Mesh() {
+            var mesh = new Mesh() {
                 Parts = parts,
             };
             return mesh;
         }
 
-        static Model.Part ReadMeshPart(RememberingReader reader, List<IVertex[]> vbuffers, List<short[]> ibuffers, List<Model.Material> materials)
+        static Part ReadMeshPart(RememberingReader reader, List<IVertex[]> vbuffers, List<short[]> ibuffers, List<Material> materials)
         {
             var materialIndex = int.Parse(reader.ReadLine());
             var indexBufferIndex = int.Parse(reader.ReadLine());
@@ -223,7 +223,7 @@ namespace ChamberLib
             var startIndex = int.Parse(reader.ReadLine());
             var vertexBufferIndex = int.Parse(reader.ReadLine());
             var vertexOffset = int.Parse(reader.ReadLine());
-            var part = new Model.Part() {
+            var part = new Part() {
                 Indexes = (indexBufferIndex >= 0 ? ibuffers[indexBufferIndex] : null),
                 Vertexes = (vertexBufferIndex >= 0 ? vbuffers[vertexBufferIndex] : null),
                 StartIndex = startIndex,

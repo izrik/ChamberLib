@@ -55,7 +55,9 @@
     <Compile Include="MatrixHelper.cs" />
     <Compile Include="VectorHelper.cs" />
     <Compile Include="ModelImporter.cs" />
-    <Compile Include="LightingData.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="Mesh.cs" />
+    <Compile Include="Bone.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

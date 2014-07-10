@@ -34,7 +34,7 @@ namespace ChamberLib
             set { Mesh.BoundingSphere = value.ToXna(); }
         }
 
-        public void Draw()
+        public void Draw(IRenderer renderer, Matrix world, Matrix view, Matrix projection, LightingData lighting)
         {
             Mesh.Draw();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using XBone = Microsoft.Xna.Framework.Graphics.ModelBone;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ChamberLib
 {
@@ -37,6 +38,26 @@ namespace ChamberLib
         {
             get { return Bone.Index; }
             set { Bone.Index = value; }
+        }
+
+        public IBone Parent
+        {
+            get
+            {
+                return GetAdapter(Bone.Parent);
+            }
+            set
+            {
+                Bone = ((BoneAdapter)value).Bone;
+            }
+        }
+
+        public List<IBone> Children
+        {
+            get
+            {
+                return Bone.Children.Select(x => GetAdapter(x)).ToList();
+            }
         }
     }
 }
