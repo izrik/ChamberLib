@@ -106,6 +106,8 @@ namespace ChamberLib
         {
             GL.Enable(EnableCap.DepthTest);
             GL.DepthMask(true);
+            GL.Enable(EnableCap.Lighting);
+            GL.Enable(EnableCap.Light0);
         }
         public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> points)
         {
@@ -176,6 +178,7 @@ namespace ChamberLib
 
         void Reset2D()
         {
+            GL.Disable(EnableCap.Lighting);
             GL.Disable(EnableCap.DepthTest);
             var viewport = Viewport;
             float w = viewport.Width;

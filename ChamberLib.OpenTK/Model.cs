@@ -24,7 +24,7 @@ namespace ChamberLib
         {
             foreach (var mesh in Meshes)
             {
-                mesh.Draw(Renderer, world, view, projection);
+                mesh.Draw(Renderer, world, view, projection, Lighting);
             }
         }
 
@@ -32,20 +32,29 @@ namespace ChamberLib
         {
         }
 
+        LightingData Lighting;
         public void SetAmbientLightColor(Vector3 value)
         {
+            Lighting.AmbientLightColor = new Vector4(value.X, value.Y, value.Z, 1);
         }
 
         public void SetEmissiveColor(Vector3 value)
         {
+            Lighting.EmissiveColor = new Vector4(value.X, value.Y, value.Z, 1);
         }
 
         public void SetDirectionalLight(DirectionalLight light, int index = 0)
         {
+            if (index != 0)
+                throw new ArgumentOutOfRangeException("Index");
+
+            Lighting.DirectionalLight = light;
         }
 
         public void DisableDirectionalLight(int index)
         {
+            if (index == 0)
+                throw new ArgumentOutOfRangeException("index");
         }
 
         public void SetAlpha(float alpha)
@@ -98,11 +107,11 @@ namespace ChamberLib
         {
             public List<Part> Parts = new List<Part>();
 
-            public void Draw(Renderer renderer, Matrix world, Matrix view, Matrix projection)
+            public void Draw(Renderer renderer, Matrix world, Matrix view, Matrix projection, LightingData lighting)
             {
                 foreach (var part in Parts)
                 {
-                    part.Draw(renderer, world, view, projection);
+                    part.Draw(renderer, world, view, projection, lighting);
                 }
             }
         }
@@ -117,11 +126,9 @@ namespace ChamberLib
             public int NumVertexes;
             public Material Material;
 
-            public void Draw(Renderer renderer, Matrix world, Matrix view, Matrix projection)
+            public void Draw(Renderer renderer, Matrix world, Matrix view, Matrix projection, LightingData lighting)
             {
-                renderer.SetMatrices(world, view, projection);
-
-                Material.Apply();
+                Material.Apply(renderer, lighting, world, view, projection);
 
                 renderer.DrawTriangles(Vertexes, Indexes, StartIndex, PrimitiveCount, VertexOffset);
 
@@ -134,13 +141,53 @@ namespace ChamberLib
             public Vector3 DiffuseColor;
             public TextureAdapter Texture;
 
-            public void Apply()
+            public void Apply(Renderer renderer, LightingData lighting, Matrix world, Matrix view, Matrix projection)
             {
-                GL.Color3(DiffuseColor.X, DiffuseColor.Y, DiffuseColor.Z);
+                renderer.SetMatrices(Matrix.Identity, view, projection);
+
+                GL.LightModel(LightModelParameter.LightModelAmbient,
+                    new float[] {
+                        lighting.AmbientLightColor.X,
+                        lighting.AmbientLightColor.Y,
+                        lighting.AmbientLightColor.Z,
+                        1
+                    });
+                GL.LightModel(LightModelParameter.LightModelLocalViewer, 0);
+                GL.Enable(EnableCap.Lighting);
+                GL.Enable(EnableCap.Light0);
+                GL.Disable(EnableCap.Light1);
+                GL.Disable(EnableCap.Light2);
+                GL.Disable(EnableCap.Light3);
+                GL.Disable(EnableCap.Light4);
+                GL.Disable(EnableCap.Light5);
+                GL.Disable(EnableCap.Light6);
+                GL.Disable(EnableCap.Light7);
+                GL.Disable(EnableCap.FragmentLightingSgix);
+                GL.Light(LightName.Light0, LightParameter.Ambient, Vector4.Zero.ToOpenTK());
+                GL.Light(LightName.Light0, LightParameter.Diffuse, lighting.DirectionalLight.DiffuseColor.ToVector4().ToOpenTK());
+                GL.Light(LightName.Light0, LightParameter.Specular, Vector4.Zero.ToOpenTK());
+                var position = -lighting.DirectionalLight.Direction;
+                GL.Light(LightName.Light0, LightParameter.Position, position.ToVector4(0).ToOpenTK());
+
+                GL.Material(MaterialFace.Front, MaterialParameter.Ambient, Vector4.One.ToOpenTK());
+                var diffuse = 
+                    /*/
+                        Vector4.Zero;
+                    /*/
+                        new Vector4(DiffuseColor.X, DiffuseColor.Y, DiffuseColor.Z, 1);
+                    /**/
+                GL.Material(MaterialFace.Front, MaterialParameter.Diffuse, diffuse.ToOpenTK());
+                GL.Material(MaterialFace.Front, MaterialParameter.Specular, Vector4.Zero.ToOpenTK());
+                GL.Material(MaterialFace.Front, MaterialParameter.Shininess, 0);
+                GL.Material(MaterialFace.Front, MaterialParameter.Emission, lighting.EmissiveColor.ToOpenTK());
+
                 if (Texture != null)
                 {
                     Texture.Bind();
                 }
+
+                renderer.SetMatrices(world, view, projection);
+
             }
 
             public void UnApply()

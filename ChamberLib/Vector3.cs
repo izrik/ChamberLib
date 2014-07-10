@@ -177,6 +177,11 @@ namespace ChamberLib
         {
             return string.Format("{{X:{0} Y:{1} Z:{2}}}", X, Y, Z);
         }
+
+        public Vector4 ToVector4(float w=0)
+        {
+            return new Vector4(X, Y, Z, w);
+        }
     }
 }
 
