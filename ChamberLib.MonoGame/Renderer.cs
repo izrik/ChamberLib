@@ -13,6 +13,11 @@ namespace ChamberLib
 {
     public class Renderer : IRenderer
     {
+        public void DrawLines(Color color, IEnumerable<Vector2> vs)
+        {
+            throw new NotImplementedException();
+        }
+
         public Renderer(GraphicsDevice device)
         {
             if (device == null) throw new ArgumentNullException("device");

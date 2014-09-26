@@ -65,7 +65,11 @@ namespace ChamberLibTests
 
             float? idist = ray.Intersects(b);
 
-            Assert.AreEqual(expected, idist);
+            Assert.AreEqual(expected.HasValue, idist.HasValue);
+            if (expected.HasValue)
+            {
+                Assert.AreEqual(expected.Value, idist.Value, 0.000001);
+            }
         }
     }
 }

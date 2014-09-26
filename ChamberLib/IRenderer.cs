@@ -5,8 +5,8 @@ namespace ChamberLib
 {
     public interface IRenderer
     {
-        void DrawLine(float width, Color color, Vector2 v1, Vector2 v2);
         void DrawLine(Color color, Vector2 v1, Vector2 v2);
+        void DrawLines(Color color, IEnumerable<Vector2> vs);
 
         void DrawString(IFont font, string text, Vector2 position, Color color,
                         float rotation = 0,
@@ -16,12 +16,11 @@ namespace ChamberLib
         void DrawImage(ITexture2D texture, RectangleI destinationRectangle, Color color);
         void DrawImages(params DrawImagesEntry[] entries);
 
-
         void Clear(Color color);
 
         void Reset3D();
 
-        void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> points);
+        void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> vs);
 
         Viewport Viewport { get; set; }
     }

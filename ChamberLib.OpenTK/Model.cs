@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenTK.Graphics.OpenGL;
+using System.Linq;
 
 namespace ChamberLib
 {
@@ -22,6 +22,11 @@ namespace ChamberLib
 
         public void Draw(Matrix world, Matrix view, Matrix projection)
         {
+            if (!IsReady)
+            {
+                MakeReady();
+            }
+
             foreach (var mesh in Meshes)
             {
                 mesh.Draw(Renderer, world, view, projection, Lighting);
@@ -35,18 +40,18 @@ namespace ChamberLib
         LightingData Lighting;
         public void SetAmbientLightColor(Vector3 value)
         {
-            Lighting.AmbientLightColor = new Vector4(value.X, value.Y, value.Z, 1);
+            Lighting.AmbientLightColor = value;
         }
 
         public void SetEmissiveColor(Vector3 value)
         {
-            Lighting.EmissiveColor = new Vector4(value.X, value.Y, value.Z, 1);
+            Lighting.EmissiveColor = value;
         }
 
         public void SetDirectionalLight(DirectionalLight light, int index = 0)
         {
             if (index != 0)
-                throw new ArgumentOutOfRangeException("Index");
+                throw new ArgumentOutOfRangeException("index");
 
             Lighting.DirectionalLight = light;
         }
@@ -59,10 +64,20 @@ namespace ChamberLib
 
         public void SetAlpha(float alpha)
         {
+            var materials = new HashSet<Material>(Meshes.SelectMany(m => m.Parts).Select(p => p.Material));
+            foreach (var material in materials)
+            {
+                material.Alpha = alpha;
+            }
         }
 
         public void SetTexture(ITexture2D texture)
         {
+            var materials = new HashSet<Material>(Meshes.SelectMany(m => m.Parts).Select(p => p.Material));
+            foreach (var material in materials)
+            {
+                material.Texture = texture;
+            }
         }
 
         public void SetWorldViewProjection(Matrix transform, Matrix view, Matrix projection)
@@ -93,7 +108,23 @@ namespace ChamberLib
         public List<Bone> Bones = new List<Bone>();
         public Bone RootBone;
 
+        public List<short[]> _indexBufferContents = new List<short[]>();
+        public List<IVertex[]> _vertexBufferContents = new List<IVertex[]>();
+        bool IsReady = false;
+        void MakeReady()
+        {
+            if (IsReady) return;
 
+            var vertexBuffers = _vertexBufferContents.Select(array => VertexBuffer.FromArray(array)).ToArray();
+            var indexBuffers = _indexBufferContents.Select(array => IndexBuffer.FromArray(array)).ToArray();
+
+            foreach (var mesh in Meshes)
+            {
+                mesh.MakeReady(vertexBuffers, indexBuffers);
+            }
+
+            IsReady = true;
+        }
     }
 }
 

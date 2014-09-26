@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL;
+using System.Linq;
 
 namespace ChamberLib
 {
@@ -16,19 +18,27 @@ namespace ChamberLib
         public readonly Renderer Renderer;
 
         readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
-        public T Load<T>(string name)
+        public T Load<T>(string name, object param=null)
         {
             if (_cache.ContainsKey(name))
             {
                 return (T)_cache[name];
             }
 
-            var x = LoadInternal<T>(name);
+            var x = LoadInternal<T>(name, param);
             _cache[name] = x;
+
+            var xl = (x as ILoadable);
+            if (xl != null)
+            {
+                xl.LoadContents(this);
+            }
+
             return x;
         }
-        T LoadInternal<T>(string name)
+        T LoadInternal<T>(string name, object param)
         {
+            var contentName = GetContentFilename(name);
             if (typeof(T) == typeof(IModel))
             {
                 name = GetContentFilename(name);
@@ -63,6 +73,66 @@ namespace ChamberLib
             {
                 return (T)(object)new FontAdapter();
             }
+            if (typeof(T) == typeof(IShader))
+            {
+                if (name == "$basic")
+                {
+                    return (T)(object)BuiltinShaders.BasicShader;
+                }
+                if (name == "$skinned")
+                {
+                    return (T)(object)BuiltinShaders.SkinnedShader;
+                }
+
+                string[] bindattrs=null;
+                if (param == null)
+                {
+                }
+                else if (param is IEnumerable<string>)
+                {
+                    bindattrs = (param as IEnumerable<string>).ToArray();
+                }
+                else
+                {
+                    throw new InvalidOperationException();
+                }
+
+                if (name.Contains(","))
+                {
+                    try
+                    {
+                        var parts = name.Split(',');
+                        var vert = GetContentFilename(parts[0]);
+                        var frag = GetContentFilename(parts[1]);
+
+                        var vertexShaderSource = File.ReadAllText(vert);
+                        var fragmentShaderSource = File.ReadAllText(frag);
+
+                        var shader = new ShaderAdapter(vs: vertexShaderSource, fs: fragmentShaderSource, bindAttributes: bindattrs);
+                        shader.Name = name;
+                        return (T)(object)shader;
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                    }
+                }
+
+                try
+                {
+                    var vert = GetContentFilename(name + ".vert");
+                    var frag = GetContentFilename(name + ".frag");
+
+                    var vertexShaderSource = File.ReadAllText(vert);
+                    var fragmentShaderSource = File.ReadAllText(frag);
+
+                    var shader = new ShaderAdapter(vs: vertexShaderSource, fs: fragmentShaderSource, bindAttributes: bindattrs);
+                    shader.Name = name;
+                    return (T)(object)shader;
+                }
+                finally
+                {
+                }
+            }
 
             return default(T);
         }
@@ -82,7 +152,7 @@ namespace ChamberLib
 
         public ITexture2D CreateTexture(int width, int height, Color[] data)
         {
-            return null;
+            return TextureAdapter.CreateTexture(width, height, data);
         }
 
         static string GetContentFilename(string name)

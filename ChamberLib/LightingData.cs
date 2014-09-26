@@ -4,9 +4,9 @@ namespace ChamberLib
 {
     public struct LightingData
     {
-        public Vector4 AmbientLightColor;
+        public Vector3 AmbientLightColor;
         public DirectionalLight DirectionalLight;
-        public Vector4 EmissiveColor;
+        public Vector3 EmissiveColor;
     }
 }
 

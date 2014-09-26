@@ -58,6 +58,18 @@
     <Compile Include="Material.cs" />
     <Compile Include="Mesh.cs" />
     <Compile Include="Bone.cs" />
+    <Compile Include="ShaderAdapter.cs" />
+    <Compile Include="GLHelper.cs" />
+    <Compile Include="FontAdapter.Shaders.cs" />
+    <Compile Include="Renderer.DrawLines2D.cs" />
+    <Compile Include="Renderer.DrawLines3D.cs" />
+    <Compile Include="Renderer.DrawImages.cs" />
+    <Compile Include="Renderer.DrawString.cs" />
+    <Compile Include="VertexBuffer.cs" />
+    <Compile Include="IndexBuffer.cs" />
+    <Compile Include="RenderBundle.cs" />
+    <Compile Include="BuiltinShaders.cs" />
+    <Compile Include="ColorHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

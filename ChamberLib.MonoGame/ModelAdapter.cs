@@ -47,7 +47,12 @@ namespace ChamberLib
 
         public void Draw(Matrix world, Matrix view, Matrix projection)
         {
-            Model.Draw(world.ToXna(), view.ToXna(), projection.ToXna());
+            SetWorldViewProjection(world, view, projection);
+            foreach (var mesh in GetMeshes())
+            {
+                mesh.Draw(null, world, view, projection, default(LightingData));
+            }
+//            Model.Draw(world.ToXna(), view.ToXna(), projection.ToXna());
         }
 
         public IBone Root

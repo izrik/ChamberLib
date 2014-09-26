@@ -201,17 +201,29 @@ namespace ChamberLib
         {
             Texture2D texture;
             Vector3 diffuse;
+            Vector3 emissive;
+            Vector3 specularColor;
+            float specularPower;
+            string shadername = "";
             if (mat is BasicEffect)
             {
                 var mat2 = (BasicEffect)mat;
                 diffuse = mat2.DiffuseColor.ToChamber();
+                emissive = mat2.EmissiveColor.ToChamber();
+                specularColor = mat2.SpecularColor.ToChamber();
+                specularPower = mat2.SpecularPower;
                 texture = mat2.Texture;
+                shadername = "$basic";
             }
             else if (mat is SkinnedEffect)
             {
                 var mat2 = (SkinnedEffect)mat;
                 diffuse = mat2.DiffuseColor.ToChamber();
+                emissive = mat2.EmissiveColor.ToChamber();
+                specularColor = mat2.SpecularColor.ToChamber();
+                specularPower = mat2.SpecularPower;
                 texture = mat2.Texture;
+                shadername = "$skinned";
             }
             else
             {
@@ -219,6 +231,9 @@ namespace ChamberLib
             }
 
             writer.WriteLine(ImportExportHelper.Convert(diffuse));
+            writer.WriteLine(ImportExportHelper.Convert(emissive));
+            writer.WriteLine(ImportExportHelper.Convert(specularColor));
+            writer.WriteLine(specularPower);
             string texname = "";
             if (texture != null)
             {
@@ -232,6 +247,8 @@ namespace ChamberLib
                 }
             }
             writer.WriteLine(texname);
+
+            writer.WriteLine(shadername);
         }
 
         void WriteMesh(StreamWriter writer, ModelMesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Effect> materials)

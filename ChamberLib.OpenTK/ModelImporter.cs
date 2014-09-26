@@ -2,6 +2,9 @@ using System;
 using System.IO;
 using ChamberLib;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Linq;
+using OpenTK.Graphics.OpenGL;
 
 namespace ChamberLib
 {
@@ -103,6 +106,8 @@ namespace ChamberLib
                     Bones = bones,
                     Meshes = meshes,
                     RootBone = (modelRootBone >= 0 ? bones[modelRootBone] : null),
+                    _vertexBufferContents = vbuffers,
+                    _indexBufferContents = ibuffers,
                 };
 
                 return model;
@@ -163,6 +168,7 @@ namespace ChamberLib
                 v.Populate(values);
                 vs[k] = v;
             }
+
             return vs;
         }
 
@@ -177,6 +183,7 @@ namespace ChamberLib
             {
                 indexes[k] = short.Parse(reader.ReadLine());
             }
+
             return indexes;
         }
 
@@ -184,11 +191,28 @@ namespace ChamberLib
         {
             var mat = new Material();
             mat.Diffuse = ImportExportHelper.ConvertVector3(reader.ReadLine());
+            mat.EmissiveColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
+            mat.SpecularColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
+            mat.SpecularPower = float.Parse(reader.ReadLine());
             var texname = reader.ReadLine();
             if (!string.IsNullOrEmpty(texname))
             {
                 var texture = content.Load<ITexture2D>(texname);
                 mat.Texture = (TextureAdapter)texture;
+            }
+            var shadername = reader.ReadLine();
+            if (!string.IsNullOrEmpty(shadername))
+            {
+                var shader = (ShaderAdapter)content.Load<IShader>(
+                    shadername,
+                    new string[] {
+                        "in_position",
+                        "in_blend_indexes",
+                        "in_blend_weights",
+                        "in_normal",
+                        "in_texture_coords",
+                    });
+                mat.Shader2 = shader;
             }
 
             return mat;
@@ -224,8 +248,8 @@ namespace ChamberLib
             var vertexBufferIndex = int.Parse(reader.ReadLine());
             var vertexOffset = int.Parse(reader.ReadLine());
             var part = new Part() {
-                Indexes = (indexBufferIndex >= 0 ? ibuffers[indexBufferIndex] : null),
-                Vertexes = (vertexBufferIndex >= 0 ? vbuffers[vertexBufferIndex] : null),
+                _indexBufferIndex = indexBufferIndex,
+                _vertexBufferIndex = vertexBufferIndex,
                 StartIndex = startIndex,
                 VertexOffset = vertexOffset,
                 NumVertexes = numvertices,

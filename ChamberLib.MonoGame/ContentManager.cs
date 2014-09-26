@@ -27,18 +27,18 @@ namespace ChamberLib
         public XContentManager Manager;
 
         readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
-        public T Load<T>(string name)
+        public T Load<T>(string name, object param=null)
         {
             if (_cache.ContainsKey(name))
             {
                 return (T)_cache[name];
             }
 
-            var x = LoadInternal<T>(name);
+            var x = LoadInternal<T>(name, param);
             _cache[name] = x;
             return x;
         }
-        T LoadInternal<T>(string name)
+        T LoadInternal<T>(string name, object param)
         {
             if (typeof(T) == typeof(IModel))
             {

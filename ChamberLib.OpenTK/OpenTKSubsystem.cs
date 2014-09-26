@@ -10,8 +10,8 @@ namespace ChamberLib
     public class OpenTKSubsystem : ISubsystem
     {
         public OpenTKSubsystem(
-            int openglMajorVersion=1,
-            int openglMinorVersion=0,
+            int openglMajorVersion,
+            int openglMinorVersion,
             Action onLoadMethod=null,
             Action<GameTime> onRenderFrameMethod=null,
             Action<GameTime> onUpdateFrameMethod=null)
@@ -83,14 +83,21 @@ namespace ChamberLib
         public class ChamberGameWindow : GameWindow
         {
             public ChamberGameWindow(
-                    int width=800,
-                    int height=600,
-                    int major=1,
-                    int minor=0,
+                    int width,
+                    int height,
+                    int major,
+                    int minor,
                     Action onLoadMethod=null,
                     Action<GameTime> onRenderFrameMethod=null,
                     Action<GameTime> onUpdateFrameMethod=null)
-                : base(width, height, GraphicsMode.Default, "ChamberLib")//, GameWindowFlags.Default, DisplayDevice.Default, major, minor, GraphicsContextFlags.Default)
+                : base(
+                    width, height,
+                    GraphicsMode.Default,
+                    "ChamberLib",
+                    GameWindowFlags.Default,
+                    DisplayDevice.Default,
+                    major, minor,
+                    GraphicsContextFlags.Default)
             {
                 OnLoadMethod = onLoadMethod;
                 OnRenderFrameMethod = onRenderFrameMethod;
@@ -105,7 +112,7 @@ namespace ChamberLib
             {
                 base.OnLoad(e);
 
-                GL.ClearColor(0, 0, 0, 0);
+                GL.Enable(EnableCap.DepthTest);
 
                 if (OnLoadMethod != null)
                 {

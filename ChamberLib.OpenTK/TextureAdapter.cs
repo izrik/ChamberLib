@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace ChamberLib
 {
@@ -95,6 +97,24 @@ namespace ChamberLib
             return texture;
         }
 
+        public static ITexture2D CreateTexture(int width, int height, Color[] data)
+        {
+            var bmp = new Bitmap(width, height);
+
+            if (data.Length > 0)
+            {
+                var bmpdata = bmp.LockBits(
+                              new Rectangle(0, 0, width, height),
+                              ImageLockMode.WriteOnly,
+                              System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                var bytes = data.SelectMany<Color, byte>(c => new byte[] { c.A, c.R, c.G, c.B }).ToArray();
+                Marshal.Copy(bytes, 0, bmpdata.Scan0, Math.Min(width * height * 4, bytes.Length)); // ignore stride for now
+                bmp.UnlockBits(bmpdata);
+            }
+
+            return new TextureAdapter(bmp);
+        }
+
         protected void MakeReady()
         {
             BitmapData bmp_data = Bitmap.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -124,7 +144,7 @@ namespace ChamberLib
             IsReady = true;
         }
 
-        public void Bind()
+        public void Apply()
         {
             if (!IsReady)
             {
@@ -135,7 +155,7 @@ namespace ChamberLib
             GL.BindTexture(TextureTarget.Texture2D, this.ID);
         }
 
-        public static void Unbind()
+        public void UnApply()
         {
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }

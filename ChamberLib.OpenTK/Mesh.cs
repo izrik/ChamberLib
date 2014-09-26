@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OpenTK.Graphics.OpenGL;
 
 namespace ChamberLib
 {
@@ -42,25 +43,46 @@ namespace ChamberLib
         }
 
         #endregion
+
+        public void MakeReady(VertexBuffer[] vbs, IndexBuffer[] ibs)
+        {
+            foreach (var part in Parts)
+            {
+                part.MakeReady(vbs, ibs);
+            }
+        }
     }
 
     public class Part
     {
-        public short[] Indexes;
-        public IVertex[] Vertexes;
+        public IndexBuffer Indexes;
+        public VertexBuffer Vertexes;
         public int StartIndex;
         public int PrimitiveCount;
         public int VertexOffset;
         public int NumVertexes;
         public Material Material;
+        public int _vertexBufferIndex;
+        public int _indexBufferIndex;
+
+        public RenderBundle RenderBundle;
 
         public void Draw(Renderer renderer, Matrix world, Matrix view, Matrix projection, LightingData lighting)
         {
             Material.Apply(renderer, lighting, world, view, projection);
+            RenderBundle.Apply();
 
-            renderer.DrawTriangles(Vertexes, Indexes, StartIndex, PrimitiveCount, VertexOffset);
+            RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount*3, StartIndex, VertexOffset);
 
+            RenderBundle.UnApply();
             Material.UnApply();
+        }
+
+        public void MakeReady(VertexBuffer[] vbs, IndexBuffer[] ibs)
+        {
+            Vertexes = vbs[_vertexBufferIndex];
+            Indexes = ibs[_indexBufferIndex];
+            RenderBundle = new RenderBundle(Vertexes, Indexes);
         }
     }
 }

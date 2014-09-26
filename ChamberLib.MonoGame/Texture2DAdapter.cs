@@ -31,6 +31,16 @@ namespace ChamberLib
         {
             return new Vector2(Texture.Width, Texture.Height);
         }
+
+        public void Apply()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnApply()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
