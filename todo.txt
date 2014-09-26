@@ -1,0 +1,2 @@
+LGPL notice in source files.
+
