@@ -43,13 +43,6 @@ namespace ChamberLib
             GL.ValidateProgram(ProgramID);
             GLHelper.CheckError();
 
-            GL.ActiveTexture(TextureUnit.Texture0);
-            GLHelper.CheckError();
-            int texture_location = GL.GetUniformLocation(ProgramID, "tex0");
-            GLHelper.CheckError();
-            GL.Uniform1(texture_location, 0);
-            GLHelper.CheckError();
-
         }
 
         public void UnApply()
