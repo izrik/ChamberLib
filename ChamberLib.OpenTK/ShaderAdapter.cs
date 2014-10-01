@@ -142,6 +142,56 @@ namespace ChamberLib
             VertexShaderID = vs;
             FragmentShaderID = fs;
         }
+
+        Dictionary<string,int> uniformLocationCache = new Dictionary<string, int>();
+        int GetUniformLocation(string name)
+        {
+            if (uniformLocationCache.ContainsKey(name))
+            {
+                return uniformLocationCache[name];
+            }
+
+            var location = GL.GetUniformLocation(ProgramID, name);
+            uniformLocationCache[name] = location;
+            return location;
+        }
+        public void SetUniform(string name, float value)
+        {
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, value);
+            GLHelper.CheckError();
+        }
+        public void SetUniform(string name, Vector2 value)
+        {
+            var location = GetUniformLocation(name);
+            GL.Uniform2(location, value.ToOpenTK());
+            GLHelper.CheckError();
+        }
+        public void SetUniform(string name, Vector3 value)
+        {
+            var location = GetUniformLocation(name);
+            GL.Uniform3(location, value.ToOpenTK());
+            GLHelper.CheckError();
+        }
+        public void SetUniform(string name, Vector4 value)
+        {
+            var location = GetUniformLocation(name);
+            GL.Uniform4(location, value.ToOpenTK());
+            GLHelper.CheckError();
+        }
+        public void SetUniform(string name, Matrix value)
+        {
+            var location = GetUniformLocation(name);
+            var value2 = value.ToOpenTK();
+            GL.UniformMatrix4(location, false, ref value2);
+            GLHelper.CheckError();
+        }
+        public void SetUniform(string name, bool value)
+        {
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, (value ? 1 : 0));
+            GLHelper.CheckError();
+        }
     }
 }
 
