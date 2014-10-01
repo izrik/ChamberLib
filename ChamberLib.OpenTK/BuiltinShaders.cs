@@ -18,6 +18,7 @@ namespace ChamberLib
                             "in_position",
                             "in_normal",
                             "in_texture_coords" });
+                    basicShader.Name = "$basic";
                 }
 
                 return basicShader;
@@ -130,6 +131,7 @@ void main(void)
                             "in_blend_indices",
                             "in_blend_weights",
                         });
+                    skinnedShader.Name = "$skinned";
                 }
 
                 return skinnedShader;
