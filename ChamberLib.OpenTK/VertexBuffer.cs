@@ -53,7 +53,6 @@ namespace ChamberLib
             params VertexAttribute[] attributes)
             where T : struct
         {
-
             if (!IsReady)
             {
                 MakeReady();

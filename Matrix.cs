@@ -33,6 +33,15 @@ namespace ChamberLib
             M44 = m44;
         }
 
+        public Matrix Transposed()
+        {
+            return new Matrix(
+                M11, M21, M31, M41,
+                M12, M22, M32, M42,
+                M13, M23, M33, M43,
+                M14, M24, M34, M44);
+        }
+
         public static Matrix CreateLookAt(Vector3 cameraPosition, Vector3 cameraTarget, Vector3 cameraUpVector)
         {
             var zaxis = (cameraPosition - cameraTarget).Normalized();
@@ -220,6 +229,51 @@ namespace ChamberLib
         public float M43;
         public float M44;
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Matrix))
+                return false;
+
+            var b = (Matrix)obj;
+
+            return
+                this.Column1 == b.Column1 &&
+            this.Column2 == b.Column2 &&
+            this.Column3 == b.Column3 &&
+            this.Column4 == b.Column4;
+        }
+
+        public override int GetHashCode()
+        {
+            return
+                M11.GetHashCode() ^
+                M12.GetHashCode() ^
+                M13.GetHashCode() ^
+                M14.GetHashCode() ^
+                M21.GetHashCode() ^
+                M22.GetHashCode() ^
+                M23.GetHashCode() ^
+                M24.GetHashCode() ^
+                M31.GetHashCode() ^
+                M32.GetHashCode() ^
+                M33.GetHashCode() ^
+                M34.GetHashCode() ^
+                M41.GetHashCode() ^
+                M42.GetHashCode() ^
+                M43.GetHashCode() ^
+                M44.GetHashCode();
+        }
+
+        public static bool operator == (Matrix a, Matrix b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator != (Matrix a, Matrix b)
+        {
+            return !a.Equals(b);
+        }
+
         public static Matrix Invert(Matrix m)
         {
             var det = m.Determinant();
@@ -258,6 +312,24 @@ namespace ChamberLib
                     M13*M21*M32*M44 - M11*M23*M32*M44 - M12*M21*M33*M44 + M11*M22*M33*M44;
         }
 
+        public static Matrix operator * (Matrix m, float s)
+        {
+            return Multiply(m, s);
+        }
+        public static Matrix operator * (float s, Matrix m)
+        {
+            return Multiply(m, s);
+        }
+
+        public static Matrix Multiply(Matrix m, float s)
+        {
+            return new Matrix(
+                m.M11 * s, m.M12 * s, m.M13 * s, m.M14 * s, 
+                m.M21 * s, m.M22 * s, m.M23 * s, m.M24 * s, 
+                m.M31 * s, m.M32 * s, m.M33 * s, m.M34 * s, 
+                m.M41 * s, m.M42 * s, m.M43 * s, m.M44 * s);
+        }
+
         public static Matrix operator * (Matrix a, Matrix b)
         {
             return Multiply(a, b);
@@ -284,9 +356,28 @@ namespace ChamberLib
                 a.M41 * b.M14 + a.M42 * b.M24 + a.M43 * b.M34 + a.M44 * b.M44);
         }
 
+        public static Matrix operator + (Matrix a, Matrix b)
+        {
+            return Add(a, b);
+        }
+
+        public static Matrix Add(Matrix a, Matrix b)
+        {
+            return new Matrix(
+                a.M11 + b.M11, a.M12 + b.M12, a.M13 + b.M13, a.M14 + b.M14, 
+                a.M21 + b.M21, a.M22 + b.M22, a.M23 + b.M23, a.M24 + b.M24, 
+                a.M31 + b.M31, a.M32 + b.M32, a.M33 + b.M33, a.M34 + b.M34, 
+                a.M41 + b.M41, a.M42 + b.M42, a.M43 + b.M43, a.M44 + b.M44);
+        }
+
         public Vector3 Translation
         {
             get { return new Vector3(M41, M42, M43); }
+        }
+
+        public Vector3 Scale
+        {
+            get { return new Vector3(M11, M22, M33); }
         }
 
         public override string ToString()

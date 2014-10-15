@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace ChamberLib
 {
@@ -30,7 +31,6 @@ namespace ChamberLib
 
 precision highp float;
 
-uniform vec3 vertex_positions[8];
 uniform mat4 worldViewProj;
 uniform mat4 world;
 uniform mat4 worldView;
@@ -142,15 +142,15 @@ void main(void)
 
 precision highp float;
 
-uniform vec3 vertex_positions[8];
 uniform mat4 worldViewProj;
 uniform mat4 world;
-uniform mat4 worldView;
+
+uniform mat4 bones[30];
 
 in vec3 in_position;
 in vec3 in_normal;
 in vec2 in_texture_coords;
-in ivec4 in_blend_indices;
+in vec4 in_blend_indices;
 in vec4 in_blend_weights;
 
 out vec3 vf_normal_ws;
@@ -159,10 +159,22 @@ out vec3 vf_position_ws;
 
 void main(void)
 {
-    vec3 position = in_position;
-    vec4 transformed = worldViewProj * vec4(position, 1);
+    mat4 blend =
+        bones[int(in_blend_indices.x)] * in_blend_weights.x +
+        bones[int(in_blend_indices.y)] * in_blend_weights.y +
+        bones[int(in_blend_indices.z)] * in_blend_weights.z +
+        bones[int(in_blend_indices.w)] * in_blend_weights.w;
 
-    vf_position_ws = (world * vec4(position, 0)).xyz;
+    mat3x4 blend2;
+    blend2[0] = blend[0];
+    blend2[1] = blend[1];
+    blend2[2] = blend[2];
+
+    vec3 skinned = (blend * vec4(in_position,1)).xyz;
+
+    vec4 transformed = worldViewProj * vec4(skinned, 1);
+
+    vf_position_ws = (world * vec4(in_position, 0)).xyz;
 
     vf_normal_ws = (world * vec4(in_normal, 0)).xyz;
 

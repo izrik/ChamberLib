@@ -32,7 +32,7 @@ namespace ChamberLib
 
         public void Apply()
         {
-            if (ProgramID == 0)
+            if (ProgramID <= 0)
             {
                 MakeReady();
             }
@@ -42,7 +42,6 @@ namespace ChamberLib
 
             GL.ValidateProgram(ProgramID);
             GLHelper.CheckError();
-
         }
 
         public void UnApply()
@@ -62,7 +61,6 @@ namespace ChamberLib
             int vs = 0;
             int fs = 0;
 
-            ErrorCode error;
 
             GLHelper.CheckError();
             prog = GL.CreateProgram();
@@ -119,8 +117,9 @@ namespace ChamberLib
             GLHelper.CheckError();
             Debug.WriteLine("Program Link Status: {0}", result);
             Debug.WriteLine("Program info:");
-            Debug.WriteLine(GL.GetProgramInfoLog(prog));
+            var programInfo = GL.GetProgramInfoLog(prog);
             GLHelper.CheckError();
+            Debug.WriteLine(programInfo);
 
             string programInfoLog;
             GL.GetProgramInfoLog( prog, out programInfoLog );
@@ -150,30 +149,35 @@ namespace ChamberLib
         }
         public void SetUniform(string name, float value)
         {
+            Apply();
             var location = GetUniformLocation(name);
             GL.Uniform1(location, value);
             GLHelper.CheckError();
         }
         public void SetUniform(string name, Vector2 value)
         {
+            Apply();
             var location = GetUniformLocation(name);
             GL.Uniform2(location, value.ToOpenTK());
             GLHelper.CheckError();
         }
         public void SetUniform(string name, Vector3 value)
         {
+            Apply();
             var location = GetUniformLocation(name);
             GL.Uniform3(location, value.ToOpenTK());
             GLHelper.CheckError();
         }
         public void SetUniform(string name, Vector4 value)
         {
+            Apply();
             var location = GetUniformLocation(name);
             GL.Uniform4(location, value.ToOpenTK());
             GLHelper.CheckError();
         }
         public void SetUniform(string name, Matrix value)
         {
+            Apply();
             var location = GetUniformLocation(name);
             var value2 = value.ToOpenTK();
             GL.UniformMatrix4(location, false, ref value2);
@@ -181,9 +185,23 @@ namespace ChamberLib
         }
         public void SetUniform(string name, bool value)
         {
+            Apply();
             var location = GetUniformLocation(name);
             GL.Uniform1(location, (value ? 1 : 0));
             GLHelper.CheckError();
+        }
+
+        public Matrix GetUniformMatrix(string name)
+        {
+            Apply();
+            var location = GetUniformLocation(name);
+            var values = new float[16];
+            GL.GetUniform(ProgramID, location, values);
+            return new Matrix(
+                values[0], values[1], values[2], values[3], 
+                values[4], values[5], values[6], values[7], 
+                values[8], values[9], values[10], values[11], 
+                values[12], values[13], values[14], values[15]);
         }
     }
 }

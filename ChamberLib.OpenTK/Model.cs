@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenTK.Graphics.OpenGL;
 
 namespace ChamberLib
 {
@@ -62,10 +63,18 @@ namespace ChamberLib
                 throw new ArgumentOutOfRangeException("index");
         }
 
-        public void SetAlpha(float alpha)
+        public IEnumerable<Material> GetAllMaterials()
         {
             var materials = new HashSet<Material>(Meshes.SelectMany(m => m.Parts).Select(p => p.Material));
             foreach (var material in materials)
+            {
+                yield return material;
+            }
+        }
+
+        public void SetAlpha(float alpha)
+        {
+            foreach (var material in GetAllMaterials())
             {
                 material.Alpha = alpha;
             }
@@ -73,8 +82,7 @@ namespace ChamberLib
 
         public void SetTexture(ITexture2D texture)
         {
-            var materials = new HashSet<Material>(Meshes.SelectMany(m => m.Parts).Select(p => p.Material));
-            foreach (var material in materials)
+            foreach (var material in GetAllMaterials())
             {
                 material.Texture = texture;
             }
@@ -86,6 +94,20 @@ namespace ChamberLib
 
         public void SetBoneTransforms(Matrix[] boneTransforms, float verticalOffset, Matrix world)
         {
+            foreach (var material in GetAllMaterials())
+            {
+                if (material.Shader == BuiltinShaders.SkinnedShader)
+                {
+                    int i;
+                    for (i = 0; i < 30 && i < boneTransforms.Length; i++)
+                    {
+                        var name = string.Format("bones[{0}]", i);
+                        BuiltinShaders.SkinnedShader.SetUniform(name, boneTransforms[i]);
+                    }
+
+                    break;
+                }
+            }
         }
 
         public object Tag { get; set; }
@@ -94,11 +116,11 @@ namespace ChamberLib
         {
             get
             {
-                throw new NotImplementedException();
+                return RootBone;
             }
             set
             {
-                throw new NotImplementedException();
+                RootBone = (Bone)value;
             }
         }
 
