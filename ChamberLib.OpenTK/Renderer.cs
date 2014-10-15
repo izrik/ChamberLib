@@ -25,6 +25,7 @@ namespace ChamberLib
         public void Clear(Color color)
         {
             GL.ClearColor(color.ToSystemDrawing());
+            GLHelper.CheckError();
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GLHelper.CheckError();
         }
@@ -59,7 +60,7 @@ namespace ChamberLib
         }
         #endregion
 
-        void Reset2D()
+        public void Reset2D()
         {
             GL.Disable(EnableCap.DepthTest);
             GLHelper.CheckError();

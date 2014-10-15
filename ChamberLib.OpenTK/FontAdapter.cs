@@ -71,6 +71,8 @@ namespace ChamberLib
                 MakeReady();
             }
 
+            renderer.Reset2D();
+
             Shader.Apply();
             GLHelper.CheckError();
             var ProgramID = ((ShaderAdapter)Shader).ProgramID;
