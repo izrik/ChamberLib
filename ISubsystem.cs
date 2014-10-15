@@ -15,6 +15,7 @@ namespace ChamberLib
         bool AllowUserResizing { get; set; }
         RectangleI ClientBounds { get; }
         event EventHandler<EventArgs> ClientSizeChanged;
+        bool IsActive { get; }
 
         void Run();
         void Exit();

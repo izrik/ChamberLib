@@ -181,6 +181,12 @@ namespace ChamberLib
                 _xnagame.Window.ClientSizeChanged -= value;
             }
         }
+
+        public bool IsActive
+        {
+            get { return _xnagame.IsActive; }
+        }
+
     }
 }
 

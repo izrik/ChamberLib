@@ -71,6 +71,11 @@ namespace ChamberLib
             remove { Window.Resize -= value; }
         }
 
+        public bool IsActive
+        {
+            get { return Window.Focused; }
+        }
+
         public void Run()
         {
             Window.Run();
