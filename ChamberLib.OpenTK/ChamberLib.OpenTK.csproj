@@ -37,6 +37,9 @@
       <HintPath>..\packages\OpenTK.GLControl.1.1.1589.5941\lib\NET40\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="NAudio">
+      <HintPath>..\..\packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

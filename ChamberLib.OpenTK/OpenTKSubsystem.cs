@@ -4,6 +4,7 @@ using OpenTK.Graphics;
 using System.Threading.Tasks;
 using System.Threading;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Audio;
 
 namespace ChamberLib
 {
@@ -29,6 +30,8 @@ namespace ChamberLib
 
             _renderer = new Renderer(this);
             _content = new ContentManager(_renderer);
+
+            _audioContext = new AudioContext();
         }
 
         public readonly ChamberGameWindow Window;
@@ -41,6 +44,9 @@ namespace ChamberLib
 
         readonly MediaManager _media;
         public IMediaManager MediaManager { get { return _media; } }
+
+        readonly AudioContext _audioContext;
+        public AudioContext AudioContext { get { return _audioContext; } }
 
         public IGamePad GetGamePad(PlayerIndex index)
         {

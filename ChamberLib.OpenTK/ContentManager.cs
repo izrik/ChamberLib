@@ -63,7 +63,30 @@ namespace ChamberLib
             }
             if (typeof(T) == typeof(ISoundEffect))
             {
-                return (T)(object)new SoundEffect();
+                if (File.Exists(contentName))
+                {
+                }
+                if (File.Exists(contentName + ".wav"))
+                {
+                    contentName += ".wav";
+                }
+                else
+                {
+                    throw new FileNotFoundException("The sound file could not be found.", contentName);
+                }
+
+                if (contentName.ToLower().EndsWith(".wav"))
+                {
+                    // type = wav
+                }
+                else
+                {
+                    throw new IOException(string.Format("The file \"{0}\" is of an unknown type", contentName));
+                }
+
+                var stream = File.Open(contentName, FileMode.Open);
+
+                return (T)(object)new SoundEffect(stream);
             }
             if (typeof(T) == typeof(ITexture2D))
             {
