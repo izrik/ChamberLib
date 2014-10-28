@@ -64,5 +64,23 @@ namespace ChamberLib
                 yield return item;
             }
         }
+
+        static Random rand = new Random();
+        public static void Shuffle<T>(this List<T> list)
+        {
+            if (list == null) throw new ArgumentNullException("list");
+
+            if (list.Count < 1)
+                return;
+
+            int i;
+            for (i = 0; i < list.Count; i++)
+            {
+                var j = rand.Next(i, list.Count);
+                var temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
+            }
+        }
     }
 }

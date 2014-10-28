@@ -7,17 +7,32 @@ namespace ChamberLib
 {
     public class SoundEffect : ISoundEffect
     {
-        public SoundEffect(Stream stream)
+        public SoundEffect(string name, Stream stream)
         {
             if (stream == null) throw new ArgumentNullException("stream");
 
-            this.stream = stream;
+            Name = name;
+            _stream = stream;
+
+            _wfr = new WaveFileReader(_stream);
+
+            int channels = _wfr.WaveFormat.Channels;
+            int bitsPerSample = _wfr.WaveFormat.BitsPerSample;
+
+            if (channels != 1 && channels != 2) throw new NotSupportedException("The sound format is not supported");
+            if (bitsPerSample != 8 && bitsPerSample != 16) throw new NotSupportedException("The sound format is not supported");
+
+            int length = (int)(_wfr.SampleCount * (bitsPerSample / 8) * channels);
+            _audioData = new byte[length];
+            _wfr.Read(_audioData, 0, length); //TODO: remaining data might be more than MAX_INT
         }
 
-        Stream stream;
-        byte[] audioData;
-        int buffer;
-        int source;
+        public readonly string Name;
+        Stream _stream;
+        WaveFileReader _wfr;
+        byte[] _audioData;
+        int _buffer;
+        int _source;
 
         #region ISoundEffect implementation
 
@@ -25,7 +40,13 @@ namespace ChamberLib
         {
             MakeReady();
 
-            AL.Source(source, ALSourcei.Buffer, buffer);
+            Play(_source);
+        }
+        public void Play(int source)
+        {
+            MakeReady();
+
+            AL.Source(source, ALSourcei.Buffer, _buffer);
             AL.SourcePlay(source);
         }
 
@@ -34,21 +55,10 @@ namespace ChamberLib
         {
             if (IsReady) return;
 
+            int channels = _wfr.WaveFormat.Channels;
+            int bitsPerSample = _wfr.WaveFormat.BitsPerSample;
+            int samplesPerSecond = _wfr.WaveFormat.SampleRate;
 
-            buffer = AL.GenBuffer();
-            source = AL.GenSource();
-
-            var wfr = new WaveFileReader(stream);
-            int channels = wfr.WaveFormat.Channels;
-            int bitsPerSample = wfr.WaveFormat.BitsPerSample;
-            int samplesPerSecond = wfr.WaveFormat.SampleRate;
-
-            int dataLength = (int)((bitsPerSample / 8) * wfr.SampleCount);
-            audioData = new byte[dataLength];
-            wfr.Read(audioData, 0, dataLength); //TODO: remaining data might be more than MAX_INT
-
-            if (channels != 1 && channels != 2) throw new NotSupportedException("The sound format is not supported");
-            if (bitsPerSample != 8 && bitsPerSample != 16) throw new NotSupportedException("The sound format is not supported");
             ALFormat format;
             if (channels == 1 && bitsPerSample == 8)
             {
@@ -67,7 +77,9 @@ namespace ChamberLib
                 format = ALFormat.Stereo16;
             }
 
-            AL.BufferData(buffer, format, audioData, audioData.Length, samplesPerSecond);
+            _source = AL.GenSource();
+            _buffer = AL.GenBuffer();
+            AL.BufferData(_buffer, format, _audioData, _audioData.Length, samplesPerSecond);
 
             IsReady = true;
         }

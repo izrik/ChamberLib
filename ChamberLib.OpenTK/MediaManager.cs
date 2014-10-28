@@ -1,88 +1,199 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using OpenTK.Audio.OpenAL;
 
 namespace ChamberLib
 {
     public class MediaManager : IMediaManager
     {
-        public void Play(ISong song)
+        List<Song> _songQueue = new List<Song>();
+        List<Song> _orderedSongQueue = new List<Song>();
+        int _playIndex = 0;
+
+        bool isReady = false;
+        int _source;
+
+        public void Play(IEnumerable<ISong> songs, int index = -1)
         {
-        }
-        public void Play(IEnumerable<ISong> songs, int index = 0)
-        {
+            Stop();
+
+            SetSongQueue(songs);
+
+            Song songToPlay = index < 0 ? _orderedSongQueue[0] : _songQueue[index];
+
+            PlayInternal(songToPlay);
         }
         public void Pause()
         {
+            if (State == MediaState.Playing)
+            {
+                State = MediaState.Paused;
+                AL.SourcePause(_source);
+            }
         }
         public void Resume()
         {
+            if (State == MediaState.Paused)
+            {
+                State = MediaState.Playing;
+                AL.SourcePlay(_source);
+            }
         }
         public void Stop()
         {
+            _state = MediaState.Stopped;
+            AL.SourceStop(_source);
         }
+        float _soundEffectMasterVolume = 1;
         public float SoundEffectMasterVolume
         {
-            get
-            {
-                return 1;
-            }
-            set
-            {
-            }
+            get { return _soundEffectMasterVolume; }
+            set { _soundEffectMasterVolume = value; }
         }
+        float _musicVolume = 1;
         public float MusicVolume
         {
             get
             {
-                return 1;
+                return (IsMuted ? 0 : _musicVolume);
             }
-            set
-            {
-            }
+            set { _musicVolume = value; }
         }
+        bool _isMuted = false;
         public bool IsMuted
         {
-            get
-            {
-                return false;
-            }
-            set
-            {
-            }
+            get { return _isMuted; }
+            set { _isMuted = value; }
         }
+        bool _isRepeating = true;
         public bool IsRepeating
         {
-            get
-            {
-                return false;
-            }
-            set
-            {
-            }
+            get { return _isRepeating; }
+            set { _isRepeating = value; }
         }
+        bool _isShuffled = false;
         public bool IsShuffled
         {
-            get
-            {
-                return false;
-            }
+            get { return _isShuffled; }
             set
             {
+                _isShuffled = value;
+                SetOrderedSongQueue();
             }
         }
+        MediaState _state = MediaState.Stopped;
         public MediaState State
+        {
+            get { return _state; }
+            protected set { _state = value; }
+        }
+
+        public Song CurrentSong
         {
             get
             {
-                return MediaState.Stopped;
+                if (_playIndex >= _orderedSongQueue.Count)
+                {
+                    _playIndex = -1;
+                }
+
+                if (_playIndex < 0)
+                {
+                    return null;
+                }
+
+                return _orderedSongQueue[_playIndex];
             }
         }
+
+        void SetSongQueue(IEnumerable<ISong> songs)
+        {
+            _songQueue = songs.Cast<Song>().ToList();
+            SetOrderedSongQueue();
+            _playIndex = 0;
+        }
+        void SetOrderedSongQueue()
+        {
+            var current = CurrentSong;
+            _orderedSongQueue.Clear();
+            _orderedSongQueue.AddRange(_songQueue);
+            if (IsShuffled)
+            {
+                _orderedSongQueue.Shuffle();
+            }
+
+            if (current != null)
+            {
+                _playIndex = _orderedSongQueue.IndexOf(current);
+            }
+            else
+            {
+                _playIndex = 0;
+            }
+        }
+
         public IEnumerable<ISong> SongQueue
         {
             get
             {
-                return new ISong[0];
+                return _songQueue.ToList();
             }
+        }
+
+        ALSourceState _lastState = ALSourceState.Stopped;
+        public void Update(GameTime gameTime)
+        {
+            int state;
+            AL.GetSource(_source, ALGetSourcei.SourceState, out state);
+            if (_lastState == ALSourceState.Playing &&
+                (ALSourceState)state == ALSourceState.Stopped)
+            {
+                _playIndex++;
+                if (_playIndex >= _orderedSongQueue.Count)
+                {
+                    if (IsRepeating && _orderedSongQueue.Count > 0)
+                    {
+                        if (IsShuffled)
+                        {
+                            _orderedSongQueue.Shuffle();
+                        }
+
+                        _playIndex = 0;
+                        // play next song
+                        PlayInternal(_orderedSongQueue[_playIndex]);
+                    }
+                    else
+                    {
+                        // stop
+                        Stop();
+                    }
+                }
+                else
+                {
+                    // play next song
+                    PlayInternal(_orderedSongQueue[_playIndex]);
+                }
+            }
+
+            _lastState = (ALSourceState)state;
+        }
+
+        void PlayInternal(Song song)
+        {
+            MakeReady();
+            _playIndex = _orderedSongQueue.IndexOf(song);
+            song.Play(_source);
+        }
+
+        void MakeReady()
+        {
+            if (isReady) return;
+
+            // create new AL source
+            _source = AL.GenSource();
+
+            isReady = true;
         }
     }
 }

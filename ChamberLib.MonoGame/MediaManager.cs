@@ -32,10 +32,6 @@ namespace ChamberLib
             set { XMediaPlayer.Volume = value; }
         }
 
-        public void Play(ISong song)
-        {
-            Play(new [] { song }, 0);
-        }
         public void Play(IEnumerable<ISong> songs, int index=0)
         {
             Stop();
@@ -66,7 +62,7 @@ namespace ChamberLib
             get { return XMediaPlayer.IsMuted; }
             set { XMediaPlayer.IsMuted = value; }
         }
-        bool _isRepeating = false;
+        bool _isRepeating = true;
         public bool IsRepeating
         {
             get { return _isRepeating; }

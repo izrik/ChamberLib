@@ -15,12 +15,19 @@ namespace ChamberLib
 
         IEnumerable<ISong> SongQueue { get; }
 
-        void Play(ISong song);
         void Play(IEnumerable<ISong> songs, int index = 0);
         void Pause();
         void Resume();
         void Stop();
 
+    }
+
+    public static class MediaManagerHelper
+    {
+        public static void Play(this IMediaManager mediaManager, ISong song)
+        {
+            mediaManager.Play(new [] { song }, 0);
+        }
     }
 }
 

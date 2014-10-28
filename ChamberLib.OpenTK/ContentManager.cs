@@ -59,7 +59,8 @@ namespace ChamberLib
             }
             if (typeof(T) == typeof(ISong))
             {
-                return (T)(object)new Song();
+                var soundEffect = (SoundEffect)LoadInternal<ISoundEffect>(name, param);
+                return (T)(object)new Song(soundEffect);
             }
             if (typeof(T) == typeof(ISoundEffect))
             {
@@ -86,7 +87,7 @@ namespace ChamberLib
 
                 var stream = File.Open(contentName, FileMode.Open);
 
-                return (T)(object)new SoundEffect(stream);
+                return (T)(object)new SoundEffect(name, stream);
             }
             if (typeof(T) == typeof(ITexture2D))
             {

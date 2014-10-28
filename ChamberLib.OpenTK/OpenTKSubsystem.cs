@@ -17,6 +17,7 @@ namespace ChamberLib
             Action<GameTime> onRenderFrameMethod=null,
             Action<GameTime> onUpdateFrameMethod=null)
         {
+
             _media = new MediaManager();
 
             Window = new ChamberGameWindow(
@@ -24,9 +25,9 @@ namespace ChamberLib
                 height: 480,
                 major: openglMajorVersion,
                 minor: openglMinorVersion,
-                onLoadMethod: onLoadMethod,
-                onRenderFrameMethod: onRenderFrameMethod,
-                onUpdateFrameMethod: onUpdateFrameMethod);
+                onLoadMethod: Load + onLoadMethod,
+                onRenderFrameMethod: Render + onRenderFrameMethod,
+                onUpdateFrameMethod: Update + onUpdateFrameMethod);
 
             _renderer = new Renderer(this);
             _content = new ContentManager(_renderer);
@@ -86,6 +87,20 @@ namespace ChamberLib
         {
             Window.Run();
         }
+
+        void Load()
+        {
+        }
+
+        void Update(GameTime gameTime)
+        {
+            _media.Update(gameTime);
+        }
+
+        void Render(GameTime gameTime)
+        {
+        }
+
         public void Exit()
         {
             Window.Exit();
