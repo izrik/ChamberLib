@@ -40,6 +40,9 @@
     <Reference Include="NAudio">
       <HintPath>..\..\packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
     </Reference>
+    <Reference Include="NVorbis">
+      <HintPath>..\..\packages\NVorbis.0.8.3.0\lib\NVorbis.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

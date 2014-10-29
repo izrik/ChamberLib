@@ -67,18 +67,27 @@ namespace ChamberLib
                 if (File.Exists(contentName))
                 {
                 }
-                if (File.Exists(contentName + ".wav"))
+                else if (File.Exists(contentName + ".wav"))
                 {
                     contentName += ".wav";
+                }
+                else if (File.Exists(contentName + ".ogg"))
+                {
+                    contentName += ".ogg";
                 }
                 else
                 {
                     throw new FileNotFoundException("The sound file could not be found.", contentName);
                 }
 
+                SoundEffect.FileFormat format;
                 if (contentName.ToLower().EndsWith(".wav"))
                 {
-                    // type = wav
+                    format = SoundEffect.FileFormat.Wav;
+                }
+                else if (contentName.ToLower().EndsWith(".ogg"))
+                {
+                    format = SoundEffect.FileFormat.Ogg;
                 }
                 else
                 {
@@ -87,7 +96,7 @@ namespace ChamberLib
 
                 var stream = File.Open(contentName, FileMode.Open);
 
-                return (T)(object)new SoundEffect(name, stream);
+                return (T)(object)new SoundEffect(name, stream, format);
             }
             if (typeof(T) == typeof(ITexture2D))
             {
