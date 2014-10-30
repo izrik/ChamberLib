@@ -3,6 +3,7 @@ using System.IO;
 using NAudio.Wave;
 using OpenTK.Audio.OpenAL;
 using NVorbis;
+using System.Diagnostics;
 
 namespace ChamberLib
 {
@@ -30,25 +31,32 @@ namespace ChamberLib
                     if (channels != 1 && channels != 2) throw new NotSupportedException("The sound format is not supported");
                     if (bitsPerSample != 8 && bitsPerSample != 16) throw new NotSupportedException("The sound format is not supported");
 
-                    int length = (int)(wfr.BlockAlign * (wfr.Length / wfr.BlockAlign));
+                    int length = (int)(wfr.BlockAlign * (wfr.Length / wfr.BlockAlign)); //TODO: length might be more than MAX_INT
                     _audioData = new byte[length];
-                    wfr.Read(_audioData, 0, length); //TODO: remaining data might be more than MAX_INT
-
+                    wfr.Read(_audioData, 0, length);
                     break;
 
                 case FileFormat.Ogg:
                     var reader = new VorbisReader(_stream, false);
+
                     _numChannels = reader.Channels;
                     _bitsPerSample = 16;
                     _samplesPerSecond = reader.SampleRate;
-                    var numSamples = (int)(reader.TotalSamples*_numChannels); //TODO: samples might be more than MAX_INT
+
+                    if (channels != 1 && channels != 2) throw new NotSupportedException("The sound format is not supported");
+                    if (bitsPerSample != 8 && bitsPerSample != 16) throw new NotSupportedException("The sound format is not supported");
+
+                    var numSamples = (int)(reader.TotalSamples * _numChannels); //TODO: samples might be more than MAX_INT
                     float[] buffer1 = new float[numSamples];
+                    int time1 = Environment.TickCount;
                     int numSamplesRead = reader.ReadSamples(buffer1, 0, numSamples);
+                    int time2 = Environment.TickCount;
                     if (numSamplesRead != numSamples)
                     {
-                        Console.WriteLine("numSamplesRead does not match numSamples - {0}", name);
+                        Debug.WriteLine("numSamplesRead does not match numSamples - {0}", name);
                     }
                     _audioData = new byte[numSamples * 2];
+                    // convert from float to short
                     int i;
                     for (i = 0; i < numSamples; i++)
                     {
@@ -56,6 +64,7 @@ namespace ChamberLib
                         _audioData[2 * i + 0] = (byte)(sample & 0xff);
                         _audioData[2 * i + 1] = (byte)((sample & 0xff00) >> 8);
                     }
+                    int time3 = Environment.TickCount;
                     break;
 
                 default:
