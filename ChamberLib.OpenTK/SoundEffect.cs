@@ -43,8 +43,8 @@ namespace ChamberLib
                     _bitsPerSample = 16;
                     _samplesPerSecond = reader.SampleRate;
 
-                    if (channels != 1 && channels != 2) throw new NotSupportedException("The sound format is not supported");
-                    if (bitsPerSample != 8 && bitsPerSample != 16) throw new NotSupportedException("The sound format is not supported");
+                    if (_numChannels != 1 && _numChannels != 2) throw new NotSupportedException("The sound format is not supported");
+                    if (_bitsPerSample != 8 && _bitsPerSample != 16) throw new NotSupportedException("The sound format is not supported");
 
                     var numSamples = (int)(reader.TotalSamples * _numChannels); //TODO: samples might be more than MAX_INT
                     float[] buffer1 = new float[numSamples];
