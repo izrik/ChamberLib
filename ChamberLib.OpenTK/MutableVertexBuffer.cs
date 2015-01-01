@@ -1,37 +1,43 @@
 ﻿using System;
-using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
+using OpenTK.Graphics.OpenGL;
 using System.Linq;
 
 namespace ChamberLib
 {
-    public class VertexBuffer : IVertexBuffer
+    public class MutableVertexBuffer : IVertexBuffer
     {
         public int VertexBufferID { get; protected set; }
         public int VertexSizeInBytes { get; protected set; }
         public VertexAttribute[] VertexAttibutes { get; protected set; }
 
         bool IsReady = false;
-        public IVertex[] VertexData { get; protected set; }
 
-        public VertexBuffer(
-            IVertex[] vertexData,
+        public void SetVertexData<T>(
+            T[] vertexData,
             int vertexSizeInBytes,
             VertexAttribPointerType vertexAttributeComponentType,
             int numVertexAttributeComponents)
-            : this(
+            where T : struct
+        {
+            SetVertexData(
                 vertexData,
                 vertexSizeInBytes,
                 new VertexAttribute(
                     numVertexAttributeComponents,
-                    vertexAttributeComponentType))
-        {
+                    vertexAttributeComponentType));
         }
-        public VertexBuffer(
-            IVertex[] vertexData,
+        public void SetVertexData<T>(
+            T[] vertexData,
             int vertexSizeInBytes,
             params VertexAttribute[] attributes)
+            where T : struct
         {
+            if (!IsReady)
+            {
+                MakeReady();
+            }
+
             if (vertexData == null)
             {
                 throw new ArgumentNullException("vertexData");
@@ -60,7 +66,18 @@ namespace ChamberLib
                 }
             }
 
-            VertexData = vertexData;
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferID);
+            GLHelper.CheckError();
+
+            GL.BufferData<T>(BufferTarget.ArrayBuffer,
+                new IntPtr(vertexData.Length * vertexSizeInBytes),
+                vertexData,
+                BufferUsageHint.StaticDraw);
+            GLHelper.CheckError();
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GLHelper.CheckError();
+
             VertexSizeInBytes = vertexSizeInBytes;
             VertexAttibutes = attributes;
         }
@@ -70,103 +87,7 @@ namespace ChamberLib
             VertexBufferID = GL.GenBuffer();
             GLHelper.CheckError();
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferID);
-            GLHelper.CheckError();
-
-            if (VertexData[0] is Vertex_PBiBwNT)
-            {
-                Vertex_PBiBwNT[] vertexArray = VertexData.ConvertPBiBwNT();
-                GL.BufferData<Vertex_PBiBwNT>(BufferTarget.ArrayBuffer,
-                    new IntPtr(VertexData.Length * VertexSizeInBytes),
-                    vertexArray,
-                    BufferUsageHint.StaticDraw);
-                GLHelper.CheckError();
-            }
-            else
-            if (VertexData[0] is Vertex_PN)
-            {
-                Vertex_PN[] vertexArray = VertexData.ConvertPN();
-                GL.BufferData<Vertex_PN>(BufferTarget.ArrayBuffer,
-                    new IntPtr(VertexData.Length * VertexSizeInBytes),
-                    vertexArray,
-                    BufferUsageHint.StaticDraw);
-                GLHelper.CheckError();
-            }
-            else
-            if (VertexData[0] is Vertex_PNT)
-            {
-                Vertex_PNT[] vertexArray = VertexData.ConvertPNT();
-                GL.BufferData<Vertex_PNT>(BufferTarget.ArrayBuffer,
-                    new IntPtr(VertexData.Length * VertexSizeInBytes),
-                    vertexArray,
-                    BufferUsageHint.StaticDraw);
-                GLHelper.CheckError();
-            }
-            else
-            if (VertexData[0] is Vertex_PNTT)
-            {
-                Vertex_PNTT[] vertexArray = VertexData.ConvertPNTT();
-                GL.BufferData<Vertex_PNTT>(BufferTarget.ArrayBuffer,
-                    new IntPtr(VertexData.Length * VertexSizeInBytes),
-                    vertexArray,
-                    BufferUsageHint.StaticDraw);
-                GLHelper.CheckError();
-            }
-            else
-            {
-                throw new InvalidOperationException(
-                                string.Format(
-                                    "Unknown vertex type: {0}",
-                                    VertexData[0].GetType().Name));
-            }
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            GLHelper.CheckError();
-
             IsReady = true;
-        }
-
-        public static VertexBuffer FromArray(IVertex[] vertexes)
-        {
-            if (vertexes[0] is Vertex_PBiBwNT)
-            {
-                var size = Marshal.SizeOf(typeof(Vertex_PBiBwNT));
-                return new VertexBuffer(vertexes, size,
-                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 0),
-                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 3),
-                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 4),
-                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 1),
-                    new VertexAttribute(2, VertexAttribPointerType.Float, attributeIndex: 2));
-            }
-
-            if (vertexes[0] is Vertex_PN)
-            {
-                var size = Marshal.SizeOf(typeof(Vertex_PN));
-                return new VertexBuffer(vertexes, size,
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(3, VertexAttribPointerType.Float));
-            }
-
-            if (vertexes[0] is Vertex_PNT)
-            {
-                var size = Marshal.SizeOf(typeof(Vertex_PNT));
-                return new VertexBuffer(vertexes, size,
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(2, VertexAttribPointerType.Float));
-            }
-
-            if (vertexes[0] is Vertex_PNTT)
-            {
-                var size = Marshal.SizeOf(typeof(Vertex_PNTT));
-                return new VertexBuffer(vertexes, size,
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(2, VertexAttribPointerType.Float),
-                    new VertexAttribute(2, VertexAttribPointerType.Float));
-            }
-
-            throw new InvalidOperationException();
         }
 
         public void Apply()
@@ -184,6 +105,60 @@ namespace ChamberLib
         {
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             GLHelper.CheckError();
+        }
+
+        public static MutableVertexBuffer FromArray(IVertex[] vertexes)
+        {
+            var vb = new MutableVertexBuffer();
+
+            if (vertexes[0] is Vertex_PBiBwNT)
+            {
+                var size = Marshal.SizeOf(typeof(Vertex_PBiBwNT));
+                var data = vertexes.Cast<Vertex_PBiBwNT>().ToArray();
+
+                vb.SetVertexData(data, size,
+                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 0),
+                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 3),
+                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 4),
+                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 1),
+                    new VertexAttribute(2, VertexAttribPointerType.Float, attributeIndex: 2));
+            }
+            else
+            if (vertexes[0] is Vertex_PN)
+            {
+                var size = Marshal.SizeOf(typeof(Vertex_PN));
+                var data = vertexes.Cast<Vertex_PN>().ToArray();
+                vb.SetVertexData(data, size,
+                    new VertexAttribute(3, VertexAttribPointerType.Float),
+                    new VertexAttribute(3, VertexAttribPointerType.Float));
+            }
+            else
+            if (vertexes[0] is Vertex_PNT)
+            {
+                var size = Marshal.SizeOf(typeof(Vertex_PNT));
+                var data = vertexes.Cast<Vertex_PNT>().ToArray();
+                vb.SetVertexData(data, size,
+                    new VertexAttribute(3, VertexAttribPointerType.Float),
+                    new VertexAttribute(3, VertexAttribPointerType.Float),
+                    new VertexAttribute(2, VertexAttribPointerType.Float));
+            }
+            else
+            if (vertexes[0] is Vertex_PNTT)
+            {
+                var size = Marshal.SizeOf(typeof(Vertex_PNTT));
+                var data = vertexes.Cast<Vertex_PNTT>().ToArray();
+                vb.SetVertexData(data, size, 
+                    new VertexAttribute(3, VertexAttribPointerType.Float),
+                    new VertexAttribute(3, VertexAttribPointerType.Float),
+                    new VertexAttribute(2, VertexAttribPointerType.Float),
+                    new VertexAttribute(2, VertexAttribPointerType.Float));
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+
+            return vb;
         }
     }
 }

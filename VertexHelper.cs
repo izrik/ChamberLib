@@ -98,5 +98,42 @@ namespace ChamberLib
             }
             return values.ToArray();
         }
+
+        public static Vertex_PBiBwNT[] ConvertPBiBwNT(this IVertex[] array)
+        {
+            return Array.ConvertAll<IVertex, Vertex_PBiBwNT>(array, v => new Vertex_PBiBwNT {
+                Position = v.GetPosition(),
+                BlendIndices = v.GetBlendIndices(),
+                BlendWeights = v.GetBlendWeights(),
+                Normal = v.GetNormal(),
+                TextureCoords = v.GetTextureCoords(),
+            });
+        }
+
+        public static Vertex_PN[] ConvertPN(this IVertex[] array)
+        {
+            return Array.ConvertAll<IVertex, Vertex_PN>(array, v => new Vertex_PN {
+                Position = v.GetPosition(),
+                Normal = v.GetNormal(),
+            });
+        }
+
+        public static Vertex_PNT[] ConvertPNT(this IVertex[] array)
+        {
+            return Array.ConvertAll<IVertex, Vertex_PNT>(array, v => new Vertex_PNT {
+                Position = v.GetPosition(),
+                Normal = v.GetNormal(),
+                TextureCoords = v.GetTextureCoords(),
+            });
+        }
+
+        public static Vertex_PNTT[] ConvertPNTT(this IVertex[] array)
+        {
+            return Array.ConvertAll<IVertex, Vertex_PNTT>(array, v => new Vertex_PNTT {
+                Position = v.GetPosition(),
+                Normal = v.GetNormal(),
+                TextureCoords = v.GetTextureCoords(),
+            });
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using ChamberLib;
 using System.Linq;
+using System.IO;
 
 namespace ChamberLib
 {
@@ -61,6 +62,36 @@ namespace ChamberLib
         {
             var fs = s.Split(' ').Select(ss => float.Parse(ss)).ToArray();
             return new Vector4(fs[0], fs[1], fs[2], fs[3]);
+        }
+
+        public static void WriteMatrix(TextWriter writer, Matrix mat, bool isComment=false, string prefix="")
+        {
+            if (prefix == null)
+            {
+                prefix = "";
+            }
+            string prefix2 = ( (prefix.Trim() != "") ? prefix + " " : prefix );
+
+            if (isComment)
+            {
+                writer.Write("# {0}", prefix2);
+            }
+
+            writer.WriteLine(ImportExportHelper.Convert(mat));
+            Vector3 scale;
+            Quaternion rotation;
+            Vector3 translation;
+            mat.Decompose(out scale, out rotation, out translation);
+            writer.WriteLine("# {0}Scale:", prefix2);
+            writer.WriteLine("#   {0:E2}", scale);
+            writer.WriteLine("# {0}Rotation:", prefix2);
+            writer.WriteLine("#   {0:E2}", rotation);
+            writer.WriteLine("# {0}Rotation axis:", prefix2);
+            writer.WriteLine("#   {0:E2}", rotation.ToAxisAngle().ToVectorXYZ());
+            writer.WriteLine("# {0}Rotation angle:", prefix2);
+            writer.WriteLine("#   {0:E2}", rotation.ToAxisAngle().W);
+            writer.WriteLine("# {0}Translation:", prefix2);
+            writer.WriteLine("#   {0:E2}", translation);
         }
     }
 }

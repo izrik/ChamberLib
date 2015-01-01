@@ -26,13 +26,37 @@ namespace ChamberLib
         public XDevice Device;
         public XContentManager Manager;
 
+
         readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
-        public T Load<T>(string name, object param=null)
+
+        public IModel LoadModel(string name, string relativeTo=null)
         {
-            if (_cache.ContainsKey(name))
-            {
-                return (T)_cache[name];
-            }
+            return this.Load<IModel>(name);
+        }
+        public ITexture2D LoadTexture2D(string name, string relativeTo=null)
+        {
+            return this.Load<ITexture2D>(name);
+        }
+        public IFont LoadFont(string name, string relativeTo=null)
+        {
+            return this.Load<IFont>(name);
+        }
+        public ISong LoadSong(string name, string relativeTo=null)
+        {
+            return this.Load<ISong>(name);
+        }
+        public ISoundEffect LoadSoundEffect(string name, string relativeTo=null)
+        {
+            return this.Load<ISoundEffect>(name);
+        }
+        public IShader LoadShader(string name, string relativeTo=null, object param=null)
+        {
+            throw new NotImplementedException();
+        }
+
+        T Load<T>(string name, object param=null)
+        {
+            if (_cache.ContainsKey(name)) return (T)_cache[name];
 
             var x = LoadInternal<T>(name, param);
             _cache[name] = x;

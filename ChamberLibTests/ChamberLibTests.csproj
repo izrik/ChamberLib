@@ -38,8 +38,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test.cs" />
     <Compile Include="RayTest.cs" />
+    <Compile Include="MatrixTest.cs" />
+    <Compile Include="Vector3Test.cs" />
+    <Compile Include="ViewportTest.cs" />
+    <Compile Include="QuaternionTest.cs" />
+    <Compile Include="FrustumTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

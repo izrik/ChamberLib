@@ -45,54 +45,20 @@ namespace ChamberLib
 
         #endregion
 
-        static string GetContentFilename(string name)
+        public static ITexture2D LoadTextureFromFile(string filename)
         {
-            return Path.Combine("Content.OpenTK", name).Replace('\\', '/');
-        }
+            if (String.IsNullOrEmpty(filename)) throw new ArgumentException(filename);
 
-        public static ITexture2D LoadTextureFromFile(string name)
-        {
-            if (String.IsNullOrEmpty(name)) throw new ArgumentException(name);
-
-            string contentName = GetContentFilename(name);
-
-            if (texturesByName.ContainsKey(contentName))
+            if (texturesByName.ContainsKey(filename))
             {
-                return texturesByName[contentName];
-            }
-
-            string filename;
-
-            if (File.Exists(contentName))
-            {
-                filename = contentName;
-            }
-            else if (File.Exists(contentName + ".png"))
-            {
-                filename = contentName + ".png";
-            }
-            else if (File.Exists(contentName + ".jpg"))
-            {
-                filename = contentName + ".jpg";
-            }
-            else if (File.Exists(contentName + ".gif"))
-            {
-                filename = contentName + ".gif";
-            }
-            else if (File.Exists(contentName + ".bmp"))
-            {
-                filename = contentName + ".bmp";
-            }
-            else
-            {
-                throw new FileNotFoundException("Could not fine texture file", contentName);
+                return texturesByName[filename];
             }
 
             var bmp = new Bitmap(filename);
 
             var texture = new TextureAdapter(bmp);
 
-            texturesByName[contentName] = texture;
+            texturesByName[filename] = texture;
 
             return texture;
         }

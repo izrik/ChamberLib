@@ -4,7 +4,13 @@ namespace ChamberLib
 {
     public interface IContentManager
     {
-        T Load<T>(string name, object param=null);
+        IModel LoadModel(string name, string relativeTo=null);
+        ITexture2D LoadTexture2D(string name, string relativeTo=null);
+        IFont LoadFont(string name, string relativeTo=null);
+        ISong LoadSong(string name, string relativeTo=null);
+        ISoundEffect LoadSoundEffect(string name, string relativeTo=null);
+        IShader LoadShader(string name, string relativeTo=null, object bindattrs=null);
+
         string LookupObjectName(object o);
 
         ITexture2D CreateTexture(int width, int height, Color[] data);
@@ -12,36 +18,59 @@ namespace ChamberLib
 
     public static class IContentManagerHelper
     {
-        public static T LoadIfNotNull<T>(this IContentManager content, string name)
+        public static IModel LoadModelIfNotNull(this IContentManager content, string name)
         {
             if (name != null)
             {
-                return content.Load<T>(name);
+                return content.LoadModel(name);
             }
 
-            return default(T);
+            return null;
         }
+        public static ITexture2D LoadTexture2DIfNotNull(this IContentManager content, string name)
+        {
+            if (name != null)
+            {
+                return content.LoadTexture2D(name);
+            }
 
+            return null;
+        }
+        public static IFont LoadFontIfNotNull(this IContentManager content, string name)
+        {
+            if (name != null)
+            {
+                return content.LoadFont(name);
+            }
 
-        public static IModel LoadModel(this IContentManager content, string name)
-        {
-            return content.Load<IModel>(name);
+            return null;
         }
-        public static ITexture2D LoadTexture2D(this IContentManager content, string name)
+        public static ISong LoadSongIfNotNull(this IContentManager content, string name)
         {
-            return content.Load<ITexture2D>(name);
+            if (name != null)
+            {
+                return content.LoadSong(name);
+            }
+
+            return null;
         }
-        public static IFont LoadFont(this IContentManager content, string name)
+        public static ISoundEffect LoadSoundEffectIfNotNull(this IContentManager content, string name)
         {
-            return content.Load<IFont>(name);
+            if (name != null)
+            {
+                return content.LoadSoundEffect(name);
+            }
+
+            return null;
         }
-        public static ISong LoadSong(this IContentManager content, string name)
+        public static IShader LoadShaderIfNotNull(this IContentManager content, string name)
         {
-            return content.Load<ISong>(name);
-        }
-        public static ISoundEffect LoadSoundEffect(this IContentManager content, string name)
-        {
-            return content.Load<ISoundEffect>(name);
+            if (name != null)
+            {
+                return content.LoadShader(name);
+            }
+
+            return null;
         }
     }
 }

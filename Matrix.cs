@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ChamberLib
 {
@@ -8,6 +10,11 @@ namespace ChamberLib
                                                             0,1,0,0,
                                                             0,0,1,0,
                                                             0,0,0,1);
+
+        public static readonly Matrix Zero = new Matrix(0,0,0,0,
+                                                        0,0,0,0,
+                                                        0,0,0,0,
+                                                        0,0,0,0);
 
         public Matrix(
             float m11, float m12, float m13, float m14,
@@ -212,22 +219,139 @@ namespace ChamberLib
                 0, 0, 0, 1);
         }
 
-        public float M11;
-        public float M12;
-        public float M13;
-        public float M14;
-        public float M21;
-        public float M22;
-        public float M23;
-        public float M24;
-        public float M31;
-        public float M32;
-        public float M33;
-        public float M34;
-        public float M41;
-        public float M42;
-        public float M43;
-        public float M44;
+        public static Matrix Compose(Vector3 scale, Quaternion rotation, Vector3 translation)
+        {
+            var sm = Matrix.CreateScale(scale);
+            var rm = Matrix.CreateFromQuaternion(rotation);
+            var tm = Matrix.CreateTranslation(translation);
+            return sm * rm * tm;
+        }
+
+        public void Decompose(out Vector3 scale, out Quaternion rotation, out Vector3 translation)
+        {
+            var m = this;
+
+            if (m.EnumerateValuesRowMajor().Any(f => float.IsNaN(f)))
+            {
+                translation = new Vector3(float.NaN, float.NaN, float.NaN);
+                rotation = new Quaternion(float.NaN, float.NaN, float.NaN, float.NaN);
+                scale = new Vector3(float.NaN, float.NaN, float.NaN);
+                return;
+            }
+
+            translation = new Vector3(m.M41, m.M42, m.M43);
+            m = new Matrix(
+                m.M11, m.M12, m.M13, m.M14,
+                m.M21, m.M22, m.M23, m.M24,
+                m.M31, m.M32, m.M33, m.M34,
+                0, 0, 0, m.M44);
+
+            scale = new Vector3(
+                m.Transform(Vector3.UnitX).Length(),
+                m.Transform(Vector3.UnitY).Length(),
+                m.Transform(Vector3.UnitZ).Length());
+
+            var s = Matrix.CreateScale(scale).Inverted();
+
+            m = m * s;
+
+            if (m.EnumerateValuesRowMajor().Any(f => float.IsNaN(f)))
+            {
+                rotation = new Quaternion(float.NaN, float.NaN, float.NaN, float.NaN);
+                scale = new Vector3(float.NaN, float.NaN, float.NaN);
+            }
+
+            rotation = Quaternion.FromRotationMatrix(m);
+        }
+        public Tuple<Vector3, Quaternion, Vector3> Decompose()
+        {
+            Vector3 translation;
+            Quaternion rotation;
+            Vector3 scale;
+
+            this.Decompose(out scale, out rotation, out translation);
+
+            return new Tuple<Vector3, Quaternion, Vector3>(scale, rotation, translation);
+        }
+
+        public Vector3 DecomposedScale
+        {
+            get
+            {
+                return this.Decompose().Item1;
+            }
+        }
+        public Quaternion DecomposedRotation
+        {
+            get
+            {
+                return this.Decompose().Item2;
+            }
+        }
+        public Vector3 DecomposedTranslation
+        {
+            get
+            {
+                return this.Decompose().Item3;
+            }
+        }
+
+        public readonly float M11;
+        public readonly float M12;
+        public readonly float M13;
+        public readonly float M14;
+        public readonly float M21;
+        public readonly float M22;
+        public readonly float M23;
+        public readonly float M24;
+        public readonly float M31;
+        public readonly float M32;
+        public readonly float M33;
+        public readonly float M34;
+        public readonly float M41;
+        public readonly float M42;
+        public readonly float M43;
+        public readonly float M44;
+
+        public IEnumerable<float> EnumerateValuesRowMajor()
+        {
+            yield return M11;
+            yield return M12;
+            yield return M13;
+            yield return M14;
+            yield return M21;
+            yield return M22;
+            yield return M23;
+            yield return M24;
+            yield return M31;
+            yield return M32;
+            yield return M33;
+            yield return M34;
+            yield return M41;
+            yield return M42;
+            yield return M43;
+            yield return M44;
+        }
+
+        public IEnumerable<float> EnumerateValuesColumnMajor()
+        {
+            yield return M11;
+            yield return M21;
+            yield return M31;
+            yield return M41;
+            yield return M12;
+            yield return M22;
+            yield return M32;
+            yield return M42;
+            yield return M13;
+            yield return M23;
+            yield return M33;
+            yield return M43;
+            yield return M14;
+            yield return M24;
+            yield return M34;
+            yield return M44;
+        }
 
         public override bool Equals(object obj)
         {
@@ -238,9 +362,9 @@ namespace ChamberLib
 
             return
                 this.Column1 == b.Column1 &&
-            this.Column2 == b.Column2 &&
-            this.Column3 == b.Column3 &&
-            this.Column4 == b.Column4;
+                this.Column2 == b.Column2 &&
+                this.Column3 == b.Column3 &&
+                this.Column4 == b.Column4;
         }
 
         public override int GetHashCode()
@@ -301,7 +425,7 @@ namespace ChamberLib
             return Matrix.Invert(this);
         }
 
-        private float Determinant()
+        public float Determinant()
         {
             return 
                     M14*M23*M32*M41 - M13*M24*M32*M41 - M14*M22*M33*M41 + M12*M24*M33*M41+
@@ -329,6 +453,13 @@ namespace ChamberLib
                 m.M31 * s, m.M32 * s, m.M33 * s, m.M34 * s, 
                 m.M41 * s, m.M42 * s, m.M43 * s, m.M44 * s);
         }
+
+        // semantics for multiplication and transformation:
+        //
+        // if m1 and m2 are two Matrix'es, and v is a Vector3 or Vector4,
+        //  then (m1 * m2).Transform(v) is equivalent to
+        //  m2.Transform(m1.Transform(v)), which is to say, the vector
+        //  is transformed by m1 first, and then m2.
 
         public static Matrix operator * (Matrix a, Matrix b)
         {

@@ -165,13 +165,21 @@ namespace ChamberLib
 
             Shader.UnApply();
 
-            renderData = RenderBundle.Create<OpenTK.Vector2, short>(vertexData, vertexSizeInBytes, vertexAttributeComponentType,
-                numVertexAttributeComponents, indexData);
+            vertexBuffer = new MutableVertexBuffer();
+            vertexBuffer.SetVertexData(
+                vertexData,
+                vertexSizeInBytes,
+                vertexAttributeComponentType,
+                numVertexAttributeComponents);
+            indexBuffer = new IndexBuffer(indexData);
+            renderData = new RenderBundle(vertexBuffer, indexBuffer);
 
             IsReady = true;
         }
 
         static RenderBundle renderData;
+        static MutableVertexBuffer vertexBuffer;    // this needs to be Mutable because we're not using IVertex
+        static IIndexBuffer indexBuffer;
 
         static ShaderAdapter Shader;
 

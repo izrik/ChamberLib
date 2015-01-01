@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using ChamberLib;
 using XModel = Microsoft.Xna.Framework.Graphics.Model;
+using XMatrix = Microsoft.Xna.Framework.Matrix;
+using Xna = Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,9 +16,22 @@ namespace ChamberLib
         {
             using (var writer = new StreamWriter(filename))
             {
+                int k;
                 writer.WriteLine("Bones {0}", model.Bones.Count);
+                Func<ModelBone, int> getDepth = null;
+                getDepth = b => b.Parent == null ? 0 : getDepth((ModelBone)b.Parent) + 1;
                 foreach (var bone in model.Bones)
                 {
+                    writer.Write("# ");
+                    writer.Write(new String(' ', getDepth(bone) * 2));
+                    writer.WriteLine("{0} ({1})", bone.Name, bone.Parent==null ? "()" : bone.Parent.Name);
+                }
+                k = 0;
+                foreach (var bone in model.Bones)
+                {
+                    writer.WriteLine("######################");
+                    writer.WriteLine("# Bone {0,2} ############", k++);
+                    writer.WriteLine("######################");
                     WriteBone(writer, bone);
                 }
                 var vbuffersset = new HashSet<VertexBuffer>();
@@ -36,38 +51,81 @@ namespace ChamberLib
                 var ibuffers = ibuffersset.ToList();
                 var materials = materialsset.ToList();
                 writer.WriteLine("VertexBuffers {0}", vbuffers.Count);
+                k = 0;
                 foreach (var vb in vbuffers)
                 {
-                    WriteVertexBuffer(writer, vb);
+                    writer.WriteLine("######################");
+                    writer.WriteLine("# VertexBuffer {0,2} ####", k);
+                    writer.WriteLine("######################");
+                    WriteVertexBuffer(writer, vb, k);
+                    k++;
                 }
                 writer.WriteLine("IndexBuffers {0}", ibuffers.Count);
+                k = 0;
                 foreach (var ib in ibuffers)
                 {
-                    WriteIndexBuffer(writer, ib);
+                    writer.WriteLine("######################");
+                    writer.WriteLine("# IndexBuffer {0,2} #####", k);
+                    writer.WriteLine("######################");
+                    WriteIndexBuffer(writer, ib, k);
+                    k++;
                 }
                 writer.WriteLine("Materials {0}", materials.Count);
+                k = 0;
                 foreach (var mat in materials)
                 {
+                    writer.WriteLine("######################");
+                    writer.WriteLine("# Material {0,2} ########", k++);
+                    writer.WriteLine("######################");
                     WriteMaterial(writer, mat, content);
                 }
                 writer.WriteLine("Meshes {0}", model.Meshes.Count);
+                k = 0;
                 foreach (var mesh in model.Meshes)
                 {
+                    writer.WriteLine("######################");
+                    writer.WriteLine("# Mesh {0,2} ############", k++);
+                    writer.WriteLine("######################");
                     WriteMesh(writer, mesh, model, vbuffers, ibuffers, materials);
                 }
                 writer.WriteLine(model.Root != null ? model.Bones.IndexOf(model.Root) : -1);
+
+                writer.WriteLine("######################");
+                writer.WriteLine("# Animation Data    ##", k++);
+                writer.WriteLine("######################");
+                if (model.Tag == null)
+                {
+                    writer.WriteLine(false);
+                }
+                else if (!(model.Tag is AnimationData))
+                {
+                    writer.WriteLine(false);
+                    writer.WriteLine("# type: {0}", model.Tag.GetType().AssemblyQualifiedName);
+                }
+                else
+                {
+                    writer.WriteLine(true);
+                    var ad = model.Tag as AnimationData;
+                    var ae = new AnimationExporter();
+                    ae.ExportAnimationData(ad, writer, bones: model.Bones.Select(BoneAdapter.GetAdapter).ToList());
+                }
             }
         }
 
-        static void WriteBone(StreamWriter writer, ModelBone bone)
+        static void WriteMatrix(TextWriter writer, XMatrix mat)
+        {
+            ImportExportHelper.WriteMatrix(writer, mat.ToChamber());
+        }
+
+        static void WriteBone(TextWriter writer, ModelBone bone)
         {
             writer.WriteLine(bone.Name);
             writer.WriteLine(bone.Index);
             writer.WriteLine(bone.Parent != null ? bone.Parent.Index : -1);
-            writer.WriteLine(ImportExportHelper.Convert(bone.Transform.ToChamber()));
+            WriteMatrix(writer, bone.Transform);
         }
 
-        void WriteVertexBuffer(StreamWriter writer, VertexBuffer vb)
+        void WriteVertexBuffer(TextWriter writer, VertexBuffer vb, int bufferNumber)
         {
             writer.WriteLine(vb.Name);
             writer.WriteLine(vb.VertexCount);
@@ -126,78 +184,74 @@ namespace ChamberLib
             }
 
             writer.WriteLine(vertexType);
+            IVertex[] vertices = null;
             if (vertexType == 0)
             {
                 var vs = new Vertex_PBiBwNT[vb.VertexCount];
                 vb.GetData(vs);
-
-                foreach (var v in vs)
-                {
-                    var values = v.GetValues();
-                    foreach (var value in values)
-                    {
-                        writer.WriteLine(value);
-                    }
-                }
+                vertices = Array.ConvertAll(vs, (v) => (IVertex)v);
             }
             else if (vertexType == 1)
             {
                 var vs = new Vertex_PN[vb.VertexCount];
                 vb.GetData(vs);
-
-                foreach (var v in vs)
-                {
-                    var values = v.GetValues();
-                    foreach (var value in values)
-                    {
-                        writer.WriteLine(value);
-                    }
-                }
+                vertices = Array.ConvertAll(vs, (v) => (IVertex)v);
             }
             else if (vertexType == 2)
             {
                 var vs = new Vertex_PNT[vb.VertexCount];
                 vb.GetData(vs);
-
-                foreach (var v in vs)
-                {
-                    var values = v.GetValues();
-                    foreach (var value in values)
-                    {
-                        writer.WriteLine(value);
-                    }
-                }
+                vertices = Array.ConvertAll(vs, (v) => (IVertex)v);
             }
             else if (vertexType == 3)
             {
                 var vs = new Vertex_PNTT[vb.VertexCount];
                 vb.GetData(vs);
+                vertices = Array.ConvertAll(vs, (v) => (IVertex)v);
+            }
 
-                foreach (var v in vs)
+            int k = 0;
+            foreach (var v in vertices)
+            {
+                if (k % 100 == 0)
                 {
-                    var values = v.GetValues();
-                    foreach (var value in values)
-                    {
-                        writer.WriteLine(value);
-                    }
+                    writer.WriteLine("################################");
+                    writer.WriteLine("# VertexBuffer {0,2}, vertex {1,4} #", bufferNumber, k);
+                    writer.WriteLine("################################");
+                }
+                k++;
+
+                var values = v.GetValues();
+                foreach (var value in values)
+                {
+                    writer.WriteLine(value);
                 }
             }
         }
 
-        void WriteIndexBuffer(StreamWriter writer, IndexBuffer ib)
+        void WriteIndexBuffer(TextWriter writer, IndexBuffer ib, int bufferNumber)
         {
             writer.WriteLine(ib.IndexCount);
             writer.WriteLine(ib.IndexElementSize == IndexElementSize.SixteenBits ? "16" : "32");
             writer.WriteLine(ib.Name);
             var indexes = new short[ib.IndexCount];
             ib.GetData(indexes);
+            int k = 0;
             foreach (var index in indexes)
             {
+                if (k % 100 == 0)
+                {
+                    writer.WriteLine("##############################");
+                    writer.WriteLine("# IndexBuffer {0,2}, index {1,4} #", bufferNumber, k);
+                    writer.WriteLine("##############################");
+                }
+                k++;
+
                 writer.WriteLine(index);
             }
         }
 
-        void WriteMaterial(StreamWriter writer, Effect mat, IContentManager content)
+        void WriteMaterial(TextWriter writer, Effect mat, IContentManager content)
         {
             Texture2D texture;
             Vector3 diffuse;
@@ -251,7 +305,7 @@ namespace ChamberLib
             writer.WriteLine(shadername);
         }
 
-        void WriteMesh(StreamWriter writer, ModelMesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Effect> materials)
+        void WriteMesh(TextWriter writer, ModelMesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Effect> materials)
         {
             writer.WriteLine(mesh.Name);
             writer.WriteLine(mesh.ParentBone != null ? model.Bones.IndexOf(mesh.ParentBone) : -1);
@@ -262,7 +316,7 @@ namespace ChamberLib
             }
         }
 
-        void WriteMeshPart(StreamWriter writer, ModelMeshPart part, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Effect> materials)
+        void WriteMeshPart(TextWriter writer, ModelMeshPart part, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Effect> materials)
         {
             writer.WriteLine(part.Effect != null ? materials.IndexOf(part.Effect) : -1);
             writer.WriteLine(part.IndexBuffer != null ? ibuffers.IndexOf(part.IndexBuffer) : -1);

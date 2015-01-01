@@ -2,7 +2,7 @@
 
 namespace ChamberLib
 {
-    public struct Vector4
+    public struct Vector4 : IFormattable
     {
         public Vector4(float x, float y, float z, float w)
         {
@@ -153,6 +153,16 @@ namespace ChamberLib
         public override string ToString()
         {
             return string.Format("{{X:{0} Y:{1} Z:{2} W:{3}}}", X, Y, Z, W);
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return string.Format(
+                "{{X:{0} Y:{1} Z:{2} W:{3}}}",
+                X.ToString(format, formatProvider),
+                Y.ToString(format, formatProvider),
+                Z.ToString(format, formatProvider),
+                W.ToString(format, formatProvider));
         }
     }
 }

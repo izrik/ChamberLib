@@ -30,25 +30,15 @@ namespace ChamberLib
             }
         }
 
-        public IBone ParentBone
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IBone ParentBone { get; set; }
 
         #endregion
 
-        public void MakeReady(VertexBuffer[] vbs, IndexBuffer[] ibs)
+        public void MakeReady()
         {
             foreach (var part in Parts)
             {
-                part.MakeReady(vbs, ibs);
+                part.MakeReady();
             }
         }
     }
@@ -62,8 +52,6 @@ namespace ChamberLib
         public int VertexOffset;
         public int NumVertexes;
         public Material Material;
-        public int _vertexBufferIndex;
-        public int _indexBufferIndex;
 
         public RenderBundle RenderBundle;
 
@@ -78,11 +66,12 @@ namespace ChamberLib
             Material.UnApply();
         }
 
-        public void MakeReady(VertexBuffer[] vbs, IndexBuffer[] ibs)
+        public void MakeReady()
         {
-            Vertexes = vbs[_vertexBufferIndex];
-            Indexes = ibs[_indexBufferIndex];
-            RenderBundle = new RenderBundle(Vertexes, Indexes);
+            if (RenderBundle == null)
+            {
+                RenderBundle = new RenderBundle(Vertexes, Indexes);
+            }
         }
     }
 }

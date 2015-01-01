@@ -12,6 +12,8 @@ namespace ChamberLib
         static int _DrawLines3D_worldViewProjLocation;
         static int _DrawLines3D_fragmentColorLocation;
         static RenderBundle _DrawLines3D_renderData;
+        static MutableVertexBuffer _DrawLines3D_vertexBuffer;
+        static MutableIndexBuffer _DrawLines3D_indexBuffer;
 
         static void _DrawLines3D_MakeReady()
         {
@@ -52,24 +54,27 @@ namespace ChamberLib
                 new OpenTK.Vector3(0, 0, -1),
                 new OpenTK.Vector3(0, -1, 0),
             };
-            ushort[] indexes = { 
+            short[] indexes = { 
                 0, 1, 2, 3, 4, 5,
             };
 
-            _DrawLines3D_renderData = RenderBundle.Create<OpenTK.Vector3, ushort>(
+            _DrawLines3D_vertexBuffer = new MutableVertexBuffer();
+            _DrawLines3D_vertexBuffer.SetVertexData(
                 vertexes,
                 OpenTK.Vector3.SizeInBytes,
                 VertexAttribPointerType.Float,
-                3,
-                indexes);
+                3);
+            _DrawLines3D_indexBuffer = new MutableIndexBuffer();
+            _DrawLines3D_indexBuffer.SetIndexData(indexes);
+            _DrawLines3D_renderData = new RenderBundle(_DrawLines3D_vertexBuffer, _DrawLines3D_indexBuffer);
 
             _DrawLines3D_isReady = true;
         }
 
         static void _DrawLines3D_SetVertices(OpenTK.Vector3[] vertexes)
         {
-            _DrawLines3D_renderData.SetVertexData(vertexes, OpenTK.Vector3.SizeInBytes, VertexAttribPointerType.Float, 3);
-            _DrawLines3D_renderData.SetIndexData(Enumerable.Range(0, vertexes.Length).Select(i => (ushort)i).ToArray());
+            _DrawLines3D_vertexBuffer.SetVertexData(vertexes, OpenTK.Vector3.SizeInBytes, VertexAttribPointerType.Float, 3);
+            _DrawLines3D_indexBuffer.SetIndexData(Enumerable.Range(0, vertexes.Length).Select(i => (ushort)i).ToArray());
         }
 
         public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> vs)

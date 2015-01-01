@@ -3,37 +3,27 @@ using OpenTK.Graphics.OpenGL;
 
 namespace ChamberLib
 {
-    public class IndexBuffer : IIndexBuffer
+    public class MutableIndexBuffer : IIndexBuffer
     {
-        public IndexBuffer(short[] indexData)
+        public MutableIndexBuffer()
+        {
+            IndexBufferID = GL.GenBuffer();
+            GLHelper.CheckError();
+        }
+
+        public int IndexBufferID { get; protected set; }
+        public int IndexSizeInBytes { get; protected set; }
+        public DrawElementsType DrawElementsType { get; protected set; }
+
+        public void SetIndexData<T>(T[] indexData)
+            where T : struct
         {
             if (indexData == null)
             {
                 throw new ArgumentNullException("indexData");
             }
 
-            IndexData = indexData;
-        }
-
-        public int IndexBufferID;
-        public int IndexSizeInBytes { get; protected set; }
-        public DrawElementsType DrawElementsType;
-
-        public short[] IndexData;
-
-        public static IndexBuffer FromArray(short[] indexes)
-        {
-            var ib = new IndexBuffer(indexes);
-            return ib;
-        }
-
-        bool _isReady = false;
-        void MakeReady()
-        {
-            IndexBufferID = GL.GenBuffer();
-            GLHelper.CheckError();
-
-            var tindex = IndexData.GetType().GetElementType();// typeof(T);
+            var tindex = typeof(T);
             if (tindex == typeof(int) || tindex == typeof(uint))
             {
                 DrawElementsType = DrawElementsType.UnsignedInt;
@@ -63,23 +53,28 @@ namespace ChamberLib
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, IndexBufferID);
             GLHelper.CheckError();
 
-            GL.BufferData<short/*T*/>(BufferTarget.ElementArrayBuffer,
-                new IntPtr(IndexData.Length * IndexSizeInBytes),
-                IndexData, BufferUsageHint.StaticDraw);
+            GL.BufferData<T>(BufferTarget.ElementArrayBuffer,
+                new IntPtr(indexData.Length * IndexSizeInBytes),
+                indexData, BufferUsageHint.StaticDraw);
             GLHelper.CheckError();
 
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
             GLHelper.CheckError();
+        }
 
-            _isReady = true;
+        public static MutableIndexBuffer FromArray(short[] indexes)
+        {
+            var ib = new MutableIndexBuffer();
+            ib.SetIndexData(indexes);
+            return ib;
         }
 
         public void Apply()
         {
-            if (!_isReady)
-            {
-                MakeReady();
-            }
+//            if (!_isReady)
+//            {
+//                MakeReady();
+//            }
 
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, IndexBufferID);
             GLHelper.CheckError();

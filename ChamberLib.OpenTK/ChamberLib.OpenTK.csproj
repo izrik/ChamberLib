@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -48,7 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OpenTKSubsystem.cs" />
     <Compile Include="Renderer.cs" />
-    <Compile Include="ContentManager.cs" />
     <Compile Include="MediaManager.cs" />
     <Compile Include="GamePad.cs" />
     <Compile Include="Keyboard.cs" />
@@ -76,6 +75,16 @@
     <Compile Include="RenderBundle.cs" />
     <Compile Include="BuiltinShaders.cs" />
     <Compile Include="ColorHelper.cs" />
+    <Compile Include="ContentManager.cs" />
+    <Compile Include="AiModelLoader.cs" />
+    <Compile Include="QuaternionHelper.cs" />
+    <Compile Include="ChModelExporter.cs" />
+    <Compile Include="MutableVertexBuffer.cs" />
+    <Compile Include="IVertexBuffer.cs" />
+    <Compile Include="IAppliable.cs" />
+    <Compile Include="VertexAttribute.cs" />
+    <Compile Include="MutableIndexBuffer.cs" />
+    <Compile Include="IIndexBuffer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -86,6 +95,10 @@
     <ProjectReference Include="..\ChamberLib.csproj">
       <Project>{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}</Project>
       <Name>ChamberLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\assimp-net\AssimpNet\AssimpNet.csproj">
+      <Project>{3415FF29-C0BE-44FC-AD34-94796118E690}</Project>
+      <Name>AssimpNet</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -82,5 +82,32 @@ namespace ChamberLib
                 list[j] = temp;
             }
         }
+
+        public static IEnumerable<T> BreadthFirstTraversal<T>(T start, Func<T, IEnumerable<T>> getChildren)
+        {
+            var queue = new Queue<T>();
+            queue.Enqueue(start);
+            while (queue.Count > 0)
+            {
+                var item = queue.Dequeue();
+                yield return item;
+                foreach (var child in getChildren(item))
+                {
+                    queue.Enqueue(child);
+                }
+            }
+        }
+
+        public static IEnumerable<T> DepthFirstTraversal<T>(T start, Func<T, IEnumerable<T>> getChildren)
+        {
+            yield return start;
+            foreach (var child in getChildren(start))
+            {
+                foreach (var item in DepthFirstTraversal(child, getChildren))
+                {
+                    yield return item;
+                }
+            }
+        }
     }
 }

@@ -108,7 +108,10 @@ namespace ChamberLib
             if (_isShuffled)
             {
                 Shuffle(_queue, _shuffledQueue);
-                _currentShuffledIndex = _shuffledQueue.IndexOf(_queue[_currentIndex]);
+                if (_queue.Count > 0)
+                {
+                    _currentShuffledIndex = _shuffledQueue.IndexOf(_queue[_currentIndex]);
+                }
             }
             else
             {

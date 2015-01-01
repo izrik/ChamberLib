@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenTK.Graphics.OpenGL;
+using System.IO;
 
 namespace ChamberLib
 {
@@ -130,23 +131,22 @@ namespace ChamberLib
         public List<Bone> Bones = new List<Bone>();
         public Bone RootBone;
 
-        public List<short[]> _indexBufferContents = new List<short[]>();
-        public List<IVertex[]> _vertexBufferContents = new List<IVertex[]>();
+        public List<IndexBuffer> IndexBuffers = new List<IndexBuffer>();
+        public List<VertexBuffer> VertexBuffers = new List<VertexBuffer>();
+
         bool IsReady = false;
         void MakeReady()
         {
             if (IsReady) return;
 
-            var vertexBuffers = _vertexBufferContents.Select(array => VertexBuffer.FromArray(array)).ToArray();
-            var indexBuffers = _indexBufferContents.Select(array => IndexBuffer.FromArray(array)).ToArray();
-
             foreach (var mesh in Meshes)
             {
-                mesh.MakeReady(vertexBuffers, indexBuffers);
+                mesh.MakeReady();
             }
 
             IsReady = true;
         }
+        public string Filename;
     }
 }
 

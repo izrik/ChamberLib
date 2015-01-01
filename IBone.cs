@@ -5,6 +5,7 @@ namespace ChamberLib
 {
     public interface IBone
     {
+        string Name { get; set; }
         Matrix Transform { get; set; }
         int Index { get; set; }
 

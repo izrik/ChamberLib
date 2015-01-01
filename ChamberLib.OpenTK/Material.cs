@@ -10,6 +10,8 @@ namespace ChamberLib
             Alpha = 1;
         }
 
+        public string Name = "";
+
         public Vector3 Diffuse { get; set; }
         public Vector3 EmissiveColor { get; set; }
         public Vector3 SpecularColor { get; set; }

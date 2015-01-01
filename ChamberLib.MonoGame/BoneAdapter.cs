@@ -28,6 +28,12 @@ namespace ChamberLib
 
         public XBone Bone;
 
+        public string Name
+        {
+            get { return Bone.Name; }
+            set { Bone.Name = value; }
+        }
+
         public Matrix Transform
         {
             get { return Bone.Transform.ToChamber(); }

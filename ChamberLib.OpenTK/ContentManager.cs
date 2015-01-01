@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using System.Linq;
+using Assimp;
 
 namespace ChamberLib
 {
@@ -18,156 +19,200 @@ namespace ChamberLib
         public readonly Renderer Renderer;
 
         readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
-        public T Load<T>(string name, object param=null)
+
+        public IModel LoadModel(string name, string relativeTo=null)
         {
-            if (_cache.ContainsKey(name))
+            var resolvedFilename = ResolveFilename(name, relativeTo);
+            if (_cache.ContainsKey(resolvedFilename)) return (IModel)_cache[resolvedFilename];
+
+            var loader = new AiModelLoader(Renderer);
+            String[] importFormats = loader.GetSupportedImportFormats();
+            foreach (var ext in importFormats)
             {
-                return (T)_cache[name];
+                if (File.Exists(resolvedFilename + ext))
+                {
+                    var filename = resolvedFilename + ext;
+                    var model = loader.LoadModel(filename, this);
+
+                    _cache[resolvedFilename] = model;
+                    return model;
+                }
             }
 
-            var x = LoadInternal<T>(name, param);
-            _cache[name] = x;
-
-            var xl = (x as ILoadable);
-            if (xl != null)
+            if (File.Exists(resolvedFilename + ".chmodel"))
             {
-                xl.LoadContents(this);
-            }
-
-            return x;
-        }
-        T LoadInternal<T>(string name, object param)
-        {
-            var contentName = GetContentFilename(name);
-            if (typeof(T) == typeof(IModel))
-            {
-                name = GetContentFilename(name);
-                string filename;
-                if (File.Exists(name + ".chmodel"))
-                {
-                    filename = name + ".chmodel";
-                }
-                else
-                {
-                    throw new FileNotFoundException(name);
-                }
-
+                var filename = resolvedFilename + ".chmodel";
                 var mi = new ModelImporter();
                 var model = mi.ImportModel(filename, Renderer, this);
-
-                return (T)(object)model;
+                _cache[resolvedFilename] = model;
+                return model;
             }
-            if (typeof(T) == typeof(ISong))
+
+            throw new FileNotFoundException(name);
+        }
+
+        public ISong LoadSong(string name, string relativeTo=null)
+        {
+            var resolvedFilename = ResolveFilename(name, relativeTo);
+            if (_cache.ContainsKey(resolvedFilename)) return (ISong)_cache[resolvedFilename];
+            var soundEffect = (SoundEffect)LoadSoundEffect(name);
+            var song = new Song(soundEffect);
+            _cache[resolvedFilename] = song;
+            return song;
+        }
+
+        public ISoundEffect LoadSoundEffect(string name, string relativeTo=null)
+        {
+            var resolvedFilename = ResolveFilename(name, relativeTo);
+            if (_cache.ContainsKey(resolvedFilename)) return (ISoundEffect)_cache[resolvedFilename];
+
+            if (File.Exists(resolvedFilename))
             {
-                var soundEffect = (SoundEffect)LoadInternal<ISoundEffect>(name, param);
-                return (T)(object)new Song(soundEffect);
             }
-            if (typeof(T) == typeof(ISoundEffect))
+            else if (File.Exists(resolvedFilename + ".wav"))
             {
-                if (File.Exists(contentName))
-                {
-                }
-                else if (File.Exists(contentName + ".wav"))
-                {
-                    contentName += ".wav";
-                }
-                else if (File.Exists(contentName + ".ogg"))
-                {
-                    contentName += ".ogg";
-                }
-                else
-                {
-                    throw new FileNotFoundException("The sound file could not be found.", contentName);
-                }
-
-                SoundEffect.FileFormat format;
-                if (contentName.ToLower().EndsWith(".wav"))
-                {
-                    format = SoundEffect.FileFormat.Wav;
-                }
-                else if (contentName.ToLower().EndsWith(".ogg"))
-                {
-                    format = SoundEffect.FileFormat.Ogg;
-                }
-                else
-                {
-                    throw new IOException(string.Format("The file \"{0}\" is of an unknown type", contentName));
-                }
-
-                var stream = File.Open(contentName, FileMode.Open);
-
-                return (T)(object)new SoundEffect(name, stream, format);
+                resolvedFilename += ".wav";
             }
-            if (typeof(T) == typeof(ITexture2D))
+            else if (File.Exists(resolvedFilename + ".ogg"))
             {
-                return (T)(object)TextureAdapter.LoadTextureFromFile(name);
+                resolvedFilename += ".ogg";
             }
-            if (typeof(T) == typeof(IFont))
+            else
             {
-                return (T)(object)new FontAdapter();
+                throw new FileNotFoundException("The sound file could not be found.", resolvedFilename);
             }
-            if (typeof(T) == typeof(IShader))
+
+            SoundEffect.FileFormat format;
+            if (resolvedFilename.ToLower().EndsWith(".wav"))
             {
-                if (name == "$basic")
-                {
-                    return (T)(object)BuiltinShaders.BasicShader;
-                }
-                if (name == "$skinned")
-                {
-                    return (T)(object)BuiltinShaders.SkinnedShader;
-                }
+                format = SoundEffect.FileFormat.Wav;
+            }
+            else if (resolvedFilename.ToLower().EndsWith(".ogg"))
+            {
+                format = SoundEffect.FileFormat.Ogg;
+            }
+            else
+            {
+                throw new IOException(string.Format("The file \"{0}\" is of an unknown type", resolvedFilename));
+            }
 
-                string[] bindattrs=null;
-                if (param == null)
-                {
-                }
-                else if (param is IEnumerable<string>)
-                {
-                    bindattrs = (param as IEnumerable<string>).ToArray();
-                }
-                else
-                {
-                    throw new InvalidOperationException();
-                }
+            var stream = File.Open(resolvedFilename, FileMode.Open);
 
-                if (name.Contains(","))
-                {
-                    try
-                    {
-                        var parts = name.Split(',');
-                        var vert = GetContentFilename(parts[0]);
-                        var frag = GetContentFilename(parts[1]);
+            var se = new SoundEffect(name, stream, format);
+            _cache[resolvedFilename] = se;
+            return se;
+        }
 
-                        var vertexShaderSource = File.ReadAllText(vert);
-                        var fragmentShaderSource = File.ReadAllText(frag);
+        public ITexture2D LoadTexture2D(string name, string relativeTo=null)
+        {
+            var resolvedFilename = ResolveFilename(name, relativeTo);
+            if (_cache.ContainsKey(resolvedFilename)) return (ITexture2D)_cache[resolvedFilename];
 
-                        var shader = new ShaderAdapter(vs: vertexShaderSource, fs: fragmentShaderSource, bindAttributes: bindattrs);
-                        shader.Name = name;
-                        return (T)(object)shader;
-                    }
-                    catch (FileNotFoundException e)
-                    {
-                    }
-                }
+            string filename;
 
+            if (File.Exists(resolvedFilename))
+            {
+                filename = resolvedFilename;
+            }
+            else if (File.Exists(resolvedFilename + ".png"))
+            {
+                filename = resolvedFilename + ".png";
+            }
+            else if (File.Exists(resolvedFilename + ".jpg"))
+            {
+                filename = resolvedFilename + ".jpg";
+            }
+            else if (File.Exists(resolvedFilename + ".gif"))
+            {
+                filename = resolvedFilename + ".gif";
+            }
+            else if (File.Exists(resolvedFilename + ".bmp"))
+            {
+                filename = resolvedFilename + ".bmp";
+            }
+            else
+            {
+                throw new FileNotFoundException("Could not find texture file", resolvedFilename);
+            }
+
+            var texture = TextureAdapter.LoadTextureFromFile(filename);
+            _cache[resolvedFilename] = texture;
+            return texture;
+        }
+
+        public IFont LoadFont(string name, string relativeTo=null)
+        {
+            var resolvedFilename = ResolveFilename(name, relativeTo);
+            if (_cache.ContainsKey(resolvedFilename)) return (IFont)_cache[resolvedFilename];
+            var font = new FontAdapter();
+            _cache[resolvedFilename] = font;
+            return font;
+        }
+
+        public IShader LoadShader(string name, string relativeTo=null, object bindattrs=null)
+        {
+            if (name == "$basic")
+            {
+                return BuiltinShaders.BasicShader;
+            }
+            if (name == "$skinned")
+            {
+                return BuiltinShaders.SkinnedShader;
+            }
+
+            var resolvedFilename = ResolveFilename(name, relativeTo);
+            if (_cache.ContainsKey(resolvedFilename)) return (IShader)_cache[resolvedFilename];
+
+            string[] bindattrs2=null;
+            if (bindattrs == null)
+            {
+            }
+            else if (bindattrs is IEnumerable<string>)
+            {
+                bindattrs2 = (bindattrs as IEnumerable<string>).ToArray();
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (name.Contains(","))
+            {
                 try
                 {
-                    var vert = GetContentFilename(name + ".vert");
-                    var frag = GetContentFilename(name + ".frag");
+                    var parts = name.Split(',');
+                    var vert = ResolveFilename(parts[0], relativeTo);
+                    var frag = ResolveFilename(parts[1], relativeTo);
 
                     var vertexShaderSource = File.ReadAllText(vert);
                     var fragmentShaderSource = File.ReadAllText(frag);
 
-                    var shader = new ShaderAdapter(vs: vertexShaderSource, fs: fragmentShaderSource, bindAttributes: bindattrs);
+                    var shader = new ShaderAdapter(vs: vertexShaderSource, fs: fragmentShaderSource, bindAttributes: bindattrs2);
                     shader.Name = name;
-                    return (T)(object)shader;
+                    _cache[resolvedFilename] = shader;
+                    return shader;
                 }
-                finally
+                catch (FileNotFoundException e)
                 {
                 }
             }
 
-            return default(T);
+            try
+            {
+                var vert = ResolveFilename(name + ".vert", relativeTo);
+                var frag = ResolveFilename(name + ".frag", relativeTo);
+
+                var vertexShaderSource = File.ReadAllText(vert);
+                var fragmentShaderSource = File.ReadAllText(frag);
+
+                var shader = new ShaderAdapter(vs: vertexShaderSource, fs: fragmentShaderSource, bindAttributes: bindattrs2);
+                shader.Name = name;
+                _cache[resolvedFilename] = shader;
+                return shader;
+            }
+            finally
+            {
+            }
         }
 
         public string LookupObjectName(object o)
@@ -188,9 +233,18 @@ namespace ChamberLib
             return TextureAdapter.CreateTexture(width, height, data);
         }
 
-        static string GetContentFilename(string name)
+        public static string PathPrefix = "Content.OpenTK";
+        static string ResolveFilename(string filename, string relativeTo)
         {
-            return Path.Combine("Content.OpenTK", name).Replace('\\', '/');
+            if (Path.IsPathRooted(filename))
+                return filename;
+
+            string path = filename;
+            if (!string.IsNullOrWhiteSpace(PathPrefix))
+            {
+                path = Path.Combine(PathPrefix, filename);
+            }
+            return path.Replace('\\', '/');
         }
     }
 }

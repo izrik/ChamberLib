@@ -13,6 +13,8 @@ namespace ChamberLib
         static int _DrawLines2D_viewportSizeLocation;
         static int _DrawLines2D_fragmentColorLocation;
         static RenderBundle _DrawLines2D_renderData;
+        static MutableVertexBuffer _DrawLines2D_vertexData;
+        static MutableIndexBuffer _DrawLines2D_indexData;
 
         static void _DrawLines2D_MakeReady()
         {
@@ -55,24 +57,27 @@ namespace ChamberLib
                 OpenTK.Vector3.Zero,
                 OpenTK.Vector3.Zero,
             };
-            ushort[] indexes = { 
+            short[] indexes = { 
                 0, 1, 2, 3, 4, 5, 6, 7,
             };
 
-            _DrawLines2D_renderData = RenderBundle.Create<OpenTK.Vector3, ushort>(
-                                 vertexes,
-                                 OpenTK.Vector3.SizeInBytes,
-                                 VertexAttribPointerType.Float,
-                                 3,
-                                 indexes);
+            _DrawLines2D_vertexData = new MutableVertexBuffer();
+            _DrawLines2D_vertexData.SetVertexData(
+                vertexes,
+                OpenTK.Vector3.SizeInBytes,
+                VertexAttribPointerType.Float,
+                3);
+            _DrawLines2D_indexData = new MutableIndexBuffer();
+            _DrawLines2D_indexData.SetIndexData(indexes);
+            _DrawLines2D_renderData = new RenderBundle(_DrawLines2D_vertexData, _DrawLines2D_indexData);
 
             _DrawLines2D_isReady = true;
         }
 
         static void _DrawLines2D_SetVertices(OpenTK.Vector3[] vertexes)
         {
-            _DrawLines2D_renderData.SetVertexData(vertexes, OpenTK.Vector3.SizeInBytes, VertexAttribPointerType.Float, 3);
-            _DrawLines2D_renderData.SetIndexData(Enumerable.Range(0, vertexes.Length).Select(i => (ushort)i).ToArray());
+            _DrawLines2D_vertexData.SetVertexData(vertexes, OpenTK.Vector3.SizeInBytes, VertexAttribPointerType.Float, 3);
+            _DrawLines2D_indexData.SetIndexData(Enumerable.Range(0, vertexes.Length).Select(i => (ushort)i).ToArray());
         }
 
         public void DrawLines(Color color, IEnumerable<Vector2> vs)
