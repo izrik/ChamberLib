@@ -16,22 +16,28 @@ namespace ChamberLib
         {
             using (var writer = new StreamWriter(filename))
             {
-                int k;
                 writer.WriteLine("Bones {0}", model.Bones.Count);
-                Func<ModelBone, int> getDepth = null;
-                getDepth = b => b.Parent == null ? 0 : getDepth((ModelBone)b.Parent) + 1;
-                foreach (var bone in model.Bones)
+                if (ImportExportHelper.WriteComments)
                 {
-                    writer.Write("# ");
-                    writer.Write(new String(' ', getDepth(bone) * 2));
-                    writer.WriteLine("{0} ({1})", bone.Name, bone.Parent==null ? "()" : bone.Parent.Name);
+                    Func<ModelBone, int> getDepth = null;
+                    getDepth = b => b.Parent == null ? 0 : getDepth((ModelBone)b.Parent) + 1;
+                    foreach (var bone in model.Bones)
+                    {
+                        writer.Write("# ");
+                        writer.Write(new String(' ', getDepth(bone) * 2));
+                        writer.WriteLine("{0} ({1})", bone.Name, bone.Parent == null ? "()" : bone.Parent.Name);
+                    }
                 }
+                int k;
                 k = 0;
                 foreach (var bone in model.Bones)
                 {
-                    writer.WriteLine("######################");
-                    writer.WriteLine("# Bone {0,2} ############", k++);
-                    writer.WriteLine("######################");
+                    if (ImportExportHelper.WriteComments)
+                    {
+                        writer.WriteLine("######################");
+                        writer.WriteLine("# Bone {0,2} ############", k++);
+                        writer.WriteLine("######################");
+                    }
                     WriteBone(writer, bone);
                 }
                 var vbuffersset = new HashSet<VertexBuffer>();
@@ -54,9 +60,12 @@ namespace ChamberLib
                 k = 0;
                 foreach (var vb in vbuffers)
                 {
-                    writer.WriteLine("######################");
-                    writer.WriteLine("# VertexBuffer {0,2} ####", k);
-                    writer.WriteLine("######################");
+                    if (ImportExportHelper.WriteComments)
+                    {
+                        writer.WriteLine("######################");
+                        writer.WriteLine("# VertexBuffer {0,2} ####", k);
+                        writer.WriteLine("######################");
+                    }
                     WriteVertexBuffer(writer, vb, k);
                     k++;
                 }
@@ -64,9 +73,12 @@ namespace ChamberLib
                 k = 0;
                 foreach (var ib in ibuffers)
                 {
-                    writer.WriteLine("######################");
-                    writer.WriteLine("# IndexBuffer {0,2} #####", k);
-                    writer.WriteLine("######################");
+                    if (ImportExportHelper.WriteComments)
+                    {
+                        writer.WriteLine("######################");
+                        writer.WriteLine("# IndexBuffer {0,2} #####", k);
+                        writer.WriteLine("######################");
+                    }
                     WriteIndexBuffer(writer, ib, k);
                     k++;
                 }
@@ -74,25 +86,34 @@ namespace ChamberLib
                 k = 0;
                 foreach (var mat in materials)
                 {
-                    writer.WriteLine("######################");
-                    writer.WriteLine("# Material {0,2} ########", k++);
-                    writer.WriteLine("######################");
+                    if (ImportExportHelper.WriteComments)
+                    {
+                        writer.WriteLine("######################");
+                        writer.WriteLine("# Material {0,2} ########", k++);
+                        writer.WriteLine("######################");
+                    }
                     WriteMaterial(writer, mat, content);
                 }
                 writer.WriteLine("Meshes {0}", model.Meshes.Count);
                 k = 0;
                 foreach (var mesh in model.Meshes)
                 {
-                    writer.WriteLine("######################");
-                    writer.WriteLine("# Mesh {0,2} ############", k++);
-                    writer.WriteLine("######################");
+                    if (ImportExportHelper.WriteComments)
+                    {
+                        writer.WriteLine("######################");
+                        writer.WriteLine("# Mesh {0,2} ############", k++);
+                        writer.WriteLine("######################");
+                    }
                     WriteMesh(writer, mesh, model, vbuffers, ibuffers, materials);
                 }
                 writer.WriteLine(model.Root != null ? model.Bones.IndexOf(model.Root) : -1);
 
-                writer.WriteLine("######################");
-                writer.WriteLine("# Animation Data    ##", k++);
-                writer.WriteLine("######################");
+                if (ImportExportHelper.WriteComments)
+                {
+                    writer.WriteLine("######################");
+                    writer.WriteLine("# Animation Data    ##", k++);
+                    writer.WriteLine("######################");
+                }
                 if (model.Tag == null)
                 {
                     writer.WriteLine(false);
@@ -215,9 +236,12 @@ namespace ChamberLib
             {
                 if (k % 100 == 0)
                 {
-                    writer.WriteLine("################################");
-                    writer.WriteLine("# VertexBuffer {0,2}, vertex {1,4} #", bufferNumber, k);
-                    writer.WriteLine("################################");
+                    if (ImportExportHelper.WriteComments)
+                    {
+                        writer.WriteLine("################################");
+                        writer.WriteLine("# VertexBuffer {0,2}, vertex {1,4} #", bufferNumber, k);
+                        writer.WriteLine("################################");
+                    }
                 }
                 k++;
 
@@ -241,9 +265,12 @@ namespace ChamberLib
             {
                 if (k % 100 == 0)
                 {
-                    writer.WriteLine("##############################");
-                    writer.WriteLine("# IndexBuffer {0,2}, index {1,4} #", bufferNumber, k);
-                    writer.WriteLine("##############################");
+                    if (ImportExportHelper.WriteComments)
+                    {
+                        writer.WriteLine("##############################");
+                        writer.WriteLine("# IndexBuffer {0,2}, index {1,4} #", bufferNumber, k);
+                        writer.WriteLine("##############################");
+                    }
                 }
                 k++;
 

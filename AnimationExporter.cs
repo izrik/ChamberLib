@@ -15,7 +15,7 @@ namespace ChamberLib
                 ExportAnimationData(ad, writer);
             }
         }
-        public void ExportAnimationData(AnimationData ad, TextWriter writer, Action perAbsoluteTransformAction=null, List<IBone> bones=null)
+        public void ExportAnimationData(AnimationData ad, TextWriter writer, List<IBone> bones=null)
         {
             writer.WriteLine("Sequences {0}", ad.Sequences.Count);
             int k = 1;
@@ -29,13 +29,12 @@ namespace ChamberLib
                 int jj = seq.Frames.Length;
                 foreach (var f in seq.Frames)
                 {
-                    writer.WriteLine("###################################");
-                    writer.WriteLine("# Sequence {0,2}/{1,2}, frame {2,4}/{3,4} #",
-                        k,
-                        kk,
-                        j,
-                        jj);
-                    writer.WriteLine("###################################");
+                    if (ImportExportHelper.WriteComments)
+                    {
+                        writer.WriteLine("###################################");
+                        writer.WriteLine("# Sequence {0,2}/{1,2}, frame {2,4}/{3,4} #", k, kk, j, jj);
+                        writer.WriteLine("###################################");
+                    }
                     writer.WriteLine(f.Time);
                     writer.WriteLine("Transforms {0}", f.Transforms.Length);
                     foreach (var tr in f.Transforms)
@@ -55,12 +54,15 @@ namespace ChamberLib
                     var bone = bones.Find(ib => ib.Index == k);
                     if (bone != null)
                     {
-                        writer.WriteLine("#");
-                        writer.WriteLine(
-                            "# Bone: {0} (Index={1}, has index {2} in the list of bones)", 
-                            bone.Name,
-                            bone.Index,
-                            bones.IndexOf(bone));
+                        if (ImportExportHelper.WriteComments)
+                        {
+                            writer.WriteLine("#");
+                            writer.WriteLine(
+                                "# Bone: {0} (Index={1}, has index {2} in the list of bones)", 
+                                bone.Name,
+                                bone.Index,
+                                bones.IndexOf(bone));
+                        }
                     }
                 }
                 ImportExportHelper.WriteMatrix(writer, tr);
@@ -75,20 +77,19 @@ namespace ChamberLib
                     var bone = bones.Find(ib => ib.Index == k);
                     if (bone != null)
                     {
-                        writer.WriteLine("#");
-                        writer.WriteLine(
-                            "# Bone: {0} (Index={1}, has index {2} in the list of bones)", 
-                            bone.Name,
-                            bone.Index,
-                            bones.IndexOf(bone));
+                        if (ImportExportHelper.WriteComments)
+                        {
+                            writer.WriteLine("#");
+                            writer.WriteLine(
+                                "# Bone: {0} (Index={1}, has index {2} in the list of bones)", 
+                                bone.Name,
+                                bone.Index,
+                                bones.IndexOf(bone));
+                        }
                     }
                 }
                 ImportExportHelper.WriteMatrix(writer, tr);
                 ImportExportHelper.WriteMatrix(writer, tr.Inverted(), true, "Transform Inverse");
-                if (perAbsoluteTransformAction!=null)
-                {
-                    perAbsoluteTransformAction();
-                }
                 k++;
             }
             writer.WriteLine("SkeletonHierarchy {0}", ad.Transforms.Count);
