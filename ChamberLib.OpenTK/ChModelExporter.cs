@@ -121,14 +121,14 @@ namespace ChamberLib
                     var ad = model.Tag as AnimationData;
                     var ae = new AnimationExporter();
                     int kk = 0;
-                    Action action = () => {
-                        ImportExportHelper.WriteMatrix(writer, model.Bones[k].InverseBindPose, true, "Bone OffsetMatrix");
-                        ImportExportHelper.WriteMatrix(writer, model.Bones[k].InverseBindPose.Inverted(), true, "Bone OffsetMatrix Inverse");
-                        ImportExportHelper.WriteMatrix(writer, model.Bones[k].Transform, true, "Bone Transfrom");
-                        ImportExportHelper.WriteMatrix(writer, model.Bones[k].Transform.Inverted(), true, "Bone Transform Inverse");
-                        kk++;
-                    };
-                    ae.ExportAnimationData(ad, writer, action, model.Bones.Cast<IBone>().ToList());
+//                    Action action = () => {
+//                        ImportExportHelper.WriteMatrix(writer, model.Bones[k].InverseBindPose, true, "Bone OffsetMatrix");
+//                        ImportExportHelper.WriteMatrix(writer, model.Bones[k].InverseBindPose.Inverted(), true, "Bone OffsetMatrix Inverse");
+//                        ImportExportHelper.WriteMatrix(writer, model.Bones[k].Transform, true, "Bone Transfrom");
+//                        ImportExportHelper.WriteMatrix(writer, model.Bones[k].Transform.Inverted(), true, "Bone Transform Inverse");
+//                        kk++;
+//                    };
+                    ae.ExportAnimationData(ad, writer, model.Bones.Cast<IBone>().ToList());
                 }
             }
         }
