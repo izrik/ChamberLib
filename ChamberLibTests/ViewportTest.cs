@@ -8,11 +8,11 @@ namespace ChamberLibTests
     public class ViewportTest
     {
         [Test]
-        [TestCase(4f, 0f, 5f)]
-        [TestCase(5f, 0f, 5f)]
-        [TestCase(4f, 0f, 4f)]
-        [TestCase(5f, 0f, 4f)]
-        public void TestViewportProject(float x, float y, float z)
+        [TestCase(4f, 0f, 5f, 400f, 240f, 0.1991992f)]
+        [TestCase(5f, 0f, 5f, 400f, 240f, 0.1991992f)]
+        [TestCase(4f, 0f, 4f, 400f, 240f, 0.1991992f)]
+        [TestCase(5f, 0f, 4f, 400f, 240f, 0.1991992f)]
+        public void TestViewportProject(float x, float y, float z, float ex, float ey, float ez)
         {
             var vp = new Viewport(0, 0, 800, 480);
             const float width = 9f;
@@ -34,14 +34,13 @@ namespace ChamberLibTests
 
             var u = vp.Project(v, proj, view, Matrix.Identity);
 
-            var vp2 = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, 800, 480);
 
-            var u2 = vp2.Project(v.ToXna(), proj.ToXna(), view.ToXna(), Microsoft.Xna.Framework.Matrix.Identity);
 
-            Assert.AreEqual(u2.X, u.X);
-            Assert.AreEqual(u2.Y, u.Y);
-            Assert.AreEqual(u2.Z, u.Z);
+            Assert.AreEqual(ex, u.X, 0.0001f);
+            Assert.AreEqual(ey, u.Y, 0.0001f);
+            Assert.AreEqual(ez, u.Z, 0.0001f);
         }
     }
 }
+
 

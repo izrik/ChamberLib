@@ -8,18 +8,19 @@ namespace ChamberLibTests
     public class Vector3Test
     {
         [Test]
-        [TestCase(new float[] { 1, 0, 0,   0, 1, 0, })]
-        [TestCase(new float[] { 0, 1, 0,   0, 0, 1, })]
-        [TestCase(new float[] { 0, 0, 1,   1, 0, 0, })]
-        [TestCase(new float[] { -1, 0, 0,   0, 1, 0, })]
-        [TestCase(new float[] { 0, -1, 0,   0, 0, 1, })]
-        [TestCase(new float[] { 0, 0, -1,   1, 0, 0, })]
-        public void Vector3CrossTest(float[] fs)
+        [TestCase(1, 0, 0,   0, 1, 0,  0, 0, 1 )]
+        [TestCase(0, 1, 0,   0, 0, 1,  1, 0, 0 )]
+        [TestCase(0, 0, 1,   1, 0, 0,  0, 1, 0 )]
+        [TestCase(-1, 0, 0,   0, 1, 0,  0, 0, -1 )]
+        [TestCase(0, -1, 0,   0, 0, 1,  -1, 0, 0 )]
+        [TestCase(0, 0, -1,   1, 0, 0,  0, -1, 0 )]
+        [TestCase(2, 0, 0,   0, 3, 0,  0, 0, 6 )]
+        public void Vector3CrossTest(float ax, float ay, float az, float bx, float by, float bz, float ex, float ey, float ez)
         {
-            var a = new Vector3(fs[0], fs[1], fs[2]);
-            var b = new Vector3(fs[3], fs[4], fs[5]);
+            var a = new Vector3(ax, ay, az);
+            var b = new Vector3(bx, by, bz);
 
-            var expected = Microsoft.Xna.Framework.Vector3.Cross(a.ToXna(), b.ToXna()).ToChamber();
+            var expected = new Vector3(ex, ey, ez);
 
             var actual = Vector3.Cross(a, b);
 
@@ -27,4 +28,5 @@ namespace ChamberLibTests
         }
     }
 }
+
 

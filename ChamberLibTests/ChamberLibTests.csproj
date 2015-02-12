@@ -7,8 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ChamberLibTests</RootNamespace>
     <AssemblyName>ChamberLibTests</AssemblyName>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,9 +28,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="MonoGame.Framework">
-      <HintPath>..\packages\MonoGame.Binaries.3.2.0\build\MonoMac\MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -56,7 +51,6 @@
       <Name>ChamberLib</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

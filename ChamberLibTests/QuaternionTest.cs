@@ -1,7 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
 using ChamberLib;
-using Xna = Microsoft.Xna.Framework;
 
 namespace ChamberLibTests
 {
@@ -9,26 +8,25 @@ namespace ChamberLibTests
     public class QuaternionTest
     {
         [Test]
-        [TestCase(1,0,0,0,1,0,0,0)]
-        [TestCase(0,1,0,0,0,1,0,0)]
-        [TestCase(0,0,1,0,0,0,1,0)]
-        [TestCase(0,0,0,1,0,0,0,1)]
-        [TestCase(0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f,0.5f)]
-        [TestCase(2,3,4,1,5,6,7,1)]
-        public void TestQuaternionMultiply(float x1, float y1, float z1, float w1, float x2, float y2, float z2, float w2)
+        [TestCase(1f,0f,0f,0f, 1f,0f,0f,0f, 0f,0f,0f,-1f)]
+        [TestCase(0f,1f,0f,0f, 0f,1f,0f,0f, 0f,0f,0f,-1f)]
+        [TestCase(0f,0f,1f,0f, 0f,0f,1f,0f, 0f,0f,0f,-1f)]
+        [TestCase(0f,0f,0f,1f, 0f,0f,0f,1f, 0f,0f,0f,1f)]
+        [TestCase(0.5f,0.5f,0.5f,0.5f, 0.5f,0.5f,0.5f,0.5f, 0.5f,0.5f,0.5f,-0.5f)]
+        [TestCase(2f,3f,4f,1f, 5f,6f,7f,1f, 4f,15f,8f,-55f)]
+        public void TestQuaternionMultiply(
+            float x1, float y1, float z1, float w1,
+            float x2, float y2, float z2, float w2,
+            float x3, float y3, float z3, float w3)
         {
             var q1 = new Quaternion(x1, y1, z1, w1);
             var q2 = new Quaternion(x2, y2, z2, w2);
             var q3 = q1 * q2;
 
-            var xq1 = new Microsoft.Xna.Framework.Quaternion(x1, y1, z1, w1);
-            var xq2 = new Microsoft.Xna.Framework.Quaternion(x2, y2, z2, w2);
-            var xq3 = xq1 * xq2;
-
-            Assert.AreEqual(xq3.X, q3.X);
-            Assert.AreEqual(xq3.Y, q3.Y);
-            Assert.AreEqual(xq3.Z, q3.Z);
-            Assert.AreEqual(xq3.W, q3.W);
+            Assert.AreEqual(x3, q3.X, 0.000001f);
+            Assert.AreEqual(y3, q3.Y, 0.000001f);
+            Assert.AreEqual(z3, q3.Z, 0.000001f);
+            Assert.AreEqual(w3, q3.W, 0.000001f);
         }
 
         [Test]
@@ -69,109 +67,6 @@ namespace ChamberLibTests
             Assert.AreEqual(v3.X, v2.X, 0.000001f);
             Assert.AreEqual(v3.Y, v2.Y, 0.000001f);
             Assert.AreEqual(v3.Z, v2.Z, 0.000001f);
-        }
-
-        [Test]
-        [TestCase(1,0,0,0)]
-        [TestCase(0,1,0,0)]
-        [TestCase(0,0,1,0)]
-        [TestCase(0,0,0,1)]
-        [TestCase(0.5f,0.5f,0.5f,0.5f)]
-        [TestCase(2,3,4,1)]
-        [TestCase(-0.1f,-0.1f,-1f,-5f)]
-        [TestCase(-0.1f,-0.1f,0.5f,-1f)]
-        [TestCase(-0.1f,-0.5f,-0.5f,1f)]
-        [TestCase(-0.1f,-0.5f,-1f,-0.1f)]
-        [TestCase(-0.1f,-0.5f,0.5f,-0.1f)]
-        [TestCase(-0.1f,-1f,-0.1f,0f)]
-        [TestCase(-0.1f,-1f,0f,-1f)]
-        [TestCase(-0.1f,0.5f,1f,-0.5f)]
-        [TestCase(-0.1f,0f,-0.5f,0f)]
-        [TestCase(-0.1f,0f,-1f,-5f)]
-        [TestCase(-0.1f,1f,0.5f,0f)]
-        [TestCase(-0.1f,1f,0f,-0.1f)]
-        [TestCase(-0.5f,-0.1f,-0.5f,1f)]
-        [TestCase(-0.5f,-0.5f,-1f,-0.5f)]
-        [TestCase(-0.5f,-1f,0.5f,-1f)]
-        [TestCase(-0.5f,-1f,0.5f,-5f)]
-        [TestCase(-0.5f,-1f,0f,-5f)]
-        [TestCase(-0.5f,0.5f,-0.5f,-0.1f)]
-        [TestCase(-0.5f,0.5f,-1f,-0.5f)]
-        [TestCase(-0.5f,0.5f,0.5f,0f)]
-        [TestCase(-0.5f,0.5f,0f,0f)]
-        [TestCase(-0.5f,0f,-0.1f,0f)]
-        [TestCase(-0.5f,1f,0.5f,-0.5f)]
-        [TestCase(-0.5f,1f,1f,-1f)]
-        [TestCase(-1f,-0.1f,0f,-1f)]
-        [TestCase(-1f,-0.1f,0f,1f)]
-        [TestCase(-1f,-0.5f,0.5f,0f)]
-        [TestCase(-1f,-1f,-0.1f,-0.1f)]
-        [TestCase(-1f,-1f,-0.5f,-0.5f)]
-        [TestCase(-1f,-1f,1f,-5f)]
-        [TestCase(-1f,0.5f,-0.1f,-5f)]
-        [TestCase(-1f,0.5f,-0.5f,1f)]
-        [TestCase(-1f,0.5f,0f,1f)]
-        [TestCase(-1f,0f,-1f,1f)]
-        [TestCase(-1f,0f,1f,-0.1f)]
-        [TestCase(-1f,1f,-0.1f,-0.1f)]
-        [TestCase(0.5f,-0.1f,-0.1f,-0.5f)]
-        [TestCase(0.5f,-0.1f,-0.5f,-1f)]
-        [TestCase(0.5f,-0.5f,-1f,-0.1f)]
-        [TestCase(0.5f,-0.5f,1f,-0.1f)]
-        [TestCase(0.5f,-1f,-1f,-1f)]
-        [TestCase(0.5f,-1f,0f,-1f)]
-        [TestCase(0.5f,0.5f,-1f,-1f)]
-        [TestCase(0.5f,0f,0.5f,1f)]
-        [TestCase(0.5f,0f,1f,-5f)]
-        [TestCase(0.5f,1f,-0.5f,0f)]
-        [TestCase(0.5f,1f,-1f,-1f)]
-        [TestCase(0f,-0.1f,0.5f,-0.1f)]
-        [TestCase(0f,-0.1f,1f,-0.5f)]
-        [TestCase(0f,-0.5f,-0.1f,-0.5f)]
-        [TestCase(0f,-0.5f,-0.1f,-1f)]
-        [TestCase(0f,-1f,1f,1f)]
-        [TestCase(0f,0.5f,1f,0f)]
-        [TestCase(0f,0f,-0.5f,-5f)]
-        [TestCase(0f,0f,0f,-0.5f)]
-        [TestCase(0f,1f,-0.5f,1f)]
-        [TestCase(0f,1f,-1f,-5f)]
-        [TestCase(0f,1f,0f,1f)]
-        [TestCase(1f,-0.1f,-0.5f,-5f)]
-        [TestCase(1f,-0.1f,-1f,-0.5f)]
-        [TestCase(1f,-0.1f,1f,0f)]
-        [TestCase(1f,-0.5f,-0.1f,0f)]
-        [TestCase(1f,-0.5f,-1f,0f)]
-        [TestCase(1f,-0.5f,0f,-5f)]
-        [TestCase(1f,-0.5f,1f,-0.5f)]
-        [TestCase(1f,-1f,-1f,-0.1f)]
-        [TestCase(1f,0.5f,0.5f,-0.1f)]
-        [TestCase(1f,0f,-0.1f,-5f)]
-        [TestCase(1f,0f,-0.5f,-1f)]
-        [TestCase(1f,1f,-0.1f,1f)]
-        public void TestFromRotationMatrix(float qx, float qy, float qz, float qw)
-        {
-            var _q = new Quaternion(qx, qy, qz, qw);
-            var q = _q;
-            var qv = q.ToAxisAngle();
-            var m = q.ToMatrix();
-
-            var xm = m.ToXna();
-
-            var xq2 = Xna.Quaternion.CreateFromRotationMatrix(xm);
-            var q2 = Quaternion.FromRotationMatrix(m);
-
-            var q2v = q2.ToAxisAngle();
-            var xq2v = xq2.ToChamber().ToAxisAngle();
-            Assert.That(
-                q2,
-                Is.EqualTo(xq2.ToChamber()).Using((Quaternion a, Quaternion b) => (a.IsEquivalentOrientationTo(b, 0.0001f) ? 0 : 1)),
-                string.Format(
-                    "{0} --> {1} --> {2} \n" +
-                    "{3} --> {4} --> {5} \n" +
-                    "{6} --> {7} --> {8}",
-                    _q, q, qv,
-                    q2, q2.ToAxisAngle(), q2v,
-                    xq2.ToChamber(), xq2.ToChamber().ToAxisAngle(), xq2v));
         }
 
         [Test]
