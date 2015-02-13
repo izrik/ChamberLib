@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChamberLib.MonoGame", "ChamberLib.MonoGame\ChamberLib.MonoGame.csproj", "{28E3C5FB-C81F-462A-A693-48893EE3CAF0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChamberLib.OpenTK", "ChamberLib.OpenTK\ChamberLib.OpenTK.csproj", "{3036726F-FDAC-40F4-9D87-293C0F1EBE75}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChamberLibTests", "ChamberLibTests\ChamberLibTests.csproj", "{4E22BB8D-1B03-415B-8410-5DEA23E66069}"
@@ -27,18 +25,6 @@ Global
 		Net45-Debug|Any CPU = Net45-Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Net20-Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Net20-Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Net20-Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Net20-Release|Any CPU.Build.0 = Debug|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Net45-Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Net45-Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Net45-Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Net45-Release|Any CPU.Build.0 = Debug|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28E3C5FB-C81F-462A-A693-48893EE3CAF0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3036726F-FDAC-40F4-9D87-293C0F1EBE75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3036726F-FDAC-40F4-9D87-293C0F1EBE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3036726F-FDAC-40F4-9D87-293C0F1EBE75}.Net20-Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -123,8 +109,5 @@ Global
 		{EA4EF0BE-B8A9-4149-8B5A-7E353AD628C0}.Net45-Release|Any CPU.Build.0 = Net45-Release|Any CPU
 		{EA4EF0BE-B8A9-4149-8B5A-7E353AD628C0}.Release|Any CPU.ActiveCfg = Net20-Release|Any CPU
 		{EA4EF0BE-B8A9-4149-8B5A-7E353AD628C0}.Release|Any CPU.Build.0 = Net20-Release|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = ChamberLib.MonoGame\ChamberLib.MonoGame.csproj
 	EndGlobalSection
 EndGlobal

@@ -42,10 +42,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\ChamberLib.MonoGame\ChamberLib.MonoGame.csproj">
-      <Project>{28E3C5FB-C81F-462A-A693-48893EE3CAF0}</Project>
-      <Name>ChamberLib.MonoGame</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ChamberLib.csproj">
       <Project>{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}</Project>
       <Name>ChamberLib</Name>
