@@ -12,17 +12,32 @@ namespace ChamberLib
             {
                 if (basicShader == null)
                 {
-                    basicShader = new ShaderAdapter(
-                        BasicShaderVert,
-                        BasicShaderFrag,
-                        new [] {
-                            "in_position",
-                            "in_normal",
-                            "in_texture_coords" });
+                    basicShader = new ShaderAdapter(BasicShaderContent);
                     basicShader.Name = "$basic";
                 }
 
                 return basicShader;
+            }
+        }
+        static ShaderContent basicShaderContent;
+        public static ShaderContent BasicShaderContent
+        {
+            get
+            {
+                if (basicShaderContent == null)
+                {
+                    basicShaderContent =
+                        new ShaderContent(
+                            BasicShaderVert,
+                            BasicShaderFrag,
+                            new [] {
+                                "in_position",
+                                "in_normal",
+                                "in_texture_coords"
+                            });
+                }
+
+                return basicShaderContent;
             }
         }
 
@@ -121,20 +136,34 @@ void main(void)
             {
                 if (skinnedShader == null)
                 {
-                    skinnedShader = new ShaderAdapter(
-                        SkinnedShaderVert,
-                        SkinnedShaderFrag,
-                        new [] {
-                            "in_position",
-                            "in_normal",
-                            "in_texture_coords",
-                            "in_blend_indices",
-                            "in_blend_weights",
-                        });
+                    skinnedShader = new ShaderAdapter(SkinnedShaderContent);
                     skinnedShader.Name = "$skinned";
                 }
 
                 return skinnedShader;
+            }
+        }
+        static ShaderContent skinnedShaderContent;
+        public static ShaderContent SkinnedShaderContent
+        {
+            get
+            {
+                if (skinnedShaderContent == null)
+                {
+                    skinnedShaderContent =
+                        new ShaderContent(
+                            SkinnedShaderVert,
+                            SkinnedShaderFrag,
+                            new [] {
+                                "in_position",
+                                "in_normal",
+                                "in_texture_coords",
+                                "in_blend_indices",
+                                "in_blend_weights",
+                            });
+                }
+
+                return skinnedShaderContent;
             }
         }
         public static readonly string SkinnedShaderVert = @"

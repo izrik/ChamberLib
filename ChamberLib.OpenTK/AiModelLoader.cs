@@ -3,6 +3,7 @@ using Assimp;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
@@ -23,15 +24,15 @@ namespace ChamberLib
             return Importer.GetSupportedImportFormats();
         }
 
-        public Model LoadModel(string filename, IContentManager content)
+        public ModelContent LoadModel(string filename, IContentManager content)
         {
             var scene = Importer.ImportFile(filename, PostProcessSteps.Triangulate | PostProcessSteps.JoinIdenticalVertices);
 //            WriteScene(scene);
-            Model model = ConvertScene(scene, content, filename);
+            var model = ConvertScene(scene, content, filename);
             return model;
         }
 
-        Model ConvertScene(Scene scene, IContentManager content, string filename)
+        ModelContent ConvertScene(Scene scene, IContentManager content, string filename)
         {
             // bones
             // meshes
@@ -42,23 +43,24 @@ namespace ChamberLib
             //  shaders?
             // animations?
 
-            var model = new Model(renderer);
-            var materials = new List<ChamberLib.Material>();
+            var model = new ModelContent();
+            var materials = new List<MaterialContent>();
 
             foreach (var material in scene.Materials)
             {
-                var material2 = new ChamberLib.Material();
+                var material2 = new MaterialContent();
                 material2.Name = material.Name;
                 material2.Alpha = material.Opacity;
-                material2.Diffuse = material.ColorDiffuse.ToChamberVector().ToVectorXYZ();
+                material2.DiffuseColor = material.ColorDiffuse.ToChamberVector().ToVectorXYZ();
                 material2.EmissiveColor = material.ColorEmissive.ToChamberVector().ToVectorXYZ();
-                material2.Shader = BuiltinShaders.SkinnedShader;
+                material2.Shader = BuiltinShaders.SkinnedShaderContent;
                 material2.SpecularColor = material.ColorSpecular.ToChamberVector().ToVectorXYZ();
                 material2.SpecularPower = material.Shininess;
                 material2.Texture = null;
                 if (!string.IsNullOrEmpty(material.TextureDiffuse.FilePath))
                 {
-//                    material2.Texture = content.Load<ITexture2D>(material.TextureDiffuse.FilePath, filename);
+                    var texFilename = content.ResolveTextureFilename(material.TextureDiffuse.FilePath);
+                    material2.Texture = BasicTextureLoader.LoadTexture(texFilename);
                 }
                 materials.Add(material2);
             }
@@ -85,17 +87,17 @@ namespace ChamberLib
                     vertices[i] = vv;
                 }
 
-                var part = new Part();
-                var ib = IndexBuffer.FromArray(indices);
+                var part = new PartContent();
+                var ib = new IndexBufferContent{Indexes=indices};
                 part.Indexes = ib;
                 model.IndexBuffers.Add(ib);
-                var vb = VertexBuffer.FromArray(vertices);
+                var vb = new VertexBufferContent{Vertices=vertices};
                 part.Vertexes = vb;
                 model.VertexBuffers.Add(vb);
                 part.Material = materials[mesh.MaterialIndex];
                 part.NumVertexes = mesh.VertexCount;
                 part.PrimitiveCount = mesh.FaceCount;
-                var mesh2 = new Mesh();
+                var mesh2 = new MeshContent();
                 mesh2.Parts.Add(part);
                 model.Meshes.Add(mesh2);
             }
@@ -105,8 +107,8 @@ namespace ChamberLib
             nodes.Remove(footsteps);
             nodes.Add(footsteps);
             var nodesByName = new Dictionary<string, Node>();
-            var bonesByNode = new Dictionary<Node, ChamberLib.Bone>();
-            var bonesByName = new Dictionary<string, ChamberLib.Bone>();
+            var bonesByNode = new Dictionary<Node, BoneContent>();
+            var bonesByName = new Dictionary<string, BoneContent>();
             foreach (var node in nodes)
             {
                 nodesByName[node.Name] = node;
@@ -120,11 +122,12 @@ namespace ChamberLib
                 model.Bones.Add(bone);
                 if (node == scene.RootNode)
                 {
-                    model.RootBone = bone;
+                    model.RootBoneIndex = model.Bones.IndexOf(bone);
                 }
                 if (node.Parent != null && bonesByNode.ContainsKey(node.Parent))
                 {
-                    bone.Parent = bonesByNode[node.Parent];
+                    // TODO: bone parents and children?
+//                    bone.Parent = bonesByNode[node.Parent];
                 }
                 else if (node.Parent != null)
                 {
@@ -134,7 +137,7 @@ namespace ChamberLib
             int ibone;
             for (ibone = 0; ibone < model.Bones.Count; ibone++)
             {
-                model.Bones[ibone].Index = ibone;
+//                model.Bones[ibone].Index = ibone;
             }
 
 
@@ -219,7 +222,8 @@ namespace ChamberLib
                 for (i = 0; i < model.Bones.Count; i++)
                 {
                     var bone = model.Bones[i];
-                    skeletonHierarchy.Add(bone.Parent == null ? -1 : model.Bones.IndexOf((Bone)bone.Parent));
+                    // TODO: skeletonHierarchy
+                    //skeletonHierarchy.Add(bone.Parent == null ? -1 : model.Bones.IndexOf((Bone)bone.Parent));
                     boneIndexesByName[bone.Name] = i;
                     transforms.Add(bone.Transform);
                     var inverseBindPose = bone.InverseBindPose;
@@ -302,7 +306,8 @@ namespace ChamberLib
                     transforms,
                     absoluteTransforms,
                     skeletonHierarchy);
-                model.Tag = animdata;
+                // TODO: tag and animation
+//                model.Tag = animdata;
             }
 
             model.Filename = filename;
@@ -310,9 +315,9 @@ namespace ChamberLib
             return model;
         }
 
-        static ChamberLib.Bone ConvertNodeToBone(Node node)
+        static BoneContent ConvertNodeToBone(Node node)
         {
-            var bone = new ChamberLib.Bone();
+            var bone = new BoneContent();
             bone.Transform = node.Transform.ToChamber();
             bone.Name = node.Name;
 

@@ -8,9 +8,60 @@ namespace ChamberLib
 {
     public class Model : IModel
     {
-        public Model(Renderer renderer)
+        public Model(Content.ModelContent modelContent, Renderer renderer)
         {
             Renderer = renderer;
+
+            var resolver = new ContentResolver();
+
+            resolver.Add(BuiltinShaders.BasicShaderContent, BuiltinShaders.BasicShader);
+            resolver.Add(BuiltinShaders.SkinnedShaderContent, BuiltinShaders.SkinnedShader);
+
+            foreach (var ib in modelContent.IndexBuffers)
+            {
+                var ib2 = new IndexBuffer(ib);
+                resolver.Add(ib, ib2);
+                this.IndexBuffers.Add(ib2);
+            }
+            foreach (var vb in modelContent.VertexBuffers)
+            {
+                var vb2 = VertexBuffer.FromArray(vb.Vertices);
+                resolver.Add(vb, vb2);
+                this.VertexBuffers.Add(vb2);
+            }
+            foreach (var bone in modelContent.Bones)
+            {
+                var b2 = new Bone(bone);
+                resolver.Add(bone, b2);
+                this.Bones.Add(b2);
+            }
+            this.RootBone = this.Bones[modelContent.RootBoneIndex];
+            int i;
+            for (i = 0; i < this.Bones.Count; i++)
+            {
+                this.Bones[i].Index = i;
+                foreach (var childIndex in modelContent.Bones[i].ChildBoneIndexes)
+                {
+                    this.Bones[i].Children.Add(this.Bones[childIndex]);
+                }
+            }
+            foreach (var mesh in modelContent.Meshes)
+            {
+                foreach (var part in mesh.Parts)
+                {
+                    if (!resolver.Materials.ContainsKey(part.Material))
+                    {
+                        var mat2 = new Material(part.Material, resolver);
+                        resolver.Materials.Add(part.Material, mat2);
+                    }
+                }
+            }
+            foreach (var mesh in modelContent.Meshes)
+            {
+                this.Meshes.Add(new Mesh(mesh, resolver));
+            }
+            this.Tag = modelContent.AnimationData;
+            this.Filename = modelContent.Filename;
         }
 
         public readonly Renderer Renderer;

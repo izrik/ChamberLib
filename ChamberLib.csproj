@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +102,10 @@
     <Compile Include="Content\PartContent.cs" />
     <Compile Include="Content\VertexBufferContent.cs" />
     <Compile Include="Content\MaterialContent.cs" />
+    <Compile Include="Content\TextureContent.cs" />
+    <Compile Include="Content\ShaderContent.cs" />
+    <Compile Include="Content\BasicTextureLoader.cs" />
+    <Compile Include="Content\BasicShaderLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />

@@ -1,13 +1,39 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public class Material : IMaterial
     {
-        public Material()
+        public Material(MaterialContent material, ContentResolver resolver)
         {
-            Alpha = 1;
+            this.Name = material.Name;
+            this.Diffuse = material.DiffuseColor;
+            this.EmissiveColor = material.EmissiveColor;
+            this.SpecularColor = material.SpecularColor;
+            this.SpecularPower = material.SpecularPower;
+            this.Alpha = material.Alpha;
+
+            if (material.Texture != null)
+            {
+                if (!resolver.Textures.ContainsKey(material.Texture))
+                {
+                    var texture = new TextureAdapter(material.Texture);
+                    resolver.Add(material.Texture, texture);
+                }
+                this.Texture = resolver.Get(material.Texture);
+            }
+
+            if (material.Shader != null)
+            {
+                if (!resolver.Shaders.ContainsKey(material.Shader))
+                {
+                    var shader = new ShaderAdapter(material.Shader);
+                    resolver.Add(material.Shader, shader);
+                }
+                this.Shader2 = resolver.Get(material.Shader);
+            }
         }
 
         public string Name = "";

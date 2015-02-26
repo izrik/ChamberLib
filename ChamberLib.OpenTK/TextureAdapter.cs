@@ -19,6 +19,10 @@ namespace ChamberLib
             Height = 1;
             IsReady = false;
         }
+        public TextureAdapter(TextureContent texture)
+            : this(texture.Bitmap)
+        {
+        }
         protected TextureAdapter(Bitmap bitmap)
         {
             Bitmap = bitmap;
@@ -44,24 +48,6 @@ namespace ChamberLib
         static readonly Dictionary<string, TextureAdapter> texturesByName = new Dictionary<string, TextureAdapter>();
 
         #endregion
-
-        public static ITexture2D LoadTextureFromFile(string filename)
-        {
-            if (String.IsNullOrEmpty(filename)) throw new ArgumentException(filename);
-
-            if (texturesByName.ContainsKey(filename))
-            {
-                return texturesByName[filename];
-            }
-
-            var bmp = new Bitmap(filename);
-
-            var texture = new TextureAdapter(bmp);
-
-            texturesByName[filename] = texture;
-
-            return texture;
-        }
 
         public static ITexture2D CreateTexture(int width, int height, Color[] data)
         {

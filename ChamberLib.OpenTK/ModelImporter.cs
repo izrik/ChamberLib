@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Linq;
 using OpenTK.Graphics.OpenGL;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public class ModelImporter
     {
-        public Model ImportModel(string filename, Renderer renderer, IContentManager content)
+        public ModelContent ImportModel(string filename, Renderer renderer, IContentManager content)
         {
             using (var s = new StreamReader(filename))
             {
@@ -22,7 +23,7 @@ namespace ChamberLib
                 int num;
                 // Bones
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
-                var bones = new List<Bone>();
+                var bones = new List<BoneContent>();
                 var parentIndexes = new List<int>();
                 int i;
                 for (i = 0; i < num; i++)
@@ -36,32 +37,33 @@ namespace ChamberLib
                 {
                     if (parentIndexes[i] < 0) continue;
 
-                    bones[i].Parent = bones[parentIndexes[i]];
-                    bones[i].Parent.Children.Add(bones[i]);
+                    // TODO: child bone indexes
+//                    bones[i].Parent = bones[parentIndexes[i]];
+//                    bones[i].Parent.Children.Add(bones[i]);
                 }
 
                 // VertexBuffers
-                var vbuffers = new List<VertexBuffer>();
+                var vbuffers = new List<VertexBufferContent>();
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
                 for (i = 0; i < num; i++)
                 {
                     var vs = ReadVertexBuffer(reader);
-                    var vb = VertexBuffer.FromArray(vs);
+                    var vb = new VertexBufferContent{Vertices=vs};
                     vbuffers.Add(vb);
                 }
 
                 // IndexBuffers
-                var ibuffers = new List<IndexBuffer>();
+                var ibuffers = new List<IndexBufferContent>();
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
                 for (i = 0; i < num; i++)
                 {
                     var indexes = ReadIndexBuffer(reader);
-                    var ib = IndexBuffer.FromArray(indexes);
+                    var ib = new IndexBufferContent{Indexes=indexes};
                     ibuffers.Add(ib);
                 }
 
                 // Materials
-                var materials = new List<Material>();
+                var materials = new List<MaterialContent>();
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
                 for (i = 0; i < num; i++)
                 {
@@ -71,7 +73,7 @@ namespace ChamberLib
 
                 // Meshes
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
-                var meshes = new List<Mesh>();
+                var meshes = new List<MeshContent>();
                 for (i = 0; i < num; i++)
                 {
                     var mesh = ReadMesh(reader, vbuffers, ibuffers, materials, bones);
@@ -80,10 +82,11 @@ namespace ChamberLib
                 }
                 var modelRootBone = int.Parse(reader.ReadLine());
 
-                var model = new Model(renderer) {
+                var model = new ModelContent {
                     Bones = bones,
                     Meshes = meshes,
-                    RootBone = (modelRootBone >= 0 ? bones[modelRootBone] : null),
+//                    RootBone = (modelRootBone >= 0 ? bones[modelRootBone] : null),
+                    RootBoneIndex = modelRootBone,
                     VertexBuffers = vbuffers,
                     IndexBuffers = ibuffers,
                 };
@@ -93,22 +96,22 @@ namespace ChamberLib
                 {
                     var ae = new AnimationExporter();
                     var animdata = ae.ImportAnimationData(reader);
-                    model.Tag = animdata;
+                    model.AnimationData = animdata;
                 }
 
                 return model;
             }
         }
 
-        static Bone ReadBone(IReader reader, out int parentIndex)
+        static BoneContent ReadBone(IReader reader, out int parentIndex)
         {
             var name = reader.ReadLine();
             var index = int.Parse(reader.ReadLine());
             parentIndex = int.Parse(reader.ReadLine());
             var tr = ImportExportHelper.ConvertMatrix(reader.ReadLine());
-            var bone = new Bone {
+            var bone = new BoneContent {
                 Name = name,
-                Index = index,
+//                Index = index,
                 Transform = tr,
             };
             return bone;
@@ -173,38 +176,57 @@ namespace ChamberLib
             return indexes;
         }
 
-        Material ReadMaterial(IReader reader, IContentManager content)
+        MaterialContent ReadMaterial(IReader reader, IContentManager content)
         {
-            var mat = new Material();
-            mat.Diffuse = ImportExportHelper.ConvertVector3(reader.ReadLine());
+            var mat = new MaterialContent();
+            mat.DiffuseColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
             mat.EmissiveColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
             mat.SpecularColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
             mat.SpecularPower = float.Parse(reader.ReadLine());
             var texname = reader.ReadLine();
             if (!string.IsNullOrEmpty(texname))
             {
-                var texture = content.LoadTexture2D(texname);
-                mat.Texture = (TextureAdapter)texture;
+                var resolvedFilename = content.ResolveTextureFilename(texname);
+                var texture = BasicTextureLoader.LoadTexture(resolvedFilename);
+                mat.Texture = texture;
             }
             var shadername = reader.ReadLine();
             if (!string.IsNullOrEmpty(shadername))
             {
-                var shader = (ShaderAdapter)content.LoadShader(
-                    shadername,
-                    bindattrs: new string[] {
-                        "in_position",
-                        "in_blend_indexes",
-                        "in_blend_weights",
-                        "in_normal",
-                        "in_texture_coords",
-                    });
-                mat.Shader2 = shader;
+                ShaderContent shader;
+                if (shadername == "$basic")
+                {
+                    shader = BuiltinShaders.BasicShaderContent;
+                }
+                else if (shadername == "$skinned")
+                {
+                    shader = BuiltinShaders.SkinnedShaderContent;
+                }
+                else
+                {
+                    string vert;
+                    string frag;
+                    content.ResolveShaderFilenames(shadername, out vert, out frag);
+
+                    shader =
+                        BasicShaderLoader.LoadShader(
+                            vert,
+                            frag,
+                            bindattrs: new string[] {
+                                "in_position",
+                                "in_blend_indexes",
+                                "in_blend_weights",
+                                "in_normal",
+                                "in_texture_coords",
+                            });
+                }
+                mat.Shader = shader;
             }
 
             return mat;
         }
 
-        static Mesh ReadMesh(IReader reader, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Material> materials, List<Bone> bones)
+        static MeshContent ReadMesh(IReader reader, List<VertexBufferContent> vbuffers, List<IndexBufferContent> ibuffers, List<MaterialContent> materials, List<BoneContent> bones)
         {
             var name = reader.ReadLine();
             int parentBone = int.Parse(reader.ReadLine());
@@ -212,20 +234,21 @@ namespace ChamberLib
             int j;
             // MeshParts
             num2 = int.Parse(reader.ReadLine().Split(' ')[1]);
-            var parts = new List<Part>();
+            var parts = new List<PartContent>();
             for (j = 0; j < num2; j++)
             {
                 var part = ReadMeshPart(reader, vbuffers, ibuffers, materials);
                 parts.Add(part);
             }
-            var mesh = new Mesh() {
+            var mesh = new MeshContent {
                 Parts = parts,
-                ParentBone = bones[parentBone],
+                // TODO: mesh parent bone?
+//                ParentBone = bones[parentBone],
             };
             return mesh;
         }
 
-        static Part ReadMeshPart(IReader reader, List<VertexBuffer> vbuffers, List<IndexBuffer>  ibuffers, List<Material> materials)
+        static PartContent ReadMeshPart(IReader reader, List<VertexBufferContent> vbuffers, List<IndexBufferContent>  ibuffers, List<MaterialContent> materials)
         {
             var materialIndex = int.Parse(reader.ReadLine());
             var indexBufferIndex = int.Parse(reader.ReadLine());
@@ -234,7 +257,7 @@ namespace ChamberLib
             var startIndex = int.Parse(reader.ReadLine());
             var vertexBufferIndex = int.Parse(reader.ReadLine());
             var vertexOffset = int.Parse(reader.ReadLine());
-            var part = new Part() {
+            var part = new PartContent {
                 Vertexes = vbuffers[vertexBufferIndex],
                 Indexes = ibuffers[indexBufferIndex],
                 StartIndex = startIndex,

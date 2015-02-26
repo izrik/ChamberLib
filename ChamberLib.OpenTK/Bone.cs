@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public class Bone : IBone
     {
-        public Bone()
+        public Bone(BoneContent bone)
         {
             Children = new ListWrapper<IBone, Bone>(this.children);
+            this.Name = bone.Name;
+            this.Transform = bone.Transform;
+            this.InverseBindPose = bone.InverseBindPose;
+            // children need to be connected outside of the constructor
         }
 
         public string Name { get; set; }

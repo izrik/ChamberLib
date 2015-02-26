@@ -1,10 +1,15 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public class IndexBuffer : IIndexBuffer
     {
+        public IndexBuffer(IndexBufferContent indexData)
+            : this(indexData.Indexes)
+        {
+        }
         public IndexBuffer(short[] indexData)
         {
             if (indexData == null)

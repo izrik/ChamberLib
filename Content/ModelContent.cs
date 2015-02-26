@@ -12,6 +12,8 @@ namespace ChamberLib.Content
         public List<IndexBufferContent> IndexBuffers = new List<IndexBufferContent>();
         public List<VertexBufferContent> VertexBuffers = new List<VertexBufferContent>();
 
+        public AnimationData AnimationData;
+
         public string Filename;
     }
 }

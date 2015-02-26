@@ -1,11 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public class Mesh : IMesh
     {
+        public Mesh(MeshContent mesh, ContentResolver resolver)
+        {
+            foreach (var part in mesh.Parts)
+            {
+                this.Parts.Add(new Part(part, resolver));
+            }
+        }
+
         public List<Part> Parts = new List<Part>();
 
         public void Draw(IRenderer renderer, Matrix world, Matrix view, Matrix projection, LightingData lighting)
@@ -45,6 +54,17 @@ namespace ChamberLib
 
     public class Part
     {
+        public Part(PartContent part, ContentResolver resolver)
+        {
+            Indexes = resolver.Get(part.Indexes);
+            Vertexes = resolver.Get(part.Vertexes);
+            Material = resolver.Get(part.Material);
+            this.StartIndex = part.StartIndex;
+            this.PrimitiveCount = part.PrimitiveCount;
+            this.VertexOffset = part.VertexOffset;
+            this.NumVertexes = part.NumVertexes;
+        }
+
         public IndexBuffer Indexes;
         public VertexBuffer Vertexes;
         public int StartIndex;

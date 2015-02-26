@@ -25,25 +25,26 @@ namespace ChamberLib
             var resolvedFilename = ResolveFilename(name, relativeTo);
             if (_cache.ContainsKey(resolvedFilename)) return (IModel)_cache[resolvedFilename];
 
-            var loader = new AiModelLoader(Renderer);
-            String[] importFormats = loader.GetSupportedImportFormats();
-            foreach (var ext in importFormats)
-            {
-                if (File.Exists(resolvedFilename + ext))
-                {
-                    var filename = resolvedFilename + ext;
-                    var model = loader.LoadModel(filename, this);
-
-                    _cache[resolvedFilename] = model;
-                    return model;
-                }
-            }
+//            var loader = new AiModelLoader(Renderer);
+//            String[] importFormats = loader.GetSupportedImportFormats();
+//            foreach (var ext in importFormats)
+//            {
+//                if (File.Exists(resolvedFilename + ext))
+//                {
+//                    var filename = resolvedFilename + ext;
+//                    var modelContent = loader.LoadModel(filename, this);
+//                    var model = new Model(modelContent, Renderer);
+//                    _cache[resolvedFilename] = model;
+//                    return model;
+//                }
+//            }
 
             if (File.Exists(resolvedFilename + ".chmodel"))
             {
                 var filename = resolvedFilename + ".chmodel";
                 var mi = new ModelImporter();
-                var model = mi.ImportModel(filename, Renderer, this);
+                var modelContent = mi.ImportModel(filename, Renderer, this);
+                var model = new Model(modelContent, Renderer);
                 _cache[resolvedFilename] = model;
                 return model;
             }
@@ -103,39 +104,49 @@ namespace ChamberLib
             return se;
         }
 
-        public ITexture2D LoadTexture2D(string name, string relativeTo=null)
+        public string ResolveTextureFilename(string name)
         {
-            var resolvedFilename = ResolveFilename(name, relativeTo);
-            if (_cache.ContainsKey(resolvedFilename)) return (ITexture2D)_cache[resolvedFilename];
+            name = ResolveFilename(name);
 
             string filename;
 
-            if (File.Exists(resolvedFilename))
+            if (File.Exists(name))
             {
-                filename = resolvedFilename;
+                filename = name;
             }
-            else if (File.Exists(resolvedFilename + ".png"))
+            else if (File.Exists(name + ".png"))
             {
-                filename = resolvedFilename + ".png";
+                filename = name + ".png";
             }
-            else if (File.Exists(resolvedFilename + ".jpg"))
+            else if (File.Exists(name + ".jpg"))
             {
-                filename = resolvedFilename + ".jpg";
+                filename = name + ".jpg";
             }
-            else if (File.Exists(resolvedFilename + ".gif"))
+            else if (File.Exists(name + ".gif"))
             {
-                filename = resolvedFilename + ".gif";
+                filename = name + ".gif";
             }
-            else if (File.Exists(resolvedFilename + ".bmp"))
+            else if (File.Exists(name + ".bmp"))
             {
-                filename = resolvedFilename + ".bmp";
+                filename = name + ".bmp";
             }
             else
             {
-                throw new FileNotFoundException("Could not find texture file", resolvedFilename);
+                throw new FileNotFoundException("Could not find texture file", name);
             }
 
-            var texture = TextureAdapter.LoadTextureFromFile(filename);
+            return filename;
+        }
+
+        public ITexture2D LoadTexture2D(string name, string relativeTo=null)
+        {
+            var resolvedFilename = ResolveTextureFilename(name);
+            if (_cache.ContainsKey(resolvedFilename)) return (ITexture2D)_cache[resolvedFilename];
+
+            var filename = (resolvedFilename);
+
+            var textureContent = BasicTextureLoader.LoadTexture(filename);
+            var texture = new TextureAdapter(textureContent);
             _cache[resolvedFilename] = texture;
             return texture;
         }
@@ -147,6 +158,50 @@ namespace ChamberLib
             var font = new FontAdapter();
             _cache[resolvedFilename] = font;
             return font;
+        }
+
+        public void ResolveShaderFilenames(string name, out string vertexShaderFilename, out string fragmentShaderFilename)
+        {
+            string vert = null;
+            string frag = null;
+
+            if (name.Contains(","))
+            {
+                var parts = name.Split(',');
+
+                vert = ResolveFilename(parts[0]);
+                frag = ResolveFilename(parts[1]);
+            }
+            else
+            {
+                vert = frag = ResolveFilename(name);
+            }
+
+            if (File.Exists(vert))
+            {
+                vertexShaderFilename = vert;
+            }
+            else if (File.Exists(vert + ".vert"))
+            {
+                vertexShaderFilename = vert + ".vert";
+            }
+            else
+            {
+                vertexShaderFilename = vert;
+            }
+
+            if (File.Exists(frag))
+            {
+                fragmentShaderFilename = frag;
+            }
+            else if (File.Exists(frag + ".frag"))
+            {
+                fragmentShaderFilename = frag + ".frag";
+            }
+            else
+            {
+                fragmentShaderFilename = frag;
+            }
         }
 
         public IShader LoadShader(string name, string relativeTo=null, object bindattrs=null)
@@ -176,6 +231,10 @@ namespace ChamberLib
                 throw new InvalidOperationException();
             }
 
+            ShaderContent shaderContent = null;
+            string vertexShaderSource = null;
+            string fragmentShaderSource = null;
+
             if (name.Contains(","))
             {
                 try
@@ -184,13 +243,7 @@ namespace ChamberLib
                     var vert = ResolveFilename(parts[0], relativeTo);
                     var frag = ResolveFilename(parts[1], relativeTo);
 
-                    var vertexShaderSource = File.ReadAllText(vert);
-                    var fragmentShaderSource = File.ReadAllText(frag);
-
-                    var shader = new ShaderAdapter(vs: vertexShaderSource, fs: fragmentShaderSource, bindAttributes: bindattrs2);
-                    shader.Name = name;
-                    _cache[resolvedFilename] = shader;
-                    return shader;
+                    shaderContent = BasicShaderLoader.LoadShader(vert, frag, bindattrs2);
                 }
                 catch (FileNotFoundException e)
                 {
@@ -202,17 +255,17 @@ namespace ChamberLib
                 var vert = ResolveFilename(name + ".vert", relativeTo);
                 var frag = ResolveFilename(name + ".frag", relativeTo);
 
-                var vertexShaderSource = File.ReadAllText(vert);
-                var fragmentShaderSource = File.ReadAllText(frag);
-
-                var shader = new ShaderAdapter(vs: vertexShaderSource, fs: fragmentShaderSource, bindAttributes: bindattrs2);
-                shader.Name = name;
-                _cache[resolvedFilename] = shader;
-                return shader;
+                shaderContent = BasicShaderLoader.LoadShader(vert, frag, bindattrs2);
             }
             finally
             {
             }
+
+            var shader = new ShaderAdapter(shaderContent);
+
+            shader.Name = name;
+            _cache[resolvedFilename] = shader;
+            return shader;
         }
 
         public string LookupObjectName(object o)
@@ -234,7 +287,7 @@ namespace ChamberLib
         }
 
         public static string PathPrefix = "Content.OpenTK";
-        static string ResolveFilename(string filename, string relativeTo)
+        static string ResolveFilename(string filename, string relativeTo=null)
         {
             if (Path.IsPathRooted(filename))
                 return filename;

@@ -8,16 +8,13 @@ namespace ChamberLib
 {
     public class ShaderAdapter : IShader
     {
-        public ShaderAdapter(string vs, string fs, string[] bindAttributes=null)
+        public ShaderAdapter(ShaderContent shader)
         {
-            if (string.IsNullOrEmpty(vs)) throw new ArgumentNullException("vs");
-            if (string.IsNullOrEmpty(fs)) throw new ArgumentNullException("fs");
-
-            VertexShaderSource = vs;
-            FragmentShaderSource = fs;
-            if (bindAttributes != null)
+            VertexShaderSource = shader.VertexShaderSource;
+            FragmentShaderSource = shader.FragmentShaderSource;
+            if (shader.BindAttributes != null)
             {
-                BindAttributes.AddRange(bindAttributes);
+                BindAttributes.AddRange(shader.BindAttributes);
             }
         }
 

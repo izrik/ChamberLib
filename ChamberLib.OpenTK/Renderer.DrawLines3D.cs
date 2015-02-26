@@ -22,10 +22,12 @@ namespace ChamberLib
              * 
              */
 
-            _DrawLines3D_shader = new ShaderAdapter(
-                _DrawLines3D_shader_vert,
-                _DrawLines3D_shader_frag,
-                new [] { "in_position" });
+            _DrawLines3D_shader =
+                new ShaderAdapter(
+                    new ShaderContent(
+                        _DrawLines3D_shader_vert,
+                        _DrawLines3D_shader_frag,
+                        new [] { "in_position" }));
 
             _DrawLines3D_shader.MakeReady();
             GLHelper.CheckError();
