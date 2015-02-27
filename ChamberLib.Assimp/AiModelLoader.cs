@@ -9,15 +9,7 @@ namespace ChamberLib
 {
     public class AiModelLoader
     {
-        public AiModelLoader(Renderer renderer)
-        {
-            if (renderer == null) throw new ArgumentNullException("renderer");
-
-            this.renderer = renderer;
-        }
-
         public AssimpContext Importer = new AssimpContext();
-        public Renderer renderer;
 
         public string[] GetSupportedImportFormats()
         {
@@ -53,7 +45,7 @@ namespace ChamberLib
                 material2.Alpha = material.Opacity;
                 material2.DiffuseColor = material.ColorDiffuse.ToChamberVector().ToVectorXYZ();
                 material2.EmissiveColor = material.ColorEmissive.ToChamberVector().ToVectorXYZ();
-                material2.Shader = BuiltinShaders.SkinnedShaderContent;
+                material2.Shader = null;
                 material2.SpecularColor = material.ColorSpecular.ToChamberVector().ToVectorXYZ();
                 material2.SpecularPower = material.Shininess;
                 material2.Texture = null;
@@ -400,7 +392,7 @@ namespace ChamberLib
                     writer.WriteLine("Mesh {0} Bone {1} Name: {2} [{3}]", k, j, bone.Name, nodes.IndexOf(nodesByName[bone.Name]));
                     writer.WriteLine("Mesh {0} Bone {1} OffsetMatrix: {2}", k, j, bone.OffsetMatrix);
                     writer.WriteLine("Mesh {0} Bone {1} OffsetMatrix Translation: {2}", k, j, bone.OffsetMatrix.ToChamber().Translation);
-                    writer.WriteLine("Mesh {0} Bone {1} OffsetMatrix Rotation: {2}", k, j, bone.OffsetMatrix.ToChamber().ToOpenTK().ExtractRotation());
+                    writer.WriteLine("Mesh {0} Bone {1} OffsetMatrix Rotation: {2}", k, j, bone.OffsetMatrix.ToChamber().DecomposedRotation);
                     writer.WriteLine("Mesh {0} Bone {1} OffsetMatrix Scale: {2}", k, j, bone.OffsetMatrix.ToChamber().Scale);
                     writer.WriteLine("Mesh {0} Bone {1} VertexWeightCount: {2}", k, j, bone.VertexWeightCount);
                     j++;
@@ -435,7 +427,7 @@ namespace ChamberLib
                 writer.WriteLine("Node {0} Name: {1}", k, node.Name);
                 writer.WriteLine("Node {0} Transform: {1}", k, node.Transform);
                 writer.WriteLine("Node {0} Transform Translation: {1}", k, node.Transform.ToChamber().Translation);
-                writer.WriteLine("Node {0} Transform Rotation: {1}", k, node.Transform.ToChamber().ToOpenTK().ExtractRotation());
+                writer.WriteLine("Node {0} Transform Rotation: {1}", k, node.Transform.ToChamber().DecomposedRotation);
                 writer.WriteLine("Node {0} Transform Scale: {1}", k, node.Transform.ToChamber().Scale);
 
                 k++;

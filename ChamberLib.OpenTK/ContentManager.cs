@@ -3,7 +3,6 @@ using System.IO;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using System.Linq;
-using Assimp;
 
 namespace ChamberLib
 {
@@ -24,20 +23,6 @@ namespace ChamberLib
         {
             var resolvedFilename = ResolveFilename(name, relativeTo);
             if (_cache.ContainsKey(resolvedFilename)) return (IModel)_cache[resolvedFilename];
-
-//            var loader = new AiModelLoader(Renderer);
-//            String[] importFormats = loader.GetSupportedImportFormats();
-//            foreach (var ext in importFormats)
-//            {
-//                if (File.Exists(resolvedFilename + ext))
-//                {
-//                    var filename = resolvedFilename + ext;
-//                    var modelContent = loader.LoadModel(filename, this);
-//                    var model = new Model(modelContent, Renderer);
-//                    _cache[resolvedFilename] = model;
-//                    return model;
-//                }
-//            }
 
             if (File.Exists(resolvedFilename + ".chmodel"))
             {

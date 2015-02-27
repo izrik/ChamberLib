@@ -3,10 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4E22BB8D-1B03-415B-8410-5DEA23E66069}</ProjectGuid>
+    <ProjectGuid>{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ChamberLibTests</RootNamespace>
-    <AssemblyName>ChamberLibTests</AssemblyName>
+    <RootNamespace>ChamberLib</RootNamespace>
+    <AssemblyName>ChamberLib.Assimp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,26 +29,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RayTest.cs" />
-    <Compile Include="MatrixTest.cs" />
-    <Compile Include="Vector3Test.cs" />
-    <Compile Include="ViewportTest.cs" />
-    <Compile Include="QuaternionTest.cs" />
-    <Compile Include="FrustumTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AiModelLoader.cs" />
+    <Compile Include="VectorHelper.cs" />
+    <Compile Include="ColorHelper.cs" />
+    <Compile Include="MatrixHelper.cs" />
+    <Compile Include="QuaternionHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\assimp-net\AssimpNet\AssimpNet.csproj">
+      <Project>{3415FF29-C0BE-44FC-AD34-94796118E690}</Project>
+      <Name>AssimpNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ChamberLib.csproj">
       <Project>{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}</Project>
       <Name>ChamberLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

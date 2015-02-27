@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssimpNet.Sample", "assimp-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssimpNet.Test", "assimp-net\AssimpNet.Test\AssimpNet.Test.csproj", "{72D6BF28-1217-405E-BE22-DFDFC37BC805}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChamberLib.Assimp", "ChamberLib.Assimp\ChamberLib.Assimp.csproj", "{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}.Net45-Release|Any CPU.Build.0 = Debug|Any CPU
 		{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Net20-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Net20-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Net20-Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Net20-Release|Any CPU.Build.0 = Debug|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Net45-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Net45-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Net45-Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Net45-Release|Any CPU.Build.0 = Debug|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA4EF0BE-B8A9-4149-8B5A-7E353AD628C0}.Debug|Any CPU.ActiveCfg = Net20-Debug|Any CPU
 		{EA4EF0BE-B8A9-4149-8B5A-7E353AD628C0}.Debug|Any CPU.Build.0 = Net20-Debug|Any CPU
 		{EA4EF0BE-B8A9-4149-8B5A-7E353AD628C0}.Net20-Debug|Any CPU.ActiveCfg = Net20-Debug|Any CPU
