@@ -7,13 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChamberLibTests", "ChamberL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChamberLib", "ChamberLib.csproj", "{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssimpNet", "assimp-net\AssimpNet\AssimpNet.csproj", "{3415FF29-C0BE-44FC-AD34-94796118E690}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssimpNet", "ChamberLib.Assimp\assimp-net\AssimpNet\AssimpNet.csproj", "{3415FF29-C0BE-44FC-AD34-94796118E690}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssimpNet.Interop.Generator", "assimp-net\AssimpNet.Interop.Generator\AssimpNet.Interop.Generator.csproj", "{EA4EF0BE-B8A9-4149-8B5A-7E353AD628C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssimpNet.Interop.Generator", "ChamberLib.Assimp\assimp-net\AssimpNet.Interop.Generator\AssimpNet.Interop.Generator.csproj", "{EA4EF0BE-B8A9-4149-8B5A-7E353AD628C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssimpNet.Sample", "assimp-net\AssimpNet.Sample\AssimpNet.Sample.csproj", "{67282517-89C5-4F57-AF65-D80E8B16BB95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssimpNet.Sample", "ChamberLib.Assimp\assimp-net\AssimpNet.Sample\AssimpNet.Sample.csproj", "{67282517-89C5-4F57-AF65-D80E8B16BB95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssimpNet.Test", "assimp-net\AssimpNet.Test\AssimpNet.Test.csproj", "{72D6BF28-1217-405E-BE22-DFDFC37BC805}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssimpNet.Test", "ChamberLib.Assimp\assimp-net\AssimpNet.Test\AssimpNet.Test.csproj", "{72D6BF28-1217-405E-BE22-DFDFC37BC805}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChamberLib.Assimp", "ChamberLib.Assimp\ChamberLib.Assimp.csproj", "{C1B1D486-CC9A-4940-A6C1-C7E70A16EDBF}"
 EndProject

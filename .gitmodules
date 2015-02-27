@@ -1,9 +1,3 @@
-[submodule "ChamberLib.OpenTK/assimp-net"]
-	path = assimp-net
-	url = https://github.com/izrik/assimp-net.git
-[submodule "ChamberLib.OpenTK/assimp"]
-	path = assimp
-	url = https://github.com/izrik/assimp.git
 [submodule "ChamberLib.Assimp"]
 	path = ChamberLib.Assimp
 	url = git@github.com:izrik/ChamberLib.Assimp.git
