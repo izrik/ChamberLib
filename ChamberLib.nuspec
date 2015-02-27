@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ChamberLib</id>
+    <version>0.2.1</version>
+    <title>ChamberLib</title>
+    <authors>izrik,metaindu</authors>
+    <owners>izrik,metaindu</owners>
+    <licenseUrl>https://github.com/izrik/ChamberLib/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/izrik/ChamberLib</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A cross-platform library to make 3D graphics a little easier.</description>
+    <releaseNotes>Content model</releaseNotes>
+    <copyright>Copyright 2015 izrik and Metaphysics Industries, Inc.</copyright>
+    <tags>chamber 3d game engine</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="bin/Debug/ChamberLib.dll" target="lib" />
+  </files>
+</package>
