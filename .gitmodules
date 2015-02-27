@@ -1,3 +1,0 @@
-[submodule "ChamberLib.Assimp"]
-	path = ChamberLib.Assimp
-	url = git@github.com:izrik/ChamberLib.Assimp.git
