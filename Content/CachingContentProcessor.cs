@@ -9,26 +9,20 @@ namespace ChamberLib.Content
         {
             if (next == null) throw new ArgumentNullException("next");
 
-            this.next = next;
-
             models = new Cache<ModelContent, IContentProcessor, IModel>(next.ProcessModel);
             textures = new Cache<TextureContent, IContentProcessor, ITexture2D>(next.ProcessTexture2D);
-            //shaders = new Cache<ShaderContent, IContentProcessor, IShader>(next.ProcessShader);
+            shaders = new Cache<ShaderContent, IContentProcessor, object, IShader>(next.ProcessShader);
             fonts = new Cache<FontContent, IContentProcessor, IFont>(next.ProcessFont);
             songs = new Cache<SongContent, IContentProcessor, ISong>(next.ProcessSong);
             soundEffects = new Cache<SoundEffectContent, IContentProcessor, ISoundEffect>(next.ProcessSoundEffect);
         }
 
-        readonly IContentProcessor next;
-
         readonly Cache<ModelContent, IContentProcessor, IModel> models;
         readonly Cache<TextureContent, IContentProcessor, ITexture2D> textures;
-        //readonly Cache<ShaderContent, IContentProcessor, IShader> shaders;
+        readonly Cache<ShaderContent, IContentProcessor, object, IShader> shaders;
         readonly Cache<FontContent, IContentProcessor, IFont> fonts;
         readonly Cache<SongContent, IContentProcessor, ISong> songs;
         readonly Cache<SoundEffectContent, IContentProcessor, ISoundEffect> soundEffects;
-
-        readonly Dictionary<ShaderContent, IShader> shaderCache = new Dictionary<ShaderContent, IShader>();
 
         #region IContentProcessor implementation
 
@@ -44,14 +38,7 @@ namespace ChamberLib.Content
 
         public IShader ProcessShader(ShaderContent asset, IContentProcessor processor = null, object bindattrs = null)
         {
-            //return shaders.Call(asset, processor);
-
-            if (shaderCache.ContainsKey(asset))
-                return shaderCache[asset];
-
-            var output = next.ProcessShader(asset, processor, bindattrs);
-            shaderCache[asset] = output;
-            return output;
+            return shaders.Call(asset, processor, bindattrs);
         }
 
         public IFont ProcessFont(FontContent asset, IContentProcessor processor = null)
