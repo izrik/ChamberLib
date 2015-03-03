@@ -9,16 +9,13 @@ namespace ChamberLib
 {
     public class SoundEffect : ISoundEffect
     {
-        protected SoundEffect(string name, Stream stream, int numChannels,
-                                int bitsPerSample, int samplesPerSecond,
-                                byte[] audioData)
+        public SoundEffect(SoundEffectContent content)
         {
-            Name = name;
-            _stream = stream;
-            _numChannels = numChannels;
-            _bitsPerSample = bitsPerSample;
-            _samplesPerSecond = samplesPerSecond;
-            _audioData = audioData;
+            Name = content.Name;
+            _numChannels = content.NumChannels;
+            _bitsPerSample = content.BitsPerSample;
+            _samplesPerSecond = content.SamplesPerSecond;
+            _audioData = content.AudioData;
         }
 
         public static SoundEffect Create(string name, Stream stream, FileFormat fileFormat)
@@ -29,6 +26,8 @@ namespace ChamberLib
             int bitsPerSample;
             int samplesPerSecond;
             byte [] audioData;
+
+            SoundEffectContent sec;
 
             switch (fileFormat)
             {
@@ -46,8 +45,9 @@ namespace ChamberLib
                 audioData = new byte[length];
                 wfr.Read(audioData, 0, length);
 
-                return new SoundEffect(name, stream, numChannels,
-                    bitsPerSample, samplesPerSecond, audioData);
+                sec = new SoundEffectContent(name, numChannels, bitsPerSample,
+                                                samplesPerSecond, audioData);
+                break;
 
             case FileFormat.Ogg:
                 var reader = new VorbisReader(stream, false);
@@ -79,17 +79,19 @@ namespace ChamberLib
                     audioData[2 * i + 1] = (byte)((sample & 0xff00) >> 8);
                 }
                 int time3 = Environment.TickCount;
-                return new SoundEffect(name, stream, numChannels,
-                    bitsPerSample, samplesPerSecond, audioData);
+                sec = new SoundEffectContent(name, numChannels, bitsPerSample,
+                                                samplesPerSecond, audioData);
+                break;
 
             default:
                 throw new IOException(string.Format("The stream \"{0}\" is of an unknown type, \"{1}\"", name, fileFormat));
 
             }
+
+            return new SoundEffect(sec);
         }
 
         public readonly string Name;
-        readonly Stream _stream;
         readonly int _numChannels;
         readonly int _bitsPerSample;
         readonly int _samplesPerSecond;
