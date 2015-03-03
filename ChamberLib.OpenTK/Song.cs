@@ -5,10 +5,6 @@ namespace ChamberLib
 {
     public class Song : ISong
     {
-        public Song(string name, Stream stream, SoundEffect.FileFormat format)
-            : this(SoundEffect.Create(name, stream, format))
-        {
-        }
         public Song(SoundEffect soundEffect)
         {
             if (soundEffect == null) throw new ArgumentNullException("soundEffect");
