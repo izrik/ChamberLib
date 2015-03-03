@@ -2,16 +2,13 @@ using System;
 using System.IO;
 using ChamberLib;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Linq;
-using OpenTK.Graphics.OpenGL;
 using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public class ChModelImporter
     {
-        public ModelContent ImportModel(string filename, Renderer renderer, IContentManager content)
+        public ModelContent ImportModel(string filename, IContentManager content)
         {
             using (var s = new StreamReader(filename))
             {

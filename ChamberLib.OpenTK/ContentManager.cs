@@ -27,7 +27,7 @@ namespace ChamberLib
             {
                 var filename = resolvedFilename + ".chmodel";
                 var mi = new ChModelImporter();
-                var modelContent = mi.ImportModel(filename, Renderer, this);
+                var modelContent = mi.ImportModel(filename, this);
                 var model = new Model(modelContent, Renderer);
                 _cache[resolvedFilename] = model;
                 return model;
