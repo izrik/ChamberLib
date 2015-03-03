@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
@@ -52,8 +53,13 @@ namespace ChamberLib
             if (_cache.ContainsKey(resolvedFilename)) return (ISoundEffect)_cache[resolvedFilename];
 
 
-            var sei = new SoundEffectImporter();
-            var sec = sei.ImportSoundEffect(name, resolvedFilename);
+            var wsei = new WaveSoundEffectImporter();
+            SoundEffectImporter wsei2 =
+                (string filename, IContentImporter importer) =>
+                    wsei.ImportSoundEffect(filename, filename);
+            var ovsei = new OggVorbisSoundEffectImporter(wsei2);
+
+            var sec = ovsei.ImportSoundEffect(name, resolvedFilename);
             var se = new SoundEffect(sec);
 
             _cache[resolvedFilename] = se;
