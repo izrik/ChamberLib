@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using OpenTK.Graphics.OpenGL;
 using System.Linq;
 
 namespace ChamberLib
@@ -19,9 +18,9 @@ namespace ChamberLib
 
         readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
 
-        public IModel LoadModel(string name, string relativeTo=null)
+        public IModel LoadModel(string name)
         {
-            var resolvedFilename = ResolveFilename(name, relativeTo);
+            var resolvedFilename = ResolveFilename(name);
             if (_cache.ContainsKey(resolvedFilename)) return (IModel)_cache[resolvedFilename];
 
             if (File.Exists(resolvedFilename + ".chmodel"))
@@ -37,9 +36,9 @@ namespace ChamberLib
             throw new FileNotFoundException(name);
         }
 
-        public ISong LoadSong(string name, string relativeTo=null)
+        public ISong LoadSong(string name)
         {
-            var resolvedFilename = ResolveFilename(name, relativeTo);
+            var resolvedFilename = ResolveFilename(name);
             if (_cache.ContainsKey(resolvedFilename)) return (ISong)_cache[resolvedFilename];
             var soundEffect = (SoundEffect)LoadSoundEffect(name);
             var song = new Song(soundEffect);
@@ -47,9 +46,9 @@ namespace ChamberLib
             return song;
         }
 
-        public ISoundEffect LoadSoundEffect(string name, string relativeTo=null)
+        public ISoundEffect LoadSoundEffect(string name)
         {
-            var resolvedFilename = ResolveFilename(name, relativeTo);
+            var resolvedFilename = ResolveFilename(name);
             if (_cache.ContainsKey(resolvedFilename)) return (ISoundEffect)_cache[resolvedFilename];
 
             if (File.Exists(resolvedFilename))
@@ -123,7 +122,7 @@ namespace ChamberLib
             return filename;
         }
 
-        public ITexture2D LoadTexture2D(string name, string relativeTo=null)
+        public ITexture2D LoadTexture2D(string name)
         {
             var resolvedFilename = ResolveTextureFilename(name);
             if (_cache.ContainsKey(resolvedFilename)) return (ITexture2D)_cache[resolvedFilename];
@@ -136,9 +135,9 @@ namespace ChamberLib
             return texture;
         }
 
-        public IFont LoadFont(string name, string relativeTo=null)
+        public IFont LoadFont(string name)
         {
-            var resolvedFilename = ResolveFilename(name, relativeTo);
+            var resolvedFilename = ResolveFilename(name);
             if (_cache.ContainsKey(resolvedFilename)) return (IFont)_cache[resolvedFilename];
             var font = new FontAdapter();
             _cache[resolvedFilename] = font;
@@ -189,7 +188,7 @@ namespace ChamberLib
             }
         }
 
-        public IShader LoadShader(string name, string relativeTo=null, object bindattrs=null)
+        public IShader LoadShader(string name, object bindattrs=null)
         {
             if (name == "$basic")
             {
@@ -200,7 +199,7 @@ namespace ChamberLib
                 return BuiltinShaders.SkinnedShader;
             }
 
-            var resolvedFilename = ResolveFilename(name, relativeTo);
+            var resolvedFilename = ResolveFilename(name);
             if (_cache.ContainsKey(resolvedFilename)) return (IShader)_cache[resolvedFilename];
 
             string[] bindattrs2=null;
@@ -225,8 +224,8 @@ namespace ChamberLib
                 try
                 {
                     var parts = name.Split(',');
-                    var vert = ResolveFilename(parts[0], relativeTo);
-                    var frag = ResolveFilename(parts[1], relativeTo);
+                    var vert = ResolveFilename(parts[0]);
+                    var frag = ResolveFilename(parts[1]);
 
                     shaderContent = BasicShaderLoader.LoadShader(vert, frag, bindattrs2);
                 }
@@ -237,8 +236,8 @@ namespace ChamberLib
 
             try
             {
-                var vert = ResolveFilename(name + ".vert", relativeTo);
-                var frag = ResolveFilename(name + ".frag", relativeTo);
+                var vert = ResolveFilename(name + ".vert");
+                var frag = ResolveFilename(name + ".frag");
 
                 shaderContent = BasicShaderLoader.LoadShader(vert, frag, bindattrs2);
             }
@@ -272,7 +271,7 @@ namespace ChamberLib
         }
 
         public static string PathPrefix = "Content.OpenTK";
-        static string ResolveFilename(string filename, string relativeTo=null)
+        static string ResolveFilename(string filename)
         {
             if (Path.IsPathRooted(filename))
                 return filename;

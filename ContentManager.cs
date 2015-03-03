@@ -17,42 +17,42 @@ namespace ChamberLib
         public readonly IContentImporter Importer;
         public readonly IContentProcessor Processor;
 
-        public IModel LoadModel(string name, string relativeTo = null)
+        public IModel LoadModel(string name)
         {
             var content = Importer.ImportModel(name, Importer);
             var model = Processor.ProcessModel(content, Processor);
             return model;
         }
 
-        public ITexture2D LoadTexture2D(string name, string relativeTo = null)
+        public ITexture2D LoadTexture2D(string name)
         {
             var content = Importer.ImportTexture2D(name, Importer);
             var texture = Processor.ProcessTexture2D(content, Processor);
             return texture;
         }
 
-        public IFont LoadFont(string name, string relativeTo = null)
+        public IFont LoadFont(string name)
         {
             var content = Importer.ImportFont(name, Importer);
             var font = Processor.ProcessFont(content, Processor);
             return font;
         }
 
-        public ISong LoadSong(string name, string relativeTo = null)
+        public ISong LoadSong(string name)
         {
             var content = Importer.ImportSong(name, Importer);
             var song = Processor.ProcessSong(content, Processor);
             return song;
         }
 
-        public ISoundEffect LoadSoundEffect(string name, string relativeTo = null)
+        public ISoundEffect LoadSoundEffect(string name)
         {
             var content = Importer.ImportSoundEffect(name, Importer);
             var soundEffect = Processor.ProcessSoundEffect(content, Processor);
             return soundEffect;
         }
 
-        public IShader LoadShader(string name, string relativeTo = null, object bindattrs = null)
+        public IShader LoadShader(string name, object bindattrs = null)
         {
             var content = Importer.ImportShader(name, Importer);
             var shader = Processor.ProcessShader(content, Processor, bindattrs);
