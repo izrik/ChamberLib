@@ -83,7 +83,11 @@ namespace ChamberLib
 
             var stream = File.Open(resolvedFilename, FileMode.Open);
 
-            var se = SoundEffect.Create(name, stream, format);
+
+            var sei = new SoundEffectImporter();
+            var sec = sei.ImportSoundEffect(name, stream, format);
+            var se = new SoundEffect(sec);
+
             _cache[resolvedFilename] = se;
             return se;
         }

@@ -15,13 +15,6 @@ namespace ChamberLib
             _audioData = content.AudioData;
         }
 
-        public static SoundEffect Create(string name, Stream stream, FileFormat fileFormat)
-        {
-            var sei = new SoundEffectImporter();
-            var sec = sei.ImportSoundEffect(name, stream, fileFormat);
-            return new SoundEffect(sec);
-        }
-
         public readonly string Name;
         readonly int _numChannels;
         readonly int _bitsPerSample;
