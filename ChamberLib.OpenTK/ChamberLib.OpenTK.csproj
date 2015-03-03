@@ -82,6 +82,7 @@
     <Compile Include="IIndexBuffer.cs" />
     <Compile Include="ContentResolver.cs" />
     <Compile Include="ChModelImporter.cs" />
+    <Compile Include="SoundEffectImporter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
