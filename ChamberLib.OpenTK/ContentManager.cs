@@ -54,12 +54,9 @@ namespace ChamberLib
 
 
             var wsei = new WaveSoundEffectImporter();
-            SoundEffectImporter wsei2 =
-                (string filename, IContentImporter importer) =>
-                    wsei.ImportSoundEffect(filename, filename);
-            var ovsei = new OggVorbisSoundEffectImporter(wsei2);
+            var ovsei = new OggVorbisSoundEffectImporter(wsei.ImportSoundEffect);
 
-            var sec = ovsei.ImportSoundEffect(name, resolvedFilename);
+            var sec = ovsei.ImportSoundEffect(resolvedFilename, null);
             var se = new SoundEffect(sec);
 
             _cache[resolvedFilename] = se;

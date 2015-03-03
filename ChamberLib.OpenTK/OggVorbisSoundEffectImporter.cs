@@ -15,25 +15,25 @@ namespace ChamberLib
 
         readonly SoundEffectImporter next;
 
-        public SoundEffectContent ImportSoundEffect(string name, string resolvedFilename)
+        public SoundEffectContent ImportSoundEffect(string filename, IContentImporter importer)
         {
-            if (File.Exists(resolvedFilename))
+            if (File.Exists(filename))
             {
             }
-            else if (File.Exists(resolvedFilename + ".ogg"))
+            else if (File.Exists(filename + ".ogg"))
             {
-                resolvedFilename += ".ogg";
+                filename += ".ogg";
             }
             else if (next != null)
             {
-                return next(resolvedFilename, null);
+                return next(filename, importer);
             }
             else
             {
-                throw new FileNotFoundException("The sound file could not be found.", resolvedFilename);
+                throw new FileNotFoundException("The sound file could not be found.", filename);
             }
 
-            var stream = File.Open(resolvedFilename, FileMode.Open);
+            var stream = File.Open(filename, FileMode.Open);
 
             int numChannels;
             int bitsPerSample;
@@ -56,7 +56,7 @@ namespace ChamberLib
             int time2 = Environment.TickCount;
             if (numSamplesRead != numSamples)
             {
-                Debug.WriteLine("numSamplesRead does not match numSamples - {0}", name);
+                Debug.WriteLine("numSamplesRead does not match numSamples - {0}", filename);
             }
 
             audioData = new byte[numSamples * 2];
@@ -69,7 +69,7 @@ namespace ChamberLib
                 audioData[2 * i + 1] = (byte)((sample & 0xff00) >> 8);
             }
             int time3 = Environment.TickCount;
-            return new SoundEffectContent(name, numChannels, bitsPerSample,
+            return new SoundEffectContent(filename, numChannels, bitsPerSample,
                 samplesPerSecond, audioData);
         }
     }

@@ -14,25 +14,25 @@ namespace ChamberLib
 
         readonly SoundEffectImporter next;
 
-        public SoundEffectContent ImportSoundEffect(string name, string resolvedFilename)
+        public SoundEffectContent ImportSoundEffect(string filename, IContentImporter importer)
         {
-            if (File.Exists(resolvedFilename))
+            if (File.Exists(filename))
             {
             }
-            else if (File.Exists(resolvedFilename + ".wav"))
+            else if (File.Exists(filename + ".wav"))
             {
-                resolvedFilename += ".wav";
+                filename += ".wav";
             }
             else if (next != null)
             {
-                return next(resolvedFilename, null);
+                return next(filename, importer);
             }
             else
             {
-                throw new FileNotFoundException("The sound file could not be found.", resolvedFilename);
+                throw new FileNotFoundException("The sound file could not be found.", filename);
             }
 
-            var stream = File.Open(resolvedFilename, FileMode.Open);
+            var stream = File.Open(filename, FileMode.Open);
 
             int numChannels;
             int bitsPerSample;
@@ -52,7 +52,7 @@ namespace ChamberLib
             audioData = new byte[length];
             wfr.Read(audioData, 0, length);
 
-            return new SoundEffectContent(name, numChannels, bitsPerSample,
+            return new SoundEffectContent(filename, numChannels, bitsPerSample,
                 samplesPerSecond, audioData);
         }
     }
