@@ -9,9 +9,39 @@ namespace ChamberLib
 {
     public class SoundEffectImporter
     {
-        public SoundEffectContent ImportSoundEffect(string name, Stream stream, FileFormat fileFormat)
+        public SoundEffectContent ImportSoundEffect(string name, string resolvedFilename)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (File.Exists(resolvedFilename))
+            {
+            }
+            else if (File.Exists(resolvedFilename + ".wav"))
+            {
+                resolvedFilename += ".wav";
+            }
+            else if (File.Exists(resolvedFilename + ".ogg"))
+            {
+                resolvedFilename += ".ogg";
+            }
+            else
+            {
+                throw new FileNotFoundException("The sound file could not be found.", resolvedFilename);
+            }
+
+            SoundEffect.FileFormat fileFormat;
+            if (resolvedFilename.ToLower().EndsWith(".wav"))
+            {
+                fileFormat = SoundEffect.FileFormat.Wav;
+            }
+            else if (resolvedFilename.ToLower().EndsWith(".ogg"))
+            {
+                fileFormat = SoundEffect.FileFormat.Ogg;
+            }
+            else
+            {
+                throw new IOException(string.Format("The file \"{0}\" is of an unknown type", resolvedFilename));
+            }
+
+            var stream = File.Open(resolvedFilename, FileMode.Open);
 
             int numChannels;
             int bitsPerSample;

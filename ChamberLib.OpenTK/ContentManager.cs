@@ -51,41 +51,9 @@ namespace ChamberLib
             var resolvedFilename = ResolveFilename(name);
             if (_cache.ContainsKey(resolvedFilename)) return (ISoundEffect)_cache[resolvedFilename];
 
-            if (File.Exists(resolvedFilename))
-            {
-            }
-            else if (File.Exists(resolvedFilename + ".wav"))
-            {
-                resolvedFilename += ".wav";
-            }
-            else if (File.Exists(resolvedFilename + ".ogg"))
-            {
-                resolvedFilename += ".ogg";
-            }
-            else
-            {
-                throw new FileNotFoundException("The sound file could not be found.", resolvedFilename);
-            }
-
-            SoundEffect.FileFormat format;
-            if (resolvedFilename.ToLower().EndsWith(".wav"))
-            {
-                format = SoundEffect.FileFormat.Wav;
-            }
-            else if (resolvedFilename.ToLower().EndsWith(".ogg"))
-            {
-                format = SoundEffect.FileFormat.Ogg;
-            }
-            else
-            {
-                throw new IOException(string.Format("The file \"{0}\" is of an unknown type", resolvedFilename));
-            }
-
-            var stream = File.Open(resolvedFilename, FileMode.Open);
-
 
             var sei = new SoundEffectImporter();
-            var sec = sei.ImportSoundEffect(name, stream, format);
+            var sec = sei.ImportSoundEffect(name, resolvedFilename);
             var se = new SoundEffect(sec);
 
             _cache[resolvedFilename] = se;
