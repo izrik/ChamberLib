@@ -27,7 +27,7 @@ namespace ChamberLib
             if (File.Exists(resolvedFilename + ".chmodel"))
             {
                 var filename = resolvedFilename + ".chmodel";
-                var mi = new ModelImporter();
+                var mi = new ChModelImporter();
                 var modelContent = mi.ImportModel(filename, Renderer, this);
                 var model = new Model(modelContent, Renderer);
                 _cache[resolvedFilename] = model;

@@ -9,7 +9,7 @@ using ChamberLib.Content;
 
 namespace ChamberLib
 {
-    public class ModelImporter
+    public class ChModelImporter
     {
         public ModelContent ImportModel(string filename, Renderer renderer, IContentManager content)
         {
