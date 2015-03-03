@@ -114,6 +114,7 @@
     <None Include="LICENSE" />
     <None Include="README.md" />
     <None Include="todo.txt" />
+    <None Include="ChamberLib.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
