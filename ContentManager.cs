@@ -54,7 +54,7 @@ namespace ChamberLib
 
         public IShader LoadShader(string name, string relativeTo = null, object bindattrs = null)
         {
-            var content = Importer.ImportShader(name, Importer, bindattrs);
+            var content = Importer.ImportShader(name, Importer);
             var shader = Processor.ProcessShader(content, Processor, bindattrs);
             return shader;
         }

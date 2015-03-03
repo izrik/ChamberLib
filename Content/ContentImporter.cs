@@ -47,7 +47,7 @@ namespace ChamberLib.Content
         {
             return SoundEffectImporter(name, importer);
         }
-        public ShaderContent ImportShader(string name, IContentImporter importer = null, object bindattrs = null)
+        public ShaderContent ImportShader(string name, IContentImporter importer = null)
         {
             return ShaderImporter(name, importer);
         }
