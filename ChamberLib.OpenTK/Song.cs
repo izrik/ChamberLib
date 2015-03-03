@@ -6,7 +6,7 @@ namespace ChamberLib
     public class Song : ISong
     {
         public Song(string name, Stream stream, SoundEffect.FileFormat format)
-            : this(new SoundEffect(name, stream, format))
+            : this(SoundEffect.Create(name, stream, format))
         {
         }
         public Song(SoundEffect soundEffect)
