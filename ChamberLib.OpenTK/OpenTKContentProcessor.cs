@@ -1,11 +1,13 @@
 ﻿using System;
 using ChamberLib.Content;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ChamberLib
 {
-    public class BuiltinContentProcessor : IContentProcessor
+    public class OpenTKContentProcessor : IContentProcessor
     {
-        public BuiltinContentProcessor(IContentProcessor next)
+        public OpenTKContentProcessor(IContentProcessor next)
         {
             if (next == null) throw new ArgumentNullException("next");
 
@@ -20,7 +22,7 @@ namespace ChamberLib
         }
         public ITexture2D ProcessTexture2D(TextureContent asset, IContentProcessor processor = null)
         {
-            return next.ProcessTexture2D(asset, processor);
+            return new TextureAdapter(asset);
         }
         public IFont ProcessFont(FontContent asset, IContentProcessor processor = null)
         {
@@ -42,7 +44,21 @@ namespace ChamberLib
             if (asset == BuiltinShaders.SkinnedShaderContent)
                 return BuiltinShaders.SkinnedShader;
 
-            return next.ProcessShader(asset, processor, bindattrs);
+            string[] bindattrs2=null;
+            if (bindattrs == null)
+            {
+            }
+            else if (bindattrs is IEnumerable<string>)
+            {
+                bindattrs2 = (bindattrs as IEnumerable<string>).ToArray();
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+
+            var shader = new ShaderAdapter(asset, (String[])bindattrs2);
+            return shader;
         }
     }
 }

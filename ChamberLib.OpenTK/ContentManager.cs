@@ -28,12 +28,11 @@ namespace ChamberLib
                         ),
                         basePath: "Content.OpenTK"));
 
-            Processor =
-                new BuiltinContentProcessor(
+            Processor = new OpenTKContentProcessor(
                     new ContentProcessor(
                         null,
-                        new OpenTKTextureProcessor().ProcessTexture,
-                        new OpenTKShaderProcessor().ProcessShader,
+                        null,
+                        null,
                         null,
                         null,
                         null));
