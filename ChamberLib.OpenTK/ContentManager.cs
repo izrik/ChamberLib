@@ -108,23 +108,10 @@ namespace ChamberLib
             var resolvedFilename = (name);
             if (_cache.ContainsKey(resolvedFilename)) return (IShader)_cache[resolvedFilename];
 
-            string[] bindattrs2=null;
-            if (bindattrs == null)
-            {
-            }
-            else if (bindattrs is IEnumerable<string>)
-            {
-                bindattrs2 = (bindattrs as IEnumerable<string>).ToArray();
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
-
-            ShaderContent shaderContent = Importer.ImportShader(name, Importer);
+            var shaderContent = Importer.ImportShader(name, Importer);
 
             var otksp = new OpenTKShaderProcessor();
-            var shader = otksp.ProcessShader(shaderContent, null, bindattrs2);
+            var shader = otksp.ProcessShader(shaderContent, null, bindattrs);
 
             shader.Name = name;
             _cache[resolvedFilename] = shader;
