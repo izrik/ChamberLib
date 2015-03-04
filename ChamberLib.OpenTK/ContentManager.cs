@@ -23,7 +23,9 @@ namespace ChamberLib
                             new GlslShaderImporter().ImportShader,
                             null,
                             null,
-                            null),
+                            new OggVorbisSoundEffectImporter(
+                                new WaveSoundEffectImporter().ImportSoundEffect).ImportSoundEffect
+                        ),
                         basePath: "Content.OpenTK"));
         }
 
@@ -57,14 +59,10 @@ namespace ChamberLib
 
         public ISoundEffect LoadSoundEffect(string name)
         {
-            var resolvedFilename = ResolveFilename(name);
+            var resolvedFilename = (name);
             if (_cache.ContainsKey(resolvedFilename)) return (ISoundEffect)_cache[resolvedFilename];
 
-
-            var wsei = new WaveSoundEffectImporter();
-            var ovsei = new OggVorbisSoundEffectImporter(wsei.ImportSoundEffect);
-
-            var sec = ovsei.ImportSoundEffect(resolvedFilename, null);
+            var sec = Importer.ImportSoundEffect(resolvedFilename, null);
             var se = new SoundEffect(sec);
 
             _cache[resolvedFilename] = se;
