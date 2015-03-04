@@ -39,7 +39,7 @@ namespace ChamberLib.Content
                 path = path.Replace('/', Path.DirectorySeparatorChar);
             }
 
-            return path;
+            return Path.GetFullPath(path);
         }
 
         public ModelContent ImportModel(string name, IContentImporter importer = null)
