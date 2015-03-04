@@ -15,15 +15,16 @@ namespace ChamberLib
             Renderer = renderer;
 
             Importer =
-                new ResolvingContentImporter(
-                    new ContentImporter(
-                        null,
-                        new BasicTextureImporter().ImportTexture,
-                        null,
-                        null,
-                        null,
-                        null),
-                    basePath: "Content.OpenTK");
+                new BuiltinContentImporter(
+                    new ResolvingContentImporter(
+                        new ContentImporter(
+                            null,
+                            new BasicTextureImporter().ImportTexture,
+                            null,
+                            null,
+                            null,
+                            null),
+                        basePath: "Content.OpenTK"));
         }
 
         public readonly Renderer Renderer;

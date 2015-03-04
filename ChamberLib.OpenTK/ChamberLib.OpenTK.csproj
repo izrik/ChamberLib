@@ -84,6 +84,8 @@
     <Compile Include="ChModelImporter.cs" />
     <Compile Include="OggVorbisSoundEffectImporter.cs" />
     <Compile Include="WaveSoundEffectImporter.cs" />
+    <Compile Include="BuiltinShaderImporter.cs" />
+    <Compile Include="BuiltinContentImporter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
