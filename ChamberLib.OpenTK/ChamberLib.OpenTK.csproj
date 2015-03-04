@@ -87,6 +87,7 @@
     <Compile Include="BuiltinShaderImporter.cs" />
     <Compile Include="BuiltinContentImporter.cs" />
     <Compile Include="GlslShaderImporter.cs" />
+    <Compile Include="BuiltinFontImporter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -11,10 +11,12 @@ namespace ChamberLib
 
             this.next = next;
             this.shaderImporter = new BuiltinShaderImporter(next.ImportShader);
+            this.fontImporter = new BuiltinFontImporter(next.ImportFont);
         }
 
         readonly IContentImporter next;
         readonly BuiltinShaderImporter shaderImporter; 
+        readonly BuiltinFontImporter fontImporter;
 
         public ModelContent ImportModel(string name, IContentImporter importer = null)
         {
@@ -26,7 +28,7 @@ namespace ChamberLib
         }
         public FontContent ImportFont(string name, IContentImporter importer = null)
         {
-            return next.ImportFont(name, importer);
+            return fontImporter.ImportFont(name, importer);
         }
         public SongContent ImportSong(string name, IContentImporter importer = null)
         {
