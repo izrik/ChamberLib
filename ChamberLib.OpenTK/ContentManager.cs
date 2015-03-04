@@ -28,7 +28,7 @@ namespace ChamberLib
                         ),
                         basePath: "Content.OpenTK"));
 
-            Processor = new OpenTKContentProcessor();
+            Processor = new OpenTKContentProcessor(Renderer);
         }
 
         public readonly Renderer Renderer;
@@ -44,7 +44,7 @@ namespace ChamberLib
 
             var filename = resolvedFilename;
             var modelContent = Importer.ImportModel(filename, Importer);
-            var model = new Model(modelContent, Renderer, Processor);
+            var model = Processor.ProcessModel(modelContent, Processor);
 
             _cache[resolvedFilename] = model;
             return model;

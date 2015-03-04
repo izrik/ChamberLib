@@ -7,9 +7,16 @@ namespace ChamberLib
 {
     public class OpenTKContentProcessor : IContentProcessor
     {
+        public OpenTKContentProcessor(Renderer renderer)
+        {
+            this.Renderer = renderer;
+        }
+
+        readonly Renderer Renderer;
+
         public IModel ProcessModel(ModelContent asset, IContentProcessor processor = null)
         {
-            throw new NotImplementedException();
+            return new Model(asset, Renderer, processor);
         }
         public ITexture2D ProcessTexture2D(TextureContent asset, IContentProcessor processor = null)
         {
