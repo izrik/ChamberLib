@@ -62,7 +62,7 @@ namespace ChamberLib
             var resolvedFilename = (name);
             if (_cache.ContainsKey(resolvedFilename)) return (ISong)_cache[resolvedFilename];
             var songContent = Importer.ImportSong(resolvedFilename, Importer);
-            var song = new Song(songContent);
+            var song = Processor.ProcessSong(songContent, Processor);
             _cache[resolvedFilename] = song;
             return song;
         }
@@ -73,7 +73,7 @@ namespace ChamberLib
             if (_cache.ContainsKey(resolvedFilename)) return (ISoundEffect)_cache[resolvedFilename];
 
             var sec = Importer.ImportSoundEffect(resolvedFilename, null);
-            var se = new SoundEffect(sec);
+            var se = Processor.ProcessSoundEffect(sec, Processor);
 
             _cache[resolvedFilename] = se;
             return se;

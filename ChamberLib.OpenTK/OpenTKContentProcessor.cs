@@ -30,11 +30,11 @@ namespace ChamberLib
         }
         public ISong ProcessSong(SongContent asset, IContentProcessor processor = null)
         {
-            return next.ProcessSong(asset, processor);
+            return new Song(asset);
         }
         public ISoundEffect ProcessSoundEffect(SoundEffectContent asset, IContentProcessor processor = null)
         {
-            return next.ProcessSoundEffect(asset, processor);
+            return new SoundEffect(asset);
         }
         public IShader ProcessShader(ShaderContent asset, IContentProcessor processor = null, object bindattrs=null)
         {
