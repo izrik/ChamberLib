@@ -25,6 +25,19 @@ namespace ChamberLib.Content
             cache[input] = output;
             return output;
         }
+
+        public TInput LookupObject(TOutput item)
+        {
+            foreach (var kvp in cache)
+            {
+                if (kvp.Value.Equals(item))
+                {
+                    return kvp.Key;
+                }
+            }
+
+            return default(TInput);
+        }
     }
 
     public class Cache<TInput, TContent, TOutput>
@@ -49,6 +62,19 @@ namespace ChamberLib.Content
             cache[input] = output;
             return output;
         }
+
+        public TInput LookupObject(TOutput item)
+        {
+            foreach (var kvp in cache)
+            {
+                if (kvp.Value.Equals(item))
+                {
+                    return kvp.Key;
+                }
+            }
+
+            return default(TInput);
+        }
     }
 
     public class Cache<TInput, TContent, TParam, TOutput>
@@ -72,6 +98,19 @@ namespace ChamberLib.Content
             var output = next(input, content, param);
             cache[input] = output;
             return output;
+        }
+
+        public TInput LookupObject(TOutput item)
+        {
+            foreach (var kvp in cache)
+            {
+                if (kvp.Value.Equals(item))
+                {
+                    return kvp.Key;
+                }
+            }
+
+            return default(TInput);
         }
     }
 }
