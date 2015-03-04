@@ -32,7 +32,7 @@ namespace ChamberLib
                 new ContentProcessor(
                     null,
                     new OpenTKTextureProcessor().ProcessTexture,
-                    null,
+                    new OpenTKShaderProcessor().ProcessShader,
                     null,
                     null,
                     null);
@@ -110,8 +110,7 @@ namespace ChamberLib
 
             var shaderContent = Importer.ImportShader(name, Importer);
 
-            var otksp = new OpenTKShaderProcessor();
-            var shader = otksp.ProcessShader(shaderContent, null, bindattrs);
+            var shader = (ShaderAdapter)Processor.ProcessShader(shaderContent, null, bindattrs);
 
             shader.Name = name;
             _cache[resolvedFilename] = shader;
