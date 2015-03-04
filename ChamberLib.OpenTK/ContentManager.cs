@@ -98,7 +98,7 @@ namespace ChamberLib
             var resolvedFilename = (name);
             if (_cache.ContainsKey(resolvedFilename)) return (IFont)_cache[resolvedFilename];
             var fontContent = Importer.ImportFont(resolvedFilename, Importer);
-            var font = new FontAdapter(fontContent);
+            var font = Processor.ProcessFont(fontContent, Processor);
             _cache[resolvedFilename] = font;
             return font;
         }
