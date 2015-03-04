@@ -86,6 +86,7 @@
     <Compile Include="WaveSoundEffectImporter.cs" />
     <Compile Include="BuiltinShaderImporter.cs" />
     <Compile Include="BuiltinContentImporter.cs" />
+    <Compile Include="GlslShaderImporter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

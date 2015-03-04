@@ -201,46 +201,9 @@ namespace ChamberLib
                 throw new InvalidOperationException();
             }
 
-            ShaderContent shaderContent = null;
+            var gsi = new GlslShaderImporter();
+            ShaderContent shaderContent = gsi.ImportShader(name, Importer);
 
-            if (name.Contains(","))
-            {
-                try
-                {
-                    var parts = name.Split(',');
-                    var vert = ResolveFilename(parts[0]);
-                    var frag = ResolveFilename(parts[1]);
-                    var vertexShaderSource = File.ReadAllText(vert);
-                    var fragmentShaderSource = File.ReadAllText(frag);
-
-                    shaderContent =
-                        new ShaderContent(
-                            vs: vertexShaderSource,
-                            fs: fragmentShaderSource);
-                }
-                catch (FileNotFoundException e)
-                {
-                }
-            }
-
-            if (shaderContent == null)
-            {
-                try
-                {
-                    var vert = ResolveFilename(name + ".vert");
-                    var frag = ResolveFilename(name + ".frag");
-                    var vertexShaderSource = File.ReadAllText(vert);
-                    var fragmentShaderSource = File.ReadAllText(frag);
-
-                    shaderContent =
-                        new ShaderContent(
-                            vs: vertexShaderSource,
-                            fs: fragmentShaderSource);
-                }
-                finally
-                {
-                }
-            }
 
             var shader = new ShaderAdapter(shaderContent, bindattrs2);
 
