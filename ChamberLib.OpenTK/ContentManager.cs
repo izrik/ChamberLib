@@ -18,7 +18,7 @@ namespace ChamberLib
                 new BuiltinContentImporter(
                     new ResolvingContentImporter(
                         new ContentImporter(
-                            null,
+                            new ChModelImporter().ImportModel,
                             new BasicTextureImporter().ImportTexture,
                             new GlslShaderImporter().ImportShader,
                             null,
@@ -34,12 +34,11 @@ namespace ChamberLib
 
         public IModel LoadModel(string name)
         {
-            var resolvedFilename = ResolveFilename(name);
+            var resolvedFilename = (name);
             if (_cache.ContainsKey(resolvedFilename)) return (IModel)_cache[resolvedFilename];
 
             var filename = resolvedFilename;
-            var mi = new ChModelImporter();
-            var modelContent = mi.ImportModel(filename, Importer);
+            var modelContent = Importer.ImportModel(filename, Importer);
             var model = new Model(modelContent, Renderer);
 
             _cache[resolvedFilename] = model;
