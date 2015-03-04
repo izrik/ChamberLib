@@ -139,20 +139,6 @@ namespace ChamberLib
         {
             return TextureAdapter.CreateTexture(width, height, data);
         }
-
-        public static string PathPrefix = "Content.OpenTK";
-        static string ResolveFilename(string filename)
-        {
-            if (Path.IsPathRooted(filename))
-                return filename;
-
-            string path = filename;
-            if (!string.IsNullOrWhiteSpace(PathPrefix))
-            {
-                path = Path.Combine(PathPrefix, filename);
-            }
-            return path.Replace('\\', '/');
-        }
     }
 }
 
