@@ -102,7 +102,6 @@
     <Compile Include="Content\MaterialContent.cs" />
     <Compile Include="Content\TextureContent.cs" />
     <Compile Include="Content\ShaderContent.cs" />
-    <Compile Include="Content\BasicShaderLoader.cs" />
     <Compile Include="Content\FontContent.cs" />
     <Compile Include="Content\SongContent.cs" />
     <Compile Include="Content\SoundEffectContent.cs" />
