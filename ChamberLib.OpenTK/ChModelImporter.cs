@@ -10,6 +10,18 @@ namespace ChamberLib
     {
         public ModelContent ImportModel(string filename, IContentManager content)
         {
+            if (File.Exists(filename))
+            {
+            }
+            else if (File.Exists(filename + ".chmodel"))
+            {
+                filename += ".chmodel";
+            }
+            else
+            {
+                throw new FileNotFoundException("The file could not be found", filename);
+            }
+
             using (var s = new StreamReader(filename))
             {
                 var reader =

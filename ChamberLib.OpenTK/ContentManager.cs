@@ -24,17 +24,13 @@ namespace ChamberLib
             var resolvedFilename = ResolveFilename(name);
             if (_cache.ContainsKey(resolvedFilename)) return (IModel)_cache[resolvedFilename];
 
-            if (File.Exists(resolvedFilename + ".chmodel"))
-            {
-                var filename = resolvedFilename + ".chmodel";
-                var mi = new ChModelImporter();
-                var modelContent = mi.ImportModel(filename, this);
-                var model = new Model(modelContent, Renderer);
-                _cache[resolvedFilename] = model;
-                return model;
-            }
+            var filename = resolvedFilename;
+            var mi = new ChModelImporter();
+            var modelContent = mi.ImportModel(filename, this);
+            var model = new Model(modelContent, Renderer);
 
-            throw new FileNotFoundException(name);
+            _cache[resolvedFilename] = model;
+            return model;
         }
 
         public ISong LoadSong(string name)
