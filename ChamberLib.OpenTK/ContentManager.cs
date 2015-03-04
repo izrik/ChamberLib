@@ -37,82 +37,53 @@ namespace ChamberLib
         public readonly IContentImporter Importer;
         public readonly IContentProcessor Processor;
 
-        readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
-
         public IModel LoadModel(string name)
         {
-            if (_cache.ContainsKey(name)) return (IModel)_cache[name];
-
             var modelContent = Importer.ImportModel(name, Importer);
             var model = Processor.ProcessModel(modelContent, Processor);
-
-            _cache[name] = model;
             return model;
         }
 
         public ISong LoadSong(string name)
         {
-            if (_cache.ContainsKey(name)) return (ISong)_cache[name];
-
             var songContent = Importer.ImportSong(name, Importer);
             var song = Processor.ProcessSong(songContent, Processor);
-
-            _cache[name] = song;
             return song;
         }
 
         public ISoundEffect LoadSoundEffect(string name)
         {
-            if (_cache.ContainsKey(name)) return (ISoundEffect)_cache[name];
-
             var sec = Importer.ImportSoundEffect(name, null);
             var se = Processor.ProcessSoundEffect(sec, Processor);
-
-            _cache[name] = se;
             return se;
         }
 
         public ITexture2D LoadTexture2D(string name)
         {
-            if (_cache.ContainsKey(name)) return (ITexture2D)_cache[name];
-
             var textureContent = Importer.ImportTexture2D(name, null);
             var texture = Processor.ProcessTexture2D(textureContent, Processor);
-
-            _cache[name] = texture;
             return texture;
         }
 
         public IFont LoadFont(string name)
         {
-            if (_cache.ContainsKey(name)) return (IFont)_cache[name];
-
             var fontContent = Importer.ImportFont(name, Importer);
             var font = Processor.ProcessFont(fontContent, Processor);
-
-            _cache[name] = font;
             return font;
         }
 
         public IShader LoadShader(string name, object bindattrs=null)
         {
-            if (_cache.ContainsKey(name)) return (IShader)_cache[name];
-
             var shaderContent = Importer.ImportShader(name, Importer);
             var shader = Processor.ProcessShader(shaderContent, null, bindattrs);
-
-            _cache[name] = shader;
             return shader;
         }
 
         public string LookupObjectName(object o)
         {
-            foreach (var kvp in _cache)
+            if (o is IShader)
             {
-                if (kvp.Value == o)
-                {
-                    return kvp.Key;
-                }
+                return ((IShader)o).Name;
             }
 
             return null;

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Audio;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
@@ -31,6 +32,7 @@ namespace ChamberLib
 
             _renderer = new Renderer(this);
             _content = new ContentManager(_renderer);
+            _cachingContent = new CachingContentManager(_content);
 
             _audioContext = new AudioContext();
         }
@@ -41,7 +43,8 @@ namespace ChamberLib
         public IRenderer Renderer { get { return _renderer; } }
 
         readonly ContentManager _content;
-        public IContentManager ContentManager { get { return _content; } }
+        readonly CachingContentManager _cachingContent;
+        public IContentManager ContentManager { get { return _cachingContent; } }
 
         readonly MediaManager _media;
         public IMediaManager MediaManager { get { return _media; } }
