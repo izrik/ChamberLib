@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace ChamberLib.Content
 {
@@ -61,7 +62,10 @@ namespace ChamberLib.Content
         public ShaderContent ImportShader(string name, IContentImporter importer = null)
         {
             if (!string.IsNullOrEmpty(BasePath))
-                name = Path.Combine(BasePath, name);
+            {
+                name = string.Join(",",
+                    name.Split(',').Select(x => Path.Combine(BasePath, x)));
+            }
 
             return next.ImportShader(name, importer);
         }
