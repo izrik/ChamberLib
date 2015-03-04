@@ -90,6 +90,7 @@
     <Compile Include="BuiltinFontImporter.cs" />
     <Compile Include="BasicSongImporter.cs" />
     <Compile Include="OpenTKTextureProcessor.cs" />
+    <Compile Include="OpenTKShaderProcessor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

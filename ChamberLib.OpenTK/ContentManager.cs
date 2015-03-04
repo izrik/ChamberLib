@@ -123,8 +123,8 @@ namespace ChamberLib
 
             ShaderContent shaderContent = Importer.ImportShader(name, Importer);
 
-
-            var shader = new ShaderAdapter(shaderContent, bindattrs2);
+            var otksp = new OpenTKShaderProcessor();
+            var shader = otksp.ProcessShader(shaderContent, null, bindattrs2);
 
             shader.Name = name;
             _cache[resolvedFilename] = shader;
