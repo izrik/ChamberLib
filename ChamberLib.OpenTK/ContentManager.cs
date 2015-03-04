@@ -51,8 +51,8 @@ namespace ChamberLib
         {
             var resolvedFilename = (name);
             if (_cache.ContainsKey(resolvedFilename)) return (ISong)_cache[resolvedFilename];
-            var soundEffectContent = Importer.ImportSoundEffect(resolvedFilename, Importer);
-            var songContent = new SongContent(soundEffectContent);
+            var bsi = new BasicSongImporter();
+            var songContent = bsi.ImportSong(resolvedFilename, Importer);
             var song = new Song(songContent);
             _cache[resolvedFilename] = song;
             return song;
