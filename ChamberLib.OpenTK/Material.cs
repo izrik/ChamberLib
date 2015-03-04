@@ -6,7 +6,7 @@ namespace ChamberLib
 {
     public class Material : IMaterial
     {
-        public Material(MaterialContent material, ContentResolver resolver)
+        public Material(MaterialContent material, ContentResolver resolver, IContentProcessor processor)
         {
             this.Name = material.Name;
             this.Diffuse = material.DiffuseColor;
@@ -17,31 +17,22 @@ namespace ChamberLib
 
             if (material.Texture != null)
             {
-                if (!resolver.Textures.ContainsKey(material.Texture))
-                {
-                    var texture = new TextureAdapter(material.Texture);
-                    resolver.Add(material.Texture, texture);
-                }
-                this.Texture = resolver.Get(material.Texture);
+                this.Texture = processor.ProcessTexture2D(material.Texture);
             }
 
             if (material.Shader != null)
             {
-                if (!resolver.Shaders.ContainsKey(material.Shader))
-                {
-                    var shader =
-                        new ShaderAdapter(
-                            material.Shader,
-                            new [] {
-                                "in_position",
-                                "in_blend_indexes",
-                                "in_blend_weights",
-                                "in_normal",
-                                "in_texture_coords",
-                            });
-                    resolver.Add(material.Shader, shader);
-                }
-                this.Shader2 = resolver.Get(material.Shader);
+                this.Shader2 =
+                    (ShaderAdapter)processor.ProcessShader(
+                                        material.Shader,
+                                        processor,
+                                        new [] {
+                                            "in_position",
+                                            "in_blend_indexes",
+                                            "in_blend_weights",
+                                            "in_normal",
+                                            "in_texture_coords",
+                                        });
             }
         }
 

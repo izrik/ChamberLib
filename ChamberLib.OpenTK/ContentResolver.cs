@@ -12,8 +12,6 @@ namespace ChamberLib
         public readonly Dictionary<MaterialContent, Material> Materials = new Dictionary<MaterialContent, Material>();
         public readonly Dictionary<MeshContent, Mesh> Meshes = new Dictionary<MeshContent, Mesh>();
         public readonly Dictionary<PartContent, Part> Parts = new Dictionary<PartContent, Part>();
-        public readonly Dictionary<TextureContent, TextureAdapter> Textures = new Dictionary<TextureContent, TextureAdapter>();
-        public readonly Dictionary<ShaderContent, ShaderAdapter> Shaders = new Dictionary<ShaderContent, ShaderAdapter>();
 
         public void Add(VertexBufferContent from, VertexBuffer to)
         {
@@ -67,24 +65,6 @@ namespace ChamberLib
         public Part Get(PartContent item)
         {
             return Parts[item];
-        }
-
-        public void Add(TextureContent from, TextureAdapter to)
-        {
-            Textures.Add(from, to);
-        }
-        public TextureAdapter Get(TextureContent item)
-        {
-            return Textures[item];
-        }
-
-        public void Add(ShaderContent from, ShaderAdapter to)
-        {
-            Shaders.Add(from, to);
-        }
-        public ShaderAdapter Get(ShaderContent item)
-        {
-            return Shaders[item];
         }
     }
 }

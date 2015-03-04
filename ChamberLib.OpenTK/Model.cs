@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenTK.Graphics.OpenGL;
 using System.IO;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public class Model : IModel
     {
-        public Model(Content.ModelContent modelContent, Renderer renderer)
+        public Model(Content.ModelContent modelContent, Renderer renderer, IContentProcessor processor)
         {
             Renderer = renderer;
 
             var resolver = new ContentResolver();
-
-            resolver.Add(BuiltinShaders.BasicShaderContent, BuiltinShaders.BasicShader);
-            resolver.Add(BuiltinShaders.SkinnedShaderContent, BuiltinShaders.SkinnedShader);
 
             foreach (var ib in modelContent.IndexBuffers)
             {
@@ -51,7 +49,7 @@ namespace ChamberLib
                 {
                     if (!resolver.Materials.ContainsKey(part.Material))
                     {
-                        var mat2 = new Material(part.Material, resolver);
+                        var mat2 = new Material(part.Material, resolver, processor);
                         resolver.Materials.Add(part.Material, mat2);
                     }
                 }
