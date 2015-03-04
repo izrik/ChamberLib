@@ -95,12 +95,14 @@ namespace ChamberLib
 
         public ITexture2D LoadTexture2D(string name)
         {
-            var resolvedFilename = ResolveTextureFilename(name);
+            var resolvedFilename = ResolveFilename(name);
             if (_cache.ContainsKey(resolvedFilename)) return (ITexture2D)_cache[resolvedFilename];
 
             var filename = (resolvedFilename);
 
-            var textureContent = BasicTextureLoader.LoadTexture(filename);
+            var ti = new BasicTextureImporter();
+
+            var textureContent = ti.ImportTexture(filename, null);
             var texture = new TextureAdapter(textureContent);
             _cache[resolvedFilename] = texture;
             return texture;
