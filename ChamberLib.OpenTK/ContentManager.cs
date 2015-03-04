@@ -49,10 +49,11 @@ namespace ChamberLib
 
         public ISong LoadSong(string name)
         {
-            var resolvedFilename = ResolveFilename(name);
+            var resolvedFilename = (name);
             if (_cache.ContainsKey(resolvedFilename)) return (ISong)_cache[resolvedFilename];
-            var soundEffect = (SoundEffect)LoadSoundEffect(name);
-            var song = new Song(soundEffect);
+            var soundEffectContent = Importer.ImportSoundEffect(resolvedFilename, Importer);
+            var songContent = new SongContent(soundEffectContent);
+            var song = new Song(songContent);
             _cache[resolvedFilename] = song;
             return song;
         }

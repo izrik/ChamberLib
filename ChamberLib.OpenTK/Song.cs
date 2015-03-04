@@ -1,11 +1,16 @@
 ﻿using System;
 using System.IO;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public class Song : ISong
     {
-        public Song(SoundEffect soundEffect)
+        public Song(SongContent songContent)
+            : this(new SoundEffect(songContent.Content))
+        {
+        }
+        protected Song(SoundEffect soundEffect)
         {
             if (soundEffect == null) throw new ArgumentNullException("soundEffect");
 
