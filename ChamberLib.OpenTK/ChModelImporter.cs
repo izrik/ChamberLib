@@ -8,6 +8,13 @@ namespace ChamberLib
 {
     public class ChModelImporter
     {
+        public ChModelImporter(ModelImporter next=null)
+        {
+            this.next = next;
+        }
+
+        readonly ModelImporter next;
+
         public ModelContent ImportModel(string filename, IContentImporter importer)
         {
             if (File.Exists(filename))
@@ -16,6 +23,10 @@ namespace ChamberLib
             else if (File.Exists(filename + ".chmodel"))
             {
                 filename += ".chmodel";
+            }
+            else if (next != null)
+            {
+                return next(filename, importer);
             }
             else
             {
