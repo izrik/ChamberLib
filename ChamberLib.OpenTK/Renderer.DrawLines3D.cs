@@ -27,7 +27,8 @@ namespace ChamberLib
                 new ShaderAdapter(
                     new ShaderContent(
                         _DrawLines3D_shader_vert,
-                        _DrawLines3D_shader_frag),
+                        _DrawLines3D_shader_frag,
+                        "$draw lines 3d"),
                     new [] { "in_position" });
 
             _DrawLines3D_shader.MakeReady();

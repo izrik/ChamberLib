@@ -17,6 +17,8 @@ namespace ChamberLib
             {
                 BindAttributes.AddRange(bindattrs);
             }
+
+            name = shader.Name ?? "";
         }
 
         public readonly string VertexShaderSource;
@@ -26,7 +28,8 @@ namespace ChamberLib
         public int FragmentShaderID;
         public List<string> BindAttributes = new List<string>();
 
-        public string Name;
+        readonly string name;
+        public string Name { get { return name; } }
 
         public void Apply()
         {

@@ -21,7 +21,6 @@ namespace ChamberLib
                                 "in_normal",
                                 "in_texture_coords"
                             });
-                    basicShader.Name = "$basic";
                 }
 
                 return basicShader;
@@ -37,7 +36,8 @@ namespace ChamberLib
                     basicShaderContent =
                         new ShaderContent(
                             BasicShaderVert,
-                            BasicShaderFrag);
+                            BasicShaderFrag,
+                            "$basic");
                 }
 
                 return basicShaderContent;
@@ -149,7 +149,6 @@ void main(void)
                                 "in_blend_indices",
                                 "in_blend_weights",
                             });
-                    skinnedShader.Name = "$skinned";
                 }
 
                 return skinnedShader;
@@ -165,7 +164,8 @@ void main(void)
                     skinnedShaderContent =
                         new ShaderContent(
                             SkinnedShaderVert,
-                            SkinnedShaderFrag);
+                            SkinnedShaderFrag,
+                            "$skinned");
                 }
 
                 return skinnedShaderContent;

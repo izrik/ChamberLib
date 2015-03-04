@@ -99,8 +99,7 @@ namespace ChamberLib
             if (_cache.ContainsKey(name)) return (IShader)_cache[name];
 
             var shaderContent = Importer.ImportShader(name, Importer);
-            var shader = (ShaderAdapter)Processor.ProcessShader(shaderContent, null, bindattrs);
-            shader.Name = name;
+            var shader = Processor.ProcessShader(shaderContent, null, bindattrs);
 
             _cache[name] = shader;
             return shader;

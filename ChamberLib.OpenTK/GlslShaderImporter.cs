@@ -67,7 +67,8 @@ namespace ChamberLib
 
             return new ShaderContent(
                     vs: vertexShaderSource,
-                    fs: fragmentShaderSource);
+                    fs: fragmentShaderSource,
+                    name: filename);
         }
     }
 }
