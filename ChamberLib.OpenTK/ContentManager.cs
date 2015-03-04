@@ -28,7 +28,9 @@ namespace ChamberLib
                         ),
                         basePath: "Content.OpenTK"));
 
-            Processor = new OpenTKContentProcessor(Renderer);
+            Processor =
+                new CachingContentProcessor(
+                    new OpenTKContentProcessor(Renderer));
         }
 
         public readonly Renderer Renderer;
