@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Drawing;
 
 namespace ChamberLib.Content
 {
@@ -31,7 +32,11 @@ namespace ChamberLib.Content
                 throw new FileNotFoundException("Could not find texture file", filename);
             }
 
-            return BasicTextureLoader.LoadTexture(filename);
+            var bmp = new Bitmap(filename);
+
+            var texture = new TextureContent(bmp);
+
+            return texture;
         }
     }
 }

@@ -196,7 +196,8 @@ namespace ChamberLib
             if (!string.IsNullOrEmpty(texname))
             {
                 var resolvedFilename = content.ResolveTextureFilename(texname);
-                var texture = BasicTextureLoader.LoadTexture(resolvedFilename);
+                var ti = new BasicTextureImporter();
+                var texture = ti.ImportTexture(resolvedFilename, null);
                 mat.Texture = texture;
             }
             var shadername = reader.ReadLine();
