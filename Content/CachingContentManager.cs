@@ -59,6 +59,37 @@ namespace ChamberLib.Content
 
         public string LookupObjectName(object o)
         {
+            if (o is IModel)
+            {
+                var s = models.LookupObject((IModel)o);
+                if (s != null) return s;
+            }
+            if (o is ITexture2D)
+            {
+                var s = textures.LookupObject((ITexture2D)o);
+                if (s != null) return s;
+            }
+            if (o is IShader)
+            {
+                var s = shaders.LookupObject((IShader)o);
+                if (s != null) return s;
+            }
+            if (o is IFont)
+            {
+                var s = fonts.LookupObject((IFont)o);
+                if (s != null) return s;
+            }
+            if (o is ISong)
+            {
+                var s = songs.LookupObject((ISong)o);
+                if (s != null) return s;
+            }
+            if (o is ISoundEffect)
+            {
+                var s = soundEffects.LookupObject((ISoundEffect)o);
+                if (s != null) return s;
+            }
+
             return next.LookupObjectName(o);
         }
 
