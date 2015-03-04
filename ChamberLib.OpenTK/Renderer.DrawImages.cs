@@ -30,8 +30,8 @@ namespace ChamberLib
                 new ShaderAdapter(
                     new ShaderContent(
                         _DrawImages_shader_vert,
-                        _DrawImages_shader_frag,
-                        new [] { "in_position" }));
+                        _DrawImages_shader_frag),
+                    new [] { "in_position" });
 
             _DrawImages_shader.MakeReady();
             GLHelper.CheckError();

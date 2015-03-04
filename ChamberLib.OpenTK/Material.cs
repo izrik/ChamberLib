@@ -29,7 +29,16 @@ namespace ChamberLib
             {
                 if (!resolver.Shaders.ContainsKey(material.Shader))
                 {
-                    var shader = new ShaderAdapter(material.Shader);
+                    var shader =
+                        new ShaderAdapter(
+                            material.Shader,
+                            new [] {
+                                "in_position",
+                                "in_blend_indexes",
+                                "in_blend_weights",
+                                "in_normal",
+                                "in_texture_coords",
+                            });
                     resolver.Add(material.Shader, shader);
                 }
                 this.Shader2 = resolver.Get(material.Shader);

@@ -28,8 +28,8 @@ namespace ChamberLib
                 new ShaderAdapter(
                     new ShaderContent(
                         _DrawLines2D_shader_vert,
-                        _DrawLines2D_shader_frag,
-                        new [] { "in_position" }));
+                        _DrawLines2D_shader_frag),
+                    new [] { "in_position" });
 
             _DrawLines2D_shader.MakeReady();
             GLHelper.CheckError();

@@ -215,17 +215,13 @@ namespace ChamberLib
                     string frag;
                     content.ResolveShaderFilenames(shadername, out vert, out frag);
 
+                    var vertexShaderSource = File.ReadAllText(vert);
+                    var fragmentShaderSource = File.ReadAllText(frag);
+
                     shader =
-                        BasicShaderLoader.LoadShader(
-                            vert,
-                            frag,
-                            bindattrs: new string[] {
-                                "in_position",
-                                "in_blend_indexes",
-                                "in_blend_weights",
-                                "in_normal",
-                                "in_texture_coords",
-                            });
+                        new ShaderContent(
+                            vs: vertexShaderSource,
+                            fs: fragmentShaderSource);
                 }
                 mat.Shader = shader;
             }

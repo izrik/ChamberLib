@@ -147,8 +147,8 @@ namespace ChamberLib
             Shader = new ShaderAdapter(
                 new ShaderContent(
                     _DrawString_shader_vert,
-                    _DrawString_shader_frag,
-                    new [] { "in_position" }));
+                    _DrawString_shader_frag),
+                new [] { "in_position" });
 
             Shader.Apply();
 

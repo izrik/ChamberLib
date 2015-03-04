@@ -9,13 +9,13 @@ namespace ChamberLib
 {
     public class ShaderAdapter : IShader
     {
-        public ShaderAdapter(ShaderContent shader)
+        public ShaderAdapter(ShaderContent shader, string[] bindattrs)
         {
             VertexShaderSource = shader.VertexShaderSource;
             FragmentShaderSource = shader.FragmentShaderSource;
-            if (shader.BindAttributes != null)
+            if (bindattrs != null)
             {
-                BindAttributes.AddRange(shader.BindAttributes);
+                BindAttributes.AddRange(bindattrs);
             }
         }
 

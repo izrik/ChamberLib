@@ -5,7 +5,7 @@ namespace ChamberLib.Content
 {
     public static class BasicShaderLoader
     {
-        public static ShaderContent LoadShader(string vertexShaderFilename, string fragmentShaderFilename, string[] bindattrs)
+        public static ShaderContent LoadShader(string vertexShaderFilename, string fragmentShaderFilename)
         {
             var vertexShaderSource = File.ReadAllText(vertexShaderFilename);
             var fragmentShaderSource = File.ReadAllText(fragmentShaderFilename);
@@ -13,8 +13,7 @@ namespace ChamberLib.Content
             var shaderContent =
                 new ShaderContent(
                     vs: vertexShaderSource,
-                    fs: fragmentShaderSource,
-                    bindAttributes: bindattrs);
+                    fs: fragmentShaderSource);
 
             return shaderContent;
         }

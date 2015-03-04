@@ -13,7 +13,14 @@ namespace ChamberLib
             {
                 if (basicShader == null)
                 {
-                    basicShader = new ShaderAdapter(BasicShaderContent);
+                    basicShader =
+                        new ShaderAdapter(
+                            BasicShaderContent,
+                            new [] {
+                                "in_position",
+                                "in_normal",
+                                "in_texture_coords"
+                            });
                     basicShader.Name = "$basic";
                 }
 
@@ -30,12 +37,7 @@ namespace ChamberLib
                     basicShaderContent =
                         new ShaderContent(
                             BasicShaderVert,
-                            BasicShaderFrag,
-                            new [] {
-                                "in_position",
-                                "in_normal",
-                                "in_texture_coords"
-                            });
+                            BasicShaderFrag);
                 }
 
                 return basicShaderContent;
@@ -137,7 +139,16 @@ void main(void)
             {
                 if (skinnedShader == null)
                 {
-                    skinnedShader = new ShaderAdapter(SkinnedShaderContent);
+                    skinnedShader =
+                        new ShaderAdapter(
+                            SkinnedShaderContent,
+                            new [] {
+                                "in_position",
+                                "in_normal",
+                                "in_texture_coords",
+                                "in_blend_indices",
+                                "in_blend_weights",
+                            });
                     skinnedShader.Name = "$skinned";
                 }
 
@@ -154,14 +165,7 @@ void main(void)
                     skinnedShaderContent =
                         new ShaderContent(
                             SkinnedShaderVert,
-                            SkinnedShaderFrag,
-                            new [] {
-                                "in_position",
-                                "in_normal",
-                                "in_texture_coords",
-                                "in_blend_indices",
-                                "in_blend_weights",
-                            });
+                            SkinnedShaderFrag);
                 }
 
                 return skinnedShaderContent;

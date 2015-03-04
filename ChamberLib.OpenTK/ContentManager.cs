@@ -216,8 +216,7 @@ namespace ChamberLib
                     shaderContent =
                         new ShaderContent(
                             vs: vertexShaderSource,
-                            fs: fragmentShaderSource,
-                            bindAttributes: bindattrs2);
+                            fs: fragmentShaderSource);
                 }
                 catch (FileNotFoundException e)
                 {
@@ -236,15 +235,14 @@ namespace ChamberLib
                     shaderContent =
                         new ShaderContent(
                             vs: vertexShaderSource,
-                            fs: fragmentShaderSource,
-                            bindAttributes: bindattrs2);
+                            fs: fragmentShaderSource);
                 }
                 finally
                 {
                 }
             }
 
-            var shader = new ShaderAdapter(shaderContent);
+            var shader = new ShaderAdapter(shaderContent, bindattrs2);
 
             shader.Name = name;
             _cache[resolvedFilename] = shader;
