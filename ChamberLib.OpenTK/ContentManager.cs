@@ -94,16 +94,8 @@ namespace ChamberLib
 
         public IShader LoadShader(string name, object bindattrs=null)
         {
-            if (name == "$basic")
-            {
-                return BuiltinShaders.BasicShader;
-            }
-            if (name == "$skinned")
-            {
-                return BuiltinShaders.SkinnedShader;
-            }
 
-            var resolvedFilename = ResolveFilename(name);
+            var resolvedFilename = (name);
             if (_cache.ContainsKey(resolvedFilename)) return (IShader)_cache[resolvedFilename];
 
             string[] bindattrs2=null;
