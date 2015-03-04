@@ -31,7 +31,7 @@ namespace ChamberLib
             Processor =
                 new ContentProcessor(
                     null,
-                    null,
+                    new OpenTKTextureProcessor().ProcessTexture,
                     null,
                     null,
                     null,
@@ -87,7 +87,7 @@ namespace ChamberLib
             var filename = (resolvedFilename);
 
             var textureContent = Importer.ImportTexture2D(filename, null);
-            var texture = new TextureAdapter(textureContent);
+            var texture = Processor.ProcessTexture2D(textureContent, Processor);
             _cache[resolvedFilename] = texture;
             return texture;
         }
