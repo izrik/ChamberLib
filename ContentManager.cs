@@ -61,7 +61,12 @@ namespace ChamberLib
 
         public string LookupObjectName(object o)
         {
-            throw new NotImplementedException();
+            if (o is IShader)
+            {
+                return ((IShader)o).Name;
+            }
+
+            return null;
         }
 
         public ITexture2D CreateTexture(int width, int height, Color[] data)
