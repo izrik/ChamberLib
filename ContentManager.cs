@@ -68,16 +68,6 @@ namespace ChamberLib
         {
             throw new NotImplementedException();
         }
-
-        public string ResolveTextureFilename(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ResolveShaderFilenames(string name, out string vertexShaderFilename, out string fragmentShaderFilename)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 

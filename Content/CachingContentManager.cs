@@ -66,16 +66,6 @@ namespace ChamberLib.Content
         {
             return next.CreateTexture(width, height, data);
         }
-
-        public string ResolveTextureFilename(string name)
-        {
-            return next.ResolveTextureFilename(name);
-        }
-
-        public void ResolveShaderFilenames(string name, out string vertexShaderFilename, out string fragmentShaderFilename)
-        {
-            next.ResolveShaderFilenames(name, out vertexShaderFilename, out fragmentShaderFilename);
-        }
     }
 }
 

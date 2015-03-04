@@ -14,9 +14,6 @@ namespace ChamberLib
         string LookupObjectName(object o);
 
         ITexture2D CreateTexture(int width, int height, Color[] data);
-
-        string ResolveTextureFilename(string name);
-        void ResolveShaderFilenames(string name, out string vertexShaderFilename, out string fragmentShaderFilename);
     }
 
     public static class IContentManagerHelper

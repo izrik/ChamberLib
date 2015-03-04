@@ -69,40 +69,6 @@ namespace ChamberLib
             return se;
         }
 
-        public string ResolveTextureFilename(string name)
-        {
-            name = ResolveFilename(name);
-
-            string filename;
-
-            if (File.Exists(name))
-            {
-                filename = name;
-            }
-            else if (File.Exists(name + ".png"))
-            {
-                filename = name + ".png";
-            }
-            else if (File.Exists(name + ".jpg"))
-            {
-                filename = name + ".jpg";
-            }
-            else if (File.Exists(name + ".gif"))
-            {
-                filename = name + ".gif";
-            }
-            else if (File.Exists(name + ".bmp"))
-            {
-                filename = name + ".bmp";
-            }
-            else
-            {
-                throw new FileNotFoundException("Could not find texture file", name);
-            }
-
-            return filename;
-        }
-
         public ITexture2D LoadTexture2D(string name)
         {
             var resolvedFilename = (name);
@@ -123,50 +89,6 @@ namespace ChamberLib
             var font = new FontAdapter();
             _cache[resolvedFilename] = font;
             return font;
-        }
-
-        public void ResolveShaderFilenames(string name, out string vertexShaderFilename, out string fragmentShaderFilename)
-        {
-            string vert = null;
-            string frag = null;
-
-            if (name.Contains(","))
-            {
-                var parts = name.Split(',');
-
-                vert = ResolveFilename(parts[0]);
-                frag = ResolveFilename(parts[1]);
-            }
-            else
-            {
-                vert = frag = ResolveFilename(name);
-            }
-
-            if (File.Exists(vert))
-            {
-                vertexShaderFilename = vert;
-            }
-            else if (File.Exists(vert + ".vert"))
-            {
-                vertexShaderFilename = vert + ".vert";
-            }
-            else
-            {
-                vertexShaderFilename = vert;
-            }
-
-            if (File.Exists(frag))
-            {
-                fragmentShaderFilename = frag;
-            }
-            else if (File.Exists(frag + ".frag"))
-            {
-                fragmentShaderFilename = frag + ".frag";
-            }
-            else
-            {
-                fragmentShaderFilename = frag;
-            }
         }
 
         public IShader LoadShader(string name, object bindattrs=null)
