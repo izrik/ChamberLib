@@ -22,7 +22,7 @@ namespace ChamberLib
                             new BasicTextureImporter().ImportTexture,
                             new GlslShaderImporter().ImportShader,
                             null,
-                            null,
+                            new BasicSongImporter().ImportSong,
                             new OggVorbisSoundEffectImporter(
                                 new WaveSoundEffectImporter().ImportSoundEffect).ImportSoundEffect
                         ),
@@ -51,8 +51,7 @@ namespace ChamberLib
         {
             var resolvedFilename = (name);
             if (_cache.ContainsKey(resolvedFilename)) return (ISong)_cache[resolvedFilename];
-            var bsi = new BasicSongImporter();
-            var songContent = bsi.ImportSong(resolvedFilename, Importer);
+            var songContent = Importer.ImportSong(resolvedFilename, Importer);
             var song = new Song(songContent);
             _cache[resolvedFilename] = song;
             return song;
