@@ -15,7 +15,7 @@ namespace ChamberLib
             GenerateGlyphs();
         }
 
-        public FontAdapter()
+        public FontAdapter(FontContent font=null)
         {
         }
 
