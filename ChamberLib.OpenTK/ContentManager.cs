@@ -202,8 +202,6 @@ namespace ChamberLib
             }
 
             ShaderContent shaderContent = null;
-            string vertexShaderSource = null;
-            string fragmentShaderSource = null;
 
             if (name.Contains(","))
             {
@@ -212,23 +210,38 @@ namespace ChamberLib
                     var parts = name.Split(',');
                     var vert = ResolveFilename(parts[0]);
                     var frag = ResolveFilename(parts[1]);
+                    var vertexShaderSource = File.ReadAllText(vert);
+                    var fragmentShaderSource = File.ReadAllText(frag);
 
-                    shaderContent = BasicShaderLoader.LoadShader(vert, frag, bindattrs2);
+                    shaderContent =
+                        new ShaderContent(
+                            vs: vertexShaderSource,
+                            fs: fragmentShaderSource,
+                            bindAttributes: bindattrs2);
                 }
                 catch (FileNotFoundException e)
                 {
                 }
             }
 
-            try
+            if (shaderContent == null)
             {
-                var vert = ResolveFilename(name + ".vert");
-                var frag = ResolveFilename(name + ".frag");
+                try
+                {
+                    var vert = ResolveFilename(name + ".vert");
+                    var frag = ResolveFilename(name + ".frag");
+                    var vertexShaderSource = File.ReadAllText(vert);
+                    var fragmentShaderSource = File.ReadAllText(frag);
 
-                shaderContent = BasicShaderLoader.LoadShader(vert, frag, bindattrs2);
-            }
-            finally
-            {
+                    shaderContent =
+                        new ShaderContent(
+                            vs: vertexShaderSource,
+                            fs: fragmentShaderSource,
+                            bindAttributes: bindattrs2);
+                }
+                finally
+                {
+                }
             }
 
             var shader = new ShaderAdapter(shaderContent);
