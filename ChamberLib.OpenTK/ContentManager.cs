@@ -27,10 +27,20 @@ namespace ChamberLib
                                 new WaveSoundEffectImporter().ImportSoundEffect).ImportSoundEffect
                         ),
                         basePath: "Content.OpenTK"));
+
+            Processor =
+                new ContentProcessor(
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
         }
 
         public readonly Renderer Renderer;
         public readonly IContentImporter Importer;
+        public readonly IContentProcessor Processor;
 
         readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
 
