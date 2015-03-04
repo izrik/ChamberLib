@@ -200,30 +200,7 @@ namespace ChamberLib
             var shadername = reader.ReadLine();
             if (!string.IsNullOrEmpty(shadername))
             {
-                ShaderContent shader;
-                if (shadername == "$basic")
-                {
-                    shader = BuiltinShaders.BasicShaderContent;
-                }
-                else if (shadername == "$skinned")
-                {
-                    shader = BuiltinShaders.SkinnedShaderContent;
-                }
-                else
-                {
-                    string vert;
-                    string frag;
-                    content.ResolveShaderFilenames(shadername, out vert, out frag);
-
-                    var vertexShaderSource = File.ReadAllText(vert);
-                    var fragmentShaderSource = File.ReadAllText(frag);
-
-                    shader =
-                        new ShaderContent(
-                            vs: vertexShaderSource,
-                            fs: fragmentShaderSource);
-                }
-                mat.Shader = shader;
+                mat.Shader = importer.ImportShader(shadername, importer);
             }
 
             return mat;

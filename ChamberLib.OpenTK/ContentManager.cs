@@ -20,7 +20,7 @@ namespace ChamberLib
                         new ContentImporter(
                             null,
                             new BasicTextureImporter().ImportTexture,
-                            null,
+                            new GlslShaderImporter().ImportShader,
                             null,
                             null,
                             null),
@@ -201,8 +201,7 @@ namespace ChamberLib
                 throw new InvalidOperationException();
             }
 
-            var gsi = new GlslShaderImporter();
-            ShaderContent shaderContent = gsi.ImportShader(name, Importer);
+            ShaderContent shaderContent = Importer.ImportShader(name, Importer);
 
 
             var shader = new ShaderAdapter(shaderContent, bindattrs2);
