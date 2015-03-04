@@ -41,74 +41,68 @@ namespace ChamberLib
 
         public IModel LoadModel(string name)
         {
-            var resolvedFilename = (name);
-            if (_cache.ContainsKey(resolvedFilename)) return (IModel)_cache[resolvedFilename];
+            if (_cache.ContainsKey(name)) return (IModel)_cache[name];
 
-            var filename = resolvedFilename;
-            var modelContent = Importer.ImportModel(filename, Importer);
+            var modelContent = Importer.ImportModel(name, Importer);
             var model = Processor.ProcessModel(modelContent, Processor);
 
-            _cache[resolvedFilename] = model;
+            _cache[name] = model;
             return model;
         }
 
         public ISong LoadSong(string name)
         {
-            var resolvedFilename = (name);
-            if (_cache.ContainsKey(resolvedFilename)) return (ISong)_cache[resolvedFilename];
-            var songContent = Importer.ImportSong(resolvedFilename, Importer);
+            if (_cache.ContainsKey(name)) return (ISong)_cache[name];
+
+            var songContent = Importer.ImportSong(name, Importer);
             var song = Processor.ProcessSong(songContent, Processor);
-            _cache[resolvedFilename] = song;
+
+            _cache[name] = song;
             return song;
         }
 
         public ISoundEffect LoadSoundEffect(string name)
         {
-            var resolvedFilename = (name);
-            if (_cache.ContainsKey(resolvedFilename)) return (ISoundEffect)_cache[resolvedFilename];
+            if (_cache.ContainsKey(name)) return (ISoundEffect)_cache[name];
 
-            var sec = Importer.ImportSoundEffect(resolvedFilename, null);
+            var sec = Importer.ImportSoundEffect(name, null);
             var se = Processor.ProcessSoundEffect(sec, Processor);
 
-            _cache[resolvedFilename] = se;
+            _cache[name] = se;
             return se;
         }
 
         public ITexture2D LoadTexture2D(string name)
         {
-            var resolvedFilename = (name);
-            if (_cache.ContainsKey(resolvedFilename)) return (ITexture2D)_cache[resolvedFilename];
+            if (_cache.ContainsKey(name)) return (ITexture2D)_cache[name];
 
-            var filename = (resolvedFilename);
-
-            var textureContent = Importer.ImportTexture2D(filename, null);
+            var textureContent = Importer.ImportTexture2D(name, null);
             var texture = Processor.ProcessTexture2D(textureContent, Processor);
-            _cache[resolvedFilename] = texture;
+
+            _cache[name] = texture;
             return texture;
         }
 
         public IFont LoadFont(string name)
         {
-            var resolvedFilename = (name);
-            if (_cache.ContainsKey(resolvedFilename)) return (IFont)_cache[resolvedFilename];
-            var fontContent = Importer.ImportFont(resolvedFilename, Importer);
+            if (_cache.ContainsKey(name)) return (IFont)_cache[name];
+
+            var fontContent = Importer.ImportFont(name, Importer);
             var font = Processor.ProcessFont(fontContent, Processor);
-            _cache[resolvedFilename] = font;
+
+            _cache[name] = font;
             return font;
         }
 
         public IShader LoadShader(string name, object bindattrs=null)
         {
-
-            var resolvedFilename = (name);
-            if (_cache.ContainsKey(resolvedFilename)) return (IShader)_cache[resolvedFilename];
+            if (_cache.ContainsKey(name)) return (IShader)_cache[name];
 
             var shaderContent = Importer.ImportShader(name, Importer);
-
             var shader = (ShaderAdapter)Processor.ProcessShader(shaderContent, null, bindattrs);
-
             shader.Name = name;
-            _cache[resolvedFilename] = shader;
+
+            _cache[name] = shader;
             return shader;
         }
 
