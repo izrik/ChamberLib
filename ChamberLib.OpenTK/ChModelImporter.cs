@@ -8,7 +8,7 @@ namespace ChamberLib
 {
     public class ChModelImporter
     {
-        public ModelContent ImportModel(string filename, IContentManager content)
+        public ModelContent ImportModel(string filename, IContentManager content, IContentImporter importer)
         {
             if (File.Exists(filename))
             {
@@ -76,7 +76,7 @@ namespace ChamberLib
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
                 for (i = 0; i < num; i++)
                 {
-                    var material = ReadMaterial(reader, content);
+                    var material = ReadMaterial(reader, content, importer);
                     materials.Add(material);
                 }
 
@@ -185,7 +185,7 @@ namespace ChamberLib
             return indexes;
         }
 
-        MaterialContent ReadMaterial(IReader reader, IContentManager content)
+        MaterialContent ReadMaterial(IReader reader, IContentManager content, IContentImporter importer)
         {
             var mat = new MaterialContent();
             mat.DiffuseColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
@@ -195,10 +195,7 @@ namespace ChamberLib
             var texname = reader.ReadLine();
             if (!string.IsNullOrEmpty(texname))
             {
-                var resolvedFilename = content.ResolveTextureFilename(texname);
-                var ti = new BasicTextureImporter();
-                var texture = ti.ImportTexture(resolvedFilename, null);
-                mat.Texture = texture;
+                mat.Texture = importer.ImportTexture2D(texname, importer);
             }
             var shadername = reader.ReadLine();
             if (!string.IsNullOrEmpty(shadername))

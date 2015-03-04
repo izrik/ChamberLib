@@ -13,9 +13,21 @@ namespace ChamberLib
             if (renderer == null) throw new ArgumentNullException("renderer");
 
             Renderer = renderer;
+
+            Importer =
+                new ResolvingContentImporter(
+                    new ContentImporter(
+                        null,
+                        new BasicTextureImporter().ImportTexture,
+                        null,
+                        null,
+                        null,
+                        null),
+                    basePath: "Content.OpenTK");
         }
 
         public readonly Renderer Renderer;
+        public readonly IContentImporter Importer;
 
         readonly Dictionary<string, object> _cache = new Dictionary<string, object>();
 
@@ -26,7 +38,7 @@ namespace ChamberLib
 
             var filename = resolvedFilename;
             var mi = new ChModelImporter();
-            var modelContent = mi.ImportModel(filename, this);
+            var modelContent = mi.ImportModel(filename, this, Importer);
             var model = new Model(modelContent, Renderer);
 
             _cache[resolvedFilename] = model;
