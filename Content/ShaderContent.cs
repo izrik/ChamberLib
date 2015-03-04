@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ChamberLib
+namespace ChamberLib.Content
 {
     public class ShaderContent
     {

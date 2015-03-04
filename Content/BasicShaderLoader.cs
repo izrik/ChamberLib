@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ChamberLib
+namespace ChamberLib.Content
 {
     public static class BasicShaderLoader
     {

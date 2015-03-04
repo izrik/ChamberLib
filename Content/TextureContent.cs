@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace ChamberLib
+namespace ChamberLib.Content
 {
     public class TextureContent
     {

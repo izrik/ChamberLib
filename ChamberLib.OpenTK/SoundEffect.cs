@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using OpenTK.Audio.OpenAL;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {

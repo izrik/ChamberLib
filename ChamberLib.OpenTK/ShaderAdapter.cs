@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {

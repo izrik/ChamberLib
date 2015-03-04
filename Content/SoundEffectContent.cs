@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChamberLib
+namespace ChamberLib.Content
 {
     public class SoundEffectContent
     {

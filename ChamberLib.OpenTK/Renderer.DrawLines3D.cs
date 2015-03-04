@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using System.Linq;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
