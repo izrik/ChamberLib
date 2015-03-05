@@ -72,7 +72,6 @@
     <Compile Include="RenderBundle.cs" />
     <Compile Include="BuiltinShaders.cs" />
     <Compile Include="ColorHelper.cs" />
-    <Compile Include="ContentManager.cs" />
     <Compile Include="ChModelExporter.cs" />
     <Compile Include="MutableVertexBuffer.cs" />
     <Compile Include="IVertexBuffer.cs" />
