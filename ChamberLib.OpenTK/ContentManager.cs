@@ -12,8 +12,6 @@ namespace ChamberLib
         {
             if (renderer == null) throw new ArgumentNullException("renderer");
 
-            Renderer = renderer;
-
             Importer =
                 new BuiltinContentImporter(
                     new ResolvingContentImporter(
@@ -30,10 +28,9 @@ namespace ChamberLib
 
             Processor =
                 new CachingContentProcessor(
-                    new OpenTKContentProcessor(Renderer));
+                    new OpenTKContentProcessor(renderer));
         }
 
-        public readonly Renderer Renderer;
         public readonly IContentImporter Importer;
         public readonly IContentProcessor Processor;
 
