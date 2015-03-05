@@ -19,8 +19,11 @@ namespace ChamberLib
             Action<GameTime> onUpdateFrameMethod=null)
         {
 
+            // audio playback
             _media = new MediaManager();
+            _audioContext = new AudioContext();
 
+            // window management
             Window = new ChamberGameWindow(
                 width: 800,
                 height: 480,
@@ -30,11 +33,30 @@ namespace ChamberLib
                 onRenderFrameMethod: Render + onRenderFrameMethod,
                 onUpdateFrameMethod: Update + onUpdateFrameMethod);
 
+            // renderer
             _renderer = new Renderer(this);
-            _content = new ContentManager(_renderer);
-            _cachingContent = new CachingContentManager(_content);
 
-            _audioContext = new AudioContext();
+            // content management
+            var importer =
+                new BuiltinContentImporter(
+                    new ResolvingContentImporter(
+                        new ContentImporter(
+                            new ChModelImporter().ImportModel,
+                            new BasicTextureImporter().ImportTexture,
+                            new GlslShaderImporter().ImportShader,
+                            null,
+                            new BasicSongImporter().ImportSong,
+                            new OggVorbisSoundEffectImporter(
+                                new WaveSoundEffectImporter().ImportSoundEffect).ImportSoundEffect
+                        ),
+                        basePath: "Content.OpenTK"));
+
+            var processor =
+                new CachingContentProcessor(
+                    new OpenTKContentProcessor(_renderer));
+
+            _content = new ContentManager(importer, processor);
+            _cachingContent = new CachingContentManager(_content);
         }
 
         public readonly ChamberGameWindow Window;

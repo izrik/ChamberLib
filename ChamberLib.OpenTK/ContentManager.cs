@@ -1,34 +1,17 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public class ContentManager : IContentManager
     {
-        public ContentManager(Renderer renderer)
+        public ContentManager(IContentImporter importer, IContentProcessor processor)
         {
-            if (renderer == null) throw new ArgumentNullException("renderer");
+            if (importer == null) throw new ArgumentNullException("importer");
+            if (processor == null) throw new ArgumentNullException("processor");
 
-            Importer =
-                new BuiltinContentImporter(
-                    new ResolvingContentImporter(
-                        new ContentImporter(
-                            new ChModelImporter().ImportModel,
-                            new BasicTextureImporter().ImportTexture,
-                            new GlslShaderImporter().ImportShader,
-                            null,
-                            new BasicSongImporter().ImportSong,
-                            new OggVorbisSoundEffectImporter(
-                                new WaveSoundEffectImporter().ImportSoundEffect).ImportSoundEffect
-                        ),
-                        basePath: "Content.OpenTK"));
-
-            Processor =
-                new CachingContentProcessor(
-                    new OpenTKContentProcessor(renderer));
+            Importer = importer;
+            Processor = processor;
         }
 
         public readonly IContentImporter Importer;
