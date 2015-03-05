@@ -91,7 +91,8 @@ namespace ChamberLib
 
         public ITexture2D CreateTexture(int width, int height, Color[] data)
         {
-            return TextureAdapter.CreateTexture(width, height, data);
+            var tc = new TextureContent(width, height, data);
+            return new TextureAdapter(tc);
         }
     }
 }

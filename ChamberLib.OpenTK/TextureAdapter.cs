@@ -30,12 +30,6 @@ namespace ChamberLib
 
         #endregion
 
-        public static ITexture2D CreateTexture(int width, int height, Color[] data)
-        {
-            var tc = new TextureContent(width, height, data);
-            return new TextureAdapter(tc);
-        }
-
         protected void MakeReady()
         {
             int n = PixelData.Length * 4;
