@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class Mesh : IMesh
     {

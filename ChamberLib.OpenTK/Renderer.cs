@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Linq;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public partial class Renderer : IRenderer
     {

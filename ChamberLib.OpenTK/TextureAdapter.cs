@@ -2,7 +2,9 @@
 using OpenTK.Graphics.OpenGL;
 using ChamberLib.Content;
 
-namespace ChamberLib
+using _OpenTK = global::OpenTK;
+
+namespace ChamberLib.OpenTK
 {
     public class TextureAdapter : ITexture2D
     {
@@ -51,7 +53,7 @@ namespace ChamberLib
 
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, Width, Height, 0,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bytes);
+                _OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bytes);
 
             // We haven't uploaded mipmaps, so disable mipmapping (otherwise the texture will not appear).
             // On newer video cards, we can use GL.GenerateMipmaps() or GL.Ext.GenerateMipmaps() to create

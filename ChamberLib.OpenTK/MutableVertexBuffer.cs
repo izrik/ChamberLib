@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL;
 using System.Linq;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class MutableVertexBuffer : IVertexBuffer
     {

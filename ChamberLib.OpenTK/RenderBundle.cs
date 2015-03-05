@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class RenderBundle
     {

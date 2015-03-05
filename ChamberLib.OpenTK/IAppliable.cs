@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public interface IAppliable
     {

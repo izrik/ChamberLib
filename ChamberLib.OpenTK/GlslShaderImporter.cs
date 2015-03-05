@@ -2,7 +2,7 @@
 using ChamberLib.Content;
 using System.IO;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class GlslShaderImporter
     {

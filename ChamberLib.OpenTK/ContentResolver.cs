@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class ContentResolver
     {

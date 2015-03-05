@@ -2,7 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class IndexBuffer : IIndexBuffer
     {

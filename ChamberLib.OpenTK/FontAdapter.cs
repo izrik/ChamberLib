@@ -5,7 +5,9 @@ using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 using ChamberLib.Content;
 
-namespace ChamberLib
+using _OpenTK = global::OpenTK;
+
+namespace ChamberLib.OpenTK
 {
     public partial class FontAdapter : IFont
     {
@@ -134,8 +136,8 @@ namespace ChamberLib
 
         static void MakeReady()
         {
-            OpenTK.Vector2[] vertexData = Vertexes.Select(v => v.ToOpenTK()).ToArray();
-            int vertexSizeInBytes = OpenTK.Vector2.SizeInBytes;
+            _OpenTK.Vector2[] vertexData = Vertexes.Select(v => v.ToOpenTK()).ToArray();
+            int vertexSizeInBytes = _OpenTK.Vector2.SizeInBytes;
             short[] indexData = Indexes;
             VertexAttribPointerType vertexAttributeComponentType = VertexAttribPointerType.Float;
             int numVertexAttributeComponents = 2;

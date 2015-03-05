@@ -4,7 +4,9 @@ using OpenTK.Graphics.OpenGL;
 using System.Linq;
 using ChamberLib.Content;
 
-namespace ChamberLib
+using _OpenTK = global::OpenTK;
+
+namespace ChamberLib.OpenTK
 {
     public partial class Renderer
     {
@@ -50,13 +52,13 @@ namespace ChamberLib
              *
              */
 
-            OpenTK.Vector3[] vertexes = {
-                new OpenTK.Vector3(0, 1, 0),
-                new OpenTK.Vector3(1, 0, 0),
-                new OpenTK.Vector3(0, 0, 1),
-                new OpenTK.Vector3(-1, 0, 0),
-                new OpenTK.Vector3(0, 0, -1),
-                new OpenTK.Vector3(0, -1, 0),
+            _OpenTK.Vector3[] vertexes = {
+                new _OpenTK.Vector3(0, 1, 0),
+                new _OpenTK.Vector3(1, 0, 0),
+                new _OpenTK.Vector3(0, 0, 1),
+                new _OpenTK.Vector3(-1, 0, 0),
+                new _OpenTK.Vector3(0, 0, -1),
+                new _OpenTK.Vector3(0, -1, 0),
             };
             short[] indexes = { 
                 0, 1, 2, 3, 4, 5,
@@ -65,7 +67,7 @@ namespace ChamberLib
             _DrawLines3D_vertexBuffer = new MutableVertexBuffer();
             _DrawLines3D_vertexBuffer.SetVertexData(
                 vertexes,
-                OpenTK.Vector3.SizeInBytes,
+                _OpenTK.Vector3.SizeInBytes,
                 VertexAttribPointerType.Float,
                 3);
             _DrawLines3D_indexBuffer = new MutableIndexBuffer();
@@ -75,9 +77,9 @@ namespace ChamberLib
             _DrawLines3D_isReady = true;
         }
 
-        static void _DrawLines3D_SetVertices(OpenTK.Vector3[] vertexes)
+        static void _DrawLines3D_SetVertices(_OpenTK.Vector3[] vertexes)
         {
-            _DrawLines3D_vertexBuffer.SetVertexData(vertexes, OpenTK.Vector3.SizeInBytes, VertexAttribPointerType.Float, 3);
+            _DrawLines3D_vertexBuffer.SetVertexData(vertexes, _OpenTK.Vector3.SizeInBytes, VertexAttribPointerType.Float, 3);
             _DrawLines3D_indexBuffer.SetIndexData(Enumerable.Range(0, vertexes.Length).Select(i => (ushort)i).ToArray());
         }
 

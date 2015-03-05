@@ -3,7 +3,7 @@ using System.IO;
 using NAudio.Wave;
 using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class WaveSoundEffectImporter
     {

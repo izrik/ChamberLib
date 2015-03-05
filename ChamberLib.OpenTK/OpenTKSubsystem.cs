@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Audio;
 using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class OpenTKSubsystem : ISubsystem
     {

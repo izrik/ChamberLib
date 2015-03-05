@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenTK.Audio.OpenAL;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class MediaManager : IMediaManager
     {

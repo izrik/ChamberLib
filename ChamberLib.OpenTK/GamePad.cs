@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class GamePad : IGamePad
     {

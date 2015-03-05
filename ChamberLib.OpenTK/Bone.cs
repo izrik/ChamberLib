@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class Bone : IBone
     {

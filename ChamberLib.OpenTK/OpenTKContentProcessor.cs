@@ -3,7 +3,7 @@ using ChamberLib.Content;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class OpenTKContentProcessor : IContentProcessor
     {

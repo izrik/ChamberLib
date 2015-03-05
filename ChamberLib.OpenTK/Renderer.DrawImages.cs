@@ -2,7 +2,9 @@
 using OpenTK.Graphics.OpenGL;
 using ChamberLib.Content;
 
-namespace ChamberLib
+using _OpenTK = global::OpenTK;
+
+namespace ChamberLib.OpenTK
 {
     public partial class Renderer
     {
@@ -57,19 +59,19 @@ namespace ChamberLib
              *
              */
 
-            OpenTK.Vector3[] vertexes = {
-                new OpenTK.Vector3(1,1,1),
-                new OpenTK.Vector3(1,0,1),
-                new OpenTK.Vector3(0,1,1),
-                new OpenTK.Vector3(0,0,1),
+            _OpenTK.Vector3[] vertexes = {
+                new _OpenTK.Vector3(1,1,1),
+                new _OpenTK.Vector3(1,0,1),
+                new _OpenTK.Vector3(0,1,1),
+                new _OpenTK.Vector3(0,0,1),
             };
 
             int vb = GL.GenBuffer();
             GLHelper.CheckError();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vb);
             GLHelper.CheckError();
-            GL.BufferData<OpenTK.Vector3>(BufferTarget.ArrayBuffer,
-                new IntPtr(vertexes.Length * OpenTK.Vector3.SizeInBytes),
+            GL.BufferData<_OpenTK.Vector3>(BufferTarget.ArrayBuffer,
+                new IntPtr(vertexes.Length * _OpenTK.Vector3.SizeInBytes),
                 vertexes, BufferUsageHint.StaticDraw);
             GLHelper.CheckError();
 
@@ -113,7 +115,7 @@ namespace ChamberLib
             GLHelper.CheckError();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vb);
             GLHelper.CheckError();
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, true, OpenTK.Vector3.SizeInBytes, 0);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, true, _OpenTK.Vector3.SizeInBytes, 0);
             GLHelper.CheckError();
 
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ib);

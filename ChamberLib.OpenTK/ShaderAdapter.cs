@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
 using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class ShaderAdapter : IShader
     {

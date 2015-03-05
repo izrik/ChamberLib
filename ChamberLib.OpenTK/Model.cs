@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 using System.IO;
 using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class Model : IModel
     {

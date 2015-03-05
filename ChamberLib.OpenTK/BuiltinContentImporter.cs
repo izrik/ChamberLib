@@ -1,7 +1,7 @@
 ﻿using System;
 using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class BuiltinContentImporter : IContentImporter
     {

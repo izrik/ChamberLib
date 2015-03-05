@@ -4,7 +4,7 @@ using NVorbis;
 using System.Diagnostics;
 using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public class OggVorbisSoundEffectImporter
     {
