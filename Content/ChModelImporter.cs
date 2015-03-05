@@ -2,9 +2,8 @@ using System;
 using System.IO;
 using ChamberLib;
 using System.Collections.Generic;
-using ChamberLib.Content;
 
-namespace ChamberLib
+namespace ChamberLib.Content
 {
     public class ChModelImporter
     {

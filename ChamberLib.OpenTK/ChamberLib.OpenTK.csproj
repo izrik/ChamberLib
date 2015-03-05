@@ -80,7 +80,6 @@
     <Compile Include="MutableIndexBuffer.cs" />
     <Compile Include="IIndexBuffer.cs" />
     <Compile Include="ContentResolver.cs" />
-    <Compile Include="ChModelImporter.cs" />
     <Compile Include="OggVorbisSoundEffectImporter.cs" />
     <Compile Include="WaveSoundEffectImporter.cs" />
     <Compile Include="BuiltinShaderImporter.cs" />
