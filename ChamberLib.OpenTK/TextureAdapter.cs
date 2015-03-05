@@ -1,41 +1,23 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Linq;
 using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public class TextureAdapter : ITexture2D
     {
-        public TextureAdapter()
-        {
-            Bitmap = null;
-            ID = -1;
-            Width = 1;
-            Height = 1;
-            IsReady = false;
-        }
         public TextureAdapter(TextureContent texture)
-            : this(texture.Bitmap)
         {
-        }
-        protected TextureAdapter(Bitmap bitmap)
-        {
-            Bitmap = bitmap;
-            Width = bitmap.Width;
-            Height = bitmap.Height;
+            Width = texture.Width;
+            Height = texture.Height;
+            PixelData = texture.PixelData;
             ID = -1;
             IsReady = false;
         }
 
-        public readonly Bitmap Bitmap;
         public readonly int Width;
         public readonly int Height;
+        public Color[] PixelData;
         public int ID { get; protected set; }
         public bool IsReady { get; protected set; }
 
@@ -46,47 +28,36 @@ namespace ChamberLib
             return new Vector2(Width, Height);
         }
 
-        static readonly Dictionary<string, TextureAdapter> texturesByName = new Dictionary<string, TextureAdapter>();
-
         #endregion
 
         public static ITexture2D CreateTexture(int width, int height, Color[] data)
         {
-            var bmp = new Bitmap(width, height);
-
-            if (data.Length > 0)
-            {
-                var bmpdata = bmp.LockBits(
-                              new Rectangle(0, 0, width, height),
-                              ImageLockMode.WriteOnly,
-                              System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                var bytes = data.SelectMany<Color, byte>(c => new byte[] { c.A, c.R, c.G, c.B }).ToArray();
-                Marshal.Copy(bytes, 0, bmpdata.Scan0, Math.Min(width * height * 4, bytes.Length)); // ignore stride for now
-                bmp.UnlockBits(bmpdata);
-            }
-
-            return new TextureAdapter(bmp);
+            var tc = new TextureContent(width, height, data);
+            return new TextureAdapter(tc);
         }
 
         protected void MakeReady()
         {
-            BitmapData bmp_data = Bitmap.LockBits(new Rectangle(0, 0, Width, Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            try
+            int n = PixelData.Length * 4;
+            var bytes = new byte[n];
+            int i;
+            for (i = 0; i < n; i+=4)
             {
-
-                int id = GL.GenTexture();
-                this.ID = id;
-                var lastid = GL.GetInteger(GetPName.TextureBinding2D);
-                GL.BindTexture(TextureTarget.Texture2D, id);
-
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
+                var c = PixelData[i/4];
+                bytes[i] = c.A;
+                bytes[i + 1] = c.R;
+                bytes[i + 2] = c.G;
+                bytes[i + 3] = c.B;
             }
-            finally
-            {
-                Bitmap.UnlockBits(bmp_data);
-            }
+
+            int id = GL.GenTexture();
+            this.ID = id;
+            var lastid = GL.GetInteger(GetPName.TextureBinding2D);
+            GL.BindTexture(TextureTarget.Texture2D, id);
+
+
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, Width, Height, 0,
+                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bytes);
 
             // We haven't uploaded mipmaps, so disable mipmapping (otherwise the texture will not appear).
             // On newer video cards, we can use GL.GenerateMipmaps() or GL.Ext.GenerateMipmaps() to create
