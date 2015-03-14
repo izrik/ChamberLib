@@ -193,18 +193,27 @@ out vec3 vf_position_ws;
 
 void main(void)
 {
-    mat4 blend =
-        bones[int(in_blend_indices.x)] * in_blend_weights.x +
-        bones[int(in_blend_indices.y)] * in_blend_weights.y +
-        bones[int(in_blend_indices.z)] * in_blend_weights.z +
-        bones[int(in_blend_indices.w)] * in_blend_weights.w;
+    vec3 skinned;
+    if (in_blend_weights.x + in_blend_weights.y +
+        in_blend_weights.z + in_blend_weights.w > 0)
+    {
+        mat4 blend =
+            bones[int(in_blend_indices.x)] * in_blend_weights.x +
+            bones[int(in_blend_indices.y)] * in_blend_weights.y +
+            bones[int(in_blend_indices.z)] * in_blend_weights.z +
+            bones[int(in_blend_indices.w)] * in_blend_weights.w;
 
-    mat3x4 blend2;
-    blend2[0] = blend[0];
-    blend2[1] = blend[1];
-    blend2[2] = blend[2];
+        mat3x4 blend2;
+        blend2[0] = blend[0];
+        blend2[1] = blend[1];
+        blend2[2] = blend[2];
 
-    vec3 skinned = (blend * vec4(in_position,1)).xyz;
+        skinned = (blend * vec4(in_position,1)).xyz;
+    }
+    else
+    {
+        skinned = in_position;
+    }
 
     vec4 transformed = worldViewProj * vec4(skinned, 1);
 
