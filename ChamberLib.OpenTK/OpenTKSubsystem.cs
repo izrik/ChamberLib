@@ -16,7 +16,8 @@ namespace ChamberLib.OpenTK
             int openglMinorVersion,
             Action onLoadMethod=null,
             Action<GameTime> onRenderFrameMethod=null,
-            Action<GameTime> onUpdateFrameMethod=null)
+            Action<GameTime> onUpdateFrameMethod=null,
+            IContentImporter contentImporter=null)
         {
 
             // audio playback
@@ -37,25 +38,28 @@ namespace ChamberLib.OpenTK
             _renderer = new Renderer(this);
 
             // content management
-            var importer =
-                new BuiltinContentImporter(
-                    new ResolvingContentImporter(
-                        new ContentImporter(
-                            new ChModelImporter().ImportModel,
-                            new BasicTextureImporter().ImportTexture,
-                            new GlslShaderImporter().ImportShader,
-                            null,
-                            new BasicSongImporter().ImportSong,
-                            new OggVorbisSoundEffectImporter(
-                                new WaveSoundEffectImporter().ImportSoundEffect).ImportSoundEffect
-                        ),
-                        basePath: "Content.OpenTK"));
+            if (contentImporter == null)
+            {
+                contentImporter =
+                    new BuiltinContentImporter(
+                        new ResolvingContentImporter(
+                            new ContentImporter(
+                                new ChModelImporter().ImportModel,
+                                new BasicTextureImporter().ImportTexture,
+                                new GlslShaderImporter().ImportShader,
+                                null,
+                                new BasicSongImporter().ImportSong,
+                                new OggVorbisSoundEffectImporter(
+                                    new WaveSoundEffectImporter().ImportSoundEffect).ImportSoundEffect
+                            ),
+                            basePath: "Content.OpenTK"));
+            }
 
             var processor =
                 new CachingContentProcessor(
                     new OpenTKContentProcessor(_renderer));
 
-            _content = new ContentManager(importer, processor);
+            _content = new ContentManager(contentImporter, processor);
             _cachingContent = new CachingContentManager(_content);
         }
 
