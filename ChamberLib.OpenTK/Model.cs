@@ -40,7 +40,9 @@ namespace ChamberLib.OpenTK
                 this.Bones[i].Index = i;
                 foreach (var childIndex in modelContent.Bones[i].ChildBoneIndexes)
                 {
+                    // TODO: interlink these
                     this.Bones[i].Children.Add(this.Bones[childIndex]);
+                    this.Bones[childIndex].Parent = this.Bones[i];
                 }
             }
             foreach (var mesh in modelContent.Meshes)
