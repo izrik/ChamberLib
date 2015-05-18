@@ -579,6 +579,85 @@ namespace ChamberLibTests
 
             Assert.AreEqual(t2, t);
         }
+
+        [Test]
+        public void MatrixRotationIsClockwiseX()
+        {
+            // when:
+            var m = Matrix.CreateRotationX(90.0f.ToRadians());
+
+            // then:
+            Assert.AreEqual(new Vector3(0,-1, 0), m.Transform(new Vector3(0, 0, 1)).Round());
+            Assert.AreEqual(new Vector3(0, 0, 1), m.Transform(new Vector3(0, 1, 0)).Round());
+            Assert.AreEqual(new Vector3(0, 1, 0), m.Transform(new Vector3(0, 0,-1)).Round());
+            Assert.AreEqual(new Vector3(0, 0,-1), m.Transform(new Vector3(0,-1, 0)).Round());
+        }
+
+        [Test]
+        public void MatrixRotationIsClockwiseY()
+        {
+            // when:
+            var m = Matrix.CreateRotationY(90.0f.ToRadians());
+
+            // then:
+            Assert.AreEqual(new Vector3( 1, 0, 0), m.Transform(new Vector3( 0, 0, 1)).Round());
+            Assert.AreEqual(new Vector3( 0, 0,-1), m.Transform(new Vector3( 1, 0, 0)).Round());
+            Assert.AreEqual(new Vector3(-1, 0, 0), m.Transform(new Vector3( 0, 0,-1)).Round());
+            Assert.AreEqual(new Vector3( 0, 0, 1), m.Transform(new Vector3(-1, 0, 0)).Round());
+        }
+
+        [Test]
+        public void MatrixRotationIsClockwiseZ()
+        {
+            // when:
+            var m = Matrix.CreateRotationZ(90.0f.ToRadians());
+
+            // then:
+            Assert.AreEqual(new Vector3( 0, 1, 0), m.Transform(new Vector3( 1, 0, 0)).Round());
+            Assert.AreEqual(new Vector3(-1, 0, 0), m.Transform(new Vector3( 0, 1, 0)).Round());
+            Assert.AreEqual(new Vector3( 0,-1, 0), m.Transform(new Vector3(-1, 0, 0)).Round());
+            Assert.AreEqual(new Vector3( 1, 0, 0), m.Transform(new Vector3( 0,-1, 0)).Round());
+        }
+
+        [Test]
+        public void MatrixMultiplyTransformOrder()
+        {
+            // given:
+            var m1 = Matrix.CreateTranslation(1, 0, 0);
+            var m2 = Matrix.CreateRotationY(90.0f.ToRadians());
+
+            // require:
+            Assert.AreEqual(new Vector3(1, 0, 0), m1.Transform(new Vector3(0, 0, 0)).Round());
+            Assert.AreEqual(new Vector3(2, 0, 0), m1.Transform(new Vector3(1, 0, 0)).Round());
+            Assert.AreEqual(new Vector3(1, 1, 0), m1.Transform(new Vector3(0, 1, 0)).Round());
+            Assert.AreEqual(new Vector3(1, 0, 1), m1.Transform(new Vector3(0, 0, 1)).Round());
+            Assert.AreEqual(new Vector3(2, 1, 1), m1.Transform(new Vector3(1, 1, 1)).Round());
+            Assert.AreEqual(new Vector3(0, 0, 0), m2.Transform(new Vector3(0, 0, 0)).Round());
+            Assert.AreEqual(new Vector3(0, 0,-1), m2.Transform(new Vector3(1, 0, 0)).Round());
+            Assert.AreEqual(new Vector3(0, 1, 0), m2.Transform(new Vector3(0, 1, 0)).Round());
+            Assert.AreEqual(new Vector3(1, 0, 0), m2.Transform(new Vector3(0, 0, 1)).Round());
+            Assert.AreEqual(new Vector3(1, 1,-1), m2.Transform(new Vector3(1, 1, 1)).Round());
+
+            // when:
+            var m = m1 * m2;
+
+            // then:
+            Assert.AreEqual(new Vector3(0, 0,-1), m.Transform(new Vector3(0, 0, 0)).Round());
+            Assert.AreEqual(new Vector3(0, 0,-2), m.Transform(new Vector3(1, 0, 0)).Round());
+            Assert.AreEqual(new Vector3(0, 1,-1), m.Transform(new Vector3(0, 1, 0)).Round());
+            Assert.AreEqual(new Vector3(1, 0,-1), m.Transform(new Vector3(0, 0, 1)).Round());
+            Assert.AreEqual(new Vector3(1, 1,-2), m.Transform(new Vector3(1, 1, 1)).Round());
+
+            // when:
+            m = m2 * m1;
+
+            // then:
+            Assert.AreEqual(new Vector3(1, 0, 0), m.Transform(new Vector3(0, 0, 0)).Round());
+            Assert.AreEqual(new Vector3(1, 0,-1), m.Transform(new Vector3(1, 0, 0)).Round());
+            Assert.AreEqual(new Vector3(1, 1, 0), m.Transform(new Vector3(0, 1, 0)).Round());
+            Assert.AreEqual(new Vector3(2, 0, 0), m.Transform(new Vector3(0, 0, 1)).Round());
+            Assert.AreEqual(new Vector3(2, 1,-1), m.Transform(new Vector3(1, 1, 1)).Round());
+        }
     }
 }
 

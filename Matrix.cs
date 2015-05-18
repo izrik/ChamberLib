@@ -492,6 +492,11 @@ namespace ChamberLib
             return Add(a, b);
         }
 
+        public static Matrix operator - (Matrix a, Matrix b)
+        {
+            return Add(a, -b);
+        }
+
         public static Matrix Add(Matrix a, Matrix b)
         {
             return new Matrix(
@@ -499,6 +504,15 @@ namespace ChamberLib
                 a.M21 + b.M21, a.M22 + b.M22, a.M23 + b.M23, a.M24 + b.M24, 
                 a.M31 + b.M31, a.M32 + b.M32, a.M33 + b.M33, a.M34 + b.M34, 
                 a.M41 + b.M41, a.M42 + b.M42, a.M43 + b.M43, a.M44 + b.M44);
+        }
+
+        public static Matrix operator - (Matrix m)
+        {
+            return new Matrix(
+                -m.M11, -m.M12, -m.M13, -m.M14,
+                -m.M21, -m.M22, -m.M23, -m.M24,
+                -m.M31, -m.M32, -m.M33, -m.M34,
+                -m.M41, -m.M42, -m.M43, -m.M44);
         }
 
         public Vector3 Translation
