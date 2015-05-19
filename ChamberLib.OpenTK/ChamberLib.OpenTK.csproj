@@ -43,7 +43,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OpenTKSubsystem.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="MediaManager.cs" />
@@ -88,11 +87,13 @@
     <Compile Include="BuiltinFontImporter.cs" />
     <Compile Include="BasicSongImporter.cs" />
     <Compile Include="OpenTKContentProcessor.cs" />
+    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="todo.txt" />
+    <None Include="ChamberLib.OpenTK.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChamberLib.csproj">
