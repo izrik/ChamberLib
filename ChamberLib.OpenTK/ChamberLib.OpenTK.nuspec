@@ -8,18 +8,21 @@
     <owners>izrik,metaindu</owners>
     <licenseUrl>https://github.com/izrik/ChamberLib/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/izrik/ChamberLib</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.OpenTK/ChamberLib.OpenTK.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A cross-platform library to make 3D graphics a little easier.</description>
-    <releaseNotes>- Expanded and improved content system.&#10;&#13;- Several built-in importers and processors, including special-purpose classes for caching and resolving filenames.</releaseNotes>
+    <description>OpenTK bindings for ChamberLib</description>
+    <releaseNotes>Initial release</releaseNotes>
     <copyright>Copyright 2015 izrik and Metaphysics Industries, Inc.</copyright>
     <tags>chamber 3d game engine</tags>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System" targetFramework="" />
-      <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />
+        <frameworkAssembly assemblyName="System" targetFramework="" />
+        <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />
     </frameworkAssemblies>
+    <dependencies>
+        <dependency id="ChamberLib" version="$version$" />
+    </dependencies>
   </metadata>
   <files>
-    <file src="bin/Debug/ChamberLib.dll" target="lib/net40" />
+    <file src="bin/Debug/ChamberLib.OpenTK.dll" target="lib/net40" />
   </files>
 </package>
