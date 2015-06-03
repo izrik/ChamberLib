@@ -207,95 +207,193 @@ namespace ChamberLib.OpenTK
 
         public void SetUniform(string name, byte value)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, value);
+            GLHelper.CheckError();
         }
+
         public void SetUniform(string name, sbyte value)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, value);
+            GLHelper.CheckError();
         }
+
         public void SetUniform(string name, short value)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, value);
+            GLHelper.CheckError();
         }
+
         public void SetUniform(string name, ushort value)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, value);
+            GLHelper.CheckError();
         }
+
         public void SetUniform(string name, int value)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, value);
+            GLHelper.CheckError();
         }
+
         public void SetUniform(string name, uint value)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, value);
+            GLHelper.CheckError();
         }
+
         public void SetUniform(string name, long value)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, value);
+            GLHelper.CheckError();
         }
+
         public void SetUniform(string name, ulong value)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, value);
+            GLHelper.CheckError();
         }
+
         public void SetUniform(string name, double value)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            GL.Uniform1(location, value);
+            GLHelper.CheckError();
         }
+
         public bool GetUniformBool(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            int value;
+            GL.GetUniform(ProgramID, location, out value);
+            return (value != 0);
         }
+
         public byte GetUniformByte(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            uint value;
+            GL.GetUniform((uint)ProgramID, location, out value);
+            return (byte)value;
         }
+
         public sbyte GetUniformSByte(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            int value;
+            GL.GetUniform(ProgramID, location, out value);
+            return (sbyte)value;
         }
+
         public short GetUniformShort(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            int value;
+            GL.GetUniform(ProgramID, location, out value);
+            return (short)value;
         }
+
         public ushort GetUniformUShort(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            uint value;
+            GL.GetUniform((uint)ProgramID, location, out value);
+            return (ushort)value;
         }
+
         public int GetUniformInt(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            int value;
+            GL.GetUniform(ProgramID, location, out value);
+            return value;
         }
+
         public uint GetUniformUInt(string name)
         {
             throw new NotImplementedException();
         }
+
         public long GetUniformLong(string name)
         {
             throw new NotImplementedException();
+//            Apply();
+//            var location = GetUniformLocation(name);
+//            long value;
+//            GL.GetUniform(ProgramID, location, out value);
+//            return value;
         }
+
         public ulong GetUniformULong(string name)
         {
             throw new NotImplementedException();
         }
+
         public float GetUniformSingle(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            float value;
+            GL.GetUniform(ProgramID, location, out value);
+            return value;
         }
+
         public double GetUniformDouble(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            double value;
+            GL.GetUniform(ProgramID, location, out value);
+            return value;
         }
+
         public Vector2 GetUniformVector2(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            float [] values = new float[2];
+            GL.GetUniform(ProgramID, location, values);
+            return new Vector2(values[0], values[1]);
         }
+
         public Vector3 GetUniformVector3(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            float [] values = new float[3];
+            GL.GetUniform(ProgramID, location, values);
+            return new Vector3(values[0], values[1], values[2]);
         }
+
         public Vector4 GetUniformVector4(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            float [] values = new float[4];
+            GL.GetUniform(ProgramID, location, values);
+            return new Vector4(values[0], values[1], values[2], values[3]);
         }
     }
 }
