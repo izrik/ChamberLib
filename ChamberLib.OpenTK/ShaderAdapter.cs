@@ -333,7 +333,11 @@ namespace ChamberLib.OpenTK
 
         public uint GetUniformUInt(string name)
         {
-            throw new NotImplementedException();
+            Apply();
+            var location = GetUniformLocation(name);
+            uint value;
+            GL.GetUniform((uint)ProgramID, location, out value);
+            return value;
         }
 
         public long GetUniformLong(string name)
