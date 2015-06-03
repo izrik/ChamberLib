@@ -146,9 +146,10 @@ namespace ChamberLib.OpenTK
 
         public void SetBoneTransforms(Matrix[] boneTransforms, float verticalOffset, Matrix world)
         {
+            throw new NotImplementedException();
             foreach (var material in GetAllMaterials())
             {
-                if (material.Shader == BuiltinShaders.SkinnedShader)
+                if (material.Shader != BuiltinShaders.BasicShader)
                 {
                     if (boneTransforms != null)
                     {
@@ -156,7 +157,7 @@ namespace ChamberLib.OpenTK
                         for (i = 0; i < 32 && i < boneTransforms.Length; i++)
                         {
                             var name = string.Format("bones[{0}]", i);
-                            BuiltinShaders.SkinnedShader.SetUniform(name, boneTransforms[i]);
+                            material.Shader2.SetUniform(name, boneTransforms[i]);
                         }
                     }
                     else
@@ -165,7 +166,7 @@ namespace ChamberLib.OpenTK
                         for (i = 0; i < 32; i++)
                         {
                             var name = string.Format("bones[{0}]", i);
-                            BuiltinShaders.SkinnedShader.SetUniform(name, Matrix.Identity);
+                            material.Shader2.SetUniform(name, Matrix.Identity);
                         }
                     }
 
