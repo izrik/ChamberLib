@@ -204,6 +204,99 @@ namespace ChamberLib.OpenTK
                 values[8], values[9], values[10], values[11], 
                 values[12], values[13], values[14], values[15]);
         }
+
+        public void SetUniform(string name, byte value)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetUniform(string name, sbyte value)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetUniform(string name, short value)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetUniform(string name, ushort value)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetUniform(string name, int value)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetUniform(string name, uint value)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetUniform(string name, long value)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetUniform(string name, ulong value)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetUniform(string name, double value)
+        {
+            throw new NotImplementedException();
+        }
+        public bool GetUniformBool(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public byte GetUniformByte(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public sbyte GetUniformSByte(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public short GetUniformShort(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public ushort GetUniformUShort(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public int GetUniformInt(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public uint GetUniformUInt(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public long GetUniformLong(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public ulong GetUniformULong(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public float GetUniformSingle(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public double GetUniformDouble(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public Vector2 GetUniformVector2(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public Vector3 GetUniformVector3(string name)
+        {
+            throw new NotImplementedException();
+        }
+        public Vector4 GetUniformVector4(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
