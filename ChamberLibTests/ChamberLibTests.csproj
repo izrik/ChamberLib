@@ -31,9 +31,6 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="ChamberLib">
-      <HintPath>..\packages\ChamberLib.0.3\lib\net40\ChamberLib.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
@@ -47,5 +44,11 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChamberLib.csproj">
+      <Project>{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}</Project>
+      <Name>ChamberLib</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

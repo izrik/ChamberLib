@@ -31,18 +31,12 @@
     <Reference Include="OpenTK">
       <HintPath>..\packages\OpenTK.1.1.1589.5941\lib\NET40\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>..\packages\OpenTK.GLControl.1.1.1589.5941\lib\NET40\OpenTK.GLControl.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="NAudio">
-      <HintPath>..\..\packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
+      <HintPath>..\packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
     </Reference>
     <Reference Include="NVorbis">
-      <HintPath>..\..\packages\NVorbis.0.8.3.0\lib\NVorbis.dll</HintPath>
-    </Reference>
-    <Reference Include="ChamberLib">
-      <HintPath>..\packages\ChamberLib.0.3\lib\net40\ChamberLib.dll</HintPath>
+      <HintPath>..\packages\NVorbis.0.8.3.0\lib\NVorbis.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -97,5 +91,11 @@
     <None Include="packages.config" />
     <None Include="todo.txt" />
     <None Include="ChamberLib.OpenTK.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChamberLib.csproj">
+      <Project>{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}</Project>
+      <Name>ChamberLib</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
