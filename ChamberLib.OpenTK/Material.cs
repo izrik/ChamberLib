@@ -28,10 +28,10 @@ namespace ChamberLib.OpenTK
                                         processor,
                                         new [] {
                                             "in_position",
-                                            "in_blend_indexes",
-                                            "in_blend_weights",
                                             "in_normal",
                                             "in_texture_coords",
+                                            "in_blend_indices",
+                                            "in_blend_weights",
                                         });
             }
         }
