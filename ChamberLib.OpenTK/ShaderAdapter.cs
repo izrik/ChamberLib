@@ -253,22 +253,6 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
         }
 
-        public void SetUniform(string name, long value)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, value);
-            GLHelper.CheckError();
-        }
-
-        public void SetUniform(string name, ulong value)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, value);
-            GLHelper.CheckError();
-        }
-
         public void SetUniform(string name, double value)
         {
             Apply();
@@ -338,21 +322,6 @@ namespace ChamberLib.OpenTK
             uint value;
             GL.GetUniform((uint)ProgramID, location, out value);
             return value;
-        }
-
-        public long GetUniformLong(string name)
-        {
-            throw new NotImplementedException();
-//            Apply();
-//            var location = GetUniformLocation(name);
-//            long value;
-//            GL.GetUniform(ProgramID, location, out value);
-//            return value;
-        }
-
-        public ulong GetUniformULong(string name)
-        {
-            throw new NotImplementedException();
         }
 
         public float GetUniformSingle(string name)

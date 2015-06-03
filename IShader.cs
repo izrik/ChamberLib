@@ -16,8 +16,6 @@ namespace ChamberLib
         void SetUniform(string name, ushort value);
         void SetUniform(string name, int value);
         void SetUniform(string name, uint value);
-        void SetUniform(string name, long value);
-        void SetUniform(string name, ulong value);
         void SetUniform(string name, float value);
         void SetUniform(string name, double value);
         void SetUniform(string name, Vector2 value);
@@ -32,8 +30,6 @@ namespace ChamberLib
         ushort GetUniformUShort(string name);
         int GetUniformInt(string name);
         uint GetUniformUInt(string name);
-        long GetUniformLong(string name);
-        ulong GetUniformULong(string name);
         float GetUniformSingle(string name);
         double GetUniformDouble(string name);
         Vector2 GetUniformVector2(string name);
