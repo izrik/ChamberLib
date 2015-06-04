@@ -43,6 +43,8 @@ namespace ChamberLib.OpenTK
 
             GL.ValidateProgram(ProgramID);
             GLHelper.CheckError();
+
+            ApplyUniformValues();
         }
 
         public void UnApply()
@@ -150,46 +152,33 @@ namespace ChamberLib.OpenTK
         }
         public void SetUniform(string name, float value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, value);
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.Single;
         }
         public void SetUniform(string name, Vector2 value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform2(location, value.ToOpenTK());
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.Vector2;
         }
         public void SetUniform(string name, Vector3 value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform3(location, value.ToOpenTK());
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.Vector3;
         }
         public void SetUniform(string name, Vector4 value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform4(location, value.ToOpenTK());
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.Vector4;
         }
         public void SetUniform(string name, Matrix value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            var value2 = value.ToOpenTK();
-            GL.UniformMatrix4(location, false, ref value2);
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.Matrix;
         }
         public void SetUniform(string name, bool value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, (value ? 1 : 0));
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.Bool;
         }
 
         public Matrix GetUniformMatrix(string name)
@@ -207,58 +196,44 @@ namespace ChamberLib.OpenTK
 
         public void SetUniform(string name, byte value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, value);
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.Byte;
         }
 
         public void SetUniform(string name, sbyte value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, value);
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.SByte;
         }
 
         public void SetUniform(string name, short value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, value);
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.Short;
         }
 
         public void SetUniform(string name, ushort value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, value);
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.UShort;
         }
 
         public void SetUniform(string name, int value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, value);
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.Int;
         }
 
         public void SetUniform(string name, uint value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, value);
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.UInt;
         }
 
         public void SetUniform(string name, double value)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            GL.Uniform1(location, value);
-            GLHelper.CheckError();
+            uniformValues[name] = value;
+            uniformTypes[name] = UniformType.Double;
         }
 
         public bool GetUniformBool(string name)
