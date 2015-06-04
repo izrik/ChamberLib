@@ -388,6 +388,71 @@ namespace ChamberLib.OpenTK
 
         protected Dictionary<string, object> uniformValues = new Dictionary<string, object>();
         protected Dictionary<string, UniformType> uniformTypes = new System.Collections.Generic.Dictionary<string, UniformType>();
+
+        protected void ApplyUniformValues()
+        {
+            foreach (var name in uniformValues.Keys)
+            {
+                var value = uniformValues[name];
+                var type = uniformTypes[name];
+
+                ApplyUniform(name, value, type);
+            }
+        }
+
+        protected void ApplyUniform(string name, object value, UniformType type)
+        {
+            var location = GetUniformLocation(name);
+
+            switch (type)
+            {
+            case UniformType.Bool:
+                GL.Uniform1(location, ((bool)value ? 1 : 0));
+                break;
+            case UniformType.Byte:
+                GL.Uniform1(location, (byte)value);
+                break;
+            case UniformType.SByte:
+                GL.Uniform1(location, (sbyte)value);
+                break;
+            case UniformType.Short:
+                GL.Uniform1(location, (short)value);
+                break;
+            case UniformType.UShort:
+                GL.Uniform1(location, (ushort)value);
+                break;
+            case UniformType.Int:
+                GL.Uniform1(location, (int)value);
+                break;
+            case UniformType.UInt:
+                GL.Uniform1(location, (uint)value);
+                break;
+            case UniformType.Single:
+                GL.Uniform1(location, (float)value);
+                break;
+            case UniformType.Double:
+                GL.Uniform1(location, (double)value);
+                break;
+            case UniformType.Vector2:
+                GL.Uniform2(location, ((Vector2)value).ToOpenTK());
+                break;
+            case UniformType.Vector3:
+                GL.Uniform3(location, ((Vector3)value).ToOpenTK());
+                break;
+            case UniformType.Vector4:
+                GL.Uniform4(location, ((Vector4)value).ToOpenTK());
+                break;
+            case UniformType.Matrix:
+                var value2 = ((Matrix)value).ToOpenTK();
+                GL.UniformMatrix4(location, false, ref value2);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(
+                    "type",
+                    "Unknown uniform type: " + type.ToString());
+            }
+            GLHelper.CheckError();
+        }
     }
 }
 
