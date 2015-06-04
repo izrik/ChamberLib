@@ -152,33 +152,27 @@ namespace ChamberLib.OpenTK
         }
         public void SetUniform(string name, float value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.Single;
+            SetUniform(name, value, UniformType.Single);
         }
         public void SetUniform(string name, Vector2 value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.Vector2;
+            SetUniform(name, value, UniformType.Vector2);
         }
         public void SetUniform(string name, Vector3 value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.Vector3;
+            SetUniform(name, value, UniformType.Vector3);
         }
         public void SetUniform(string name, Vector4 value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.Vector4;
+            SetUniform(name, value, UniformType.Vector4);
         }
         public void SetUniform(string name, Matrix value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.Matrix;
+            SetUniform(name, value, UniformType.Matrix);
         }
         public void SetUniform(string name, bool value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.Bool;
+            SetUniform(name, value, UniformType.Bool);
         }
 
         public Matrix GetUniformMatrix(string name)
@@ -196,44 +190,37 @@ namespace ChamberLib.OpenTK
 
         public void SetUniform(string name, byte value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.Byte;
+            SetUniform(name, value, UniformType.Byte);
         }
 
         public void SetUniform(string name, sbyte value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.SByte;
+            SetUniform(name, value, UniformType.SByte);
         }
 
         public void SetUniform(string name, short value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.Short;
+            SetUniform(name, value, UniformType.Short);
         }
 
         public void SetUniform(string name, ushort value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.UShort;
+            SetUniform(name, value, UniformType.UShort);
         }
 
         public void SetUniform(string name, int value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.Int;
+            SetUniform(name, value, UniformType.Int);
         }
 
         public void SetUniform(string name, uint value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.UInt;
+            SetUniform(name, value, UniformType.UInt);
         }
 
         public void SetUniform(string name, double value)
         {
-            uniformValues[name] = value;
-            uniformTypes[name] = UniformType.Double;
+            SetUniform(name, value, UniformType.Double);
         }
 
         public bool GetUniformBool(string name)
@@ -359,6 +346,12 @@ namespace ChamberLib.OpenTK
             Vector3,
             Vector4,
             Matrix,
+        }
+
+        protected void SetUniform(string name, object value, UniformType type)
+        {
+            uniformValues[name] = value;
+            uniformTypes[name] = type;
         }
 
         protected Dictionary<string, object> uniformValues = new Dictionary<string, object>();
