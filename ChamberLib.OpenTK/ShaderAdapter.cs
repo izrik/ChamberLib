@@ -53,6 +53,15 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
         }
 
+        public bool IsApplied
+        {
+            get
+            {
+                if (ProgramID == 0) return false;
+                return (GL.GetInteger(GetPName.CurrentProgram) == ProgramID);
+            }
+        }
+
         public void MakeReady()
         {
             if (ProgramID != 0)
@@ -352,6 +361,11 @@ namespace ChamberLib.OpenTK
         {
             uniformValues[name] = value;
             uniformTypes[name] = type;
+
+            if (IsApplied)
+            {
+                ApplyUniform(name);
+            }
         }
 
         protected Dictionary<string, object> uniformValues = new Dictionary<string, object>();
