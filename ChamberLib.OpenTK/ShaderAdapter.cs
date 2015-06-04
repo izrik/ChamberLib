@@ -368,6 +368,26 @@ namespace ChamberLib.OpenTK
             GL.GetUniform(ProgramID, location, values);
             return new Vector4(values[0], values[1], values[2], values[3]);
         }
+
+        protected enum UniformType
+        {
+            Bool,
+            Byte,
+            SByte,
+            Short,
+            UShort,
+            Int,
+            UInt,
+            Single,
+            Double,
+            Vector2,
+            Vector3,
+            Vector4,
+            Matrix,
+        }
+
+        protected Dictionary<string, object> uniformValues = new Dictionary<string, object>();
+        protected Dictionary<string, UniformType> uniformTypes = new System.Collections.Generic.Dictionary<string, UniformType>();
     }
 }
 
