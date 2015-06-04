@@ -368,15 +368,14 @@ namespace ChamberLib.OpenTK
         {
             foreach (var name in uniformValues.Keys)
             {
-                var value = uniformValues[name];
-                var type = uniformTypes[name];
-
-                ApplyUniform(name, value, type);
+                ApplyUniform(name);
             }
         }
 
-        protected void ApplyUniform(string name, object value, UniformType type)
+        protected void ApplyUniform(string name)
         {
+            var value = uniformValues[name];
+            var type = uniformTypes[name];
             var location = GetUniformLocation(name);
 
             switch (type)
