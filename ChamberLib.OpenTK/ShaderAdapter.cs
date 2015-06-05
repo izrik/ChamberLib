@@ -379,6 +379,11 @@ namespace ChamberLib.OpenTK
             }
         }
 
+        public object GetUniformValue(string name)
+        {
+            return uniformValues[name];
+        }
+
         protected void ApplyUniform(string name)
         {
             var value = uniformValues[name];
