@@ -212,7 +212,7 @@ void main(void)
 
     vec4 transformed = worldViewProj * vec4(skinned, 1);
 
-    vf_position_ws = (world * vec4(in_position, 0)).xyz;
+    vf_position_ws = (world * vec4(in_position, 1)).xyz;
 
     vf_normal_ws = (world * vec4(in_normal, 0)).xyz;
 
