@@ -22,20 +22,6 @@ namespace ChamberLib
         void SetUniform(string name, Vector3 value);
         void SetUniform(string name, Vector4 value);
         void SetUniform(string name, Matrix value);
-
-        bool GetUniformBool(string name);
-        byte GetUniformByte(string name);
-        sbyte GetUniformSByte(string name);
-        short GetUniformShort(string name);
-        ushort GetUniformUShort(string name);
-        int GetUniformInt(string name);
-        uint GetUniformUInt(string name);
-        float GetUniformSingle(string name);
-        double GetUniformDouble(string name);
-        Vector2 GetUniformVector2(string name);
-        Vector3 GetUniformVector3(string name);
-        Vector4 GetUniformVector4(string name);
-        Matrix GetUniformMatrix(string name);
     }
 }
 
