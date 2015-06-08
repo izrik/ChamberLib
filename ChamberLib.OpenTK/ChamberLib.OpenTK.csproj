@@ -38,6 +38,9 @@
     <Reference Include="NVorbis">
       <HintPath>..\packages\NVorbis.0.8.3.0\lib\NVorbis.dll</HintPath>
     </Reference>
+    <Reference Include="ChamberLib">
+      <HintPath>..\packages\ChamberLib.0.4\lib\net40\ChamberLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OpenTKSubsystem.cs" />
@@ -91,11 +94,5 @@
     <None Include="packages.config" />
     <None Include="todo.txt" />
     <None Include="ChamberLib.OpenTK.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ChamberLib.csproj">
-      <Project>{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}</Project>
-      <Name>ChamberLib</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>
