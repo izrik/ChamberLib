@@ -29,7 +29,7 @@ namespace ChamberLib.Content
             }
             else
             {
-                throw new FileNotFoundException("The file could not be found", filename);
+                throw new FileNotFoundException("The file could not be found: " + filename, filename);
             }
 
             using (var s = new StreamReader(filename))
