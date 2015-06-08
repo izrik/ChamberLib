@@ -144,7 +144,7 @@ namespace ChamberLib.OpenTK
         {
         }
 
-        public void SetBoneTransforms(Matrix[] boneTransforms, float verticalOffset, Matrix world)
+        public void SetBoneTransforms(Matrix[] boneTransforms)
         {
             if (boneTransforms == null) throw new ArgumentNullException("boneTransforms");
 
