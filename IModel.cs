@@ -26,7 +26,7 @@ namespace ChamberLib
 
         void SetWorldViewProjection(Matrix transform, Matrix view, Matrix projection);
 
-        void SetBoneTransforms(Matrix[] boneTransforms, float verticalOffset, Matrix world);
+        void SetBoneTransforms(Matrix[] boneTransforms);
     }
 }
 
