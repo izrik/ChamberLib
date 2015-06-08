@@ -1,0 +1,16 @@
+﻿
+language: csharp
+solution: ChamberLib.sln
+
+install:
+  - sudo apt-get install nunit-console
+
+script:
+  - nuget restore ChamberLib.sln
+  - xbuild /p:Configuration=Debug ChamberLib.sln
+  - nunit-console ./ChamberLibTests/bin/Debug/ChamberLibTests.dll
+
+branches:
+  only:
+    - master
+

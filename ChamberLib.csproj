@@ -129,6 +129,7 @@
     <None Include="todo.txt" />
     <None Include="ChamberLib.nuspec" />
     <None Include="ChamberLib.png" />
+    <None Include=".travis.yml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
