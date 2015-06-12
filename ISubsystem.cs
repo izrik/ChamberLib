@@ -19,6 +19,8 @@ namespace ChamberLib
 
         void Run();
         void Exit();
+
+        IRenderTarget CreateRenderTarget(int width, int height);
     }
 }
 

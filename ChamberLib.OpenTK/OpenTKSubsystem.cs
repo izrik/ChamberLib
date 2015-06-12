@@ -207,6 +207,18 @@ namespace ChamberLib.OpenTK
                 }
             }
         }
+
+        public IRenderTarget CreateRenderTarget(int width, int height)
+        {
+            var colorTexture = ContentManager.CreateTexture(width, height,
+                new Color[] { Color.Black });
+
+            var depthBuffer = new RenderBuffer(width, height);
+
+            var fbo = new FrameBuffer(Renderer, colorTexture, depthBuffer);
+
+            return fbo;
+        }
     }
 }
 
