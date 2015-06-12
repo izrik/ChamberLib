@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using ChamberLib.Content;
+using System.Linq;
 
 namespace ChamberLib.OpenTK
 {
@@ -29,11 +30,38 @@ namespace ChamberLib.OpenTK
 
         #region IMesh implementation
 
+        Sphere _boundingSphere;
+        bool _mustCalcBoundingSphere = true;
         public Sphere BoundingSphere
         {
             get
             {
-                throw new NotImplementedException();
+                if (_mustCalcBoundingSphere)
+                {
+                    // Note that this is a naive algorithm. It calculates _a_
+                    // bounding sphere, but not necessarily the _smallest_
+                    // bounding sphere.
+
+                    var points = new List<Vector3>();
+                    foreach (var part in Parts)
+                    {
+                        int i;
+                        var n = part.PrimitiveCount * 3;
+                        for (i = 0; i < n; i++)
+                        {
+                            var ii = part.Indexes.IndexData[i + part.StartIndex];
+                            points.Add(part.Vertexes.VertexData[ii].GetPosition());
+                        }
+                    }
+
+                    var center = points.Aggregate((a, b) => a + b) / points.Count;
+                    var radius = points.Max(v => (v - center).Length());
+                    _boundingSphere = new Sphere(center, radius);
+
+                    _mustCalcBoundingSphere = false;
+                }
+
+                return _boundingSphere;
             }
             set
             {
