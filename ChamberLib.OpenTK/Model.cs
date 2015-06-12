@@ -70,7 +70,7 @@ namespace ChamberLib.OpenTK
 
         public System.Collections.Generic.IEnumerable<IMesh> GetMeshes()
         {
-            return new IMesh[0];
+            return Meshes;
         }
 
         public void Draw(Matrix world, Matrix view, Matrix projection,
