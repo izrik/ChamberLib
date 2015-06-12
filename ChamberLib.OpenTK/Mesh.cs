@@ -17,11 +17,14 @@ namespace ChamberLib.OpenTK
 
         public List<Part> Parts = new List<Part>();
 
-        public void Draw(IRenderer renderer, Matrix world, Matrix view, Matrix projection, LightingData lighting)
+        public void Draw(IRenderer renderer, Matrix world, Matrix view,
+                            Matrix projection, LightingData lighting,
+                            IMaterial materialOverride=null)
         {
             foreach (var part in Parts)
             {
-                part.Draw((Renderer)renderer, world, view, projection, lighting);
+                part.Draw((Renderer)renderer, world, view, projection,
+                            lighting, materialOverride);
             }
         }
 
@@ -75,7 +78,9 @@ namespace ChamberLib.OpenTK
 
         public RenderBundle RenderBundle;
 
-        public void Draw(Renderer renderer, Matrix world, Matrix view, Matrix projection, LightingData lighting)
+        public void Draw(Renderer renderer, Matrix world, Matrix view,
+                            Matrix projection, LightingData lighting,
+                            IMaterial materialOverride=null)
         {
             Material.Apply(renderer, lighting, world, view, projection);
             RenderBundle.Apply();

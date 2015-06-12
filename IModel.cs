@@ -9,7 +9,7 @@ namespace ChamberLib
 
         IEnumerable<IMesh> GetMeshes();
 
-        void Draw(Matrix world, Matrix view, Matrix projection);
+        void Draw(Matrix world, Matrix view, Matrix projection, IMaterial materialOverride=null);
 
         IBone Root { get; set; }
 
