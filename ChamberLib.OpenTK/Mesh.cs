@@ -81,13 +81,15 @@ namespace ChamberLib.OpenTK
                             LightingData lighting,
                             IMaterial materialOverride=null)
         {
-            Material.Apply(world, view, projection, lighting);
+            var material = materialOverride ?? Material;
+
+            material.Apply(world, view, projection, lighting);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount*3, StartIndex, VertexOffset);
 
             RenderBundle.UnApply();
-            Material.UnApply();
+            material.UnApply();
         }
 
         public void MakeReady()
