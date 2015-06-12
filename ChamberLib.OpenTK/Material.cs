@@ -36,7 +36,7 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        public string Name = "";
+        public string Name { get; set; }
 
         public Vector3 Diffuse { get; set; }
         public Vector3 EmissiveColor { get; set; }
@@ -52,7 +52,8 @@ namespace ChamberLib.OpenTK
             set { Shader = value; }
         }
 
-        public void Apply(Renderer renderer, LightingData lighting, Matrix world, Matrix view, Matrix projection)
+        public void Apply(Matrix world, Matrix view, Matrix projection,
+                            LightingData lighting)
         {
             if (Shader == null) throw new InvalidOperationException();
 

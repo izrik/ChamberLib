@@ -82,7 +82,7 @@ namespace ChamberLib.OpenTK
                             Matrix projection, LightingData lighting,
                             IMaterial materialOverride=null)
         {
-            Material.Apply(renderer, lighting, world, view, projection);
+            Material.Apply(world, view, projection, lighting);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount*3, StartIndex, VertexOffset);
