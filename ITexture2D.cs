@@ -6,10 +6,8 @@ namespace ChamberLib
     {
         Vector2 GetSize();
 
-        void Apply();
+        void Apply(int textureSlot=0);
         void UnApply();
     }
-
-
 }
 

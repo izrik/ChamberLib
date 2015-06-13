@@ -55,29 +55,37 @@ namespace ChamberLib.OpenTK
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, Width, Height, 0,
                 _OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bytes);
 
-            // We haven't uploaded mipmaps, so disable mipmapping (otherwise the texture will not appear).
-            // On newer video cards, we can use GL.GenerateMipmaps() or GL.Ext.GenerateMipmaps() to create
-            // mipmaps automatically. In that case, use TextureMinFilter.LinearMipmapLinear to enable them.
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
 
             IsReady = true;
         }
 
-        public void Apply()
+        int _lastTextureSlot;
+        public void Apply(int textureSlot=0)
         {
             if (!IsReady)
             {
                 MakeReady();
             }
 
+            _lastTextureSlot = textureSlot;
+
+            var unit = (TextureUnit)((int)TextureUnit.Texture0 + textureSlot);
+            GL.ActiveTexture(unit);
+
             var lastid = GL.GetInteger(GetPName.TextureBinding2D);
             GL.BindTexture(TextureTarget.Texture2D, this.ID);
+            GL.ActiveTexture(TextureUnit.Texture0);
         }
 
         public void UnApply()
         {
+            GL.ActiveTexture((TextureUnit)((int)TextureUnit.Texture0 + _lastTextureSlot));
             GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.ActiveTexture(TextureUnit.Texture0);
         }
     }
 }
