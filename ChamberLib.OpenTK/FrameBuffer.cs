@@ -35,25 +35,25 @@ namespace ChamberLib.OpenTK
             Texture.Apply();
             DepthBuffer.Apply();
 
-            GL.Ext.BindFramebuffer(
-                FramebufferTarget.FramebufferExt,
+            GL.BindFramebuffer(
+                FramebufferTarget.Framebuffer,
                 ID);
             GLHelper.CheckError();
-            GL.Ext.FramebufferTexture2D(
-                FramebufferTarget.FramebufferExt,
-                FramebufferAttachment.ColorAttachment0Ext,
+            GL.FramebufferTexture2D(
+                FramebufferTarget.Framebuffer,
+                FramebufferAttachment.ColorAttachment0,
                 TextureTarget.Texture2D,
                 ((TextureAdapter)Texture).ID,
                 0);
             GLHelper.CheckError();
-            GL.Ext.FramebufferRenderbuffer(
-                FramebufferTarget.FramebufferExt,
-                FramebufferAttachment.DepthAttachmentExt,
-                RenderbufferTarget.RenderbufferExt,
+            GL.FramebufferRenderbuffer(
+                FramebufferTarget.Framebuffer,
+                FramebufferAttachment.DepthAttachment,
+                RenderbufferTarget.Renderbuffer,
                 DepthBuffer.ID);
             GLHelper.CheckError();
 
-            GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0);
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GLHelper.CheckError();
 
             IsReady = true;
@@ -66,10 +66,10 @@ namespace ChamberLib.OpenTK
                 MakeReady();
             }
 
-            GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, ID);
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, ID);
             GLHelper.CheckError();
 
-            GL.DrawBuffer((DrawBufferMode)FramebufferAttachment.ColorAttachment0Ext);
+            GL.DrawBuffer(DrawBufferMode.ColorAttachment0);//(DrawBufferMode)FramebufferAttachment.ColorAttachment0Ext);
             GLHelper.CheckError();
 
             Renderer.Viewport = new Viewport(0, 0, Width, Height);
@@ -77,7 +77,7 @@ namespace ChamberLib.OpenTK
 
         public void UnApply()
         {
-            GL.Ext.BindFramebuffer(FramebufferTarget.FramebufferExt, 0); // return to visible framebuffer
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0); // return to visible framebuffer
             GLHelper.CheckError();
             GL.DrawBuffer( DrawBufferMode.Back );
             GLHelper.CheckError();
