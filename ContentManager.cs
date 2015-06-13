@@ -69,7 +69,8 @@ namespace ChamberLib
             return null;
         }
 
-        public ITexture2D CreateTexture(int width, int height, Color[] data)
+        public ITexture2D CreateTexture(int width, int height, Color[] data,
+            PixelFormat pixelFormat=PixelFormat.Rgba)
         {
             var tc = new TextureContent(width, height, data);
             return Processor.ProcessTexture2D(tc);

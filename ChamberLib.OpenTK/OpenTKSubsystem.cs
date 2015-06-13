@@ -208,10 +208,11 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        public IRenderTarget CreateRenderTarget(int width, int height)
+        public IRenderTarget CreateRenderTarget(int width, int height,
+            PixelFormat pixelFormat=PixelFormat.Rgba)
         {
             var colorTexture = ContentManager.CreateTexture(width, height,
-                new Color[] { Color.Black });
+                new Color[] { Color.Black }, pixelFormat);
 
             var depthBuffer = new RenderBuffer(width, height);
 

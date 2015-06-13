@@ -93,9 +93,10 @@ namespace ChamberLib.Content
             return next.LookupObjectName(o);
         }
 
-        public ITexture2D CreateTexture(int width, int height, Color[] data)
+        public ITexture2D CreateTexture(int width, int height, Color[] data,
+            PixelFormat pixelFormat=PixelFormat.Rgba)
         {
-            return next.CreateTexture(width, height, data);
+            return next.CreateTexture(width, height, data, pixelFormat);
         }
     }
 }

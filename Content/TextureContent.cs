@@ -15,7 +15,8 @@ namespace ChamberLib.Content
             Height = bitmap.Height;
 
             var bmpdata = bitmap.LockBits(new Rectangle(0, 0, Width, Height),
-                ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                ImageLockMode.ReadOnly,
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             var bytes = new byte[bmpdata.Width * bmpdata.Height * 4];
 
@@ -52,6 +53,7 @@ namespace ChamberLib.Content
         public int Width;
         public int Height;
         public Color[] PixelData;
+        public PixelFormat? PixelFormat;
     }
 }
 

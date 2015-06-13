@@ -121,6 +121,7 @@
     <Compile Include="Content\ChooseByExtensionImporter.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IRenderTarget.cs" />
+    <Compile Include="PixelFormat.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />

@@ -15,6 +15,15 @@ namespace ChamberLib.OpenTK
             PixelData = texture.PixelData;
             ID = -1;
             IsReady = false;
+
+            if (texture.PixelFormat.HasValue)
+            {
+                this.PixelFormat = texture.PixelFormat.Value;
+            }
+            else
+            {
+                this.PixelFormat = PixelFormat.Rgba;
+            }
         }
 
         public readonly int Width;
@@ -22,6 +31,7 @@ namespace ChamberLib.OpenTK
         public Color[] PixelData;
         public int ID { get; protected set; }
         public bool IsReady { get; protected set; }
+        public readonly PixelFormat PixelFormat;
 
         #region ITexture2D implementation
 
@@ -34,26 +44,49 @@ namespace ChamberLib.OpenTK
 
         protected void MakeReady()
         {
-            int n = PixelData.Length * 4;
-            var bytes = new byte[n];
-            int i;
-            for (i = 0; i < n; i+=4)
-            {
-                var c = PixelData[i/4];
-                bytes[i] = c.A;
-                bytes[i + 1] = c.R;
-                bytes[i + 2] = c.G;
-                bytes[i + 3] = c.B;
-            }
-
             int id = GL.GenTexture();
             this.ID = id;
             var lastid = GL.GetInteger(GetPName.TextureBinding2D);
             GL.BindTexture(TextureTarget.Texture2D, id);
 
+            int n;
+            int i;
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, Width, Height, 0,
-                _OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bytes);
+            switch (PixelFormat)
+            {
+            case PixelFormat.Rgba:
+                n = PixelData.Length * 4;
+                var bytes = new byte[n];
+                for (i = 0; i < n; i += 4)
+                {
+                    var c = PixelData[i / 4];
+                    bytes[i] = c.A;
+                    bytes[i + 1] = c.R;
+                    bytes[i + 2] = c.G;
+                    bytes[i + 3] = c.B;
+                }
+
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, Width, Height, 0,
+                    _OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bytes);
+                break;
+            case PixelFormat.R32f:
+
+                n = PixelData.Length;
+                var floats = new float[n];
+                for (i = 0; i < n; i++)
+                {
+                    floats[i] = PixelData[i].R / 255.0f;
+                }
+
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.R32f, Width, Height, 0,
+                    _OpenTK.Graphics.OpenGL.PixelFormat.Red, PixelType.Float, floats);
+                break;
+            default:
+                throw new NotImplementedException(
+                    string.Format(
+                        "No support for pixel format \"{0}\"",
+                        PixelFormat));
+            }
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);

@@ -20,7 +20,8 @@ namespace ChamberLib
         void Run();
         void Exit();
 
-        IRenderTarget CreateRenderTarget(int width, int height);
+        IRenderTarget CreateRenderTarget(int width, int height,
+            PixelFormat pixelFormat=PixelFormat.Rgba);
     }
 }
 

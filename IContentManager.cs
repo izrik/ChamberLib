@@ -13,7 +13,8 @@ namespace ChamberLib
 
         string LookupObjectName(object o);
 
-        ITexture2D CreateTexture(int width, int height, Color[] data);
+        ITexture2D CreateTexture(int width, int height, Color[] data,
+            PixelFormat pixelFormat=PixelFormat.Rgba);
     }
 
     public static class IContentManagerHelper
