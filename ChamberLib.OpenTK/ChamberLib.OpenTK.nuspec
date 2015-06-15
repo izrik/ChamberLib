@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.OpenTK/ChamberLib.OpenTK.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>OpenTK bindings for ChamberLib</description>
-    <releaseNotes>- Shader uniforms are now set as a group when the shader is applied.&#10;&#13;- Cleaned up the IModel.SetBoneTransforms method.</releaseNotes>
+    <releaseNotes>- Optionally override materials when drawing models.&#10;- Implement the BoundingSphere property of the Mesh class. &#10;- Specify different pixel formats for textures.&#10;- Allocate framebuffers as render targets.</releaseNotes>
     <copyright>Copyright 2015 izrik and Metaphysics Industries, Inc.</copyright>
     <tags>chamber 3d game engine</tags>
     <frameworkAssemblies>

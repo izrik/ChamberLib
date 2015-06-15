@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A cross-platform library to make 3D graphics a little easier.</description>
-    <releaseNotes>- Expanded the IShader interface to allow setting uniform variables.&#10;&#13;- Cleaned up the IModel.SetBoneTransforms method.</releaseNotes>
+    <releaseNotes>- Optionally override materials when drawing models.&#10;- Add Apply and UnApply methods to IMaterial.&#10;- Allow ITextures to be applied to a particular slot/unit.&#10;- Specify different pixel formats for textures.&#10;- Generate user-defined render targets.</releaseNotes>
     <copyright>Copyright 2015 izrik and Metaphysics Industries, Inc.</copyright>
     <tags>chamber 3d game engine</tags>
     <frameworkAssemblies>
