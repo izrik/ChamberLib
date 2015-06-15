@@ -146,17 +146,28 @@ namespace ChamberLib.OpenTK
         {
         }
 
-        public void SetBoneTransforms(Matrix[] boneTransforms)
+        public void SetBoneTransforms(Matrix[] boneTransforms,
+            IMaterial materialOverride=null)
         {
             if (boneTransforms == null) throw new ArgumentNullException("boneTransforms");
 
-            foreach (var material in GetAllMaterials())
+            IEnumerable<IMaterial> materials;
+            if (materialOverride != null)
+            {
+                materials = new [] { materialOverride };
+            }
+            else
+            {
+                materials = GetAllMaterials();
+            }
+
+            foreach (var material in materials)
             {
                 int i;
                 for (i = 0; i < boneTransforms.Length; i++)
                 {
                     var name = string.Format("bones[{0}]", i);
-                    material.Shader2.SetUniform(name, boneTransforms[i]);
+                    material.Shader.SetUniform(name, boneTransforms[i]);
                 }
             }
         }

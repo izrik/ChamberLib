@@ -9,7 +9,8 @@ namespace ChamberLib
 
         IEnumerable<IMesh> GetMeshes();
 
-        void Draw(Matrix world, Matrix view, Matrix projection, IMaterial materialOverride=null);
+        void Draw(Matrix world, Matrix view, Matrix projection,
+            IMaterial materialOverride=null);
 
         IBone Root { get; set; }
 
@@ -26,7 +27,8 @@ namespace ChamberLib
 
         void SetWorldViewProjection(Matrix transform, Matrix view, Matrix projection);
 
-        void SetBoneTransforms(Matrix[] boneTransforms);
+        void SetBoneTransforms(Matrix[] boneTransforms,
+            IMaterial materialOverride=null);
     }
 }
 
