@@ -39,7 +39,7 @@
       <HintPath>..\packages\NVorbis.0.8.3.0\lib\NVorbis.dll</HintPath>
     </Reference>
     <Reference Include="ChamberLib">
-      <HintPath>..\packages\ChamberLib.0.4\lib\net40\ChamberLib.dll</HintPath>
+      <HintPath>..\packages\ChamberLib.0.5\lib\net40\ChamberLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
