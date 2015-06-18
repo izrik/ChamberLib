@@ -29,7 +29,7 @@ namespace ChamberLib.OpenTK
 
         void MakeReady()
         {
-            ID = GL.Ext.GenFramebuffer();
+            ID = GL.GenFramebuffer();
             GLHelper.CheckError();
 
             Texture.Apply();

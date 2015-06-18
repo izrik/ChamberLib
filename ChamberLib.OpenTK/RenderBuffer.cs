@@ -19,15 +19,15 @@ namespace ChamberLib.OpenTK
 
         void MakeReady()
         {
-            ID = GL.Ext.GenRenderbuffer();
+            ID = GL.GenRenderbuffer();
             GLHelper.CheckError();
-            GL.Ext.BindRenderbuffer(RenderbufferTarget.RenderbufferExt, ID);
+            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, ID);
             GLHelper.CheckError();
-            GL.Ext.RenderbufferStorage(RenderbufferTarget.RenderbufferExt,
+            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer,
                 (RenderbufferStorage)All.DepthComponent32, Width, Height);
             GLHelper.CheckError();
 
-            GL.Ext.BindRenderbuffer( RenderbufferTarget.RenderbufferExt, 0);
+            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, 0);
             GLHelper.CheckError();
 
             IsReady = true;
@@ -40,13 +40,13 @@ namespace ChamberLib.OpenTK
                 MakeReady();
             }
 
-            GL.Ext.BindRenderbuffer(RenderbufferTarget.RenderbufferExt, ID);
+            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, ID);
             GLHelper.CheckError();
         }
 
         public void UnApply()
         {
-            GL.Ext.BindRenderbuffer(RenderbufferTarget.RenderbufferExt, 0);
+            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, 0);
             GLHelper.CheckError();
         }
     }
