@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.OpenTK/ChamberLib.OpenTK.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>OpenTK bindings for ChamberLib</description>
-    <releaseNotes>- Optionally override materials when drawing models.&#10;- Implement the BoundingSphere property of the Mesh class. &#10;- Specify different pixel formats for textures.&#10;- Allocate framebuffers as render targets.</releaseNotes>
+    <releaseNotes>- Fix framebuffers by using core functions instead of extensions.</releaseNotes>
     <copyright>Copyright 2015 izrik and Metaphysics Industries, Inc.</copyright>
     <tags>chamber 3d game engine</tags>
     <frameworkAssemblies>
@@ -19,7 +19,7 @@
         <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />
     </frameworkAssemblies>
     <dependencies>
-        <dependency id="ChamberLib" version="$version$" />
+        <dependency id="ChamberLib" version="0.5" />
     </dependencies>
   </metadata>
   <files>
