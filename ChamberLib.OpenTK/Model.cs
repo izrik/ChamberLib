@@ -91,10 +91,6 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        public void EnableDefaultLighting()
-        {
-        }
-
         public LightingData _lighting;
         public LightingData Lighting { get { return _lighting; } }
         public void SetAmbientLightColor(Vector3 value)
