@@ -87,8 +87,7 @@ namespace ChamberLib.OpenTK
 
             foreach (var mesh in Meshes)
             {
-                mesh.Draw(Renderer, world, view, projection, lighting,
-                            materialOverride);
+                mesh.Draw(world, view, projection, lighting, materialOverride);
             }
         }
 

@@ -18,8 +18,8 @@ namespace ChamberLib.OpenTK
 
         public List<Part> Parts = new List<Part>();
 
-        public void Draw(IRenderer renderer, Matrix world, Matrix view,
-                            Matrix projection, LightingData lighting,
+        public void Draw(Matrix world, Matrix view, Matrix projection,
+                            LightingData lighting,
                             IMaterial materialOverride=null)
         {
             foreach (var part in Parts)
