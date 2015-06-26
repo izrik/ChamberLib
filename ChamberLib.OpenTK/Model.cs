@@ -142,10 +142,6 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        public void SetWorldViewProjection(Matrix transform, Matrix view, Matrix projection)
-        {
-        }
-
         public void SetBoneTransforms(Matrix[] boneTransforms,
             IMaterial materialOverride=null)
         {

@@ -24,8 +24,6 @@ namespace ChamberLib
 
         void SetTexture(ITexture2D texture);
 
-        void SetWorldViewProjection(Matrix transform, Matrix view, Matrix projection);
-
         void SetBoneTransforms(Matrix[] boneTransforms,
             IMaterial materialOverride=null);
     }
