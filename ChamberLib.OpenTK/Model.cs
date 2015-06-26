@@ -96,15 +96,16 @@ namespace ChamberLib.OpenTK
         {
         }
 
-        LightingData Lighting;
+        public LightingData _lighting;
+        public LightingData Lighting { get { return _lighting; } }
         public void SetAmbientLightColor(Vector3 value)
         {
-            Lighting.AmbientLightColor = value;
+            _lighting.AmbientLightColor = value;
         }
 
         public void SetEmissiveColor(Vector3 value)
         {
-            Lighting.EmissiveColor = value;
+            _lighting.EmissiveColor = value;
         }
 
         public void SetDirectionalLight(DirectionalLight light, int index = 0)
@@ -112,7 +113,7 @@ namespace ChamberLib.OpenTK
             if (index != 0)
                 throw new ArgumentOutOfRangeException("index");
 
-            Lighting.DirectionalLight = light;
+            _lighting.DirectionalLight = light;
         }
 
         public void DisableDirectionalLight(int index)
