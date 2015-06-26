@@ -14,6 +14,7 @@ namespace ChamberLib.OpenTK
             {
                 this.Parts.Add(new Part(part, resolver));
             }
+            ParentBone = resolver.Bones[mesh.ParentBone];
         }
 
         public List<Part> Parts = new List<Part>();
