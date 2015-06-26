@@ -74,16 +74,20 @@ namespace ChamberLib.OpenTK
         }
 
         public void Draw(Matrix world, Matrix view, Matrix projection,
-                            IMaterial materialOverride=null)
+                            IMaterial materialOverride=null,
+                            LightingData? lightingOverride=null)
         {
             if (!IsReady)
             {
                 MakeReady();
             }
 
+            var lighting =
+                lightingOverride.HasValue ? lightingOverride.Value : Lighting;
+
             foreach (var mesh in Meshes)
             {
-                mesh.Draw(Renderer, world, view, projection, Lighting,
+                mesh.Draw(Renderer, world, view, projection, lighting,
                             materialOverride);
             }
         }

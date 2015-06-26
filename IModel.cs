@@ -10,7 +10,8 @@ namespace ChamberLib
         IEnumerable<IMesh> GetMeshes();
 
         void Draw(Matrix world, Matrix view, Matrix projection,
-            IMaterial materialOverride=null);
+            IMaterial materialOverride=null,
+            LightingData? lightingOverride=null);
 
         IBone Root { get; set; }
 
