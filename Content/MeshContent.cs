@@ -7,6 +7,7 @@ namespace ChamberLib.Content
     {
         public List<PartContent> Parts = new List<PartContent>();
         public BoneContent ParentBone;
+        public string Name;
     }
 }
 

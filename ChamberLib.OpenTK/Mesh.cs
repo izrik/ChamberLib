@@ -15,6 +15,7 @@ namespace ChamberLib.OpenTK
                 this.Parts.Add(new Part(part, resolver));
             }
             ParentBone = resolver.Bones[mesh.ParentBone];
+            Name = mesh.Name;
         }
 
         public List<Part> Parts = new List<Part>();
@@ -28,8 +29,6 @@ namespace ChamberLib.OpenTK
                 part.Draw(world, view, projection, lighting, materialOverride);
             }
         }
-
-        #region IMesh implementation
 
         Sphere _boundingSphere;
         bool _mustCalcBoundingSphere = true;
@@ -72,7 +71,7 @@ namespace ChamberLib.OpenTK
 
         public IBone ParentBone { get; set; }
 
-        #endregion
+        public string Name { get; set; }
 
         public void MakeReady()
         {
