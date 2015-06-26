@@ -29,6 +29,8 @@ namespace ChamberLib.OpenTK
                             LightingData lighting,
                             IMaterial materialOverride=null)
         {
+            if (!ParentModel.IsReady) ParentModel.MakeReady();
+
             foreach (var part in Parts)
             {
                 part.Draw(world, view, projection, lighting, materialOverride);

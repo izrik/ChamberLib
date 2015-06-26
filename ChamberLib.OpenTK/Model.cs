@@ -191,8 +191,8 @@ namespace ChamberLib.OpenTK
         public List<IndexBuffer> IndexBuffers = new List<IndexBuffer>();
         public List<VertexBuffer> VertexBuffers = new List<VertexBuffer>();
 
-        bool IsReady = false;
-        void MakeReady()
+        public bool IsReady = false;
+        public void MakeReady()
         {
             if (IsReady) return;
 
