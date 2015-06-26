@@ -58,7 +58,7 @@ namespace ChamberLib.OpenTK
             }
             foreach (var mesh in modelContent.Meshes)
             {
-                this.Meshes.Add(new Mesh(mesh, resolver));
+                this.Meshes.Add(new Mesh(this, mesh, resolver));
             }
             this.Tag = modelContent.AnimationData;
             this.Filename = modelContent.Filename;

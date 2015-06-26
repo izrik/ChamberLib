@@ -8,8 +8,11 @@ namespace ChamberLib.OpenTK
 {
     public class Mesh : IMesh
     {
-        public Mesh(MeshContent mesh, ContentResolver resolver)
+        public Mesh(Model parentModel, MeshContent mesh, ContentResolver resolver)
         {
+            if (parentModel == null) throw new ArgumentNullException("parentModel");
+            ParentModel = parentModel;
+
             foreach (var part in mesh.Parts)
             {
                 this.Parts.Add(new Part(part, resolver));
@@ -17,6 +20,8 @@ namespace ChamberLib.OpenTK
             ParentBone = resolver.Bones[mesh.ParentBone];
             Name = mesh.Name;
         }
+
+        public readonly Model ParentModel;
 
         public List<Part> Parts = new List<Part>();
 
