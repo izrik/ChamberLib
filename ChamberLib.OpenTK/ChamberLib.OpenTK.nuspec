@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.OpenTK/ChamberLib.OpenTK.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>OpenTK bindings for ChamberLib</description>
-    <releaseNotes>- Fix framebuffers by using core functions instead of extensions.</releaseNotes>
+    <releaseNotes>- Allow lighting override.&#10;- Add Apply and UnApply methods to IMaterial.&#10;- Remove unused methods from IMesh and IModel.&#10;- Fix the IMesh.ParentBone property.&#10;- Add a Name property to IMesh.</releaseNotes>
     <copyright>Copyright 2015 izrik and Metaphysics Industries, Inc.</copyright>
     <tags>chamber 3d game engine</tags>
     <frameworkAssemblies>
@@ -19,7 +19,7 @@
         <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />
     </frameworkAssemblies>
     <dependencies>
-        <dependency id="ChamberLib" version="0.5" />
+        <dependency id="ChamberLib" version="$version$" />
     </dependencies>
   </metadata>
   <files>
