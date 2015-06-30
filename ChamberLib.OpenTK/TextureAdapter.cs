@@ -55,15 +55,24 @@ namespace ChamberLib.OpenTK
             switch (PixelFormat)
             {
             case PixelFormat.Rgba:
-                n = PixelData.Length * 4;
+                var numpixels = Width * Height;
+                n = numpixels * 4;
                 var bytes = new byte[n];
-                for (i = 0; i < n; i += 4)
+                var last = ( (PixelData == null || PixelData.Length <= 0) ? Color.Black : PixelData[PixelData.Length - 1]);
+                for (i = 0; i < 4*PixelData.Length; i += 4)
                 {
                     var c = PixelData[i / 4];
                     bytes[i] = c.A;
                     bytes[i + 1] = c.R;
                     bytes[i + 2] = c.G;
                     bytes[i + 3] = c.B;
+                }
+                for (; i < n; i += 4)
+                {
+                    bytes[i] = last.A;
+                    bytes[i + 1] = last.R;
+                    bytes[i + 2] = last.G;
+                    bytes[i + 3] = last.B;
                 }
 
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, Width, Height, 0,
