@@ -47,17 +47,25 @@ namespace ChamberLib.OpenTK
             }
             set
             {
-                _viewport = value;
-
-                GL.Viewport(
-                    value.X,
-                    _subsystem.Window.Height - value.Y - value.Height,
-                    value.Width,
-                    value.Height
-                );
-                GLHelper.CheckError();
+                SetViewport(value);
             }
         }
+        public void SetViewport(Viewport value, bool windowed=true)
+        {
+            _viewport = value;
+
+            var height = (windowed ? _subsystem.Window.Height : value.Height);
+            var y = height - value.Y - value.Height;
+
+            GL.Viewport(
+                value.X,
+                y,
+                value.Width,
+                value.Height
+            );
+            GLHelper.CheckError();
+        }
+
         #endregion
 
         public void Reset2D()

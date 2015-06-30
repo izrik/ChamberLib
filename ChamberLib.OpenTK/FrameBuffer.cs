@@ -69,7 +69,7 @@ namespace ChamberLib.OpenTK
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, ID);
             GLHelper.CheckError();
 
-            GL.DrawBuffer(DrawBufferMode.ColorAttachment0);//(DrawBufferMode)FramebufferAttachment.ColorAttachment0Ext);
+            GL.DrawBuffer(DrawBufferMode.ColorAttachment0);
             GLHelper.CheckError();
 
             float one = 1;
