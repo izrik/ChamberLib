@@ -23,6 +23,7 @@ namespace ChamberLib
         void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> vs);
 
         Viewport Viewport { get; set; }
+        void SetViewport(Viewport value, bool windowed=true);
     }
 
     public struct DrawImagesEntry

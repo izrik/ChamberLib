@@ -69,15 +69,16 @@ namespace ChamberLib.OpenTK
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, ID);
             GLHelper.CheckError();
 
-            GL.DrawBuffer(DrawBufferMode.ColorAttachment0);//(DrawBufferMode)FramebufferAttachment.ColorAttachment0Ext);
+            GL.DrawBuffer(DrawBufferMode.ColorAttachment0);
             GLHelper.CheckError();
+
+            Renderer.SetViewport(new Viewport(0, 0, Width, Height), false);
 
             float one = 1;
             int [] black = new int[]{ 0, 0, 0, 0 };
             GL.ClearBuffer(ClearBuffer.Depth, 0, ref one); 
             GL.ClearBuffer(ClearBuffer.Color, 0, black);
 
-            Renderer.Viewport = new Viewport(0, 0, Width, Height);
         }
 
         public void UnApply()

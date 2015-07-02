@@ -50,6 +50,11 @@ namespace ChamberLib
         {
             return new Color(Vector3Colors.FromHslVector(h,s,l));
         }
+
+        public int[] ToIntegerArrayRgba()
+        {
+            return new int[] { R, G, B, A };
+        }
     }
 }
 
