@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.OpenTK/ChamberLib.OpenTK.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>OpenTK bindings for ChamberLib</description>
-    <releaseNotes>- Allow lighting override.&#10;- Add Apply and UnApply methods to IMaterial.&#10;- Remove unused methods from IMesh and IModel.&#10;- Fix the IMesh.ParentBone property.&#10;- Add a Name property to IMesh.</releaseNotes>
+    <releaseNotes>- Change how viewports are set, in order to fix a problem with shadow maps.&#10;- Fix a bug in TextureAdapter.MakeReady that was causing OpenGL to fail on Windows.</releaseNotes>
     <copyright>Copyright 2015 izrik and Metaphysics Industries, Inc.</copyright>
     <tags>chamber 3d game engine</tags>
     <frameworkAssemblies>
