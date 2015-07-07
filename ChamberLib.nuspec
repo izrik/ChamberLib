@@ -18,6 +18,11 @@
       <frameworkAssembly assemblyName="System" targetFramework="" />
       <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />
     </frameworkAssemblies>
+    <dependencies>
+      <dependency id="NAudio" version="1.7.1" targetFramework="net40" />
+      <dependency id="NVorbis" version="0.8.3.0" targetFramework="net40" />
+      <dependency id="OpenTK" version="1.1.1589.5941" targetFramework="net40" />
+    </dependencies>
   </metadata>
   <files>
     <file src="bin/Debug/ChamberLib.dll" target="lib/net40" />

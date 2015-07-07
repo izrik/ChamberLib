@@ -96,6 +96,8 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="todo.txt" />
-    <None Include="ChamberLib.OpenTK.nuspec" />
+    <None Include="ChamberLib.OpenTK.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
 </Project>

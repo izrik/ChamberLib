@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChamberLib", "ChamberLib.csproj", "{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChamberLib.OpenTK", "ChamberLib.OpenTK\ChamberLib.OpenTK.csproj", "{3036726F-FDAC-40F4-9D87-293C0F1EBE75}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChamberLibTests", "ChamberLibTests\ChamberLibTests.csproj", "{4E22BB8D-1B03-415B-8410-5DEA23E66069}"
 EndProject
 Global
@@ -17,10 +15,6 @@ Global
 		{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DE0B8DB-460B-4455-9BAD-B4FF1280F3CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3036726F-FDAC-40F4-9D87-293C0F1EBE75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3036726F-FDAC-40F4-9D87-293C0F1EBE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3036726F-FDAC-40F4-9D87-293C0F1EBE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3036726F-FDAC-40F4-9D87-293C0F1EBE75}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E22BB8D-1B03-415B-8410-5DEA23E66069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E22BB8D-1B03-415B-8410-5DEA23E66069}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E22BB8D-1B03-415B-8410-5DEA23E66069}.Release|Any CPU.ActiveCfg = Release|Any CPU
