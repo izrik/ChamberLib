@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A cross-platform library to make 3D graphics a little easier.</description>
-    <releaseNotes>Change how viewports are set, in order to fix a problem with shadow maps.</releaseNotes>
+    <releaseNotes>Merge the OpenTK bindings for ChamberLib into the main assembly. This is of temporary practical benefit; eventually we will split it back out into its own project.</releaseNotes>
     <copyright>Copyright 2015 izrik and Metaphysics Industries, Inc.</copyright>
     <tags>chamber 3d game engine</tags>
     <frameworkAssemblies>
@@ -19,9 +19,9 @@
       <frameworkAssembly assemblyName="System.Drawing" targetFramework="" />
     </frameworkAssemblies>
     <dependencies>
-      <dependency id="NAudio" version="1.7.1" targetFramework="net40" />
-      <dependency id="NVorbis" version="0.8.3.0" targetFramework="net40" />
-      <dependency id="OpenTK" version="1.1.1589.5941" targetFramework="net40" />
+      <dependency id="NAudio" version="1.7.1" />
+      <dependency id="NVorbis" version="0.8.3.0" />
+      <dependency id="OpenTK" version="1.1.1589.5941" />
     </dependencies>
   </metadata>
   <files>
