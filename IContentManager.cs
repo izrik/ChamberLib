@@ -1,9 +1,13 @@
 ﻿using System;
+using ChamberLib.Content;
 
 namespace ChamberLib
 {
     public interface IContentManager
     {
+        IContentImporter Importer { get; }
+        IContentProcessor Processor { get; }
+
         IModel LoadModel(string name);
         ITexture2D LoadTexture2D(string name);
         IFont LoadFont(string name);

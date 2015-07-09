@@ -27,6 +27,9 @@ namespace ChamberLib.Content
         readonly Cache<string, ISong> songs;
         readonly Cache<string, ISoundEffect> soundEffects;
 
+        public IContentImporter Importer { get { return next.Importer; } }
+        public IContentProcessor Processor { get { return next.Processor; } }
+
         public IModel LoadModel(string name)
         {
             return models.Call(name);

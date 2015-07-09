@@ -10,12 +10,15 @@ namespace ChamberLib
             if (importer == null) throw new ArgumentNullException("importer");
             if (processor == null) throw new ArgumentNullException("processor");
 
-            Importer = importer;
-            Processor = processor;
+            _importer = importer;
+            _processor = processor;
         }
 
-        public readonly IContentImporter Importer;
-        public readonly IContentProcessor Processor;
+        public readonly IContentImporter _importer;
+        public readonly IContentProcessor _processor;
+
+        public IContentImporter Importer { get { return _importer; } }
+        public IContentProcessor Processor { get { return _processor; } }
 
         public IModel LoadModel(string name)
         {
