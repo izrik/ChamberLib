@@ -125,6 +125,23 @@ namespace ChamberLib
 
             return dist;
         }
+
+        public Vector3? Intersects(Plane plane)
+        {
+            var s = plane.Normal.Dot(Position);
+            var costheta = plane.Normal.Dot(Direction);
+
+            var delta = plane.Distance - s;
+            if (delta == 0) return Position;
+
+            if (costheta == 0) return null;
+
+            var n = delta / costheta;
+
+            if (n < 0) return null;
+
+            return Position + n * Direction;
+        }
     }
 }
 

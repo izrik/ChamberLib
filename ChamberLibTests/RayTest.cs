@@ -71,6 +71,50 @@ namespace ChamberLibTests
                 Assert.AreEqual(expected.Value, idist.Value, 0.000001);
             }
         }
+
+        [Test]
+        [TestCase(1, 0, 0, 1.25f, 1, 2, 3, 1, 0, 0, 1.25f, 2, 3)]
+        [TestCase(1, 0, 0, 1.25f, 1, 2, 3, 1, 1, 1, 1.25f, 2.25f, 3.25f)]
+        [TestCase(1, 0, 0, 1.25f, -1, 2, 3, 1, 0, 0, 1.25f, 2, 3)]
+        [TestCase(1, 0, 0, 1.25f, 2, 2, 3, -1, 0, 0, 1.25f, 2, 3)]
+        [TestCase(1, 0, 0, 1, 1, 2, 3, 0, 1, 0, 1, 2, 3)]
+        public void TestRayIntersectsPlane(float px, float py, float pz, float pdist,
+            float rpx, float rpy, float rpz, float rdx, float rdy, float rdz,
+            float x, float y, float z)
+        {
+            // given
+            var plane = new Plane(new Vector3(px, py, pz).Normalized(), pdist);
+            var ray = new Ray(new Vector3(rpx, rpy, rpz), new Vector3(rdx, rdy, rdz).Normalized());
+
+            // when
+            var p = ray.Intersects(plane);
+
+            // then
+            Assert.True(p.HasValue);
+            Assert.AreEqual(new Vector3(x, y, z), p.Value);
+        }
+
+        [Test]
+        [TestCase(1, 0, 0, 1, 2, 0, 0, 1, 0, 0)]
+        [TestCase(1, 0, 0, 1, 2, 0, 0, 0, 1, 0)]
+        [TestCase(1, 0, 0, 1, 2, 0, 0, 0, 0, 1)]
+        [TestCase(1, 0, 0, 1, 0, 0, 0, -1, 0, 0)]
+        [TestCase(1, 0, 0, 1, 0, 0, 0, 0, 1, 0)]
+        public void TestRayDoesNotIntersectPlane(float px, float py, float pz, float pdist,
+            float rpx, float rpy, float rpz, float rdx, float rdy, float rdz)
+        {
+            // given
+            var plane = new Plane(new Vector3(px, py, pz).Normalized(), pdist);
+            var ray = new Ray(new Vector3(rpx, rpy, rpz), new Vector3(rdx, rdy, rdz).Normalized());
+
+            // when
+            var p = ray.Intersects(plane);
+
+            // then
+            Assert.AreEqual(null, p);
+        }
+
+
     }
 }
 
