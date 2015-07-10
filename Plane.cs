@@ -11,6 +11,10 @@ namespace ChamberLib
             Distance = distance;
         }
 
+        // TODO: Should Normal be normalized in the constructor?
+        // TODO: readonly
+        // TODO: is Distance always positive?
+
         public Vector3 Normal;
         public float Distance;
 
@@ -95,6 +99,12 @@ namespace ChamberLib
             }
 
             return PlaneIntersectionType.Back;
+        }
+
+        public Vector3 Project(Vector3 v)
+        {
+            var s = Normal.Dot(v) - Distance;
+            return v - s * Normal;
         }
     }
 }

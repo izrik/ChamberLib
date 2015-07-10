@@ -35,6 +35,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlaneTest.cs" />
     <Compile Include="RayTest.cs" />
     <Compile Include="MatrixTest.cs" />
     <Compile Include="Vector3Test.cs" />
