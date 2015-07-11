@@ -91,6 +91,7 @@
     <Compile Include="ChamberLib.OpenTK\VertexBuffer.cs" />
     <Compile Include="ChamberLib.OpenTK\WaveSoundEffectImporter.cs" />
     <Compile Include="IRenderer.cs" />
+    <Compile Include="Triangle.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Vector4.cs" />

@@ -106,6 +106,11 @@ namespace ChamberLib
             var s = Normal.Dot(v) - Distance;
             return v - s * Normal;
         }
+
+        public Vector3? Intersects(Ray ray)
+        {
+            return ray.Intersects(this);
+        }
     }
 }
 

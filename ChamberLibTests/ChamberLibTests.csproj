@@ -38,6 +38,7 @@
     <Compile Include="PlaneTest.cs" />
     <Compile Include="RayTest.cs" />
     <Compile Include="MatrixTest.cs" />
+    <Compile Include="TriangleTest.cs" />
     <Compile Include="Vector3Test.cs" />
     <Compile Include="ViewportTest.cs" />
     <Compile Include="QuaternionTest.cs" />
