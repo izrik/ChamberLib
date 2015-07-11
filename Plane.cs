@@ -12,11 +12,10 @@ namespace ChamberLib
         }
 
         // TODO: Should Normal be normalized in the constructor?
-        // TODO: readonly
         // TODO: is Distance always positive?
 
-        public Vector3 Normal;
-        public float Distance;
+        public readonly Vector3 Normal;
+        public readonly float Distance;
 
         public static Plane FromPoints(Vector3 p1, Vector3 p2, Vector3 p3)
         {
@@ -29,7 +28,6 @@ namespace ChamberLib
         public float D
         {
             get { return Distance; }
-            set { Distance = value; }
         }
 
         public PlaneIntersectionType Intersects(BoundingBox b)

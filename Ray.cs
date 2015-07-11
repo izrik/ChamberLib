@@ -10,8 +10,8 @@ namespace ChamberLib
             Direction = direction;
         }
 
-        public Vector3 Position;
-        public Vector3 Direction;
+        public readonly Vector3 Position;
+        public readonly Vector3 Direction;
 
         public float? Intersects(BoundingBox b)
         {

@@ -38,16 +38,16 @@ namespace ChamberLib
             Far =       Plane.FromPoints(farTopLeft      ,  farTopRight     ,  farBottomLeft    );
         }
 
-        public Matrix Matrix;
+        public readonly Matrix Matrix;
 
-        public Plane Top;
-        public Plane Bottom;
-        public Plane Left;
-        public Plane Right;
-        public Plane Near;
-        public Plane Far;
+        public readonly Plane Top;
+        public readonly Plane Bottom;
+        public readonly Plane Left;
+        public readonly Plane Right;
+        public readonly Plane Near;
+        public readonly Plane Far;
 
-        public Vector3[] Corners;
+        public readonly Vector3[] Corners;
 
         public ContainmentType Contains(Sphere s)
         {
