@@ -7,6 +7,23 @@ namespace ChamberLib
     {
         public Plane(Vector3 normal, float distance)
         {
+            if (normal == Vector3.Zero) throw new ArgumentOutOfRangeException("normal");
+            if (float.IsNaN(normal.X) || float.IsInfinity(normal.X) ||
+                float.IsNaN(normal.Y) || float.IsInfinity(normal.Y) ||
+                float.IsNaN(normal.Z) || float.IsInfinity(normal.Z))
+            {
+                throw new ArgumentOutOfRangeException("normal");
+            }
+
+            if (normal.LengthSquared() != 1)
+                normal = normal.Normalized();
+
+            if (distance < 0)
+            {
+                normal = -normal;
+                distance = -distance;
+            }
+
             Normal = normal;
             Distance = distance;
         }
@@ -22,7 +39,7 @@ namespace ChamberLib
             var n = Vector3.Cross(p2 - p1, p3 - p1).Normalized();
             var d = p1.Dot(n);
 
-            return new Plane(n, -d);
+            return new Plane(n, d);
         }
 
         public float D
@@ -68,7 +85,7 @@ namespace ChamberLib
 
         public PlaneIntersectionType Intersects(Sphere s)
         {
-            float f = Normal.Dot(s.Center) + Distance;
+            float f = Normal.Dot(s.Center) - Distance;
 
             if (f > s.Radius)
             {
@@ -86,14 +103,15 @@ namespace ChamberLib
         public PlaneIntersectionType IntersectsPoint(Vector3 v)
         {
             var s = Normal.Dot(v);
-            if (s > 0)
-            {
-                return PlaneIntersectionType.Front;
-            }
 
-            if (s == 0)
+            if (s == Distance)
             {
                 return PlaneIntersectionType.Intersecting;
+            }
+
+            if (s > Distance)
+            {
+                return PlaneIntersectionType.Front;
             }
 
             return PlaneIntersectionType.Back;

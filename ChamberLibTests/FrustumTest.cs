@@ -15,7 +15,10 @@ namespace ChamberLibTests
 
             var f = new Frustum(view * proj);
 
-            Assert.AreEqual(new Vector3(0, 1, -1).Normalized(), f.Top.Normal);
+            var n = new Vector3(0, 1, -1).Normalized();
+            Assert.AreEqual(n.X, f.Top.Normal.X, 0.00001f);
+            Assert.AreEqual(n.Y, f.Top.Normal.Y, 0.00001f);
+            Assert.AreEqual(n.Z, f.Top.Normal.Z, 0.00001f);
             Assert.AreEqual(0, f.Top.Distance);
         }
 
@@ -27,7 +30,10 @@ namespace ChamberLibTests
 
             var f = new Frustum(view * proj);
 
-            Assert.AreEqual(new Vector3(0, -1, -1).Normalized(), f.Bottom.Normal);
+            var n = new Vector3(0, -1, -1).Normalized();
+            Assert.AreEqual(n.X, f.Bottom.Normal.X, 0.00001f);
+            Assert.AreEqual(n.Y, f.Bottom.Normal.Y, 0.00001f);
+            Assert.AreEqual(n.Z, f.Bottom.Normal.Z, 0.00001f);
             Assert.AreEqual(0, f.Bottom.Distance);
         }
 
@@ -39,7 +45,10 @@ namespace ChamberLibTests
 
             var f = new Frustum(view * proj);
 
-            Assert.AreEqual(new Vector3(1, 0, -1).Normalized(), f.Left.Normal);
+            var n = new Vector3(1, 0, -1).Normalized();
+            Assert.AreEqual(n.X, f.Left.Normal.X, 0.00001f);
+            Assert.AreEqual(n.Y, f.Left.Normal.Y, 0.00001f);
+            Assert.AreEqual(n.Z, f.Left.Normal.Z, 0.00001f);
             Assert.AreEqual(0, f.Left.Distance);
         }
 
@@ -51,7 +60,10 @@ namespace ChamberLibTests
 
             var f = new Frustum(view * proj);
 
-            Assert.AreEqual(new Vector3(-1, 0, -1).Normalized(), f.Right.Normal);
+            var n = new Vector3(-1, 0, -1).Normalized();
+            Assert.AreEqual(n.X, f.Right.Normal.X, 0.00001f);
+            Assert.AreEqual(n.Y, f.Right.Normal.Y, 0.00001f);
+            Assert.AreEqual(n.Z, f.Right.Normal.Z, 0.00001f);
             Assert.AreEqual(0, f.Right.Distance);
         }
 
@@ -63,7 +75,7 @@ namespace ChamberLibTests
 
             var f = new Frustum(view * proj);
 
-            Assert.AreEqual(-Vector3.UnitZ, f.Near.Normal);
+            Assert.AreEqual(Vector3.UnitZ, f.Near.Normal);
             Assert.AreEqual(0.5f, f.Near.Distance);
         }
 
@@ -76,7 +88,7 @@ namespace ChamberLibTests
             var f = new Frustum(view * proj);
 
             Assert.AreEqual(Vector3.UnitZ, f.Far.Normal);
-            Assert.AreEqual(-1f, f.Far.Distance);
+            Assert.AreEqual(1, f.Far.Distance);
         }
 
         [Test]
