@@ -11,48 +11,70 @@ namespace ChamberLibTests
     public class TriangleTest
     {
         [Test]
-        public void TriangleIntersectsRay()
+        public void TriangleIntersectsRay1()
+        {
+            // when
+            var triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
+            var ray = new Ray(Vector3.Zero, new Vector3(1, 1, 1).Normalized());
+
+            // expect
+            Assert.True(triangle.Intersects(ray));
+        }
+
+        [Test]
+        public void TriangleIntersectsRay2()
         {
             // given
-            Triangle triangle;
-            Ray ray;
-
-            // when
-            triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
-            ray = new Ray(Vector3.Zero, new Vector3(1, 1, 1).Normalized());
-
-            // then
-            Assert.True(triangle.Intersects(ray));
-
-            // when
+            var triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
             var n111 = new Vector3(1,1,1).Normalized();
-            ray = new Ray(n111, n111);
+            var ray = new Ray(n111, n111);
 
-            // then
+            // expect
             Assert.True(triangle.Intersects(ray));
+        }
 
-            // when
-            ray = new Ray(new Vector3(1, 1, 1), n111);
+        [Test]
+        public void TriangleIntersectsRay3()
+        {
+            // given
+            var triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
+            var n111 = new Vector3(1, 1, 1).Normalized();
+            var ray = new Ray(new Vector3(1, 1, 1), n111);
 
-            // then
+            // expect
             Assert.False(triangle.Intersects(ray));
+        }
 
-            // when
-            ray = new Ray(Vector3.Zero, Vector3.UnitX);
+        [Test]
+        public void TriangleIntersectsRay4()
+        {
+            // given
+            var triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
+            var ray = new Ray(Vector3.Zero, Vector3.UnitX);
 
-            // then
+            // expect
             Assert.IsTrue(triangle.Intersects(ray));
+        }
 
-            // when
-            ray = new Ray(Vector3.Zero, Vector3.UnitY);
+        [Test]
+        public void TriangleIntersectsRay5()
+        {
+            // given
+            var triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
+            var ray = new Ray(Vector3.Zero, Vector3.UnitY);
 
-            // then
+            // expect
             Assert.IsTrue(triangle.Intersects(ray));
+        }
 
-            // when
-            ray = new Ray(Vector3.Zero, Vector3.UnitZ);
+        [Test]
+        public void TriangleIntersectsRay6()
+        {
+            // given
+            var triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
+            var ray = new Ray(Vector3.Zero, Vector3.UnitZ);
 
-            // then
+            // expect
             Assert.IsTrue(triangle.Intersects(ray));
         }
     }
