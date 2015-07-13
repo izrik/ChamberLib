@@ -33,11 +33,11 @@ namespace ChamberLib
             }
         }
 
-        public bool Intersects(Ray ray, float epsilon=0)
+        public Vector3? Intersects(Ray ray, float epsilon=0)
         {
             var plane = this.ToPlane();
             var p = plane.Intersects(ray, epsilon);
-            if (!p.HasValue) return false;
+            if (!p.HasValue) return null;
 
             var a = Vector3.Cross(plane.Normal, V2 - V1);
             var b = Vector3.Cross(plane.Normal, V3 - V2);
@@ -48,11 +48,11 @@ namespace ChamberLib
             var pb = pv - V2;
             var pc = pv - V3;
 
-            if (a.Dot(pa) < epsilon) return false;
-            if (b.Dot(pb) < epsilon) return false;
-            if (c.Dot(pc) < epsilon) return false;
+            if (a.Dot(pa) < epsilon) return null;
+            if (b.Dot(pb) < epsilon) return null;
+            if (c.Dot(pc) < epsilon) return null;
 
-            return true;
+            return pv;
         }
     }
 }

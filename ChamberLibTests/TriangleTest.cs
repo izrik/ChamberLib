@@ -17,8 +17,14 @@ namespace ChamberLibTests
             var triangle = new Triangle(Vector3.Zero, Vector3.UnitX, Vector3.UnitY);
             var ray = new Ray(new Vector3(0.1f, 0.1f, 0.1f), new Vector3(0, 0, -1));
 
-            // expect
-            Assert.True(triangle.Intersects(ray));
+            // when
+            var p = triangle.Intersects(ray);
+
+            // then
+            Assert.True(p.HasValue);
+            Assert.AreEqual(0.1f, p.Value.X, 0.00001f);
+            Assert.AreEqual(0.1f, p.Value.Y, 0.00001f);
+            Assert.AreEqual(0.0f, p.Value.Z, 0.00001f);
         }
 
         [Test]
@@ -28,8 +34,14 @@ namespace ChamberLibTests
             var triangle = new Triangle(Vector3.Zero, Vector3.UnitX, Vector3.UnitY);
             var ray = new Ray(new Vector3(0.5f, 0.5f, 0.1f), new Vector3(0, 0, -1));
 
-            // expect
-            Assert.True(triangle.Intersects(ray));
+            // when
+            var p = triangle.Intersects(ray);
+
+            // then
+            Assert.True(p.HasValue);
+            Assert.AreEqual(0.5f, p.Value.X, 0.00001f);
+            Assert.AreEqual(0.5f, p.Value.Y, 0.00001f);
+            Assert.AreEqual(0.0f, p.Value.Z, 0.00001f);
         }
 
         [Test]
@@ -39,8 +51,11 @@ namespace ChamberLibTests
             var triangle = new Triangle(Vector3.Zero, Vector3.UnitX, Vector3.UnitY);
             var ray = new Ray(new Vector3(0.501f, 0.501f, 0.1f), new Vector3(0, 0, -1));
 
-            // expect
-            Assert.False(triangle.Intersects(ray));
+            // when
+            var p = triangle.Intersects(ray);
+
+            // then
+            Assert.False(p.HasValue);
         }
 
         [Test]
@@ -50,8 +65,14 @@ namespace ChamberLibTests
             var triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
             var ray = new Ray(Vector3.Zero, new Vector3(1, 1, 1).Normalized());
 
-            // expect
-            Assert.True(triangle.Intersects(ray));
+            // when
+            var p = triangle.Intersects(ray);
+
+            // then
+            Assert.True(p.HasValue);
+            Assert.AreEqual(1/3.0f, p.Value.X, 0.00001f);
+            Assert.AreEqual(1/3.0f, p.Value.Y, 0.00001f);
+            Assert.AreEqual(1/3.0f, p.Value.Z, 0.00001f);
         }
 
         [Test]
@@ -63,8 +84,14 @@ namespace ChamberLibTests
             var dir = new Vector3(1, 1, 1).Normalized();
             var ray = new Ray(pos, dir);
 
-            // expect
-            Assert.True(triangle.Intersects(ray, 0.00001f));
+            // when
+            var p = triangle.Intersects(ray, 0.00001f);
+
+            // then
+            Assert.True(p.HasValue);
+            Assert.AreEqual(pos.X, p.Value.X, 0.00001f);
+            Assert.AreEqual(pos.Y, p.Value.Y, 0.00001f);
+            Assert.AreEqual(pos.Z, p.Value.Z, 0.00001f);
         }
 
         [Test]
@@ -75,8 +102,11 @@ namespace ChamberLibTests
             var n111 = new Vector3(1, 1, 1).Normalized();
             var ray = new Ray(new Vector3(1, 1, 1), n111);
 
-            // expect
-            Assert.False(triangle.Intersects(ray));
+            // when
+            var p = triangle.Intersects(ray);
+
+            // then
+            Assert.False(p.HasValue);
         }
 
         [Test]
@@ -86,8 +116,14 @@ namespace ChamberLibTests
             var triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
             var ray = new Ray(Vector3.Zero, Vector3.UnitX);
 
-            // expect
-            Assert.IsTrue(triangle.Intersects(ray));
+            // when
+            var p = triangle.Intersects(ray);
+
+            // then
+            Assert.True(p.HasValue);
+            Assert.AreEqual(1, p.Value.X, 0.00001f);
+            Assert.AreEqual(0, p.Value.Y, 0.00001f);
+            Assert.AreEqual(0, p.Value.Z, 0.00001f);
         }
 
         [Test]
@@ -97,8 +133,14 @@ namespace ChamberLibTests
             var triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
             var ray = new Ray(Vector3.Zero, Vector3.UnitY);
 
-            // expect
-            Assert.IsTrue(triangle.Intersects(ray));
+            // when
+            var p = triangle.Intersects(ray);
+
+            // then
+            Assert.True(p.HasValue);
+            Assert.AreEqual(0, p.Value.X, 0.00001f);
+            Assert.AreEqual(1, p.Value.Y, 0.00001f);
+            Assert.AreEqual(0, p.Value.Z, 0.00001f);
         }
 
         [Test]
@@ -108,8 +150,14 @@ namespace ChamberLibTests
             var triangle = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
             var ray = new Ray(Vector3.Zero, Vector3.UnitZ);
 
-            // expect
-            Assert.IsTrue(triangle.Intersects(ray));
+            // when
+            var p = triangle.Intersects(ray);
+
+            // then
+            Assert.True(p.HasValue);
+            Assert.AreEqual(0, p.Value.X, 0.00001f);
+            Assert.AreEqual(0, p.Value.Y, 0.00001f);
+            Assert.AreEqual(1, p.Value.Z, 0.00001f);
         }
     }
 }
