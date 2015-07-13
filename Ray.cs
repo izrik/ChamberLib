@@ -126,13 +126,13 @@ namespace ChamberLib
             return dist;
         }
 
-        public Vector3? Intersects(Plane plane)
+        public Vector3? Intersects(Plane plane, float epsilon=0)
         {
             var s = plane.Normal.Dot(Position);
             var costheta = plane.Normal.Dot(Direction);
 
             var delta = plane.Distance - s;
-            if (delta == 0) return Position;
+            if (Math.Abs(delta) <= epsilon) return Position;
 
             if (costheta == 0) return null;
 

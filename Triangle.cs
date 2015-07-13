@@ -33,22 +33,24 @@ namespace ChamberLib
             }
         }
 
-        public bool Intersects(Ray ray)
+        public bool Intersects(Ray ray, float epsilon=0)
         {
-            var p = this.ToPlane().Intersects(ray);
+            var plane = this.ToPlane();
+            var p = plane.Intersects(ray, epsilon);
             if (!p.HasValue) return false;
 
-            var n21 = V2 - V1;
-            var n31 = V3 - V1;
+            var a = Vector3.Cross(plane.Normal, V2 - V1);
+            var b = Vector3.Cross(plane.Normal, V3 - V2);
+            var c = Vector3.Cross(plane.Normal, V1 - V3);
 
             var pv = p.Value;
-            var np = pv - V1;
-            var s21 = np.Dot(n21) / n21.LengthSquared();
-            if (s21 < 0 || s21 > 1) return false;
-            var s31 = np.Dot(n31) / n31.LengthSquared();
-            if (s31 < 0 || s31 > 1) return false;
+            var pa = pv - V1;
+            var pb = pv - V2;
+            var pc = pv - V3;
 
-            if (s21 + s31 > 1) return false;
+            if (a.Dot(pa) < epsilon) return false;
+            if (b.Dot(pb) < epsilon) return false;
+            if (c.Dot(pc) < epsilon) return false;
 
             return true;
         }

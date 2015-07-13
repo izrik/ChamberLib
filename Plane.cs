@@ -123,9 +123,9 @@ namespace ChamberLib
             return v - s * Normal;
         }
 
-        public Vector3? Intersects(Ray ray)
+        public Vector3? Intersects(Ray ray, float epsilon=0)
         {
-            return ray.Intersects(this);
+            return ray.Intersects(this, epsilon);
         }
     }
 }
