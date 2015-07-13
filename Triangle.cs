@@ -43,9 +43,9 @@ namespace ChamberLib
 
             var pv = p.Value;
             var np = pv - V1;
-            var s21 = np.Dot(n21);
+            var s21 = np.Dot(n21) / n21.LengthSquared();
             if (s21 < 0 || s21 > 1) return false;
-            var s31 = np.Dot(n31);
+            var s31 = np.Dot(n31) / n31.LengthSquared();
             if (s31 < 0 || s31 > 1) return false;
 
             if (s21 + s31 > 1) return false;
