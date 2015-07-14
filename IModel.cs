@@ -29,5 +29,36 @@ namespace ChamberLib
 
         IEnumerable<Triangle> EnumerateTriangles();
     }
+
+    public static class ModelHelper
+    {
+        public static Vector3? IntersectClosest(this IModel model, Ray ray)
+        {
+            Vector3? closest = null;
+            float closestDist = -1;
+
+            foreach (var tri in model.EnumerateTriangles())
+            {
+                var p = tri.Intersects(ray);
+                if (!p.HasValue) continue;
+
+                if (!closest.HasValue)
+                {
+                    closest = p;
+                }
+                else
+                {
+                    var dist = (p.Value - ray.Position).LengthSquared();
+                    if (dist < closestDist)
+                    {
+                        closest = p;
+                        closestDist = dist;
+                    }
+                }
+            }
+
+            return closest;
+        }
+    }
 }
 
