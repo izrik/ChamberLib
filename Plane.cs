@@ -7,14 +7,6 @@ namespace ChamberLib
     {
         public Plane(Vector3 normal, float distance)
         {
-            if (normal == Vector3.Zero) throw new ArgumentOutOfRangeException("normal");
-            if (float.IsNaN(normal.X) || float.IsInfinity(normal.X) ||
-                float.IsNaN(normal.Y) || float.IsInfinity(normal.Y) ||
-                float.IsNaN(normal.Z) || float.IsInfinity(normal.Z))
-            {
-                throw new ArgumentOutOfRangeException("normal");
-            }
-
             if (normal.LengthSquared() != 1)
                 normal = normal.Normalized();
 
@@ -28,8 +20,7 @@ namespace ChamberLib
             Distance = distance;
         }
 
-        // TODO: Should Normal be normalized in the constructor?
-        // TODO: is Distance always positive?
+        // TODO: throw exceptions for invalid inputs (ie. NaN)?
 
         public readonly Vector3 Normal;
         public readonly float Distance;
