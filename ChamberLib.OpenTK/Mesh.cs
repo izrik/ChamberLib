@@ -121,7 +121,22 @@ namespace ChamberLib.OpenTK
             material.Apply(world, view, projection, lighting);
             RenderBundle.Apply();
 
-            RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount*3, StartIndex, VertexOffset);
+            RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount * 3, StartIndex, VertexOffset);
+
+            RenderBundle.UnApply();
+            material.UnApply();
+        }
+
+        public void DrawWireframe(Matrix world, Matrix view,
+            Matrix projection, LightingData lighting,
+            IMaterial materialOverride=null)
+        {
+            var material = materialOverride ?? Material;
+
+            material.Apply(world, view, projection, lighting);
+            RenderBundle.Apply();
+
+            RenderBundle.Draw(PrimitiveType.Lines, PrimitiveCount*2, StartIndex, VertexOffset);
 
             RenderBundle.UnApply();
             material.UnApply();

@@ -11,8 +11,8 @@ namespace ChamberLib
             Radius = radius;
         }
 
-        public Vector3 Center;
-        public float Radius;
+        public readonly Vector3 Center;
+        public readonly float Radius;
 
         public Sphere Transform(Matrix m)
         {
