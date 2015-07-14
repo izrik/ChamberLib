@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ChamberLib
 {
@@ -60,20 +61,24 @@ namespace ChamberLib
 
         public ContainmentType Contains(Sphere s)
         {
-            foreach (var p in new [] { Top, Bottom, Left, Right, Near, Far })
+            var center = Corners.Aggregate((a, b) => a + b) / Corners.Length;
+            bool intersecting = false;
+            foreach (var p in new[] { Top, Bottom, Left, Right, Near, Far })
             {
                 var intersect = p.Intersects(s);
-                if (intersect == PlaneIntersectionType.Front)
+                if (intersect == PlaneIntersectionType.Intersecting)
+                {
+                    intersecting = true;
+                }
+                var centerSide = p.IntersectsPoint(center);
+                if ((intersect == PlaneIntersectionType.Front && centerSide == PlaneIntersectionType.Back) ||
+                    (intersect == PlaneIntersectionType.Back && centerSide == PlaneIntersectionType.Front))
                 {
                     return ContainmentType.Disjoint;
                 }
-                if (intersect == PlaneIntersectionType.Intersecting)
-                {
-                    return ContainmentType.Intersects;
-                }
             }
 
-            return ContainmentType.Contains;
+            return (intersecting ? ContainmentType.Intersects : ContainmentType.Contains);
         }
 
         public Vector3[] GetCorners()
