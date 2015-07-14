@@ -1,2 +1,6 @@
 LGPL notice in source files.
 
+regularize geometry
+    normalize directions in the constructor
+    fix other parameters in the constructor (e.g. Plane's distance is non-negative)
+    Intersect() should return the actual intersection point, rather than some synthetic parameter
