@@ -82,5 +82,35 @@ namespace ChamberLib.Content
             positions = positions2.ToArray();
             indexes = indexes2.Select(ix => (short)ix).ToArray();
         }
+
+        public static short[] ConvertTriangleListToLineList(short[] triangles)
+        {
+            var pairs = new HashSet<Tuple<short, short>>();
+            Action<short, short> addPair = (a, b) =>
+            {
+                var min = Math.Min(a, b);
+                var max = Math.Max(a, b);
+                pairs.Add(new Tuple<short, short>(min, max));
+            };
+
+            int i;
+            for (i = 0; i < triangles.Length; i += 3)
+            {
+                addPair(triangles[i], triangles[i + 1]);
+                addPair(triangles[i], triangles[i + 2]);
+                addPair(triangles[i + 1], triangles[i + 2]);
+            }
+
+            var indexes = new short[pairs.Count * 2];
+            i = 0;
+            foreach (var pair in pairs)
+            {
+                indexes[2 * i] = pair.Item1;
+                indexes[2 * i + 1] = pair.Item2;
+                i++;
+            }
+
+            return indexes;
+        }
     }
 }
