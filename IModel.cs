@@ -26,6 +26,8 @@ namespace ChamberLib
 
         void SetBoneTransforms(Matrix[] boneTransforms,
             IMaterial materialOverride=null);
+
+        IEnumerable<Triangle> EnumerateTriangles();
     }
 }
 

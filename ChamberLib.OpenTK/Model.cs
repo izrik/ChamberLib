@@ -182,6 +182,34 @@ namespace ChamberLib.OpenTK
             }
         }
 
+        public IEnumerable<Triangle> EnumerateTriangles()
+        {
+            var set = new HashSet<Triangle>();
+            foreach (var mesh in Meshes)
+            {
+                foreach (var part in mesh.Parts)
+                {
+                    var vv = part.Vertexes.VertexData;
+                    var ii = part.Indexes.IndexData;
+                    int i;
+                    int n= part.PrimitiveCount*3;
+                    for (i=0;i<n;i+=3)
+                    {
+                        int j = part.StartIndex+i;
+                        var t = new Triangle(
+                            vv[ii[j]].GetPosition(),
+                            vv[ii[j + 1]].GetPosition(),
+                            vv[ii[j + 2]].GetPosition());
+                        if (!set.Contains(t))
+                        {
+                            set.Add(t);
+                            yield return t;
+                        }
+                    }
+                }
+            }
+        }
+
         #endregion
 
         public List<Mesh> Meshes = new List<Mesh>();
