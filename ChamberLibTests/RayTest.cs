@@ -78,6 +78,8 @@ namespace ChamberLibTests
         [TestCase(1, 0, 0, 1.25f, -1, 2, 3, 1, 0, 0, 1.25f, 2, 3)]
         [TestCase(1, 0, 0, 1.25f, 2, 2, 3, -1, 0, 0, 1.25f, 2, 3)]
         [TestCase(1, 0, 0, 1, 1, 2, 3, 0, 1, 0, 1, 2, 3)]
+        [TestCase(1, 1, 0, 0.7071068f, 0, 0, 0, 1, 1, 0, 0.5f, 0.5f, 0)]
+        [TestCase(1, 1, 0, 0.7071068f, 0, 0, 0, 2, 1, 0, 2/3.0f, 1/3.0f, 0)]
         public void TestRayIntersectsPlane(float px, float py, float pz, float pdist,
             float rpx, float rpy, float rpz, float rdx, float rdy, float rdz,
             float x, float y, float z)
