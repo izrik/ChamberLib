@@ -59,6 +59,17 @@ namespace ChamberLib
                 VertexDescription.HasNormal |
                 VertexDescription.HasTextureCoords;
         }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "{0} {1} {2} {3} {4}",
+                Position,
+                BlendIndices,
+                BlendWeights,
+                Normal,
+                TextureCoords);
+        }
     }
 
     public struct Vertex_PN : IVertex
@@ -83,6 +94,14 @@ namespace ChamberLib
             return 
                 VertexDescription.HasPosition |
                 VertexDescription.HasNormal;
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "{0} {1}",
+                Position,
+                Normal);
         }
     }
 
@@ -111,6 +130,15 @@ namespace ChamberLib
                 VertexDescription.HasNormal |
                 VertexDescription.HasTextureCoords;
         }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "{0} {1} {2}",
+                Position,
+                Normal,
+                TextureCoords);
+        }
     }
 
     public struct Vertex_PNTT : IVertex
@@ -138,6 +166,16 @@ namespace ChamberLib
                 VertexDescription.HasPosition |
                 VertexDescription.HasNormal |
                 VertexDescription.HasTextureCoords;
+        }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "{0} {1} {2} {3}",
+                Position,
+                Normal,
+                TextureCoords,
+                TextureCoords2);
         }
     }
 
