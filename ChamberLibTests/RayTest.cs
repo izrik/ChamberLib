@@ -93,7 +93,9 @@ namespace ChamberLibTests
 
             // then
             Assert.True(p.HasValue);
-            Assert.AreEqual(new Vector3(x, y, z), p.Value);
+            Assert.AreEqual(x, p.Value.X, 0.00001f);
+            Assert.AreEqual(y, p.Value.Y, 0.00001f);
+            Assert.AreEqual(z, p.Value.Z, 0.00001f);
         }
 
         [Test]
