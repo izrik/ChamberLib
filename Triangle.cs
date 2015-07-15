@@ -39,18 +39,25 @@ namespace ChamberLib
             var p = plane.Intersects(ray, epsilon);
             if (!p.HasValue) return null;
 
-            var a = Vector3.Cross(plane.Normal, V2 - V1);
-            var b = Vector3.Cross(plane.Normal, V3 - V2);
-            var c = Vector3.Cross(plane.Normal, V1 - V3);
-
             var pv = p.Value;
-            var pa = pv - V1;
-            var pb = pv - V2;
-            var pc = pv - V3;
 
-            if (a.Dot(pa) < epsilon) return null;
-            if (b.Dot(pb) < epsilon) return null;
-            if (c.Dot(pc) < epsilon) return null;
+            var b = V3 - V1;
+            var a = V2 - V1;
+            var q = pv - V1;
+
+            var aa = a.Dot(a);
+            var ab = a.Dot(b);
+            var bb = b.Dot(b);
+            var qa = q.Dot(a);
+            var qb = q.Dot(b);
+
+            var invDenom = 1 / (aa * bb - ab * ab);
+            var u = (qa * bb - qb * ab) * invDenom;
+            var v = (qb * aa - qa * ab) * invDenom;
+
+            if (u < -epsilon) return null;
+            if (v < -epsilon) return null;
+            if (u + v > 1+epsilon) return null;
 
             return pv;
         }
