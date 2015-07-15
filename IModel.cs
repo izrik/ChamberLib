@@ -45,6 +45,7 @@ namespace ChamberLib
                 if (!closest.HasValue)
                 {
                     closest = p;
+                    closestDist = (p.Value - ray.Position).LengthSquared();
                 }
                 else
                 {
