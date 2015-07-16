@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A cross-platform library to make 3D graphics a little easier.</description>
-    <releaseNotes>Add Importer and Processor properties to the IContentManager interface, and to all implementing classes.</releaseNotes>
+    <releaseNotes>Lots of new functionality for geometry:&#10;- Calculate the intersection between a ray and a plane&#10;- New Triangle struct&#10;- Adjust conventions for plane: normal is normalized, away from origin, distance is always non-negative&#10;- Frustum now has fields to store its corners&#10;- Enumerate through all triangles in a model&#10;- New Geometry class, for run-time generation of content</releaseNotes>
     <copyright>Copyright 2015 izrik and Metaphysics Industries, Inc.</copyright>
     <tags>chamber 3d game engine</tags>
     <frameworkAssemblies>
