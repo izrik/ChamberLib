@@ -28,6 +28,8 @@ namespace ChamberLib
         public static Plane FromPoints(Vector3 p1, Vector3 p2, Vector3 p3)
         {
             var n = Vector3.Cross(p2 - p1, p3 - p1).Normalized();
+            if (n == Vector3.Zero)
+                n = Vector3.UnitX;
             var d = p1.Dot(n);
 
             return new Plane(n, d);
