@@ -229,7 +229,7 @@ namespace ChamberLib.OpenTK
             Vector3 emissive = mat.EmissiveColor;
             Vector3 specularColor = mat.SpecularColor;
             float specularPower = mat.SpecularPower;
-            string shadername = (mat.Shader2 != null ? mat.Shader2.Name : "");
+            string shadername = (mat.Shader != null ? mat.Shader.Name : "");
 
             writer.WriteLine(ImportExportHelper.Convert(diffuse));
             writer.WriteLine(ImportExportHelper.Convert(emissive));
