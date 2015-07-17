@@ -145,7 +145,6 @@
     <Compile Include="IMaterial.cs" />
     <Compile Include="LightingData.cs" />
     <Compile Include="IShader.cs" />
-    <Compile Include="ILoadable.cs" />
     <Compile Include="ListWrapper.cs" />
     <Compile Include="AnimationData.cs" />
     <Compile Include="AnimationExporter.cs" />
