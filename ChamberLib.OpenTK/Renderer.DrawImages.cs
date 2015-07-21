@@ -9,7 +9,7 @@ namespace ChamberLib.OpenTK
     public partial class Renderer
     {
         static bool _DrawImages_isReady = false;
-        static ShaderAdapter _DrawImages_shader;
+        static ShaderProgram _DrawImages_shader;
         static int _DrawImages_vao = -1;
 
         static int _DrawImages_elementCount;
@@ -29,7 +29,7 @@ namespace ChamberLib.OpenTK
              */
 
             _DrawImages_shader =
-                new ShaderAdapter(
+                new ShaderProgram(
                     new ShaderContent(
                         _DrawImages_shader_vert,
                         _DrawImages_shader_frag,

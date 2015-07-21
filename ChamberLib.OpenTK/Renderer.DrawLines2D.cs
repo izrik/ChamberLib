@@ -12,7 +12,7 @@ namespace ChamberLib.OpenTK
     public partial class Renderer
     {
         static bool _DrawLines2D_isReady = false;
-        static ShaderAdapter _DrawLines2D_shader;
+        static ShaderProgram _DrawLines2D_shader;
         static int _DrawLines2D_viewportSizeLocation;
         static int _DrawLines2D_fragmentColorLocation;
         static RenderBundle _DrawLines2D_renderData;
@@ -27,7 +27,7 @@ namespace ChamberLib.OpenTK
              */
 
             _DrawLines2D_shader = 
-                new ShaderAdapter(
+                new ShaderProgram(
                     new ShaderContent(
                         _DrawLines2D_shader_vert,
                         _DrawLines2D_shader_frag,

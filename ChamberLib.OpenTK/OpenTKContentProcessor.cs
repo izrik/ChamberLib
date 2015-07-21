@@ -55,7 +55,7 @@ namespace ChamberLib.OpenTK
                 throw new InvalidOperationException();
             }
 
-            var shader = new ShaderAdapter(asset, (String[])bindattrs2);
+            var shader = new ShaderProgram(asset, (String[])bindattrs2);
             return shader;
         }
     }

@@ -82,7 +82,6 @@
     <Compile Include="ChamberLib.OpenTK\Renderer.DrawLines2D.cs" />
     <Compile Include="ChamberLib.OpenTK\Renderer.DrawLines3D.cs" />
     <Compile Include="ChamberLib.OpenTK\Renderer.DrawString.cs" />
-    <Compile Include="ChamberLib.OpenTK\ShaderAdapter.cs" />
     <Compile Include="ChamberLib.OpenTK\Song.cs" />
     <Compile Include="ChamberLib.OpenTK\SoundEffect.cs" />
     <Compile Include="ChamberLib.OpenTK\TextureAdapter.cs" />
@@ -181,6 +180,7 @@
     <Compile Include="IRenderTarget.cs" />
     <Compile Include="PixelFormat.cs" />
     <Compile Include="IShaderProgram.cs" />
+    <Compile Include="ChamberLib.OpenTK\ShaderProgram.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />

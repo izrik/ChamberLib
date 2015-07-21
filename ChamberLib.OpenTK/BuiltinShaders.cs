@@ -6,15 +6,15 @@ namespace ChamberLib.OpenTK
 {
     public static class BuiltinShaders
     {
-        static ShaderAdapter basicShader;
-        public static ShaderAdapter BasicShader
+        static ShaderProgram basicShader;
+        public static ShaderProgram BasicShader
         {
             get
             {
                 if (basicShader == null)
                 {
                     basicShader =
-                        new ShaderAdapter(
+                        new ShaderProgram(
                             BasicShaderContent,
                             new [] {
                                 "in_position",
@@ -132,15 +132,15 @@ void main(void)
 }
 ";
 
-        static ShaderAdapter skinnedShader;
-        public static ShaderAdapter SkinnedShader
+        static ShaderProgram skinnedShader;
+        public static ShaderProgram SkinnedShader
         {
             get
             {
                 if (skinnedShader == null)
                 {
                     skinnedShader =
-                        new ShaderAdapter(
+                        new ShaderProgram(
                             SkinnedShaderContent,
                             new [] {
                                 "in_position",

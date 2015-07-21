@@ -7,9 +7,9 @@ using ChamberLib.Content;
 
 namespace ChamberLib.OpenTK
 {
-    public class ShaderAdapter : IShaderProgram
+    public class ShaderProgram : IShaderProgram
     {
-        public ShaderAdapter(ShaderContent shader, string[] bindattrs)
+        public ShaderProgram(ShaderContent shader, string[] bindattrs)
         {
             VertexShaderSource = shader.VertexShaderSource;
             FragmentShaderSource = shader.FragmentShaderSource;

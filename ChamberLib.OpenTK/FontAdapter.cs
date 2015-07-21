@@ -78,7 +78,7 @@ namespace ChamberLib.OpenTK
 
             Shader.Apply();
             GLHelper.CheckError();
-            var ProgramID = ((ShaderAdapter)Shader).ProgramID;
+            var ProgramID = ((ShaderProgram)Shader).ProgramID;
 
             renderData.Apply();
 
@@ -146,7 +146,7 @@ namespace ChamberLib.OpenTK
              * Shader
              *
              */
-            Shader = new ShaderAdapter(
+            Shader = new ShaderProgram(
                 new ShaderContent(
                     _DrawString_shader_vert,
                     _DrawString_shader_frag,
@@ -186,7 +186,7 @@ namespace ChamberLib.OpenTK
         static MutableVertexBuffer vertexBuffer;    // this needs to be Mutable because we're not using IVertex
         static IIndexBuffer indexBuffer;
 
-        static ShaderAdapter Shader;
+        static ShaderProgram Shader;
 
         struct Glyph
         {

@@ -11,7 +11,7 @@ namespace ChamberLib.OpenTK
     public partial class Renderer
     {
         static bool _DrawLines3D_isReady = false;
-        static ShaderAdapter _DrawLines3D_shader;
+        static ShaderProgram _DrawLines3D_shader;
         static int _DrawLines3D_worldViewProjLocation;
         static int _DrawLines3D_fragmentColorLocation;
         static RenderBundle _DrawLines3D_renderData;
@@ -26,7 +26,7 @@ namespace ChamberLib.OpenTK
              */
 
             _DrawLines3D_shader =
-                new ShaderAdapter(
+                new ShaderProgram(
                     new ShaderContent(
                         _DrawLines3D_shader_vert,
                         _DrawLines3D_shader_frag,
