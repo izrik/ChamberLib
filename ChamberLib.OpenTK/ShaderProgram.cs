@@ -24,8 +24,6 @@ namespace ChamberLib.OpenTK
         public readonly string VertexShaderSource;
         public readonly string FragmentShaderSource;
         public int ProgramID;
-        public int VertexShaderID;
-        public int FragmentShaderID;
         public List<string> BindAttributes = new List<string>();
 
         readonly string name;
@@ -62,6 +60,37 @@ namespace ChamberLib.OpenTK
             }
         }
 
+        public class ShaderStage
+        {
+            public int ShaderID;
+            public string Source;
+            public ShaderType ShaderType;
+
+            public void MakeReady()
+            {
+                if (ShaderID != 0) return;
+
+                GLHelper.CheckError();
+                ShaderID = GL.CreateShader(ShaderType);
+                GLHelper.CheckError();
+                GL.ShaderSource(ShaderID, Source);
+                GLHelper.CheckError();
+                GL.CompileShader(ShaderID);
+                GLHelper.CheckError();
+
+                int result;
+                GL.GetShader(ShaderID, ShaderParameter.CompileStatus, out result);
+                Debug.WriteLine("Shader compile status: {0}", result);
+                GLHelper.CheckError();
+                Debug.WriteLine("Shader info:");
+                Debug.WriteLine(GL.GetShaderInfoLog(ShaderID));
+                GLHelper.CheckError();
+            }
+        }
+
+        public ShaderStage VertexShader;
+        public ShaderStage FragmentShader;
+
         public void MakeReady()
         {
             if (ProgramID != 0)
@@ -70,48 +99,37 @@ namespace ChamberLib.OpenTK
             }
 
             int prog;
-            int vs = 0;
-            int fs = 0;
-
-
-            GLHelper.CheckError();
-            prog = GL.CreateProgram();
-            GLHelper.CheckError();
-
-            GLHelper.CheckError();
-            vs = GL.CreateShader(ShaderType.VertexShader);
-            GLHelper.CheckError();
-            GL.ShaderSource(vs, VertexShaderSource);
-            GLHelper.CheckError();
-            GL.CompileShader(vs);
-            GLHelper.CheckError();
-            GL.AttachShader(prog, vs);
-            GLHelper.CheckError();
+            int result;
 
             if (!string.IsNullOrEmpty(Name))
             {
                 Debug.WriteLine(string.Format("Readying shader \"{0}\"", Name));
             }
 
-            int result;
-            GL.GetShader(vs, ShaderParameter.CompileStatus, out result);
-            Debug.WriteLine("Vertex shader compile status: {0}", result);
             GLHelper.CheckError();
-            Debug.WriteLine("vertex shader info:");
-            Debug.WriteLine(GL.GetShaderInfoLog(vs));
+            prog = GL.CreateProgram();
             GLHelper.CheckError();
 
+
+            VertexShader = new ShaderStage {
+                Source = VertexShaderSource,
+                ShaderType = ShaderType.VertexShader,
+            };
+
+            VertexShader.MakeReady();
+
+            GL.AttachShader(prog, VertexShader.ShaderID);
             GLHelper.CheckError();
-            fs = GL.CreateShader(ShaderType.FragmentShader);
-            GLHelper.CheckError();
-            GL.ShaderSource(fs, FragmentShaderSource);
-            GLHelper.CheckError();
-            GL.CompileShader(fs);
-            GLHelper.CheckError();
-            GL.AttachShader(prog, fs);
-            GLHelper.CheckError();
-            Debug.WriteLine("fragment shader info:");
-            Debug.WriteLine(GL.GetShaderInfoLog(fs));
+
+
+            FragmentShader = new ShaderStage {
+                Source = FragmentShaderSource,
+                ShaderType = ShaderType.FragmentShader,
+            };
+
+            FragmentShader.MakeReady();
+
+            GL.AttachShader(prog, FragmentShader.ShaderID);
             GLHelper.CheckError();
 
             int i = 0;
@@ -137,14 +155,12 @@ namespace ChamberLib.OpenTK
             GL.GetProgramInfoLog( prog, out programInfoLog );
             GLHelper.CheckError();
 
-            GL.DeleteShader(vs);
+            GL.DeleteShader(VertexShader.ShaderID);
             GLHelper.CheckError();
-            GL.DeleteShader(fs);
+            GL.DeleteShader(FragmentShader.ShaderID);
             GLHelper.CheckError();
 
             ProgramID = prog;
-            VertexShaderID = vs;
-            FragmentShaderID = fs;
         }
 
         Dictionary<string,int> uniformLocationCache = new Dictionary<string, int>();
