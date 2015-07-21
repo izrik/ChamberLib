@@ -34,15 +34,34 @@ namespace ChamberLib.OpenTK
 
         public ShaderContent ImportShaderStage(string filename, ShaderType type, IContentImporter importer)
         {
-
             if (filename == "$basic")
             {
-                throw new NotImplementedException("ImportShaderStage $basic");
+                if (type != ShaderType.Vertex)
+                    throw new ArgumentOutOfRangeException(
+                        "type",
+                        "Wrong shader type for built-in shader \"$basic\"");
+
+                return BuiltinShaders.BasicVertexShaderContent;
             }
 
             if (filename == "$skinned")
             {
-                throw new NotImplementedException("ImportShaderStage $skinned");
+                if (type != ShaderType.Vertex)
+                    throw new ArgumentOutOfRangeException(
+                        "type",
+                        "Wrong shader type for built-in shader \"$skinned\"");
+
+                return BuiltinShaders.SkinnedVertexShaderContent;
+            }
+
+            if (filename == "$fragment")
+            {
+                if (type != ShaderType.Fragment)
+                    throw new ArgumentOutOfRangeException(
+                        "type",
+                        "Wrong shader type for built-in shader \"$fragment\"");
+
+                return BuiltinShaders.BuiltinFragmentShaderContent;
             }
 
             return next2(filename, type, importer);
