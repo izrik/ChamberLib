@@ -7,9 +7,6 @@ namespace ChamberLib.Content
     {
         public ShaderContent(string vs, string fs, string name)
         {
-            if (string.IsNullOrEmpty(vs)) throw new ArgumentNullException("vs");
-            if (string.IsNullOrEmpty(fs)) throw new ArgumentNullException("fs");
-
             this.VertexShaderSource = vs;
             this.FragmentShaderSource = fs;
             this.Name = name ?? "";
