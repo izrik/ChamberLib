@@ -13,7 +13,7 @@ namespace ChamberLib
         IFont LoadFont(string name);
         ISong LoadSong(string name);
         ISoundEffect LoadSoundEffect(string name);
-        IShader LoadShader(string name, object bindattrs=null);
+        IShaderProgram LoadShader(string name, object bindattrs=null);
 
         string LookupObjectName(object o);
 
@@ -68,7 +68,7 @@ namespace ChamberLib
 
             return null;
         }
-        public static IShader LoadShaderIfNotNull(this IContentManager content, string name)
+        public static IShaderProgram LoadShaderIfNotNull(this IContentManager content, string name)
         {
             if (name != null)
             {

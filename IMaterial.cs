@@ -17,7 +17,7 @@ namespace ChamberLib
         float Alpha { get; set; }
         ITexture2D Texture { get; set; }
 
-        IShader Shader { get; set; }
+        IShaderProgram Shader { get; set; }
     }
 }
 

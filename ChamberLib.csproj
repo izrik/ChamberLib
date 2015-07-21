@@ -144,7 +144,6 @@
     <Compile Include="VertexHelper.cs" />
     <Compile Include="IMaterial.cs" />
     <Compile Include="LightingData.cs" />
-    <Compile Include="IShader.cs" />
     <Compile Include="ListWrapper.cs" />
     <Compile Include="AnimationData.cs" />
     <Compile Include="AnimationExporter.cs" />
@@ -181,6 +180,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IRenderTarget.cs" />
     <Compile Include="PixelFormat.cs" />
+    <Compile Include="IShaderProgram.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />

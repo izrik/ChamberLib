@@ -7,7 +7,7 @@ using ChamberLib.Content;
 
 namespace ChamberLib.OpenTK
 {
-    public class ShaderAdapter : IShader
+    public class ShaderAdapter : IShaderProgram
     {
         public ShaderAdapter(ShaderContent shader, string[] bindattrs)
         {

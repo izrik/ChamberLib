@@ -34,7 +34,7 @@ namespace ChamberLib.OpenTK
         {
             return new SoundEffect(asset);
         }
-        public IShader ProcessShader(ShaderContent asset, IContentProcessor processor = null, object bindattrs=null)
+        public IShaderProgram ProcessShader(ShaderContent asset, IContentProcessor processor = null, object bindattrs=null)
         {
             if (asset == BuiltinShaders.BasicShaderContent)
                 return BuiltinShaders.BasicShader;

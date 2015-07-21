@@ -47,7 +47,7 @@ namespace ChamberLib.Content
         {
             return SoundEffectProcessor(asset, importer);
         }
-        public IShader ProcessShader(ShaderContent asset, IContentProcessor importer = null, object bindattrs = null)
+        public IShaderProgram ProcessShader(ShaderContent asset, IContentProcessor importer = null, object bindattrs = null)
         {
             return ShaderProcessor(asset, importer);
         }

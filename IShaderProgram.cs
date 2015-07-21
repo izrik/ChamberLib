@@ -2,7 +2,7 @@
 
 namespace ChamberLib
 {
-    public interface IShader
+    public interface IShaderProgram
     {
         string Name { get; }
 

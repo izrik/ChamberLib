@@ -11,7 +11,7 @@ namespace ChamberLib.Content
 
             models = new Cache<ModelContent, IContentProcessor, IModel>(next.ProcessModel);
             textures = new Cache<TextureContent, IContentProcessor, ITexture2D>(next.ProcessTexture2D);
-            shaders = new Cache<ShaderContent, IContentProcessor, object, IShader>(next.ProcessShader);
+            shaders = new Cache<ShaderContent, IContentProcessor, object, IShaderProgram>(next.ProcessShader);
             fonts = new Cache<FontContent, IContentProcessor, IFont>(next.ProcessFont);
             songs = new Cache<SongContent, IContentProcessor, ISong>(next.ProcessSong);
             soundEffects = new Cache<SoundEffectContent, IContentProcessor, ISoundEffect>(next.ProcessSoundEffect);
@@ -19,7 +19,7 @@ namespace ChamberLib.Content
 
         readonly Cache<ModelContent, IContentProcessor, IModel> models;
         readonly Cache<TextureContent, IContentProcessor, ITexture2D> textures;
-        readonly Cache<ShaderContent, IContentProcessor, object, IShader> shaders;
+        readonly Cache<ShaderContent, IContentProcessor, object, IShaderProgram> shaders;
         readonly Cache<FontContent, IContentProcessor, IFont> fonts;
         readonly Cache<SongContent, IContentProcessor, ISong> songs;
         readonly Cache<SoundEffectContent, IContentProcessor, ISoundEffect> soundEffects;
@@ -36,7 +36,7 @@ namespace ChamberLib.Content
             return textures.Call(asset, processor);
         }
 
-        public IShader ProcessShader(ShaderContent asset, IContentProcessor processor = null, object bindattrs = null)
+        public IShaderProgram ProcessShader(ShaderContent asset, IContentProcessor processor = null, object bindattrs = null)
         {
             return shaders.Call(asset, processor, bindattrs);
         }

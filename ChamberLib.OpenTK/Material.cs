@@ -45,7 +45,7 @@ namespace ChamberLib.OpenTK
         public float Alpha { get; set; }
         public ITexture2D Texture { get; set; }
 
-        public IShader Shader { get; set; }
+        public IShaderProgram Shader { get; set; }
 
         public void Apply(Matrix world, Matrix view, Matrix projection,
                             LightingData lighting)

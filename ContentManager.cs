@@ -55,7 +55,7 @@ namespace ChamberLib
             return soundEffect;
         }
 
-        public IShader LoadShader(string name, object bindattrs = null)
+        public IShaderProgram LoadShader(string name, object bindattrs = null)
         {
             var content = Importer.ImportShader(name, Importer);
             var shader = Processor.ProcessShader(content, Processor, bindattrs);
@@ -64,9 +64,9 @@ namespace ChamberLib
 
         public string LookupObjectName(object o)
         {
-            if (o is IShader)
+            if (o is IShaderProgram)
             {
-                return ((IShader)o).Name;
+                return ((IShaderProgram)o).Name;
             }
 
             return null;
