@@ -62,6 +62,13 @@ namespace ChamberLib
             return shader;
         }
 
+        public IShaderStage LoadShaderStage(string name, ShaderType type)
+        {
+            var content = Importer.ImportShaderStage(name, type, Importer);
+            var shaderStage = Processor.ProcessShaderStage(content, Processor);
+            return shaderStage;
+        }
+
         public string LookupObjectName(object o)
         {
             if (o is IShaderProgram)

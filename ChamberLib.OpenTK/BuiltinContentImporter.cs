@@ -10,7 +10,8 @@ namespace ChamberLib.OpenTK
             if (next == null) throw new ArgumentNullException("next");
 
             this.next = next;
-            this.shaderImporter = new BuiltinShaderImporter(next.ImportShader);
+            this.shaderImporter = new BuiltinShaderImporter(next.ImportShader,
+                                                            next.ImportShaderStage);
             this.fontImporter = new BuiltinFontImporter(next.ImportFont);
         }
 
@@ -41,6 +42,10 @@ namespace ChamberLib.OpenTK
         public ShaderContent ImportShader(string name, IContentImporter importer = null)
         {
             return shaderImporter.ImportShader(name, importer);
+        }
+        public ShaderContent ImportShaderStage(string name, ShaderType type, IContentImporter importer = null)
+        {
+            return shaderImporter.ImportShaderStage(name, type, importer);
         }
     }
 }

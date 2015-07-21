@@ -8,6 +8,7 @@ namespace ChamberLib.Content
             ModelProcessor modelProcessor,
             TextureProcessor textureProcessor,
             ShaderProcessor shaderProcessor,
+            ShaderStageProcessor shaderStageProcessor,
             FontProcessor fontProcessor,
             SongProcessor songProcessor,
             SoundEffectProcessor soundEffectProcessor)
@@ -15,6 +16,7 @@ namespace ChamberLib.Content
             ModelProcessor = modelProcessor;
             TextureProcessor = textureProcessor;
             ShaderProcessor = shaderProcessor;
+            ShaderStageProcessor = shaderStageProcessor;
             FontProcessor = fontProcessor;
             SongProcessor = songProcessor;
             SoundEffectProcessor = soundEffectProcessor;
@@ -23,6 +25,7 @@ namespace ChamberLib.Content
         public readonly ModelProcessor ModelProcessor;
         public readonly TextureProcessor TextureProcessor;
         public readonly ShaderProcessor ShaderProcessor;
+        public readonly ShaderStageProcessor ShaderStageProcessor;
         public readonly FontProcessor FontProcessor;
         public readonly SongProcessor SongProcessor;
         public readonly SoundEffectProcessor SoundEffectProcessor;
@@ -50,6 +53,10 @@ namespace ChamberLib.Content
         public IShaderProgram ProcessShader(ShaderContent asset, IContentProcessor importer = null, object bindattrs = null)
         {
             return ShaderProcessor(asset, importer);
+        }
+        public IShaderStage ProcessShaderStage(ShaderContent asset, IContentProcessor processor = null)
+        {
+            return ShaderStageProcessor(asset, processor);
         }
 
         public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,

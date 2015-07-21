@@ -12,17 +12,23 @@ namespace ChamberLib.Content
             models = new Cache<ModelContent, IContentProcessor, IModel>(next.ProcessModel);
             textures = new Cache<TextureContent, IContentProcessor, ITexture2D>(next.ProcessTexture2D);
             shaders = new Cache<ShaderContent, IContentProcessor, object, IShaderProgram>(next.ProcessShader);
+            shaderStages = new Cache<ShaderContent, IContentProcessor, IShaderStage>(next.ProcessShaderStage);
             fonts = new Cache<FontContent, IContentProcessor, IFont>(next.ProcessFont);
             songs = new Cache<SongContent, IContentProcessor, ISong>(next.ProcessSong);
             soundEffects = new Cache<SoundEffectContent, IContentProcessor, ISoundEffect>(next.ProcessSoundEffect);
+
+            Next = next;
         }
 
         readonly Cache<ModelContent, IContentProcessor, IModel> models;
         readonly Cache<TextureContent, IContentProcessor, ITexture2D> textures;
         readonly Cache<ShaderContent, IContentProcessor, object, IShaderProgram> shaders;
+        readonly Cache<ShaderContent, IContentProcessor, IShaderStage> shaderStages;
         readonly Cache<FontContent, IContentProcessor, IFont> fonts;
         readonly Cache<SongContent, IContentProcessor, ISong> songs;
         readonly Cache<SoundEffectContent, IContentProcessor, ISoundEffect> soundEffects;
+
+        readonly IContentProcessor Next;
 
         #region IContentProcessor implementation
 
@@ -39,6 +45,11 @@ namespace ChamberLib.Content
         public IShaderProgram ProcessShader(ShaderContent asset, IContentProcessor processor = null, object bindattrs = null)
         {
             return shaders.Call(asset, processor, bindattrs);
+        }
+
+        public IShaderStage ProcessShaderStage(ShaderContent asset, IContentProcessor processor = null)
+        {
+            return shaderStages.Call(asset, processor);
         }
 
         public IFont ProcessFont(FontContent asset, IContentProcessor processor = null)
@@ -59,7 +70,7 @@ namespace ChamberLib.Content
         public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
             IShaderStage fragmentShader, string[] bindattrs=null)
         {
-            throw new NotImplementedException();
+            return Next.MakeShaderProgram(vertexShader, fragmentShader, bindattrs);
         }
 
         #endregion

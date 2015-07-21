@@ -40,13 +40,15 @@ namespace ChamberLib.OpenTK
             // content management
             if (contentImporter == null)
             {
+                var glsl = new GlslShaderImporter();
                 contentImporter =
                     new BuiltinContentImporter(
                         new ResolvingContentImporter(
                             new ContentImporter(
                                 new ChModelImporter().ImportModel,
                                 new BasicTextureImporter().ImportTexture,
-                                new GlslShaderImporter().ImportShader,
+                                glsl.ImportShader,
+                                glsl.ImportShaderStage,
                                 null,
                                 new BasicSongImporter().ImportSong,
                                 new OggVorbisSoundEffectImporter(

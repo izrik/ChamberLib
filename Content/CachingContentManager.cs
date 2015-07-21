@@ -13,6 +13,8 @@ namespace ChamberLib.Content
             models = new Cache<string, IModel>(next.LoadModel);
             textures = new Cache<string, ITexture2D>(next.LoadTexture2D);
             shaders = new Cache<string, object, IShaderProgram>(next.LoadShader);
+            shaderStages = new Cache2<string, ShaderType, IShaderStage>(next.LoadShaderStage);
+            shaders = new Cache<string, object, IShaderProgram>(next.LoadShader);
             fonts = new Cache<string, IFont>(next.LoadFont);
             songs = new Cache<string, ISong>(next.LoadSong);
             soundEffects = new Cache<string, ISoundEffect>(next.LoadSoundEffect);
@@ -23,6 +25,7 @@ namespace ChamberLib.Content
         readonly Cache<string, IModel> models;
         readonly Cache<string, ITexture2D> textures;
         readonly Cache<string, object, IShaderProgram> shaders;
+        readonly Cache2<string, ShaderType, IShaderStage> shaderStages;
         readonly Cache<string, IFont> fonts;
         readonly Cache<string, ISong> songs;
         readonly Cache<string, ISoundEffect> soundEffects;
@@ -43,6 +46,11 @@ namespace ChamberLib.Content
         public IShaderProgram LoadShader(string name, object bindattrs = null)
         {
             return shaders.Call(name, bindattrs);
+        }
+
+        public IShaderStage LoadShaderStage(string name, ShaderType type)
+        {
+            return shaderStages.Call(name, type);
         }
 
         public IFont LoadFont(string name)
@@ -105,7 +113,7 @@ namespace ChamberLib.Content
         public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
             IShaderStage fragmentShader, string[] bindattrs=null)
         {
-            throw new NotImplementedException();
+            return next.MakeShaderProgram(vertexShader, fragmentShader, bindattrs);
         }
     }
 }

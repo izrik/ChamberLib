@@ -14,6 +14,7 @@ namespace ChamberLib
         ISong LoadSong(string name);
         ISoundEffect LoadSoundEffect(string name);
         IShaderProgram LoadShader(string name, object bindattrs=null);
+        IShaderStage LoadShaderStage(string name, ShaderType type);
 
         string LookupObjectName(object o);
 

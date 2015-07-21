@@ -70,6 +70,37 @@ namespace ChamberLib.OpenTK
                     fs: fragmentShaderSource,
                     name: filename);
         }
+
+        public ShaderContent ImportShaderStage(string filename, ShaderType type, IContentImporter importer)
+        {
+            if (File.Exists(filename))
+            {
+            }
+            else if (type == ShaderType.Vertex && File.Exists(filename + ".vert"))
+            {
+                filename += ".vert";
+            }
+            else if (type == ShaderType.Fragment && File.Exists(filename + ".frag"))
+            {
+                filename += ".frag";
+            }
+            else
+            {
+                throw new FileNotFoundException(
+                    string.Format(
+                        "The {0} shader file could not be found: {1}",
+                        type,
+                        filename),
+                    filename);
+            }
+
+            var source = File.ReadAllText(filename);
+
+            return new ShaderContent(
+                vs: (type == ShaderType.Vertex ? source : null),
+                fs: (type == ShaderType.Fragment ? source : null),
+                name: filename);
+        }
     }
 }
 

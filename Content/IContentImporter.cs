@@ -10,6 +10,7 @@ namespace ChamberLib.Content
         SongContent ImportSong(string name, IContentImporter importer=null);
         SoundEffectContent ImportSoundEffect(string name, IContentImporter importer=null);
         ShaderContent ImportShader(string name, IContentImporter importer=null);
+        ShaderContent ImportShaderStage(string name, ShaderType type, IContentImporter importer=null);
     }
 }
 

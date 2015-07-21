@@ -84,6 +84,13 @@ namespace ChamberLib.Content
 
             return next.ImportShader(name, importer);
         }
+
+        public ShaderContent ImportShaderStage(string name, ShaderType type, IContentImporter importer = null)
+        {
+            var resolvedName = ResolveFilename(name);
+
+            return next.ImportShaderStage(resolvedName, type, importer);
+        }
     }
 }
 

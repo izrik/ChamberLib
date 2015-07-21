@@ -58,6 +58,15 @@ namespace ChamberLib.OpenTK
             var shader = new ShaderProgram(asset, (String[])bindattrs2);
             return shader;
         }
+        public IShaderStage ProcessShaderStage(ShaderContent asset, IContentProcessor processor = null)
+        {
+            var type = (asset.VertexShaderSource != null ?
+                ShaderType.Vertex :
+                ShaderType.Fragment);
+            var source = asset.VertexShaderSource ?? asset.FragmentShaderSource;
+            var shaderStage = new ShaderStage(source, type);
+            return shaderStage;
+        }
 
         public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
             IShaderStage fragmentShader, string[] bindattrs=null)
