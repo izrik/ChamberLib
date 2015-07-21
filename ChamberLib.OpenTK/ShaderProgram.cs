@@ -77,7 +77,7 @@ namespace ChamberLib.OpenTK
                 if (ShaderID != 0) return;
 
                 GLHelper.CheckError();
-                ShaderID = GL.CreateShader(ShaderType);
+                ShaderID = GL.CreateShader(ShaderType.ToOpenTK());
                 GLHelper.CheckError();
                 GL.ShaderSource(ShaderID, Source);
                 GLHelper.CheckError();
@@ -118,7 +118,7 @@ namespace ChamberLib.OpenTK
 
 
             VertexShader = new ShaderStage(VertexShaderSource,
-                ShaderType.VertexShader);
+                ShaderType.Vertex);
 
             VertexShader.MakeReady();
 
@@ -126,7 +126,7 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
 
             FragmentShader = new ShaderStage(FragmentShaderSource,
-                ShaderType.FragmentShader);
+                ShaderType.Fragment);
 
             FragmentShader.MakeReady();
 
