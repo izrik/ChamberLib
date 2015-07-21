@@ -147,40 +147,40 @@ void main(void)
 }";
             SkinnedShaderFrag = BasicShaderFrag;
 
-            basicVertexShaderContent = new ShaderContent(BasicShaderVert, null, "$basic");
-            skinnedVertexShaderContent = new ShaderContent(SkinnedShaderVert, null, "$skinned");
-            builtinFragmentShaderContent = new ShaderContent(null, BasicShaderFrag, "$builtin");
+            BasicVertexShaderContent = new ShaderContent(BasicShaderVert, null, "$basic");
+            SkinnedVertexShaderContent = new ShaderContent(SkinnedShaderVert, null, "$skinned");
+            BuiltinFragmentShaderContent = new ShaderContent(null, BasicShaderFrag, "$builtin");
 
-            basicVertexShaderStage = new ShaderStage(BasicShaderVert, ShaderType.Vertex);
-            skinnedVertexShaderStage = new ShaderStage(SkinnedShaderVert, ShaderType.Vertex);
-            builtinFragmentShaderStage = new ShaderStage(BasicShaderFrag, ShaderType.Fragment);
+            BasicVertexShaderStage = new ShaderStage(BasicShaderVert, ShaderType.Vertex);
+            SkinnedVertexShaderStage = new ShaderStage(SkinnedShaderVert, ShaderType.Vertex);
+            BuiltinFragmentShaderStage = new ShaderStage(BasicShaderFrag, ShaderType.Fragment);
 
-            basicShaderContent =
+            BasicShaderContent =
                 new ShaderContent(
                     BasicShaderVert,
                     BasicShaderFrag,
                     "$basic");
             
-            basicShader =
+            BasicShader =
                 new ShaderProgram(
-                    basicVertexShaderStage,
-                    builtinFragmentShaderStage,
+                    BasicVertexShaderStage,
+                    BuiltinFragmentShaderStage,
                     new [] {
                         "in_position",
                         "in_normal",
                         "in_texture_coords"
                     });
 
-            skinnedShaderContent =
+            SkinnedShaderContent =
                 new ShaderContent(
                     SkinnedShaderVert,
                     SkinnedShaderFrag,
                     "$skinned");
 
-            skinnedShader =
+            SkinnedShader =
                 new ShaderProgram(
-                    skinnedVertexShaderStage,
-                    builtinFragmentShaderStage,
+                    SkinnedVertexShaderStage,
+                    BuiltinFragmentShaderStage,
                     new [] {
                         "in_position",
                         "in_normal",
@@ -191,51 +191,23 @@ void main(void)
         }
 
 
-        static ShaderContent basicVertexShaderContent;
-        static ShaderContent skinnedVertexShaderContent;
-        static ShaderContent builtinFragmentShaderContent;
+        public static ShaderContent BasicVertexShaderContent;
+        public static ShaderContent SkinnedVertexShaderContent;
+        public static ShaderContent BuiltinFragmentShaderContent;
 
-        static ShaderStage basicVertexShaderStage;
-        static ShaderStage skinnedVertexShaderStage;
-        static ShaderStage builtinFragmentShaderStage;
+        public static ShaderStage BasicVertexShaderStage;
+        public static ShaderStage SkinnedVertexShaderStage;
+        public static ShaderStage BuiltinFragmentShaderStage;
 
-        static ShaderProgram basicShader;
-        public static ShaderProgram BasicShader
-        {
-            get
-            {
-                return basicShader;
-            }
-        }
-        static ShaderContent basicShaderContent;
-        public static ShaderContent BasicShaderContent
-        {
-            get
-            {
-                return basicShaderContent;
-            }
-        }
+        public static ShaderProgram BasicShader;
+        public static ShaderContent BasicShaderContent;
 
         public static readonly string BasicShaderVert;
-
         public static readonly string BasicShaderFrag;
 
-        static ShaderProgram skinnedShader;
-        public static ShaderProgram SkinnedShader
-        {
-            get
-            {
-                return skinnedShader;
-            }
-        }
-        static ShaderContent skinnedShaderContent;
-        public static ShaderContent SkinnedShaderContent
-        {
-            get
-            {
-                return skinnedShaderContent;
-            }
-        }
+        public static ShaderProgram SkinnedShader;
+        public static ShaderContent SkinnedShaderContent;
+
         public static readonly string SkinnedShaderVert;
         public static readonly string SkinnedShaderFrag;
 
