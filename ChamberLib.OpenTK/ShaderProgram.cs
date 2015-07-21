@@ -60,7 +60,7 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        public class ShaderStage
+        public class ShaderStage : IShaderStage
         {
             public ShaderStage(string source, ShaderType shaderType)
             {
@@ -69,8 +69,8 @@ namespace ChamberLib.OpenTK
             }
 
             public int ShaderID { get; protected set; }
-            public readonly string Source;
-            public readonly ShaderType ShaderType;
+            public string Source { get; protected set; }
+            public ShaderType ShaderType { get; protected set; }
 
             public void MakeReady()
             {
