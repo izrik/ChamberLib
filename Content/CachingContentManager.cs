@@ -101,6 +101,12 @@ namespace ChamberLib.Content
         {
             return next.CreateTexture(width, height, data, pixelFormat);
         }
+
+        public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
+            IShaderStage fragmentShader, string[] bindattrs=null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

@@ -78,6 +78,12 @@ namespace ChamberLib
             var tc = new TextureContent(width, height, data);
             return Processor.ProcessTexture2D(tc);
         }
+
+        public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
+            IShaderStage fragmentShader, string[] bindattrs=null)
+        {
+            return Processor.MakeShaderProgram(vertexShader, fragmentShader, bindattrs);
+        }
     }
 }
 

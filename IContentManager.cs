@@ -19,6 +19,9 @@ namespace ChamberLib
 
         ITexture2D CreateTexture(int width, int height, Color[] data,
             PixelFormat pixelFormat=PixelFormat.Rgba);
+
+        IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
+            IShaderStage fragmentShader, string [] bindattrs=null);
     }
 
     public static class IContentManagerHelper

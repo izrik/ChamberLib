@@ -56,6 +56,12 @@ namespace ChamberLib.Content
             return soundEffects.Call(asset, processor);
         }
 
+        public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
+            IShaderStage fragmentShader, string[] bindattrs=null)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

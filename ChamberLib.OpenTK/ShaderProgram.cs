@@ -20,6 +20,21 @@ namespace ChamberLib.OpenTK
 
             name = shader.Name ?? "";
         }
+        public ShaderProgram(ShaderStage vertexShader, ShaderStage fragmentShader,
+            string[] bindattrs)
+        {
+            VertexShaderSource = vertexShader.Source;
+            VertexShader = vertexShader;
+            FragmentShaderSource = fragmentShader.Source;
+            FragmentShader = fragmentShader;
+
+            if (bindattrs != null)
+            {
+                BindAttributes.AddRange(bindattrs);
+            }
+
+            name = "";
+        }
 
         public readonly string VertexShaderSource;
         public readonly string FragmentShaderSource;
