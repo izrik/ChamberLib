@@ -62,9 +62,15 @@ namespace ChamberLib.OpenTK
 
         public class ShaderStage
         {
-            public int ShaderID;
-            public string Source;
-            public ShaderType ShaderType;
+            public ShaderStage(string source, ShaderType shaderType)
+            {
+                Source = source;
+                ShaderType = shaderType;
+            }
+
+            public int ShaderID { get; protected set; }
+            public readonly string Source;
+            public readonly ShaderType ShaderType;
 
             public void MakeReady()
             {
@@ -80,9 +86,9 @@ namespace ChamberLib.OpenTK
 
                 int result;
                 GL.GetShader(ShaderID, ShaderParameter.CompileStatus, out result);
-                Debug.WriteLine("Shader compile status: {0}", result);
+                Debug.WriteLine("{1} compile status: {0}", result, ShaderType);
                 GLHelper.CheckError();
-                Debug.WriteLine("Shader info:");
+                Debug.WriteLine("{0} info:", ShaderType);
                 Debug.WriteLine(GL.GetShaderInfoLog(ShaderID));
                 GLHelper.CheckError();
             }
@@ -111,21 +117,16 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
 
 
-            VertexShader = new ShaderStage {
-                Source = VertexShaderSource,
-                ShaderType = ShaderType.VertexShader,
-            };
+            VertexShader = new ShaderStage(VertexShaderSource,
+                ShaderType.VertexShader);
 
             VertexShader.MakeReady();
 
             GL.AttachShader(prog, VertexShader.ShaderID);
             GLHelper.CheckError();
 
-
-            FragmentShader = new ShaderStage {
-                Source = FragmentShaderSource,
-                ShaderType = ShaderType.FragmentShader,
-            };
+            FragmentShader = new ShaderStage(FragmentShaderSource,
+                ShaderType.FragmentShader);
 
             FragmentShader.MakeReady();
 
