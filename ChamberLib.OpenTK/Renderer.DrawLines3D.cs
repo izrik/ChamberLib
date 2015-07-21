@@ -30,7 +30,8 @@ namespace ChamberLib.OpenTK
                     new ShaderContent(
                         _DrawLines3D_shader_vert,
                         _DrawLines3D_shader_frag,
-                        "$draw lines 3d"),
+                        "$draw lines 3d",
+                        ShaderType.Vertex),
                     new [] { "in_position" });
 
             _DrawLines3D_shader.MakeReady();

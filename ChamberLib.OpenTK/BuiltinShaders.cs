@@ -147,9 +147,9 @@ void main(void)
 }";
             SkinnedShaderFrag = BasicShaderFrag;
 
-            BasicVertexShaderContent = new ShaderContent(BasicShaderVert, null, "$basic");
-            SkinnedVertexShaderContent = new ShaderContent(SkinnedShaderVert, null, "$skinned");
-            BuiltinFragmentShaderContent = new ShaderContent(null, BasicShaderFrag, "$builtin");
+            BasicVertexShaderContent = new ShaderContent(BasicShaderVert, null, "$basic", ShaderType.Vertex);
+            SkinnedVertexShaderContent = new ShaderContent(SkinnedShaderVert, null, "$skinned", ShaderType.Vertex);
+            BuiltinFragmentShaderContent = new ShaderContent(null, BasicShaderFrag, "$builtin", ShaderType.Fragment);
 
             BasicVertexShaderStage = new ShaderStage(BasicShaderVert, ShaderType.Vertex);
             SkinnedVertexShaderStage = new ShaderStage(SkinnedShaderVert, ShaderType.Vertex);
@@ -159,7 +159,8 @@ void main(void)
                 new ShaderContent(
                     BasicShaderVert,
                     BasicShaderFrag,
-                    "$basic");
+                    "$basic",
+                    ShaderType.Vertex);
             
             BasicShader =
                 new ShaderProgram(
@@ -175,7 +176,8 @@ void main(void)
                 new ShaderContent(
                     SkinnedShaderVert,
                     SkinnedShaderFrag,
-                    "$skinned");
+                    "$skinned",
+                    ShaderType.Vertex);
 
             SkinnedShader =
                 new ShaderProgram(

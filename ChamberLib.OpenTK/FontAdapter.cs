@@ -150,7 +150,8 @@ namespace ChamberLib.OpenTK
                 new ShaderContent(
                     _DrawString_shader_vert,
                     _DrawString_shader_frag,
-                    "$font"),
+                    "$font",
+                    ShaderType.Vertex),
                 new [] { "in_position" });
 
             Shader.Apply();

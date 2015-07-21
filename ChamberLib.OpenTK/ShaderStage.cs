@@ -1,11 +1,19 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
+using ChamberLib.Content;
 
 namespace ChamberLib.OpenTK
 {
     public class ShaderStage : IShaderStage
     {
+        public ShaderStage(ShaderContent content)
+            : this(content.Type == ShaderType.Vertex ?
+                    content.VertexShaderSource :
+                    content.FragmentShaderSource,
+                content.Type)
+        {
+        }
         public ShaderStage(string source, ShaderType shaderType)
         {
             Source = source;

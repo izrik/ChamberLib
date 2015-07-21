@@ -31,7 +31,8 @@ namespace ChamberLib.OpenTK
                     new ShaderContent(
                         _DrawLines2D_shader_vert,
                         _DrawLines2D_shader_frag,
-                        "$draw lines 2d"),
+                        "$draw lines 2d",
+                        ShaderType.Vertex),
                     new [] { "in_position" });
 
             _DrawLines2D_shader.MakeReady();

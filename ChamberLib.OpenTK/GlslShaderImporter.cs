@@ -68,7 +68,8 @@ namespace ChamberLib.OpenTK
             return new ShaderContent(
                     vs: vertexShaderSource,
                     fs: fragmentShaderSource,
-                    name: filename);
+                    name: filename,
+                    type: ShaderType.Vertex);
         }
 
         public ShaderContent ImportShaderStage(string filename, ShaderType type, IContentImporter importer)
@@ -99,7 +100,8 @@ namespace ChamberLib.OpenTK
             return new ShaderContent(
                 vs: (type == ShaderType.Vertex ? source : null),
                 fs: (type == ShaderType.Fragment ? source : null),
-                name: filename);
+                name: filename,
+                type: ShaderType.Vertex);
         }
     }
 }

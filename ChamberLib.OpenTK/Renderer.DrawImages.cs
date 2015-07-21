@@ -33,7 +33,8 @@ namespace ChamberLib.OpenTK
                     new ShaderContent(
                         _DrawImages_shader_vert,
                         _DrawImages_shader_frag,
-                        "$draw images"),
+                        "$draw images",
+                        ShaderType.Vertex),
                     new [] { "in_position" });
 
             _DrawImages_shader.MakeReady();
