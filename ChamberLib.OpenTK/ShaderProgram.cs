@@ -37,6 +37,9 @@ namespace ChamberLib.OpenTK
         readonly string _name;
         public string Name { get { return _name; } }
 
+        public ShaderStage VertexShader;
+        public ShaderStage FragmentShader;
+
         public void Apply()
         {
             if (ProgramID <= 0)
@@ -67,11 +70,6 @@ namespace ChamberLib.OpenTK
                 return (GL.GetInteger(GetPName.CurrentProgram) == ProgramID);
             }
         }
-
-
-
-        public ShaderStage VertexShader;
-        public ShaderStage FragmentShader;
 
         public void MakeReady()
         {
