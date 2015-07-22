@@ -151,9 +151,9 @@ void main(void)
             SkinnedVertexShaderContent = new ShaderContent(SkinnedShaderVert, null, "$skinned", ShaderType.Vertex);
             BuiltinFragmentShaderContent = new ShaderContent(null, BasicShaderFrag, "$builtin", ShaderType.Fragment);
 
-            BasicVertexShaderStage = new ShaderStage(BasicShaderVert, ShaderType.Vertex);
-            SkinnedVertexShaderStage = new ShaderStage(SkinnedShaderVert, ShaderType.Vertex);
-            BuiltinFragmentShaderStage = new ShaderStage(BasicShaderFrag, ShaderType.Fragment);
+            BasicVertexShaderStage = new ShaderStage(BasicVertexShaderContent);
+            SkinnedVertexShaderStage = new ShaderStage(SkinnedVertexShaderContent);
+            BuiltinFragmentShaderStage = new ShaderStage(BuiltinFragmentShaderContent);
 
             BasicShaderContent =
                 new ShaderContent(
