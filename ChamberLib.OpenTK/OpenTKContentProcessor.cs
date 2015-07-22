@@ -36,6 +36,19 @@ namespace ChamberLib.OpenTK
         }
         public IShaderStage ProcessShaderStage(ShaderContent asset, IContentProcessor processor = null)
         {
+            if (asset == BuiltinShaders.BasicVertexShaderContent)
+            {
+                return BuiltinShaders.BasicVertexShaderStage;
+            }
+            if (asset == BuiltinShaders.SkinnedVertexShaderContent)
+            {
+                return BuiltinShaders.SkinnedVertexShaderStage;
+            }
+            if (asset == BuiltinShaders.BuiltinFragmentShaderContent)
+            {
+                return BuiltinShaders.BuiltinFragmentShaderStage;
+            }
+
             return new ShaderStage(asset);
         }
 
@@ -46,6 +59,18 @@ namespace ChamberLib.OpenTK
                 throw new ArgumentException("Wrong shader type", "vertexShader");
             if (fragmentShader.ShaderType != ShaderType.Fragment)
                 throw new ArgumentException("Wrong shader type", "fragmentShader");
+
+            if (vertexShader == BuiltinShaders.BasicVertexShaderStage &&
+                fragmentShader == BuiltinShaders.BuiltinFragmentShaderStage)
+            {
+                return BuiltinShaders.BasicShader;
+            }
+
+            if (vertexShader == BuiltinShaders.SkinnedVertexShaderStage &&
+                fragmentShader == BuiltinShaders.BuiltinFragmentShaderStage)
+            {
+                return BuiltinShaders.SkinnedShader;
+            }
 
             return new ShaderProgram((ShaderStage)vertexShader, (ShaderStage)fragmentShader, bindattrs);
         }
