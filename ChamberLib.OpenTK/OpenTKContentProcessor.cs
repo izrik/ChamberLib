@@ -63,13 +63,13 @@ namespace ChamberLib.OpenTK
             if (vertexShader == BuiltinShaders.BasicVertexShaderStage &&
                 fragmentShader == BuiltinShaders.BuiltinFragmentShaderStage)
             {
-                return BuiltinShaders.BasicShader;
+                return BuiltinShaders.BasicShaderProgram;
             }
 
             if (vertexShader == BuiltinShaders.SkinnedVertexShaderStage &&
                 fragmentShader == BuiltinShaders.BuiltinFragmentShaderStage)
             {
-                return BuiltinShaders.SkinnedShader;
+                return BuiltinShaders.SkinnedShaderProgram;
             }
 
             return new ShaderProgram((ShaderStage)vertexShader, (ShaderStage)fragmentShader, bindattrs);

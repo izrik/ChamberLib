@@ -9,7 +9,7 @@ namespace ChamberLib.OpenTK
         static BuiltinShaders()
         {
 
-            BasicShaderVert = @"
+            BasicVertexShaderSource = @"
 #version 140
 
 precision highp float;
@@ -41,7 +41,7 @@ void main(void)
 }
 ";
 
-            BasicShaderFrag = @"
+            BuiltinFragmentShaderSource = @"
 #version 140
 
 precision highp float;
@@ -96,7 +96,7 @@ void main(void)
     out_frag_color = vec4(color, alpha);
 }
 ";
-            SkinnedShaderVert = @"
+            SkinnedVertexShaderSource = @"
 #version 140
 
 precision highp float;
@@ -145,17 +145,16 @@ void main(void)
 
     gl_Position = transformed;
 }";
-            SkinnedShaderFrag = BasicShaderFrag;
 
-            BasicVertexShaderContent = new ShaderContent(BasicShaderVert, null, "$basic", ShaderType.Vertex);
-            SkinnedVertexShaderContent = new ShaderContent(SkinnedShaderVert, null, "$skinned", ShaderType.Vertex);
-            BuiltinFragmentShaderContent = new ShaderContent(null, BasicShaderFrag, "$builtin", ShaderType.Fragment);
+            BasicVertexShaderContent = new ShaderContent(BasicVertexShaderSource, null, "$basic", ShaderType.Vertex);
+            SkinnedVertexShaderContent = new ShaderContent(SkinnedVertexShaderSource, null, "$skinned", ShaderType.Vertex);
+            BuiltinFragmentShaderContent = new ShaderContent(null, BuiltinFragmentShaderSource, "$builtin", ShaderType.Fragment);
 
             BasicVertexShaderStage = new ShaderStage(BasicVertexShaderContent);
             SkinnedVertexShaderStage = new ShaderStage(SkinnedVertexShaderContent);
             BuiltinFragmentShaderStage = new ShaderStage(BuiltinFragmentShaderContent);
             
-            BasicShader =
+            BasicShaderProgram =
                 new ShaderProgram(
                     BasicVertexShaderStage,
                     BuiltinFragmentShaderStage,
@@ -166,7 +165,7 @@ void main(void)
                     },
                     "$basic");
 
-            SkinnedShader =
+            SkinnedShaderProgram =
                 new ShaderProgram(
                     SkinnedVertexShaderStage,
                     BuiltinFragmentShaderStage,
@@ -181,6 +180,10 @@ void main(void)
         }
 
 
+        public static readonly string BasicVertexShaderSource;
+        public static readonly string SkinnedVertexShaderSource;
+        public static readonly string BuiltinFragmentShaderSource;
+
         public static ShaderContent BasicVertexShaderContent;
         public static ShaderContent SkinnedVertexShaderContent;
         public static ShaderContent BuiltinFragmentShaderContent;
@@ -189,17 +192,8 @@ void main(void)
         public static ShaderStage SkinnedVertexShaderStage;
         public static ShaderStage BuiltinFragmentShaderStage;
 
-        public static ShaderProgram BasicShader;
-
-        public static readonly string BasicShaderVert;
-        public static readonly string BasicShaderFrag;
-
-        public static ShaderProgram SkinnedShader;
-
-        public static readonly string SkinnedShaderVert;
-        public static readonly string SkinnedShaderFrag;
-
-
+        public static ShaderProgram BasicShaderProgram;
+        public static ShaderProgram SkinnedShaderProgram;
     }
 }
 
