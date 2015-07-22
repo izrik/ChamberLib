@@ -28,13 +28,16 @@ namespace ChamberLib.OpenTK
              * 
              */
 
+            _DrawImages_shader_vert_stage = new ShaderStage(
+                _DrawImages_shader_vert_source, ShaderType.Vertex);
+            _DrawImages_shader_frag_stage = new ShaderStage(
+                _DrawImages_shader_frag_source, ShaderType.Fragment);
+
+            var name = "$draw images";
             _DrawImages_shader =
                 new ShaderProgram(
-                    new ShaderContent(
-                        _DrawImages_shader_vert,
-                        _DrawImages_shader_frag,
-                        "$draw images",
-                        ShaderType.Vertex),
+                    _DrawImages_shader_vert_stage,
+                    _DrawImages_shader_frag_stage,
                     new [] { "in_position" });
 
             _DrawImages_shader.MakeReady();
@@ -177,7 +180,8 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
         }
 
-        public static readonly string _DrawImages_shader_vert = @"
+        public static ShaderStage _DrawImages_shader_vert_stage { get; protected set; }
+        public static readonly string _DrawImages_shader_vert_source = @"
 #version 140
 
 precision highp float;
@@ -202,7 +206,8 @@ void main(void)
     gl_Position = vec4(placed, in_position.z, 1);
 }";
 
-        public static readonly string _DrawImages_shader_frag = @"
+        public static ShaderStage _DrawImages_shader_frag_stage { get; protected set; }
+        public static readonly string _DrawImages_shader_frag_source = @"
 #version 140
 
 precision highp float;

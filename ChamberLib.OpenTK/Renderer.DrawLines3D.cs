@@ -25,13 +25,16 @@ namespace ChamberLib.OpenTK
              * 
              */
 
+            _DrawLines3D_shader_vert_stage = new ShaderStage(
+                _DrawLines3D_shader_vert_source, ShaderType.Vertex);
+            _DrawLines3D_shader_frag_stage = new ShaderStage(
+                _DrawLines3D_shader_frag_source, ShaderType.Fragment);
+
+            var name = "$draw lines 3d";
             _DrawLines3D_shader =
                 new ShaderProgram(
-                    new ShaderContent(
-                        _DrawLines3D_shader_vert,
-                        _DrawLines3D_shader_frag,
-                        "$draw lines 3d",
-                        ShaderType.Vertex),
+                    _DrawLines3D_shader_vert_stage,
+                    _DrawLines3D_shader_frag_stage,
                     new [] { "in_position" });
 
             _DrawLines3D_shader.MakeReady();
@@ -114,7 +117,8 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
         }
 
-        public static readonly string _DrawLines3D_shader_vert = @"
+        public static ShaderStage _DrawLines3D_shader_vert_stage { get; protected set; }
+        public static readonly string _DrawLines3D_shader_vert_source = @"
 #version 140
 
 precision highp float;
@@ -133,7 +137,8 @@ void main(void)
     gl_Position = transformed;
 }";
 
-        public static readonly string _DrawLines3D_shader_frag = @"
+        public static ShaderStage _DrawLines3D_shader_frag_stage { get; protected set; }
+        public static readonly string _DrawLines3D_shader_frag_source = @"
 #version 140
 
 precision highp float;

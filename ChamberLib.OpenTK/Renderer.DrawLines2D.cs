@@ -26,13 +26,16 @@ namespace ChamberLib.OpenTK
              * 
              */
 
+            _DrawLines2D_shader_vert_stage = new ShaderStage(
+                _DrawLines2D_shader_vert_source, ShaderType.Vertex);
+            _DrawLines2D_shader_frag_stage = new ShaderStage(
+                _DrawLines2D_shader_frag_source, ShaderType.Fragment);
+
+            var name = "$draw lines 2d";
             _DrawLines2D_shader = 
                 new ShaderProgram(
-                    new ShaderContent(
-                        _DrawLines2D_shader_vert,
-                        _DrawLines2D_shader_frag,
-                        "$draw lines 2d",
-                        ShaderType.Vertex),
+                    _DrawLines2D_shader_vert_stage,
+                    _DrawLines2D_shader_frag_stage,
                     new [] { "in_position" });
 
             _DrawLines2D_shader.MakeReady();
@@ -120,7 +123,8 @@ namespace ChamberLib.OpenTK
             DrawLines(color, new [] { v1, v2 });
         }
 
-        public static readonly string _DrawLines2D_shader_vert = @"
+        public static ShaderStage _DrawLines2D_shader_vert_stage { get; protected set; }
+        public static readonly string _DrawLines2D_shader_vert_source = @"
 #version 140
 
 precision highp float;
@@ -139,7 +143,8 @@ void main(void)
     gl_Position = vec4(placed, position.z, 1);
 }";
 
-        public static readonly string _DrawLines2D_shader_frag = @"
+        public static ShaderStage _DrawLines2D_shader_frag_stage { get; protected set; }
+        public static readonly string _DrawLines2D_shader_frag_source = @"
 #version 140
 
 precision highp float;

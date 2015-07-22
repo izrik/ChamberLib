@@ -11,10 +11,14 @@ namespace ChamberLib.OpenTK
 {
     public partial class FontAdapter : IFont
     {
-
         static FontAdapter()
         {
             GenerateGlyphs();
+
+            _DrawString_shader_vert_stage = new ShaderStage(
+                _DrawString_shader_vert_source, ShaderType.Vertex);
+            _DrawString_shader_frag_stage = new ShaderStage(
+                _DrawString_shader_frag_source, ShaderType.Fragment);
         }
 
         public FontAdapter(FontContent font=null)
@@ -146,12 +150,10 @@ namespace ChamberLib.OpenTK
              * Shader
              *
              */
+            var name = "$font";
             Shader = new ShaderProgram(
-                new ShaderContent(
-                    _DrawString_shader_vert,
-                    _DrawString_shader_frag,
-                    "$font",
-                    ShaderType.Vertex),
+                _DrawString_shader_vert_stage,
+                _DrawString_shader_frag_stage,
                 new [] { "in_position" });
 
             Shader.Apply();
