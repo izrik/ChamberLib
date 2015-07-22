@@ -36,12 +36,7 @@ namespace ChamberLib.OpenTK
         }
         public IShaderStage ProcessShaderStage(ShaderContent asset, IContentProcessor processor = null)
         {
-            var type = (asset.VertexShaderSource != null ?
-                ShaderType.Vertex :
-                ShaderType.Fragment);
-            var source = asset.VertexShaderSource ?? asset.FragmentShaderSource;
-            var shaderStage = new ShaderStage(source, type, asset.Name);
-            return shaderStage;
+            return new ShaderStage(asset);
         }
 
         public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
