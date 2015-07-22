@@ -18,12 +18,10 @@ namespace ChamberLib.OpenTK
         {
             if (filename == "$basic")
             {
-                if (type != ShaderType.Vertex)
-                    throw new ArgumentOutOfRangeException(
-                        "type",
-                        "Wrong shader type for built-in shader \"$basic\"");
-
-                return BuiltinShaders.BasicVertexShaderContent;
+                if (type == ShaderType.Vertex)
+                    return BuiltinShaders.BasicVertexShaderContent;
+                else
+                    return BuiltinShaders.BasicFragmentShaderContent;
             }
 
             if (filename == "$skinned")
@@ -34,16 +32,6 @@ namespace ChamberLib.OpenTK
                         "Wrong shader type for built-in shader \"$skinned\"");
 
                 return BuiltinShaders.SkinnedVertexShaderContent;
-            }
-
-            if (filename == "$fragment")
-            {
-                if (type != ShaderType.Fragment)
-                    throw new ArgumentOutOfRangeException(
-                        "type",
-                        "Wrong shader type for built-in shader \"$fragment\"");
-
-                return BuiltinShaders.BuiltinFragmentShaderContent;
             }
 
             return next(filename, type, importer);

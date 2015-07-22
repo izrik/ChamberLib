@@ -44,9 +44,9 @@ namespace ChamberLib.OpenTK
             {
                 return BuiltinShaders.SkinnedVertexShaderStage;
             }
-            if (asset == BuiltinShaders.BuiltinFragmentShaderContent)
+            if (asset == BuiltinShaders.BasicFragmentShaderContent)
             {
-                return BuiltinShaders.BuiltinFragmentShaderStage;
+                return BuiltinShaders.BasicFragmentShaderStage;
             }
 
             return new ShaderStage(asset);
@@ -61,13 +61,13 @@ namespace ChamberLib.OpenTK
                 throw new ArgumentException("Wrong shader type", "fragmentShader");
 
             if (vertexShader == BuiltinShaders.BasicVertexShaderStage &&
-                fragmentShader == BuiltinShaders.BuiltinFragmentShaderStage)
+                fragmentShader == BuiltinShaders.BasicFragmentShaderStage)
             {
                 return BuiltinShaders.BasicShaderProgram;
             }
 
             if (vertexShader == BuiltinShaders.SkinnedVertexShaderStage &&
-                fragmentShader == BuiltinShaders.BuiltinFragmentShaderStage)
+                fragmentShader == BuiltinShaders.BasicFragmentShaderStage)
             {
                 return BuiltinShaders.SkinnedShaderProgram;
             }

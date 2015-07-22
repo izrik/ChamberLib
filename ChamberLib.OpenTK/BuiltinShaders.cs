@@ -41,7 +41,7 @@ void main(void)
 }
 ";
 
-            BuiltinFragmentShaderSource = @"
+            BasicFragmentShaderSource = @"
 #version 140
 
 precision highp float;
@@ -149,16 +149,16 @@ void main(void)
 
             BasicVertexShaderContent = new ShaderContent(BasicVertexShaderSource, "$basic", ShaderType.Vertex);
             SkinnedVertexShaderContent = new ShaderContent(SkinnedVertexShaderSource, "$skinned", ShaderType.Vertex);
-            BuiltinFragmentShaderContent = new ShaderContent(BuiltinFragmentShaderSource, "$builtin", ShaderType.Fragment);
+            BasicFragmentShaderContent = new ShaderContent(BasicFragmentShaderSource, "$basic", ShaderType.Fragment);
 
             BasicVertexShaderStage = new ShaderStage(BasicVertexShaderContent);
             SkinnedVertexShaderStage = new ShaderStage(SkinnedVertexShaderContent);
-            BuiltinFragmentShaderStage = new ShaderStage(BuiltinFragmentShaderContent);
+            BasicFragmentShaderStage = new ShaderStage(BasicFragmentShaderContent);
             
             BasicShaderProgram =
                 new ShaderProgram(
                     BasicVertexShaderStage,
-                    BuiltinFragmentShaderStage,
+                    BasicFragmentShaderStage,
                     new [] {
                         "in_position",
                         "in_normal",
@@ -169,7 +169,7 @@ void main(void)
             SkinnedShaderProgram =
                 new ShaderProgram(
                     SkinnedVertexShaderStage,
-                    BuiltinFragmentShaderStage,
+                    BasicFragmentShaderStage,
                     new [] {
                         "in_position",
                         "in_normal",
@@ -183,15 +183,15 @@ void main(void)
 
         public static readonly string BasicVertexShaderSource;
         public static readonly string SkinnedVertexShaderSource;
-        public static readonly string BuiltinFragmentShaderSource;
+        public static readonly string BasicFragmentShaderSource;
 
         public static ShaderContent BasicVertexShaderContent;
         public static ShaderContent SkinnedVertexShaderContent;
-        public static ShaderContent BuiltinFragmentShaderContent;
+        public static ShaderContent BasicFragmentShaderContent;
 
         public static ShaderStage BasicVertexShaderStage;
         public static ShaderStage SkinnedVertexShaderStage;
-        public static ShaderStage BuiltinFragmentShaderStage;
+        public static ShaderStage BasicFragmentShaderStage;
 
         public static ShaderProgram BasicShaderProgram;
         public static ShaderProgram SkinnedShaderProgram;
