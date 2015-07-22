@@ -12,9 +12,7 @@ namespace ChamberLib.OpenTK
         public ShaderProgram(ShaderStage vertexShader, ShaderStage fragmentShader,
             string[] bindattrs)
         {
-            VertexShaderSource = vertexShader.Source;
             VertexShader = vertexShader;
-            FragmentShaderSource = fragmentShader.Source;
             FragmentShader = fragmentShader;
 
             if (bindattrs != null)
@@ -25,8 +23,6 @@ namespace ChamberLib.OpenTK
             name = "";
         }
 
-        public readonly string VertexShaderSource;
-        public readonly string FragmentShaderSource;
         public int ProgramID;
         public List<string> BindAttributes = new List<string>();
 
@@ -89,16 +85,11 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
 
 
-            VertexShader = new ShaderStage(VertexShaderSource,
-                ShaderType.Vertex);
 
             VertexShader.MakeReady();
 
             GL.AttachShader(prog, VertexShader.ShaderID);
             GLHelper.CheckError();
-
-            FragmentShader = new ShaderStage(FragmentShaderSource,
-                ShaderType.Fragment);
 
             FragmentShader.MakeReady();
 
