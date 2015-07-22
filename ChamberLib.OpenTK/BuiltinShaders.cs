@@ -96,6 +96,7 @@ void main(void)
     out_frag_color = vec4(color, alpha);
 }
 ";
+
             SkinnedVertexShaderSource = @"
 #version 140
 
@@ -146,9 +147,9 @@ void main(void)
     gl_Position = transformed;
 }";
 
-            BasicVertexShaderContent = new ShaderContent(BasicVertexShaderSource, null, "$basic", ShaderType.Vertex);
-            SkinnedVertexShaderContent = new ShaderContent(SkinnedVertexShaderSource, null, "$skinned", ShaderType.Vertex);
-            BuiltinFragmentShaderContent = new ShaderContent(null, BuiltinFragmentShaderSource, "$builtin", ShaderType.Fragment);
+            BasicVertexShaderContent = new ShaderContent(BasicVertexShaderSource, "$basic", ShaderType.Vertex);
+            SkinnedVertexShaderContent = new ShaderContent(SkinnedVertexShaderSource, "$skinned", ShaderType.Vertex);
+            BuiltinFragmentShaderContent = new ShaderContent(BuiltinFragmentShaderSource, "$builtin", ShaderType.Fragment);
 
             BasicVertexShaderStage = new ShaderStage(BasicVertexShaderContent);
             SkinnedVertexShaderStage = new ShaderStage(SkinnedVertexShaderContent);

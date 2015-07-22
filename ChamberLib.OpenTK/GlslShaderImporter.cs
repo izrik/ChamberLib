@@ -43,8 +43,7 @@ namespace ChamberLib.OpenTK
             var source = File.ReadAllText(filename);
 
             return new ShaderContent(
-                vs: (type == ShaderType.Vertex ? source : null),
-                fs: (type == ShaderType.Fragment ? source : null),
+                source: source,
                 name: filename,
                 type: type);
         }

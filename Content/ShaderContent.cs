@@ -5,18 +5,16 @@ namespace ChamberLib.Content
 {
     public class ShaderContent
     {
-        public ShaderContent(string vs, string fs, string name, ShaderType type)
+        public ShaderContent(string source, string name, ShaderType type)
         {
-            this.VertexShaderSource = vs;
-            this.FragmentShaderSource = fs;
+            this.Source = source;
             this.Name = name ?? "";
             this.Type = type;
         }
 
-        public string VertexShaderSource;
-        public string FragmentShaderSource;
-        public string Name;
-        public ShaderType Type;
+        public readonly string Source;
+        public readonly string Name;
+        public readonly ShaderType Type;
     }
 }
 

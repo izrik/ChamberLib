@@ -8,10 +8,7 @@ namespace ChamberLib.OpenTK
     public class ShaderStage : IShaderStage
     {
         public ShaderStage(ShaderContent content)
-            : this(content.Type == ShaderType.Vertex ?
-                    content.VertexShaderSource :
-                    content.FragmentShaderSource,
-                content.Type, content.Name)
+            : this(content.Source, content.Type, content.Name)
         {
         }
         public ShaderStage(string source, ShaderType shaderType, string name)
