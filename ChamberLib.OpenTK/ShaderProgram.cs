@@ -10,7 +10,7 @@ namespace ChamberLib.OpenTK
     public class ShaderProgram : IShaderProgram
     {
         public ShaderProgram(ShaderStage vertexShader, ShaderStage fragmentShader,
-            string[] bindattrs)
+            string[] bindattrs, string name=null)
         {
             VertexShader = vertexShader;
             FragmentShader = fragmentShader;
@@ -20,14 +20,22 @@ namespace ChamberLib.OpenTK
                 BindAttributes.AddRange(bindattrs);
             }
 
-            name = "";
+            if (name != null)
+            {
+                _name = name;
+            }
+            else
+            {
+                _name = string.Format("{0},{1}", vertexShader.Name,
+                    fragmentShader.Name);
+            }
         }
 
         public int ProgramID;
         public List<string> BindAttributes = new List<string>();
 
-        readonly string name;
-        public string Name { get { return name; } }
+        readonly string _name;
+        public string Name { get { return _name; } }
 
         public void Apply()
         {
