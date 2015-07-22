@@ -46,7 +46,7 @@ namespace ChamberLib.OpenTK
                 vs: (type == ShaderType.Vertex ? source : null),
                 fs: (type == ShaderType.Fragment ? source : null),
                 name: filename,
-                type: ShaderType.Vertex);
+                type: type);
         }
     }
 }
