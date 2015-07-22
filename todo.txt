@@ -4,3 +4,8 @@ regularize geometry
     normalize directions in the constructor
     fix other parameters in the constructor (e.g. Plane's distance is non-negative)
     Intersect() should return the actual intersection point, rather than some synthetic parameter
+
+shader programs and stages
+    extract uniform names from shader stages
+    extract uniform names from all shader stages of a shader program
+    extract bind attributes automatically? (the extra parameter to MakeShaderProgram makes caching tricky)
