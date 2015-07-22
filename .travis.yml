@@ -2,6 +2,8 @@
 language: csharp
 solution: ChamberLib.sln
 
+sudo: false
+
 addons:
   apt:
     packages:
