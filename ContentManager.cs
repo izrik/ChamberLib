@@ -55,13 +55,6 @@ namespace ChamberLib
             return soundEffect;
         }
 
-        public IShaderProgram LoadShader(string name, object bindattrs = null)
-        {
-            var content = Importer.ImportShader(name, Importer);
-            var shader = Processor.ProcessShader(content, Processor, bindattrs);
-            return shader;
-        }
-
         public IShaderStage LoadShaderStage(string name, ShaderType type)
         {
             var content = Importer.ImportShaderStage(name, type, Importer);

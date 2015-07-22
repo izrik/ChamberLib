@@ -7,7 +7,6 @@ namespace ChamberLib.Content
         public ContentImporter(
             ModelImporter modelImporter,
             TextureImporter textureImporter,
-            ShaderImporter shaderImporter,
             ShaderStageImporter shaderStageImporter,
             FontImporter fontImporter,
             SongImporter songImporter,
@@ -15,7 +14,6 @@ namespace ChamberLib.Content
         {
             ModelImporter = modelImporter;
             TextureImporter = textureImporter;
-            ShaderImporter = shaderImporter;
             ShaderStageImporter = shaderStageImporter;
             FontImporter = fontImporter;
             SongImporter = songImporter;
@@ -24,7 +22,6 @@ namespace ChamberLib.Content
 
         public readonly ModelImporter ModelImporter;
         public readonly TextureImporter TextureImporter;
-        public readonly ShaderImporter ShaderImporter;
         public readonly ShaderStageImporter ShaderStageImporter;
         public readonly FontImporter FontImporter;
         public readonly SongImporter SongImporter;
@@ -49,10 +46,6 @@ namespace ChamberLib.Content
         public SoundEffectContent ImportSoundEffect(string name, IContentImporter importer = null)
         {
             return SoundEffectImporter(name, importer);
-        }
-        public ShaderContent ImportShader(string name, IContentImporter importer = null)
-        {
-            return ShaderImporter(name, importer);
         }
         public ShaderContent ImportShaderStage(string name, ShaderType type, IContentImporter importer = null)
         {

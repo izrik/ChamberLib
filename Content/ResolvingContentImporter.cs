@@ -77,14 +77,6 @@ namespace ChamberLib.Content
             return next.ImportSoundEffect(name, importer);
         }
 
-        public ShaderContent ImportShader(string name, IContentImporter importer = null)
-        {
-            name = string.Join(",",
-                name.Split(',').Select(x => ResolveFilename(x)));
-
-            return next.ImportShader(name, importer);
-        }
-
         public ShaderContent ImportShaderStage(string name, ShaderType type, IContentImporter importer = null)
         {
             var resolvedName = ResolveFilename(name);

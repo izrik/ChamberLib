@@ -47,7 +47,6 @@ namespace ChamberLib.OpenTK
                             new ContentImporter(
                                 new ChModelImporter().ImportModel,
                                 new BasicTextureImporter().ImportTexture,
-                                glsl.ImportShader,
                                 glsl.ImportShaderStage,
                                 null,
                                 new BasicSongImporter().ImportSong,

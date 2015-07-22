@@ -10,8 +10,7 @@ namespace ChamberLib.OpenTK
             if (next == null) throw new ArgumentNullException("next");
 
             this.next = next;
-            this.shaderImporter = new BuiltinShaderImporter(next.ImportShader,
-                                                            next.ImportShaderStage);
+            this.shaderImporter = new BuiltinShaderImporter(next.ImportShaderStage);
             this.fontImporter = new BuiltinFontImporter(next.ImportFont);
         }
 
@@ -38,10 +37,6 @@ namespace ChamberLib.OpenTK
         public SoundEffectContent ImportSoundEffect(string name, IContentImporter importer = null)
         {
             return next.ImportSoundEffect(name, importer);
-        }
-        public ShaderContent ImportShader(string name, IContentImporter importer = null)
-        {
-            return shaderImporter.ImportShader(name, importer);
         }
         public ShaderContent ImportShaderStage(string name, ShaderType type, IContentImporter importer = null)
         {

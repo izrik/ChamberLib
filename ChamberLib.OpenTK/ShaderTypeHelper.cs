@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenGL = global::OpenTK.Graphics.OpenGL;
 
-namespace ChamberLib
+namespace ChamberLib.OpenTK
 {
     public static class ShaderTypeHelper
     {

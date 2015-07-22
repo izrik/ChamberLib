@@ -34,30 +34,6 @@ namespace ChamberLib.OpenTK
         {
             return new SoundEffect(asset);
         }
-        public IShaderProgram ProcessShader(ShaderContent asset, IContentProcessor processor = null, object bindattrs=null)
-        {
-            if (asset == BuiltinShaders.BasicShaderContent)
-                return BuiltinShaders.BasicShader;
-
-            if (asset == BuiltinShaders.SkinnedShaderContent)
-                return BuiltinShaders.SkinnedShader;
-
-            string[] bindattrs2=null;
-            if (bindattrs == null)
-            {
-            }
-            else if (bindattrs is IEnumerable<string>)
-            {
-                bindattrs2 = (bindattrs as IEnumerable<string>).ToArray();
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
-
-            var shader = new ShaderProgram(asset, (String[])bindattrs2);
-            return shader;
-        }
         public IShaderStage ProcessShaderStage(ShaderContent asset, IContentProcessor processor = null)
         {
             var type = (asset.VertexShaderSource != null ?

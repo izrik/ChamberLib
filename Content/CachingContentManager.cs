@@ -12,7 +12,6 @@ namespace ChamberLib.Content
 
             models = new Cache<string, IModel>(next.LoadModel);
             textures = new Cache<string, ITexture2D>(next.LoadTexture2D);
-            shaders = new Cache<string, object, IShaderProgram>(next.LoadShader);
             shaderStages = new Cache2<string, ShaderType, IShaderStage>(next.LoadShaderStage);
             fonts = new Cache<string, IFont>(next.LoadFont);
             songs = new Cache<string, ISong>(next.LoadSong);
@@ -23,7 +22,6 @@ namespace ChamberLib.Content
 
         readonly Cache<string, IModel> models;
         readonly Cache<string, ITexture2D> textures;
-        readonly Cache<string, object, IShaderProgram> shaders;
         readonly Cache2<string, ShaderType, IShaderStage> shaderStages;
         readonly Cache<string, IFont> fonts;
         readonly Cache<string, ISong> songs;
@@ -40,11 +38,6 @@ namespace ChamberLib.Content
         public ITexture2D LoadTexture2D(string name)
         {
             return textures.Call(name);
-        }
-
-        public IShaderProgram LoadShader(string name, object bindattrs = null)
-        {
-            return shaders.Call(name, bindattrs);
         }
 
         public IShaderStage LoadShaderStage(string name, ShaderType type)
@@ -77,11 +70,6 @@ namespace ChamberLib.Content
             if (o is ITexture2D)
             {
                 var s = textures.LookupObject((ITexture2D)o);
-                if (s != null) return s;
-            }
-            if (o is IShaderProgram)
-            {
-                var s = shaders.LookupObject((IShaderProgram)o);
                 if (s != null) return s;
             }
             if (o is IFont)
