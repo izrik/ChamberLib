@@ -154,13 +154,6 @@ void main(void)
             BasicVertexShaderStage = new ShaderStage(BasicVertexShaderContent);
             SkinnedVertexShaderStage = new ShaderStage(SkinnedVertexShaderContent);
             BuiltinFragmentShaderStage = new ShaderStage(BuiltinFragmentShaderContent);
-
-            BasicShaderContent =
-                new ShaderContent(
-                    BasicShaderVert,
-                    BasicShaderFrag,
-                    "$basic",
-                    ShaderType.Vertex);
             
             BasicShader =
                 new ShaderProgram(
@@ -172,13 +165,6 @@ void main(void)
                         "in_texture_coords"
                     },
                     "$basic");
-
-            SkinnedShaderContent =
-                new ShaderContent(
-                    SkinnedShaderVert,
-                    SkinnedShaderFrag,
-                    "$skinned",
-                    ShaderType.Vertex);
 
             SkinnedShader =
                 new ShaderProgram(
@@ -204,13 +190,11 @@ void main(void)
         public static ShaderStage BuiltinFragmentShaderStage;
 
         public static ShaderProgram BasicShader;
-        public static ShaderContent BasicShaderContent;
 
         public static readonly string BasicShaderVert;
         public static readonly string BasicShaderFrag;
 
         public static ShaderProgram SkinnedShader;
-        public static ShaderContent SkinnedShaderContent;
 
         public static readonly string SkinnedShaderVert;
         public static readonly string SkinnedShaderFrag;
