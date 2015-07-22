@@ -92,8 +92,6 @@ namespace ChamberLib.OpenTK
             prog = GL.CreateProgram();
             GLHelper.CheckError();
 
-
-
             VertexShader.MakeReady();
 
             GL.AttachShader(prog, VertexShader.ShaderID);
@@ -125,11 +123,6 @@ namespace ChamberLib.OpenTK
 
             string programInfoLog;
             GL.GetProgramInfoLog( prog, out programInfoLog );
-            GLHelper.CheckError();
-
-            GL.DeleteShader(VertexShader.ShaderID);
-            GLHelper.CheckError();
-            GL.DeleteShader(FragmentShader.ShaderID);
             GLHelper.CheckError();
 
             ProgramID = prog;
