@@ -11,7 +11,7 @@ namespace ChamberLib.Content
             models = new Cache<string, IContentImporter, ModelContent>(next.ImportModel);
             textures = new Cache<string, IContentImporter, TextureContent>(next.ImportTexture2D);
             shaders = new Cache<string, IContentImporter, ShaderContent>(next.ImportShader);
-            shaders = new Cache<string, IContentImporter, ShaderContent>(next.ImportShader);
+            shaderStages = new Cache2<string, ShaderType, IContentImporter, ShaderContent>(next.ImportShaderStage);
             fonts = new Cache<string, IContentImporter, FontContent>(next.ImportFont);
             songs = new Cache<string, IContentImporter, SongContent>(next.ImportSong);
             soundEffects = new Cache<string, IContentImporter, SoundEffectContent>(next.ImportSoundEffect);
@@ -20,6 +20,7 @@ namespace ChamberLib.Content
         readonly Cache<string, IContentImporter, ModelContent> models;
         readonly Cache<string, IContentImporter, TextureContent> textures;
         readonly Cache<string, IContentImporter, ShaderContent> shaders;
+        readonly Cache2<string, ShaderType, IContentImporter, ShaderContent> shaderStages;
         readonly Cache<string, IContentImporter, FontContent> fonts;
         readonly Cache<string, IContentImporter, SongContent> songs;
         readonly Cache<string, IContentImporter, SoundEffectContent> soundEffects;
@@ -41,7 +42,7 @@ namespace ChamberLib.Content
 
         public ShaderContent ImportShaderStage(string name, ShaderType type, IContentImporter importer = null)
         {
-            throw new NotImplementedException();
+            return shaderStages.Call(name, type, importer);
         }
 
         public FontContent ImportFont(string name, IContentImporter importer = null)
