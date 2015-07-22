@@ -12,7 +12,9 @@ namespace ChamberLib.Content
         public float Alpha = 1;
 
         public TextureContent Texture;
-        public ShaderContent Shader;
+
+        public ShaderContent VertexShader;
+        public ShaderContent FragmentShader;
     }
 }
 

@@ -210,7 +210,22 @@ namespace ChamberLib.Content
             var shadername = reader.ReadLine();
             if (!string.IsNullOrEmpty(shadername))
             {
-                mat.Shader = importer.ImportShader(shadername, importer);
+                string vertname, fragname;
+                if (shadername.Contains(","))
+                {
+                    var parts = shadername.Split(new[] { ',' }, 2);
+                    vertname = parts[0];
+                    fragname = parts[1];
+                }
+                else
+                {
+                    vertname = fragname = shadername;
+                }
+
+                mat.VertexShader =
+                    importer.ImportShaderStage(vertname, ShaderType.Vertex, importer);
+                mat.FragmentShader =
+                    importer.ImportShaderStage(fragname, ShaderType.Fragment, importer);
             }
 
             return mat;
