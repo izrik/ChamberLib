@@ -14,7 +14,6 @@ namespace ChamberLib.Content
             textures = new Cache<string, ITexture2D>(next.LoadTexture2D);
             shaders = new Cache<string, object, IShaderProgram>(next.LoadShader);
             shaderStages = new Cache2<string, ShaderType, IShaderStage>(next.LoadShaderStage);
-            shaders = new Cache<string, object, IShaderProgram>(next.LoadShader);
             fonts = new Cache<string, IFont>(next.LoadFont);
             songs = new Cache<string, ISong>(next.LoadSong);
             soundEffects = new Cache<string, ISoundEffect>(next.LoadSoundEffect);
