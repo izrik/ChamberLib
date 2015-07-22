@@ -39,7 +39,8 @@ namespace ChamberLib.OpenTK
                 new ShaderProgram(
                     _DrawImages_shader_vert_stage,
                     _DrawImages_shader_frag_stage,
-                    new [] { "in_position" });
+                    new [] { "in_position" },
+                    name);
 
             _DrawImages_shader.MakeReady();
             GLHelper.CheckError();

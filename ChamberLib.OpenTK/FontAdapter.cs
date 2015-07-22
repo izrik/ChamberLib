@@ -155,7 +155,8 @@ namespace ChamberLib.OpenTK
             Shader = new ShaderProgram(
                 _DrawString_shader_vert_stage,
                 _DrawString_shader_frag_stage,
-                new [] { "in_position" });
+                new [] { "in_position" },
+                name);
 
             Shader.Apply();
 

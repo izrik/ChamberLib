@@ -170,7 +170,8 @@ void main(void)
                         "in_position",
                         "in_normal",
                         "in_texture_coords"
-                    });
+                    },
+                    "$basic");
 
             SkinnedShaderContent =
                 new ShaderContent(
@@ -189,7 +190,8 @@ void main(void)
                         "in_texture_coords",
                         "in_blend_indices",
                         "in_blend_weights",
-                    });
+                    },
+                    "$skinned");
         }
 
 
