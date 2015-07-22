@@ -4,7 +4,7 @@ namespace ChamberLib.OpenTK
 {
     public partial class FontAdapter
     {
-        public static readonly ShaderStage _DrawString_shader_vert_stage;
+        public static ShaderStage _DrawString_shader_vert_stage { get; protected set;}
         public static readonly string _DrawString_shader_vert_source = @"
 #version 140
 
@@ -31,7 +31,7 @@ void main()
 }
 ";
 
-        public static readonly ShaderStage _DrawString_shader_frag_stage;
+        public static ShaderStage _DrawString_shader_frag_stage { get; protected set;}
         public static readonly string _DrawString_shader_frag_source = @"
 #version 140
 

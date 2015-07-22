@@ -40,7 +40,7 @@ namespace ChamberLib.OpenTK
                 ShaderType.Vertex :
                 ShaderType.Fragment);
             var source = asset.VertexShaderSource ?? asset.FragmentShaderSource;
-            var shaderStage = new ShaderStage(source, type);
+            var shaderStage = new ShaderStage(source, type, asset.Name);
             return shaderStage;
         }
 

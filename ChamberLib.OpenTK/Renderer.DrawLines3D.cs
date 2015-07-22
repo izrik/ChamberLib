@@ -25,12 +25,13 @@ namespace ChamberLib.OpenTK
              * 
              */
 
-            _DrawLines3D_shader_vert_stage = new ShaderStage(
-                _DrawLines3D_shader_vert_source, ShaderType.Vertex);
-            _DrawLines3D_shader_frag_stage = new ShaderStage(
-                _DrawLines3D_shader_frag_source, ShaderType.Fragment);
-
             var name = "$draw lines 3d";
+
+            _DrawLines3D_shader_vert_stage = new ShaderStage(
+                _DrawLines3D_shader_vert_source, ShaderType.Vertex, name);
+            _DrawLines3D_shader_frag_stage = new ShaderStage(
+                _DrawLines3D_shader_frag_source, ShaderType.Fragment, name);
+
             _DrawLines3D_shader =
                 new ShaderProgram(
                     _DrawLines3D_shader_vert_stage,

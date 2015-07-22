@@ -28,12 +28,13 @@ namespace ChamberLib.OpenTK
              * 
              */
 
-            _DrawImages_shader_vert_stage = new ShaderStage(
-                _DrawImages_shader_vert_source, ShaderType.Vertex);
-            _DrawImages_shader_frag_stage = new ShaderStage(
-                _DrawImages_shader_frag_source, ShaderType.Fragment);
-
             var name = "$draw images";
+
+            _DrawImages_shader_vert_stage = new ShaderStage(
+                _DrawImages_shader_vert_source, ShaderType.Vertex, name);
+            _DrawImages_shader_frag_stage = new ShaderStage(
+                _DrawImages_shader_frag_source, ShaderType.Fragment, name);
+
             _DrawImages_shader =
                 new ShaderProgram(
                     _DrawImages_shader_vert_stage,

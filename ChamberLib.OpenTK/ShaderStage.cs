@@ -11,15 +11,17 @@ namespace ChamberLib.OpenTK
             : this(content.Type == ShaderType.Vertex ?
                     content.VertexShaderSource :
                     content.FragmentShaderSource,
-                content.Type)
+                content.Type, content.Name)
         {
         }
-        public ShaderStage(string source, ShaderType shaderType)
+        public ShaderStage(string source, ShaderType shaderType, string name)
         {
             Source = source;
             ShaderType = shaderType;
+            Name = name;
         }
 
+        public string Name { get; protected set; }
         public int ShaderID { get; protected set; }
         public string Source { get; protected set; }
         public ShaderType ShaderType { get; protected set; }
