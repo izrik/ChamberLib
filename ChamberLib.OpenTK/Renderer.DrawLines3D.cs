@@ -33,7 +33,7 @@ namespace ChamberLib.OpenTK
                 _DrawLines3D_shader_frag_source, ShaderType.Fragment, name);
 
             _DrawLines3D_shader =
-                new ShaderProgram(
+                ShaderProgram.MakeShaderProgram(
                     _DrawLines3D_shader_vert_stage,
                     _DrawLines3D_shader_frag_stage,
                     name);

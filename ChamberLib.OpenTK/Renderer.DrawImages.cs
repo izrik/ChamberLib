@@ -36,7 +36,7 @@ namespace ChamberLib.OpenTK
                 _DrawImages_shader_frag_source, ShaderType.Fragment, name);
 
             _DrawImages_shader =
-                new ShaderProgram(
+                ShaderProgram.MakeShaderProgram(
                     _DrawImages_shader_vert_stage,
                     _DrawImages_shader_frag_stage,
                     name);
