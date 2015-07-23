@@ -35,18 +35,6 @@ namespace ChamberLib.OpenTK
             if (fragmentShader.ShaderType != ShaderType.Fragment)
                 throw new ArgumentException("Wrong shader type", "fragmentShader");
 
-            if (vertexShader == BuiltinShaders.BasicVertexShaderStage &&
-                fragmentShader == BuiltinShaders.BasicFragmentShaderStage)
-            {
-                return BuiltinShaders.BasicShaderProgram;
-            }
-
-            if (vertexShader == BuiltinShaders.SkinnedVertexShaderStage &&
-                fragmentShader == BuiltinShaders.BasicFragmentShaderStage)
-            {
-                return BuiltinShaders.SkinnedShaderProgram;
-            }
-
             var shader = new ShaderProgram((ShaderStage)vertexShader,
                 (ShaderStage)fragmentShader, name);
 
