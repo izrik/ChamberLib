@@ -53,7 +53,7 @@ namespace ChamberLib.Content
         }
 
         public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader, string[] bindattrs=null)
+            IShaderStage fragmentShader)
         {
             throw new NotImplementedException();
         }

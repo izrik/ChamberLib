@@ -61,9 +61,9 @@ namespace ChamberLib.Content
         }
 
         public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader, string[] bindattrs=null)
+            IShaderStage fragmentShader)
         {
-            return Next.MakeShaderProgram(vertexShader, fragmentShader, bindattrs);
+            return Next.MakeShaderProgram(vertexShader, fragmentShader);
         }
 
         #endregion

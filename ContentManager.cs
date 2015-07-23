@@ -80,9 +80,9 @@ namespace ChamberLib
         }
 
         public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader, string[] bindattrs=null)
+            IShaderStage fragmentShader)
         {
-            return Processor.MakeShaderProgram(vertexShader, fragmentShader, bindattrs);
+            return Processor.MakeShaderProgram(vertexShader, fragmentShader);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace ChamberLib
             PixelFormat pixelFormat=PixelFormat.Rgba);
 
         IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader, string [] bindattrs=null);
+            IShaderStage fragmentShader);
     }
 
     public static class IContentManagerHelper

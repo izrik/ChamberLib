@@ -12,7 +12,7 @@ namespace ChamberLib.Content
         IShaderStage ProcessShaderStage(ShaderContent asset, IContentProcessor processor=null);
 
         IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader, string[] bindattrs=null);
+            IShaderStage fragmentShader);
     }
 }
 
