@@ -2,6 +2,7 @@
 using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
 using ChamberLib.Content;
+using _OpenTK = global::OpenTK;
 
 namespace ChamberLib.OpenTK
 {
@@ -23,25 +24,35 @@ namespace ChamberLib.OpenTK
         public string Source { get; protected set; }
         public ShaderType ShaderType { get; protected set; }
 
+        public bool IsCompiled { get; protected set; }
+
         public void MakeReady()
         {
-            if (ShaderID != 0) return;
+            GLHelper.CheckError();
+            if (ShaderID == 0)
+            {
+                ShaderID = GL.CreateShader(ShaderType.ToOpenTK());
+                GLHelper.CheckError();
+                IsCompiled = false;
+            }
 
-            GLHelper.CheckError();
-            ShaderID = GL.CreateShader(ShaderType.ToOpenTK());
-            GLHelper.CheckError();
-            GL.ShaderSource(ShaderID, Source);
-            GLHelper.CheckError();
-            GL.CompileShader(ShaderID);
-            GLHelper.CheckError();
+            if (!IsCompiled)
+            {
+                GL.ShaderSource(ShaderID, Source);
+                GLHelper.CheckError();
+                GL.CompileShader(ShaderID);
+                GLHelper.CheckError();
 
-            int result;
-            GL.GetShader(ShaderID, ShaderParameter.CompileStatus, out result);
-            Debug.WriteLine("{1} compile status: {0}", result, ShaderType);
-            GLHelper.CheckError();
-            Debug.WriteLine("{0} info:", ShaderType);
-            Debug.WriteLine(GL.GetShaderInfoLog(ShaderID));
-            GLHelper.CheckError();
+                int result;
+                GL.GetShader(ShaderID, ShaderParameter.CompileStatus, out result);
+                Debug.WriteLine("{1} compile status: {0}", result, ShaderType);
+                GLHelper.CheckError();
+                Debug.WriteLine("{0} info:", ShaderType);
+                Debug.WriteLine(GL.GetShaderInfoLog(ShaderID));
+                GLHelper.CheckError();
+
+                IsCompiled = (result == 1);
+            }
         }
     }
 }
