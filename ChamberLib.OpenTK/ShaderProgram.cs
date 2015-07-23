@@ -27,6 +27,32 @@ namespace ChamberLib.OpenTK
             }
         }
 
+        public static IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
+            IShaderStage fragmentShader)
+        {
+            if (vertexShader.ShaderType != ShaderType.Vertex)
+                throw new ArgumentException("Wrong shader type", "vertexShader");
+            if (fragmentShader.ShaderType != ShaderType.Fragment)
+                throw new ArgumentException("Wrong shader type", "fragmentShader");
+
+            if (vertexShader == BuiltinShaders.BasicVertexShaderStage &&
+                fragmentShader == BuiltinShaders.BasicFragmentShaderStage)
+            {
+                return BuiltinShaders.BasicShaderProgram;
+            }
+
+            if (vertexShader == BuiltinShaders.SkinnedVertexShaderStage &&
+                fragmentShader == BuiltinShaders.BasicFragmentShaderStage)
+            {
+                return BuiltinShaders.SkinnedShaderProgram;
+            }
+
+            var shader = new ShaderProgram((ShaderStage)vertexShader,
+                (ShaderStage)fragmentShader);
+
+            return shader;
+        }
+
         public int ProgramID;
 
         List<string> bindAttributes = new List<string>();
