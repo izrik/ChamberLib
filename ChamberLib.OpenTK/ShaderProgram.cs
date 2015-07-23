@@ -27,7 +27,20 @@ namespace ChamberLib.OpenTK
             }
         }
 
+        static Cache2<ShaderStage, ShaderStage, ShaderProgram> cache =
+            new Cache2<ShaderStage, ShaderStage, ShaderProgram>(
+                (v, f) => MakeShaderProgramImpl(v,f));
         public static ShaderProgram MakeShaderProgram(ShaderStage vertexShader,
+            ShaderStage fragmentShader, string name=null)
+        {
+            if (vertexShader.ShaderType != ShaderType.Vertex)
+                throw new ArgumentException("Wrong shader type", "vertexShader");
+            if (fragmentShader.ShaderType != ShaderType.Fragment)
+                throw new ArgumentException("Wrong shader type", "fragmentShader");
+
+            return cache.Call(vertexShader, fragmentShader);
+        }
+        public static ShaderProgram MakeShaderProgramImpl(ShaderStage vertexShader,
             ShaderStage fragmentShader, string name=null)
         {
             if (vertexShader.ShaderType != ShaderType.Vertex)
