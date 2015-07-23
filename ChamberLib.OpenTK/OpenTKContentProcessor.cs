@@ -72,7 +72,8 @@ namespace ChamberLib.OpenTK
                 return BuiltinShaders.SkinnedShaderProgram;
             }
 
-            return ShaderProgram.MakeShaderProgram(vertexShader, fragmentShader);
+            return ShaderProgram.MakeShaderProgram((ShaderStage)vertexShader,
+                (ShaderStage)fragmentShader);
         }
     }
 }
