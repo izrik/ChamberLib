@@ -40,6 +40,12 @@ namespace ChamberLib.OpenTK
             get { return bindAttributes; }
         }
 
+        public void SetBindAttributes(IEnumerable<string> bindattrs)
+        {
+            bindAttributes.Clear();
+            bindAttributes.AddRange(bindattrs);
+        }
+
         readonly string _name;
         public string Name { get { return _name; } }
 
