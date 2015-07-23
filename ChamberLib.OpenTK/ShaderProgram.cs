@@ -28,7 +28,7 @@ namespace ChamberLib.OpenTK
         }
 
         public static IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader)
+            IShaderStage fragmentShader, string name=null)
         {
             if (vertexShader.ShaderType != ShaderType.Vertex)
                 throw new ArgumentException("Wrong shader type", "vertexShader");
@@ -48,7 +48,7 @@ namespace ChamberLib.OpenTK
             }
 
             var shader = new ShaderProgram((ShaderStage)vertexShader,
-                (ShaderStage)fragmentShader);
+                (ShaderStage)fragmentShader, name);
 
             return shader;
         }
