@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
 using ChamberLib.Content;
+using System.Collections.ObjectModel;
 
 namespace ChamberLib.OpenTK
 {
@@ -17,7 +18,7 @@ namespace ChamberLib.OpenTK
 
             if (bindattrs != null)
             {
-                BindAttributes.AddRange(bindattrs);
+                bindAttributes.AddRange(bindattrs);
             }
 
             if (name != null)
@@ -32,7 +33,12 @@ namespace ChamberLib.OpenTK
         }
 
         public int ProgramID;
-        public List<string> BindAttributes = new List<string>();
+
+        List<string> bindAttributes = new List<string>();
+        public IEnumerable<string> BindAttributes
+        {
+            get { return bindAttributes; }
+        }
 
         readonly string _name;
         public string Name { get { return _name; } }
