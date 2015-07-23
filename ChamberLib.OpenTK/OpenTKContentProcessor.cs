@@ -73,7 +73,12 @@ namespace ChamberLib.OpenTK
             }
 
             var shader = new ShaderProgram((ShaderStage)vertexShader, (ShaderStage)fragmentShader);
-            shader.SetBindAttributes(bindattrs);
+
+            if (bindattrs != null)
+            {
+                shader.SetBindAttributes(bindattrs);
+            }
+
             return shader;
         }
     }
