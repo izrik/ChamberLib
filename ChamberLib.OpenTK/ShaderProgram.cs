@@ -40,7 +40,7 @@ namespace ChamberLib.OpenTK
 
             return cache.Call(vertexShader, fragmentShader);
         }
-        public static ShaderProgram MakeShaderProgramImpl(ShaderStage vertexShader,
+        protected static ShaderProgram MakeShaderProgramImpl(ShaderStage vertexShader,
             ShaderStage fragmentShader, string name=null)
         {
             if (vertexShader.ShaderType != ShaderType.Vertex)
