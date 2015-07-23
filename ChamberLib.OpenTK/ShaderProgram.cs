@@ -10,7 +10,7 @@ namespace ChamberLib.OpenTK
 {
     public class ShaderProgram : IShaderProgram
     {
-        public ShaderProgram(ShaderStage vertexShader, ShaderStage fragmentShader,
+        protected ShaderProgram(ShaderStage vertexShader, ShaderStage fragmentShader,
             string name=null)
         {
             VertexShader = vertexShader;
