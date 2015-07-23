@@ -27,7 +27,7 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        public static IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
+        public static ShaderProgram MakeShaderProgram(IShaderStage vertexShader,
             IShaderStage fragmentShader, string name=null)
         {
             if (vertexShader.ShaderType != ShaderType.Vertex)
