@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ChamberLib
 {
@@ -11,6 +12,9 @@ namespace ChamberLib
 
         IShaderStage VertexShader { get; }
         IShaderStage FragmentShader { get; }
+
+        IEnumerable<string> BindAttributes { get; }
+        void SetBindAttributes(IEnumerable<string> bindattrs);
 
         void SetUniform(string name, bool value);
         void SetUniform(string name, byte value);
