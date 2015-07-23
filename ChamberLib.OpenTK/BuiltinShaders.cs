@@ -159,25 +159,27 @@ void main(void)
                 new ShaderProgram(
                     BasicVertexShaderStage,
                     BasicFragmentShaderStage,
-                    new [] {
-                        "in_position",
-                        "in_normal",
-                        "in_texture_coords"
-                    },
                     "$basic");
+            BasicShaderProgram.SetBindAttributes(
+                new[] {
+                    "in_position",
+                    "in_normal",
+                    "in_texture_coords"
+                });
 
             SkinnedShaderProgram =
                 new ShaderProgram(
                     SkinnedVertexShaderStage,
                     BasicFragmentShaderStage,
-                    new [] {
-                        "in_position",
-                        "in_normal",
-                        "in_texture_coords",
-                        "in_blend_indices",
-                        "in_blend_weights",
-                    },
                     "$skinned");
+            SkinnedShaderProgram.SetBindAttributes(
+                new[] {
+                    "in_position",
+                    "in_normal",
+                    "in_texture_coords",
+                    "in_blend_indices",
+                    "in_blend_weights",
+                });
         }
 
 
