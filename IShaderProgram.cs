@@ -9,6 +9,9 @@ namespace ChamberLib
         void Apply();
         void UnApply();
 
+        IShaderStage VertexShader { get; }
+        IShaderStage FragmentShader { get; }
+
         void SetUniform(string name, bool value);
         void SetUniform(string name, byte value);
         void SetUniform(string name, sbyte value);

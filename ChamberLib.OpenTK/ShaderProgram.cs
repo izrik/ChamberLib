@@ -37,8 +37,11 @@ namespace ChamberLib.OpenTK
         readonly string _name;
         public string Name { get { return _name; } }
 
-        public ShaderStage VertexShader;
-        public ShaderStage FragmentShader;
+        public readonly ShaderStage VertexShader;
+        public readonly ShaderStage FragmentShader;
+
+        IShaderStage IShaderProgram.VertexShader { get { return VertexShader; } }
+        IShaderStage IShaderProgram.FragmentShader { get { return FragmentShader; } }
 
         public void Apply()
         {
