@@ -81,7 +81,6 @@ namespace ChamberLib.OpenTK
                 return;
             }
 
-            int prog;
             int result;
 
             if (!string.IsNullOrEmpty(Name))
@@ -90,17 +89,17 @@ namespace ChamberLib.OpenTK
             }
 
             GLHelper.CheckError();
-            prog = GL.CreateProgram();
+            ProgramID = GL.CreateProgram();
             GLHelper.CheckError();
 
             VertexShader.MakeReady();
 
-            GL.AttachShader(prog, VertexShader.ShaderID);
+            GL.AttachShader(ProgramID, VertexShader.ShaderID);
             GLHelper.CheckError();
 
             FragmentShader.MakeReady();
 
-            GL.AttachShader(prog, FragmentShader.ShaderID);
+            GL.AttachShader(ProgramID, FragmentShader.ShaderID);
             GLHelper.CheckError();
 
             int i = 0;
@@ -108,25 +107,23 @@ namespace ChamberLib.OpenTK
             {
                 if (string.IsNullOrEmpty(attr)) continue;
 
-                GL.BindAttribLocation(prog, i, attr);
+                GL.BindAttribLocation(ProgramID, i, attr);
                 i++;
             }
 
-            GL.LinkProgram(prog);
+            GL.LinkProgram(ProgramID);
             GLHelper.CheckError();
-            GL.GetProgram(prog, GetProgramParameterName.LinkStatus, out result);
+            GL.GetProgram(ProgramID, GetProgramParameterName.LinkStatus, out result);
             GLHelper.CheckError();
             Debug.WriteLine("Program Link Status: {0}", result);
             Debug.WriteLine("Program info:");
-            var programInfo = GL.GetProgramInfoLog(prog);
+            var programInfo = GL.GetProgramInfoLog(ProgramID);
             GLHelper.CheckError();
             Debug.WriteLine(programInfo);
 
             string programInfoLog;
-            GL.GetProgramInfoLog( prog, out programInfoLog );
+            GL.GetProgramInfoLog(ProgramID, out programInfoLog );
             GLHelper.CheckError();
-
-            ProgramID = prog;
         }
 
         Dictionary<string,int> uniformLocationCache = new Dictionary<string, int>();
