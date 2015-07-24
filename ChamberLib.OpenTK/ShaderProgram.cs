@@ -82,7 +82,22 @@ namespace ChamberLib.OpenTK
                 MakeReady();
             }
 
-            ApplyBase();
+            if ((vertexShaderOverride != null && vertexShaderOverride != VertexShader) ||
+                (fragmentShaderOverride != null && fragmentShaderOverride != FragmentShader))
+            {
+                vertexShaderOverride = vertexShaderOverride ?? VertexShader;
+                fragmentShaderOverride = fragmentShaderOverride ?? FragmentShader;
+
+                var effectiveProgram = MakeShaderProgram(
+                    (ShaderStage)vertexShaderOverride,
+                    (ShaderStage)fragmentShaderOverride);
+
+                effectiveProgram.ApplyBase();
+            }
+            else
+            {
+                ApplyBase();
+            }
         }
 
         protected void ApplyBase()
