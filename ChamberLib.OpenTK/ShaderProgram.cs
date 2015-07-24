@@ -74,23 +74,22 @@ namespace ChamberLib.OpenTK
         IShaderStage IShaderProgram.VertexShader { get { return VertexShader; } }
         IShaderStage IShaderProgram.FragmentShader { get { return FragmentShader; } }
 
-        public void Apply(IShaderStage vertexShaderOverride=null,
-            IShaderStage fragmentShaderOverride=null)
+        public void Apply(Overrides overrides=null)
         {
             if (ProgramID <= 0)
             {
                 MakeReady();
             }
 
-            if ((vertexShaderOverride != null && vertexShaderOverride != VertexShader) ||
-                (fragmentShaderOverride != null && fragmentShaderOverride != FragmentShader))
-            {
-                vertexShaderOverride = vertexShaderOverride ?? VertexShader;
-                fragmentShaderOverride = fragmentShaderOverride ?? FragmentShader;
+            var vertexShader = overrides.GetVertexShader(VertexShader);
+            var fragmentShader = overrides.GetFragmentShader(FragmentShader);
 
+            if ((vertexShader != null && vertexShader != VertexShader) ||
+                (fragmentShader != null && fragmentShader != FragmentShader))
+            {
                 var effectiveProgram = MakeShaderProgram(
-                    (ShaderStage)vertexShaderOverride,
-                    (ShaderStage)fragmentShaderOverride);
+                    (ShaderStage)vertexShader,
+                    (ShaderStage)fragmentShader);
 
                 effectiveProgram.ApplyBase();
             }

@@ -9,7 +9,7 @@ namespace ChamberLib
         string Name { get; set; }
 
         void Draw(Matrix world, Matrix view, Matrix projection,
-                    LightingData lighting, IMaterial materialOverride=null);
+                    LightingData lighting, Overrides overrides=null);
     }
 }
 

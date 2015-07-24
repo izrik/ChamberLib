@@ -27,13 +27,13 @@ namespace ChamberLib.OpenTK
 
         public void Draw(Matrix world, Matrix view, Matrix projection,
                             LightingData lighting,
-                            IMaterial materialOverride=null)
+                            Overrides overrides=null)
         {
             if (!ParentModel.IsReady) ParentModel.MakeReady();
 
             foreach (var part in Parts)
             {
-                part.Draw(world, view, projection, lighting, materialOverride);
+                part.Draw(world, view, projection, lighting, overrides);
             }
         }
 
@@ -114,11 +114,12 @@ namespace ChamberLib.OpenTK
 
         public void Draw(Matrix world, Matrix view, Matrix projection,
                             LightingData lighting,
-                            IMaterial materialOverride=null)
+                            Overrides overrides=null)
         {
-            var material = materialOverride ?? Material;
+            IMaterial material = overrides.GetMaterial(Material);
+            var lighting2 = overrides.GetLighting(lighting);
 
-            material.Apply(world, view, projection, lighting);
+            material.Apply(world, view, projection, lighting, overrides);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount * 3, StartIndex, VertexOffset);
@@ -129,9 +130,9 @@ namespace ChamberLib.OpenTK
 
         public void DrawWireframe(Matrix world, Matrix view,
             Matrix projection, LightingData lighting,
-            IMaterial materialOverride=null)
+            Overrides overrides=null)
         {
-            var material = materialOverride ?? Material;
+            var material = overrides.GetMaterial(Material);
 
             material.Apply(world, view, projection, lighting);
             RenderBundle.Apply();

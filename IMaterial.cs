@@ -7,7 +7,7 @@ namespace ChamberLib
         string Name { get; }
 
         void Apply(Matrix world, Matrix view, Matrix projection,
-                    LightingData lighting);
+                    LightingData lighting, Overrides overrides=null);
         void UnApply();
 
         Vector3 Diffuse { get; set; }

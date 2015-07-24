@@ -51,11 +51,15 @@ namespace ChamberLib.OpenTK
         public IShaderProgram Shader { get; set; }
 
         public void Apply(Matrix world, Matrix view, Matrix projection,
-                            LightingData lighting)
+                            LightingData lighting,
+                            Overrides overrides=null)
         {
-            if (Shader == null) throw new InvalidOperationException();
+            var shader = overrides.GetShaderProgram(Shader);
+            LightingData lighting2 = overrides.GetLighting(lighting).Value;
 
-            Shader.Apply();
+            if (Shader == null) throw new InvalidOperationException("No shader specified");
+
+            Shader.Apply(overrides);
 
             Shader.SetUniform("worldViewProj", world * view * projection);
             Shader.SetUniform("worldView", world * view);
@@ -63,14 +67,14 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("world", world);
             Shader.SetUniform("use_texture", (Texture != null));
             Shader.SetUniform("material_diffuse_color", Diffuse);
-            Shader.SetUniform("material_emissive_color", lighting.EmissiveColor);
+            Shader.SetUniform("material_emissive_color", lighting2.EmissiveColor);
             Shader.SetUniform("material_specular_color", SpecularColor);
             Shader.SetUniform("material_specular_power", SpecularPower);
             Shader.SetUniform("material_alpha", Alpha);
-            Shader.SetUniform("light_ambient", lighting.AmbientLightColor);
-            Shader.SetUniform("light_direction_ws", lighting.DirectionalLight.Direction.Normalized());
-            Shader.SetUniform("light_diffuse_color", lighting.DirectionalLight.DiffuseColor);
-            Shader.SetUniform("light_specular_color", lighting.DirectionalLight.SpecularColor);
+            Shader.SetUniform("light_ambient", lighting2.AmbientLightColor);
+            Shader.SetUniform("light_direction_ws", lighting2.DirectionalLight.Direction.Normalized());
+            Shader.SetUniform("light_diffuse_color", lighting2.DirectionalLight.DiffuseColor);
+            Shader.SetUniform("light_specular_color", lighting2.DirectionalLight.SpecularColor);
             Shader.SetUniform("camera_position_ws", view.Inverted().ToOpenTK().ExtractTranslation().ToChamber());
 
             if (Texture != null)

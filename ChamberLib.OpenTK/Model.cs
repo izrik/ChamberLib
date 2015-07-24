@@ -74,20 +74,18 @@ namespace ChamberLib.OpenTK
         }
 
         public void Draw(Matrix world, Matrix view, Matrix projection,
-                            IMaterial materialOverride=null,
-                            LightingData? lightingOverride=null)
+                            Overrides overrides=null)
         {
             if (!IsReady)
             {
                 MakeReady();
             }
 
-            var lighting =
-                lightingOverride.HasValue ? lightingOverride.Value : Lighting;
+            var lighting = overrides.GetLighting(Lighting).Value;
 
             foreach (var mesh in Meshes)
             {
-                mesh.Draw(world, view, projection, lighting, materialOverride);
+                mesh.Draw(world, view, projection, lighting, overrides);
             }
         }
 
@@ -143,14 +141,14 @@ namespace ChamberLib.OpenTK
         }
 
         public void SetBoneTransforms(Matrix[] boneTransforms,
-            IMaterial materialOverride=null)
+            Overrides overrides=null)
         {
             if (boneTransforms == null) throw new ArgumentNullException("boneTransforms");
 
             IEnumerable<IMaterial> materials;
-            if (materialOverride != null)
+            if (overrides != null && overrides.Material != null)
             {
-                materials = new [] { materialOverride };
+                materials = new[] { overrides.Material };
             }
             else
             {

@@ -9,3 +9,6 @@ shader programs and stages
     extract uniform names from shader stages
     extract uniform names from all shader stages of a shader program
     extract bind attributes automatically? (the extra parameter to MakeShaderProgram makes caching tricky)
+
+clarify Overrides semantics
+    e.g., if both Material and ShaderProgram are set, do we override the material and ignore the ShaderProgram setting? or do we override both material and shader?

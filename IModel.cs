@@ -10,8 +10,7 @@ namespace ChamberLib
         IEnumerable<IMesh> GetMeshes();
 
         void Draw(Matrix world, Matrix view, Matrix projection,
-            IMaterial materialOverride=null,
-            LightingData? lightingOverride=null);
+            Overrides overrides=null);
 
         IBone Root { get; set; }
 
@@ -25,7 +24,7 @@ namespace ChamberLib
         void SetTexture(ITexture2D texture);
 
         void SetBoneTransforms(Matrix[] boneTransforms,
-            IMaterial materialOverride=null);
+            Overrides overrides=null);
 
         IEnumerable<Triangle> EnumerateTriangles();
     }
