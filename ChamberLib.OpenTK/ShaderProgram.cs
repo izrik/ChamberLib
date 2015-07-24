@@ -81,6 +81,11 @@ namespace ChamberLib.OpenTK
                 MakeReady();
             }
 
+            ApplyBase();
+        }
+
+        protected void ApplyBase()
+        {
             GL.UseProgram(ProgramID);
             GLHelper.CheckError();
 
