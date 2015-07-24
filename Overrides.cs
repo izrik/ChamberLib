@@ -13,4 +13,33 @@ namespace ChamberLib
         public IShaderStage VertexShader;
         public IShaderStage FragmentShader;
     }
+
+    public static class OverridesHelper
+    {
+        public static LightingData? GetLighting(this Overrides overrides, LightingData? defaultValue)
+        {
+            if (overrides == null) return defaultValue;
+            return overrides.Lighting ?? defaultValue;
+        }
+        public static IMaterial GetMaterial(this Overrides overrides, IMaterial defaultValue)
+        {
+            if (overrides == null) return defaultValue;
+            return overrides.Material ?? defaultValue;
+        }
+        public static IShaderProgram GetShaderProgram(this Overrides overrides, IShaderProgram defaultValue)
+        {
+            if (overrides == null) return defaultValue;
+            return overrides.ShaderProgram ?? defaultValue;
+        }
+        public static IShaderStage GetVertexShader(this Overrides overrides, IShaderStage defaultValue)
+        {
+            if (overrides == null) return defaultValue;
+            return overrides.VertexShader ?? defaultValue;
+        }
+        public static IShaderStage GetFragmentShader(this Overrides overrides, IShaderStage defaultValue)
+        {
+            if (overrides == null) return defaultValue;
+            return overrides.FragmentShader ?? defaultValue;
+        }
+    }
 }
