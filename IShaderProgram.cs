@@ -7,7 +7,8 @@ namespace ChamberLib
     {
         string Name { get; }
 
-        void Apply();
+        void Apply(IShaderStage vertexShaderOverride = null,
+            IShaderStage fragmentShaderOverride = null);
         void UnApply();
 
         IShaderStage VertexShader { get; }
