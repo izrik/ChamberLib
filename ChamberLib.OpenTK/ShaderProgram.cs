@@ -84,9 +84,6 @@ namespace ChamberLib.OpenTK
             GL.UseProgram(ProgramID);
             GLHelper.CheckError();
 
-            GL.ValidateProgram(ProgramID);
-            GLHelper.CheckError();
-
             ApplyUniformValues();
         }
 
@@ -151,6 +148,9 @@ namespace ChamberLib.OpenTK
             var programInfo = GL.GetProgramInfoLog(ProgramID);
             GLHelper.CheckError();
             Debug.WriteLine(programInfo);
+
+            GL.ValidateProgram(ProgramID);
+            GLHelper.CheckError();
 
             string programInfoLog;
             GL.GetProgramInfoLog(ProgramID, out programInfoLog );
