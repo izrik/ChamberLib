@@ -28,6 +28,11 @@ namespace ChamberLib
             return entries[name];
         }
 
+        public bool ContainsKey(string name)
+        {
+            return entries.ContainsKey(name);
+        }
+
         public object GetValue(string name)
         {
             if (entries.ContainsKey(name))
