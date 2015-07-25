@@ -387,6 +387,13 @@ namespace ChamberLib.OpenTK
 
         protected void ApplyUniformValues(ShaderUniforms uniformsOverride)
         {
+            if (uniformsOverride != null)
+            {
+                foreach (var name in uniformsOverride.GetUniformNames())
+                {
+                    ApplyUniform(name, uniformsOverride);
+                }
+            }
             foreach (var name in uniforms.GetUniformNames())
             {
                 ApplyUniform(name, uniformsOverride);
