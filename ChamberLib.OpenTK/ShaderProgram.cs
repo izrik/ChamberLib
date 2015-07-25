@@ -370,23 +370,6 @@ namespace ChamberLib.OpenTK
             return new Vector4(values[0], values[1], values[2], values[3]);
         }
 
-        protected enum ShaderUniformType
-        {
-            Bool,
-            Byte,
-            SByte,
-            Short,
-            UShort,
-            Int,
-            UInt,
-            Single,
-            Double,
-            Vector2,
-            Vector3,
-            Vector4,
-            Matrix,
-        }
-
         protected void SetUniform(string name, object value, ShaderUniformType type)
         {
             uniformValues[name] = value;
