@@ -91,20 +91,20 @@ namespace ChamberLib.OpenTK
                     (ShaderStage)vertexShader,
                     (ShaderStage)fragmentShader);
 
-                effectiveProgram.ApplyBase();
+                effectiveProgram.ApplyBase(overrides.GetUniforms());
             }
             else
             {
-                ApplyBase();
+                ApplyBase(overrides.GetUniforms());
             }
         }
 
-        protected void ApplyBase()
+        protected void ApplyBase(ShaderUniforms uniformsOverride)
         {
             GL.UseProgram(ProgramID);
             GLHelper.CheckError();
 
-            ApplyUniformValues();
+            ApplyUniformValues(uniformsOverride);
         }
 
         public void UnApply()
@@ -385,11 +385,11 @@ namespace ChamberLib.OpenTK
             return new Vector4(values[0], values[1], values[2], values[3]);
         }
 
-        protected void ApplyUniformValues()
+        protected void ApplyUniformValues(ShaderUniforms uniformsOverride)
         {
             foreach (var name in uniforms.GetUniformNames())
             {
-                ApplyUniform(name);
+                ApplyUniform(name, uniformsOverride);
             }
         }
 
@@ -398,9 +398,18 @@ namespace ChamberLib.OpenTK
             return uniforms.GetValue(name);
         }
 
-        protected void ApplyUniform(string name)
+        protected void ApplyUniform(string name, ShaderUniforms uniformsOverride=null)
         {
-            var entry = uniforms.GetEntry(name);
+            ShaderUniforms.Entry entry;
+            if (uniformsOverride != null &&
+                uniformsOverride.ContainsKey(name))
+            {
+                entry = uniformsOverride.GetEntry(name);
+            }
+            else
+            {
+                entry = uniforms.GetEntry(name);
+            }
             var value = entry.Value;
             var type = entry.Type;
             var location = GetUniformLocation(name);

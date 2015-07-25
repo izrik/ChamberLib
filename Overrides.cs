@@ -12,6 +12,7 @@ namespace ChamberLib
         public IShaderProgram ShaderProgram;
         public IShaderStage VertexShader;
         public IShaderStage FragmentShader;
+        public ShaderUniforms Uniforms;
     }
 
     public static class OverridesHelper
@@ -40,6 +41,11 @@ namespace ChamberLib
         {
             if (overrides == null) return defaultValue;
             return overrides.FragmentShader ?? defaultValue;
+        }
+        public static ShaderUniforms GetUniforms(this Overrides overrides, ShaderUniforms defaultValue=null)
+        {
+            if (overrides == null) return defaultValue;
+            return overrides.Uniforms ?? defaultValue;
         }
     }
 }
