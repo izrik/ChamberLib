@@ -23,6 +23,11 @@ namespace ChamberLib
 
         protected readonly Dictionary<string, Entry> entries = new Dictionary<string, Entry>();
 
+        public Entry GetEntry(string name)
+        {
+            return entries[name];
+        }
+
         public object GetValue(string name)
         {
             if (entries.ContainsKey(name))

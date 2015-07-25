@@ -177,7 +177,9 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
         }
 
-        Dictionary<string,int> uniformLocationCache = new Dictionary<string, int>();
+        readonly Dictionary<string,int> uniformLocationCache = new Dictionary<string, int>();
+        readonly ShaderUniforms uniforms = new ShaderUniforms();
+
         int GetUniformLocation(string name)
         {
             if (uniformLocationCache.ContainsKey(name))
@@ -191,27 +193,33 @@ namespace ChamberLib.OpenTK
         }
         public void SetUniform(string name, float value)
         {
-            SetUniform(name, value, ShaderUniformType.Single);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
         public void SetUniform(string name, Vector2 value)
         {
-            SetUniform(name, value, ShaderUniformType.Vector2);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
         public void SetUniform(string name, Vector3 value)
         {
-            SetUniform(name, value, ShaderUniformType.Vector3);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
         public void SetUniform(string name, Vector4 value)
         {
-            SetUniform(name, value, ShaderUniformType.Vector4);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
         public void SetUniform(string name, Matrix value)
         {
-            SetUniform(name, value, ShaderUniformType.Matrix);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
         public void SetUniform(string name, bool value)
         {
-            SetUniform(name, value, ShaderUniformType.Bool);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
 
         public Matrix GetUniformMatrix(string name)
@@ -229,37 +237,44 @@ namespace ChamberLib.OpenTK
 
         public void SetUniform(string name, byte value)
         {
-            SetUniform(name, value, ShaderUniformType.Byte);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
 
         public void SetUniform(string name, sbyte value)
         {
-            SetUniform(name, value, ShaderUniformType.SByte);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
 
         public void SetUniform(string name, short value)
         {
-            SetUniform(name, value, ShaderUniformType.Short);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
 
         public void SetUniform(string name, ushort value)
         {
-            SetUniform(name, value, ShaderUniformType.UShort);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
 
         public void SetUniform(string name, int value)
         {
-            SetUniform(name, value, ShaderUniformType.Int);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
 
         public void SetUniform(string name, uint value)
         {
-            SetUniform(name, value, ShaderUniformType.UInt);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
 
         public void SetUniform(string name, double value)
         {
-            SetUniform(name, value, ShaderUniformType.Double);
+            uniforms.SetValue(name, value);
+            if (IsApplied) ApplyUniform(name);
         }
 
         public bool GetUniformBool(string name)
@@ -370,23 +385,9 @@ namespace ChamberLib.OpenTK
             return new Vector4(values[0], values[1], values[2], values[3]);
         }
 
-        protected void SetUniform(string name, object value, ShaderUniformType type)
-        {
-            uniformValues[name] = value;
-            uniformTypes[name] = type;
-
-            if (IsApplied)
-            {
-                ApplyUniform(name);
-            }
-        }
-
-        protected Dictionary<string, object> uniformValues = new Dictionary<string, object>();
-        protected Dictionary<string, ShaderUniformType> uniformTypes = new System.Collections.Generic.Dictionary<string, ShaderUniformType>();
-
         protected void ApplyUniformValues()
         {
-            foreach (var name in uniformValues.Keys)
+            foreach (var name in uniforms.GetUniformNames())
             {
                 ApplyUniform(name);
             }
@@ -394,13 +395,14 @@ namespace ChamberLib.OpenTK
 
         public object GetUniformValue(string name)
         {
-            return uniformValues[name];
+            return uniforms.GetValue(name);
         }
 
         protected void ApplyUniform(string name)
         {
-            var value = uniformValues[name];
-            var type = uniformTypes[name];
+            var entry = uniforms.GetEntry(name);
+            var value = entry.Value;
+            var type = entry.Type;
             var location = GetUniformLocation(name);
 
             switch (type)
