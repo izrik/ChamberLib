@@ -191,27 +191,27 @@ namespace ChamberLib.OpenTK
         }
         public void SetUniform(string name, float value)
         {
-            SetUniform(name, value, UniformType.Single);
+            SetUniform(name, value, ShaderUniformType.Single);
         }
         public void SetUniform(string name, Vector2 value)
         {
-            SetUniform(name, value, UniformType.Vector2);
+            SetUniform(name, value, ShaderUniformType.Vector2);
         }
         public void SetUniform(string name, Vector3 value)
         {
-            SetUniform(name, value, UniformType.Vector3);
+            SetUniform(name, value, ShaderUniformType.Vector3);
         }
         public void SetUniform(string name, Vector4 value)
         {
-            SetUniform(name, value, UniformType.Vector4);
+            SetUniform(name, value, ShaderUniformType.Vector4);
         }
         public void SetUniform(string name, Matrix value)
         {
-            SetUniform(name, value, UniformType.Matrix);
+            SetUniform(name, value, ShaderUniformType.Matrix);
         }
         public void SetUniform(string name, bool value)
         {
-            SetUniform(name, value, UniformType.Bool);
+            SetUniform(name, value, ShaderUniformType.Bool);
         }
 
         public Matrix GetUniformMatrix(string name)
@@ -229,37 +229,37 @@ namespace ChamberLib.OpenTK
 
         public void SetUniform(string name, byte value)
         {
-            SetUniform(name, value, UniformType.Byte);
+            SetUniform(name, value, ShaderUniformType.Byte);
         }
 
         public void SetUniform(string name, sbyte value)
         {
-            SetUniform(name, value, UniformType.SByte);
+            SetUniform(name, value, ShaderUniformType.SByte);
         }
 
         public void SetUniform(string name, short value)
         {
-            SetUniform(name, value, UniformType.Short);
+            SetUniform(name, value, ShaderUniformType.Short);
         }
 
         public void SetUniform(string name, ushort value)
         {
-            SetUniform(name, value, UniformType.UShort);
+            SetUniform(name, value, ShaderUniformType.UShort);
         }
 
         public void SetUniform(string name, int value)
         {
-            SetUniform(name, value, UniformType.Int);
+            SetUniform(name, value, ShaderUniformType.Int);
         }
 
         public void SetUniform(string name, uint value)
         {
-            SetUniform(name, value, UniformType.UInt);
+            SetUniform(name, value, ShaderUniformType.UInt);
         }
 
         public void SetUniform(string name, double value)
         {
-            SetUniform(name, value, UniformType.Double);
+            SetUniform(name, value, ShaderUniformType.Double);
         }
 
         public bool GetUniformBool(string name)
@@ -370,7 +370,7 @@ namespace ChamberLib.OpenTK
             return new Vector4(values[0], values[1], values[2], values[3]);
         }
 
-        protected enum UniformType
+        protected enum ShaderUniformType
         {
             Bool,
             Byte,
@@ -387,7 +387,7 @@ namespace ChamberLib.OpenTK
             Matrix,
         }
 
-        protected void SetUniform(string name, object value, UniformType type)
+        protected void SetUniform(string name, object value, ShaderUniformType type)
         {
             uniformValues[name] = value;
             uniformTypes[name] = type;
@@ -399,7 +399,7 @@ namespace ChamberLib.OpenTK
         }
 
         protected Dictionary<string, object> uniformValues = new Dictionary<string, object>();
-        protected Dictionary<string, UniformType> uniformTypes = new System.Collections.Generic.Dictionary<string, UniformType>();
+        protected Dictionary<string, ShaderUniformType> uniformTypes = new System.Collections.Generic.Dictionary<string, ShaderUniformType>();
 
         protected void ApplyUniformValues()
         {
@@ -422,43 +422,43 @@ namespace ChamberLib.OpenTK
 
             switch (type)
             {
-            case UniformType.Bool:
+            case ShaderUniformType.Bool:
                 GL.Uniform1(location, ((bool)value ? 1 : 0));
                 break;
-            case UniformType.Byte:
+            case ShaderUniformType.Byte:
                 GL.Uniform1(location, (byte)value);
                 break;
-            case UniformType.SByte:
+            case ShaderUniformType.SByte:
                 GL.Uniform1(location, (sbyte)value);
                 break;
-            case UniformType.Short:
+            case ShaderUniformType.Short:
                 GL.Uniform1(location, (short)value);
                 break;
-            case UniformType.UShort:
+            case ShaderUniformType.UShort:
                 GL.Uniform1(location, (ushort)value);
                 break;
-            case UniformType.Int:
+            case ShaderUniformType.Int:
                 GL.Uniform1(location, (int)value);
                 break;
-            case UniformType.UInt:
+            case ShaderUniformType.UInt:
                 GL.Uniform1(location, (uint)value);
                 break;
-            case UniformType.Single:
+            case ShaderUniformType.Single:
                 GL.Uniform1(location, (float)value);
                 break;
-            case UniformType.Double:
+            case ShaderUniformType.Double:
                 GL.Uniform1(location, (double)value);
                 break;
-            case UniformType.Vector2:
+            case ShaderUniformType.Vector2:
                 GL.Uniform2(location, ((Vector2)value).ToOpenTK());
                 break;
-            case UniformType.Vector3:
+            case ShaderUniformType.Vector3:
                 GL.Uniform3(location, ((Vector3)value).ToOpenTK());
                 break;
-            case UniformType.Vector4:
+            case ShaderUniformType.Vector4:
                 GL.Uniform4(location, ((Vector4)value).ToOpenTK());
                 break;
-            case UniformType.Matrix:
+            case ShaderUniformType.Matrix:
                 var value2 = ((Matrix)value).ToOpenTK();
                 GL.UniformMatrix4(location, false, ref value2);
                 break;
