@@ -92,6 +92,9 @@
     <Compile Include="Content\Geometry.cs" />
     <Compile Include="IRenderer.cs" />
     <Compile Include="Overrides.cs" />
+    <Compile Include="ShaderUniforms.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ShaderUniformType.cs" />
     <Compile Include="Triangle.cs" />
     <Compile Include="Vector2.cs" />
