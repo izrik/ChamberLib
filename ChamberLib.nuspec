@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/izrik/ChamberLib/master/ChamberLib.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A cross-platform library to make 3D graphics a little easier.</description>
-    <releaseNotes>Lots of new functionality for geometry:&#10;- Calculate the intersection between a ray and a plane&#10;- New Triangle struct&#10;- Adjust conventions for plane: normal is normalized, away from origin, distance is always non-negative&#10;- Frustum now has fields to store its corners&#10;- Enumerate through all triangles in a model&#10;- New Geometry class, for run-time generation of content</releaseNotes>
+    <releaseNotes>- Split shaders from programs into separate stages.&#10;- Vertex and fragment shaders are not imported and processed individually into IShaderStage objects and then combined into an IShaderProgram object, instead of being imported and processed together as a single IShader.&#10;- Created a ShaderUniforms class to hold values for shader uniforms.&#10;- Replaced many occurrences of a materialOverride parameter in Draw calls with an Overrides class, that allows the overriding of material, ligthing, shader, shader stages, and shader uniform values.</releaseNotes>
     <copyright>Copyright 2015 izrik and Metaphysics Industries, Inc.</copyright>
     <tags>chamber 3d game engine</tags>
     <frameworkAssemblies>
