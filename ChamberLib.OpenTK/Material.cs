@@ -72,9 +72,12 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("material_specular_power", SpecularPower);
             Shader.SetUniform("material_alpha", Alpha);
             Shader.SetUniform("light_ambient", lighting2.AmbientLightColor);
-            Shader.SetUniform("light_direction_ws", lighting2.DirectionalLight.Direction.Normalized());
-            Shader.SetUniform("light_diffuse_color", lighting2.DirectionalLight.DiffuseColor);
-            Shader.SetUniform("light_specular_color", lighting2.DirectionalLight.SpecularColor);
+            if (lighting2.DirectionalLight != null)
+            {
+                Shader.SetUniform("light_direction_ws", lighting2.DirectionalLight.Direction.Normalized());
+                Shader.SetUniform("light_diffuse_color", lighting2.DirectionalLight.DiffuseColor);
+                Shader.SetUniform("light_specular_color", lighting2.DirectionalLight.SpecularColor);
+            }
             Shader.SetUniform("camera_position_ws", view.Inverted().ToOpenTK().ExtractTranslation().ToChamber());
 
             if (Texture != null)
