@@ -186,3 +186,7 @@ FakesAssemblies/
 *.userprefs
 
 .DS_Store
+
+# Auto-generated files
+AssemblyInfo.Git.cs
+

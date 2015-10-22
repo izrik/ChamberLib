@@ -44,6 +44,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.Git.cs" />
     <Compile Include="ChamberLib.OpenTK\BasicSongImporter.cs" />
     <Compile Include="ChamberLib.OpenTK\Bone.cs" />
     <Compile Include="ChamberLib.OpenTK\BuiltinContentImporter.cs" />
@@ -212,5 +213,9 @@
   <ItemGroup>
     <Content Include="ChamberLib.OpenTK\ChamberLib.OpenTK.png" />
     <Content Include="ChamberLib.OpenTK\todo.txt" />
+    <Content Include="pre-build.py" />
   </ItemGroup>
+  <PropertyGroup>
+    <PreBuildEvent>python $(ProjectDir)pre-build.py $(ProjectDir)AssemblyInfo.Git.cs</PreBuildEvent>
+  </PropertyGroup>
 </Project>
