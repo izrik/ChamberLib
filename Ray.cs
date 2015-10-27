@@ -142,6 +142,11 @@ namespace ChamberLib
 
             return Position + n * Direction;
         }
+
+        public override string ToString()
+        {
+            return string.Format("{{Position:{0} Direction:{1}}}", Position, Direction);
+        }
     }
 }
 
