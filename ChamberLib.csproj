@@ -76,6 +76,7 @@
     <Compile Include="ChamberLib.OpenTK\OggVorbisSoundEffectImporter.cs" />
     <Compile Include="ChamberLib.OpenTK\OpenTKContentProcessor.cs" />
     <Compile Include="ChamberLib.OpenTK\OpenTKSubsystem.cs" />
+    <Compile Include="ChamberLib.OpenTK\RectangleHelper.cs" />
     <Compile Include="ChamberLib.OpenTK\RenderBuffer.cs" />
     <Compile Include="ChamberLib.OpenTK\RenderBundle.cs" />
     <Compile Include="ChamberLib.OpenTK\Renderer.cs" />
