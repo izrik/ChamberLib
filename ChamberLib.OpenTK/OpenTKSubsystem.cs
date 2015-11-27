@@ -207,6 +207,11 @@ namespace ChamberLib.OpenTK
                     OnUpdateFrameMethod(_gameTime);
                 }
             }
+
+            public RectangleI ClientRectangleI
+            {
+                get { return this.ClientRectangle.ToChamber(); }
+            }
         }
 
         public IRenderTarget CreateRenderTarget(int width, int height,
