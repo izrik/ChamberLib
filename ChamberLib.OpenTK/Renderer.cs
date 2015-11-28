@@ -13,6 +13,8 @@ namespace ChamberLib.OpenTK
         {
             if (subsystem == null) throw new ArgumentNullException("subsystem");
 
+            Units = Units.Pixels;
+
             _subsystem = subsystem;
 
             _viewport = new Viewport(0, 0, _subsystem.Window.Width, _subsystem.Window.Height);
@@ -77,5 +79,7 @@ namespace ChamberLib.OpenTK
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             GLHelper.CheckError();
         }
+
+        public Units Units { get; set; }
     }
 }

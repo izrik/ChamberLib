@@ -16,11 +16,14 @@ namespace ChamberLib
         void DrawImage(ITexture2D texture, RectangleI destinationRectangle, Color color);
         void DrawImages(params DrawImagesEntry[] entries);
 
+        void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> vs);
+
+        Units Units { get; set; }
+
         void Clear(Color color);
 
         void Reset3D();
 
-        void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> vs);
 
         Viewport Viewport { get; set; }
         void SetViewport(Viewport value, bool windowed=true);
