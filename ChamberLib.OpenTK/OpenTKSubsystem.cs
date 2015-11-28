@@ -100,7 +100,7 @@ namespace ChamberLib.OpenTK
             set { }
         }
 
-        public RectangleI ClientBounds { get { throw new NotImplementedException(); } }
+        public RectangleI ClientBounds { get { return Window.ClientRectangleI; } }
 
         public event EventHandler<EventArgs> ClientSizeChanged
         {
