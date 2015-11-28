@@ -99,6 +99,7 @@
     </Compile>
     <Compile Include="ShaderUniformType.cs" />
     <Compile Include="Triangle.cs" />
+    <Compile Include="Units.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Vector4.cs" />
