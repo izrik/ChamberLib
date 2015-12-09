@@ -12,6 +12,10 @@ namespace ChamberLib
                         float rotation = 0,
                         Vector2 origin = default(Vector2),
                         float scale = 1);
+        void DrawString(IFont font, string text, Vector2 position, Color color,
+                        float rotation,
+                        Vector2 origin,
+                        float scaleX, float scaleY);
 
         void DrawImage(ITexture2D texture, RectangleI destinationRectangle, Color color);
         void DrawImages(params DrawImagesEntry[] entries);
