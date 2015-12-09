@@ -12,3 +12,8 @@ shader programs and stages
 
 clarify Overrides semantics
     e.g., if both Material and ShaderProgram are set, do we override the material and ignore the ShaderProgram setting? or do we override both material and shader?
+
+overhaul coordinate semantics in 2d rendering
+    shouldn't be pixel-based. pixel-based could still be an option, but default should be something else
+    probably align it more with the usual coordinate system, x=[-1,1] y=[-1,1] z=[0,1]
+    then use matrices to do the translation, rotation, and scaling that we're currently doing with parameters to the Draw* methods
