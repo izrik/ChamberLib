@@ -107,7 +107,7 @@ namespace ChamberLib.OpenTK
                     case '\r':
                         continue;
                     case '\n':
-                        p = new Vector2(x, p.Y + LineHeight + SpaceBetweenLines);
+                        p = new Vector2(x, p.Y + (LineHeight + SpaceBetweenLines) * scaleY);
                         break;
                     default:
                         var glyph = GetGlyph(ch);
@@ -121,7 +121,7 @@ namespace ChamberLib.OpenTK
                             GLHelper.CheckError();
 
                         }
-                        p = new Vector2(p.X + CharacterWidth + SpaceBetweenChars, p.Y);
+                        p = new Vector2(p.X + (CharacterWidth + SpaceBetweenChars) * scaleX, p.Y);
                         break;
                 }
             }
