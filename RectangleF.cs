@@ -86,5 +86,10 @@ namespace ChamberLib
 
             return new RectangleI(left, top, right - left, bottom - top);
         }
+
+        public override string ToString()
+        {
+            return string.Format("{{Left:{0} Top:{1} Width:{2} Height:{3}}}", Left, Top, Width, Height);
+        }
     }
 }
