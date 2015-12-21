@@ -346,6 +346,11 @@ namespace ChamberLib.OpenTK
             paths.Add('*', Paths(Path(q3y + center, qy + center), Path(o5y + q3x, o3y + qx), Path(o5y + qx, o3y + q3x)));
             paths.Add('[', Paths(Path(topright, topcenter, bottomcenter, bottomright)));
             paths.Add(']', Paths(Path(topleft, topcenter, bottomcenter, bottomleft)));
+            paths.Add('?', Paths(
+                Path(middleleft, topleft, topright, middleright, middlecenter, qy + center),
+                Path(bottomcenter, bottomcenter + 2 * dotoffset)));
+            paths.Add('<', Paths(Path(right + q3y, middlecenter, right + qy)));
+            paths.Add('>', Paths(Path(left + q3y, middlecenter, left + qy)));
 
             return paths;
         }
