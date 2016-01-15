@@ -8,6 +8,8 @@
     <RootNamespace>ChamberLib</RootNamespace>
     <AssemblyName>ChamberLib</AssemblyName>
     <UseMSBuildEngine>False</UseMSBuildEngine>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,20 +30,17 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NAudio, Version=1.7.1.17, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NVorbis, Version=0.8.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\NVorbis.0.8.3.0\lib\NVorbis.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>packages\OpenTK.1.1.1589.5941\lib\NET40\OpenTK.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="NAudio, Version=1.7.1.17, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\NAudio.1.7.1\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NVorbis, Version=0.8.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\NVorbis.0.8.3.0\lib\NVorbis.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
+      <HintPath>packages\OpenTK.1.1.1589.5941\lib\NET40\OpenTK.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.Git.cs" />
@@ -191,6 +190,21 @@
     <Compile Include="ShaderType.cs" />
     <Compile Include="ChamberLib.OpenTK\ShaderTypeHelper.cs" />
     <Compile Include="ChamberLib.OpenTK\ShaderStage.cs" />
+    <Compile Include="ChamberLib.Reference\ReferenceSubsystem.cs" />
+    <Compile Include="ChamberLib.Reference\Renderer.cs" />
+    <Compile Include="ChamberLib.Reference\RenderTarget.cs" />
+    <Compile Include="ChamberLib.Reference\MediaManager.cs" />
+    <Compile Include="ChamberLib.Reference\Keyboard.cs" />
+    <Compile Include="ChamberLib.Reference\GamePad.cs" />
+    <Compile Include="ChamberLib.Reference\Font.cs" />
+    <Compile Include="ChamberLib.Reference\Texture2D.cs" />
+    <Compile Include="ChamberLib.Reference\Model.cs" />
+    <Compile Include="ChamberLib.Reference\SoundEffect.cs" />
+    <Compile Include="ChamberLib.Reference\SoundEffectInstance.cs" />
+    <Compile Include="ChamberLib.Reference\Mesh.cs" />
+    <Compile Include="ChamberLib.Reference\Song.cs" />
+    <Compile Include="ChamberLib.Reference\ShaderStage.cs" />
+    <Compile Include="ChamberLib.Reference\ShaderProgram.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets" Condition="Exists('../packages/MonoGame.Binaries.3.2.0/build/net40/MonoGame.Binaries.targets')" />
@@ -218,4 +232,7 @@
   <PropertyGroup>
     <PreBuildEvent>python $(ProjectDir)pre-build.py $(ProjectDir)AssemblyInfo.Git.cs</PreBuildEvent>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="ChamberLib.Reference\" />
+  </ItemGroup>
 </Project>
