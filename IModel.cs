@@ -13,6 +13,7 @@ namespace ChamberLib
             Overrides overrides=null);
 
         IBone Root { get; set; }
+        IEnumerable<IBone> EnumerateBones();
 
         void SetAmbientLightColor(Vector3 value);
         void SetEmissiveColor(Vector3 value);

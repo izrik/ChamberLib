@@ -180,6 +180,14 @@ namespace ChamberLib.OpenTK
             }
         }
 
+        public IEnumerable<IBone> EnumerateBones()
+        {
+            foreach (var bone in Bones)
+            {
+                yield return bone;
+            }
+        }
+
         public IEnumerable<Triangle> EnumerateTriangles()
         {
             var set = new HashSet<Triangle>();
