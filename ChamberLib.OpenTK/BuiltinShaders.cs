@@ -105,7 +105,7 @@ precision highp float;
 uniform mat4 worldViewProj;
 uniform mat4 world;
 
-uniform mat4 bones[60];
+uniform mat4 bones[75];
 
 in vec3 in_position;
 in vec3 in_normal;
