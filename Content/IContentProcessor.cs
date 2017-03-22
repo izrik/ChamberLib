@@ -9,7 +9,7 @@ namespace ChamberLib.Content
         IFont ProcessFont(FontContent asset, IContentProcessor processor=null);
         ISong ProcessSong(SongContent asset, IContentProcessor processor=null);
         ISoundEffect ProcessSoundEffect(SoundEffectContent asset, IContentProcessor processor=null);
-        IShaderProgram ProcessShader(ShaderContent asset, IContentProcessor processor=null, object bindattrs=null);
+        //IShaderProgram ProcessShader(ShaderContent asset, IContentProcessor processor=null, object bindattrs=null);
         IShaderStage ProcessShaderStage(ShaderContent asset, IContentProcessor processor=null);
 
         IShaderProgram MakeShaderProgram(IShaderStage vertexShader,

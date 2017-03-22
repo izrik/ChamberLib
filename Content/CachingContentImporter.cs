@@ -10,7 +10,7 @@ namespace ChamberLib.Content
 
             models = new Cache<string, IContentImporter, ModelContent>(next.ImportModel);
             textures = new Cache<string, IContentImporter, TextureContent>(next.ImportTexture2D);
-            shaders = new Cache<string, IContentImporter, ShaderContent>(next.ImportShader);
+            //shaders = new Cache<string, IContentImporter, ShaderContent>(next.ImportShader);
             shaders = new Cache<string, IContentImporter, ShaderContent>(next.ImportShader);
             fonts = new Cache<string, IContentImporter, FontContent>(next.ImportFont);
             songs = new Cache<string, IContentImporter, SongContent>(next.ImportSong);

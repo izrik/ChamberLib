@@ -12,9 +12,9 @@ namespace ChamberLib.Content
 
             models = new Cache<string, IModel>(next.LoadModel);
             textures = new Cache<string, ITexture2D>(next.LoadTexture2D);
-            shaders = new Cache<string, object, IShaderProgram>(next.LoadShader);
+            //shaders = new Cache<string, object, IShaderProgram>(next.LoadShader);
             shaderStages = new Cache2<string, ShaderType, IShaderStage>(next.LoadShaderStage);
-            shaders = new Cache<string, object, IShaderProgram>(next.LoadShader);
+            //shaders = new Cache<string, object, IShaderProgram>(next.LoadShader);
             fonts = new Cache<string, IFont>(next.LoadFont);
             songs = new Cache<string, ISong>(next.LoadSong);
             soundEffects = new Cache<string, ISoundEffect>(next.LoadSoundEffect);
@@ -24,7 +24,7 @@ namespace ChamberLib.Content
 
         readonly Cache<string, IModel> models;
         readonly Cache<string, ITexture2D> textures;
-        readonly Cache<string, object, IShaderProgram> shaders;
+        //readonly Cache<string, object, IShaderProgram> shaders;
         readonly Cache2<string, ShaderType, IShaderStage> shaderStages;
         readonly Cache<string, IFont> fonts;
         readonly Cache<string, ISong> songs;
@@ -45,7 +45,8 @@ namespace ChamberLib.Content
 
         public IShaderProgram LoadShader(string name, object bindattrs = null)
         {
-            return shaders.Call(name, bindattrs);
+            throw new NotImplementedException();
+            //return shaders.Call(name, bindattrs);
         }
 
         public IShaderStage LoadShaderStage(string name, ShaderType type)
@@ -80,11 +81,11 @@ namespace ChamberLib.Content
                 var s = textures.LookupObject((ITexture2D)o);
                 if (s != null) return s;
             }
-            if (o is IShaderProgram)
-            {
-                var s = shaders.LookupObject((IShaderProgram)o);
-                if (s != null) return s;
-            }
+            //if (o is IShaderProgram)
+            //{
+            //    var s = shaders.LookupObject((IShaderProgram)o);
+            //    if (s != null) return s;
+            //}
             if (o is IFont)
             {
                 var s = fonts.LookupObject((IFont)o);

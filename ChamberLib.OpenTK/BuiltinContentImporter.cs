@@ -10,7 +10,7 @@ namespace ChamberLib.OpenTK
             if (next == null) throw new ArgumentNullException("next");
 
             this.next = next;
-            this.shaderImporter = new BuiltinShaderImporter(next.ImportShader,
+            this.shaderImporter = new BuiltinShaderImporter(//next.ImportShader,
                                                             next.ImportShaderStage);
             this.fontImporter = new BuiltinFontImporter(next.ImportFont);
         }
