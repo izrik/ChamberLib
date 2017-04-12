@@ -119,7 +119,7 @@ namespace ChamberLib.OpenTK
             IMaterial material = overrides.GetMaterial(Material);
             var lighting2 = overrides.GetLighting(lighting);
 
-            material.Apply(world, view, projection, lighting, overrides);
+            material.Apply(gameTime, world, view, projection, lighting, overrides);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount * 3, StartIndex, VertexOffset);
@@ -134,7 +134,7 @@ namespace ChamberLib.OpenTK
         {
             var material = overrides.GetMaterial(Material);
 
-            material.Apply(world, view, projection, lighting);
+            material.Apply(gameTime, world, view, projection, lighting);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Lines, PrimitiveCount*2, StartIndex, VertexOffset);

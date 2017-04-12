@@ -6,7 +6,7 @@ namespace ChamberLib
     {
         string Name { get; }
 
-        void Apply(Matrix world, Matrix view, Matrix projection,
+        void Apply(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
                     LightingData lighting, Overrides overrides=null);
         void UnApply();
 

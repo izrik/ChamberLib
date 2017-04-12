@@ -50,7 +50,7 @@ namespace ChamberLib.OpenTK
 
         public IShaderProgram Shader { get; set; }
 
-        public void Apply(Matrix world, Matrix view, Matrix projection,
+        public void Apply(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
                             LightingData lighting,
                             Overrides overrides=null)
         {
