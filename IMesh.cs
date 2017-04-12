@@ -8,7 +8,7 @@ namespace ChamberLib
         IBone ParentBone { get; set; }
         string Name { get; set; }
 
-        void Draw(Matrix world, Matrix view, Matrix projection,
+        void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
                     LightingData lighting, Overrides overrides=null);
     }
 }

@@ -73,7 +73,7 @@ namespace ChamberLib.OpenTK
             return Meshes;
         }
 
-        public void Draw(Matrix world, Matrix view, Matrix projection,
+        public void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
                             Overrides overrides=null)
         {
             if (!IsReady)
@@ -85,7 +85,7 @@ namespace ChamberLib.OpenTK
 
             foreach (var mesh in Meshes)
             {
-                mesh.Draw(world, view, projection, lighting, overrides);
+                mesh.Draw(gameTime, world, view, projection, lighting, overrides);
             }
         }
 
