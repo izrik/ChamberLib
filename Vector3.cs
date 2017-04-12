@@ -173,6 +173,16 @@ namespace ChamberLib
             return new Vector3((float)Math.Cos(angle), 0, (float)Math.Sin(angle));
         }
 
+        public static Vector3 FromAngleAboutAxis(float angle, Vector3 axis, Vector3 thetaZero)
+        {
+            axis = axis.Normalized();
+            thetaZero = thetaZero.Normalized();
+            var side = Cross(axis, thetaZero).Normalized();
+            thetaZero = Cross(side, axis).Normalized();
+
+            return (float)Math.Cos(angle) * thetaZero + (float)Math.Sin(angle) * side;
+        }
+
         public override string ToString()
         {
             return string.Format("{{X:{0} Y:{1} Z:{2}}}", X, Y, Z);
