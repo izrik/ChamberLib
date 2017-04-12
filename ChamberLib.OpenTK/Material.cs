@@ -45,7 +45,22 @@ namespace ChamberLib.OpenTK
         public Vector3 EmissiveColor { get; set; }
         public Vector3 SpecularColor { get; set; }
         public float SpecularPower { get; set; }
-        public float Alpha { get; set; }
+        private float _alpha;
+        public float Alpha
+        {
+            get
+            {
+                if (AlphaFunc != null) return AlphaFunc(GameTime.ZERO);
+                return _alpha;
+            }
+            set
+            {
+                _alpha = value;
+                AlphaFunc = null;
+            }
+        }
+        public Func<GameTime, float> AlphaFunc { get; set; }
+
         public ITexture2D Texture { get; set; }
 
         public IShaderProgram Shader { get; set; }
