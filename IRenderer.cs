@@ -30,6 +30,11 @@ namespace ChamberLib
         void SetViewport(Viewport value, bool windowed=true);
     }
 
+    public static class Renderer
+    {
+        public static IRenderer Default = null;
+    }
+
     public struct DrawImagesEntry
     {
         public DrawImagesEntry(ITexture2D texture, RectangleI dest)

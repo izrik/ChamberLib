@@ -16,6 +16,11 @@ namespace ChamberLib.OpenTK
             _subsystem = subsystem;
 
             _viewport = new Viewport(0, 0, _subsystem.Window.Width, _subsystem.Window.Height);
+
+            if (ChamberLib.Renderer.Default == null)
+            {
+                ChamberLib.Renderer.Default = this;
+            }
         }
 
         readonly OpenTKSubsystem _subsystem;
