@@ -8,7 +8,10 @@ namespace ChamberLib
     public class Overrides
     {
         public LightingData? Lighting;
+
         public IMaterial Material;
+        public float? Alpha;
+
         public IShaderProgram ShaderProgram;
         public IShaderStage VertexShader;
         public IShaderStage FragmentShader;
@@ -22,11 +25,20 @@ namespace ChamberLib
             if (overrides == null) return defaultValue;
             return overrides.Lighting ?? defaultValue;
         }
+
         public static IMaterial GetMaterial(this Overrides overrides, IMaterial defaultValue)
         {
             if (overrides == null) return defaultValue;
             return overrides.Material ?? defaultValue;
         }
+        public static float GetAlpha(this Overrides overrides, float defaultValue)
+        {
+            if (overrides == null) return defaultValue;
+            if (overrides.Alpha.HasValue) return overrides.Alpha.Value;
+            if (overrides.Material == null) return defaultValue;
+            return overrides.Material.Alpha;
+        }
+
         public static IShaderProgram GetShaderProgram(this Overrides overrides, IShaderProgram defaultValue)
         {
             if (overrides == null) return defaultValue;

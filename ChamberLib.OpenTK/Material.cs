@@ -79,7 +79,8 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("material_emissive_color", lighting2.EmissiveColor);
             Shader.SetUniform("material_specular_color", SpecularColor);
             Shader.SetUniform("material_specular_power", SpecularPower);
-            Shader.SetUniform("material_alpha", CalcAlpha(gameTime));
+            float alpha = overrides.GetAlpha(CalcAlpha(gameTime)); // TODO: reduce call to CalcAlpha when alpha is overridden.
+            Shader.SetUniform("material_alpha", alpha);
             Shader.SetUniform("light_ambient", lighting2.AmbientLightColor);
             if (lighting2.DirectionalLight != null)
             {
