@@ -30,14 +30,47 @@ namespace ChamberLib
         public readonly Overrides Prototype;
 
         public LightingData? Lighting;
+        public LightingData? GetLighting_(LightingData? defaultValue)
+        {
+            return this.Lighting ?? defaultValue;
+        }
 
         public IMaterial Material;
+        public IMaterial GetMaterial_(IMaterial defaultValue)
+        {
+            return this.Material ?? defaultValue;
+        }
         public float? Alpha;
+        public float GetAlpha_(float defaultValue)
+        {
+            if (this.Alpha.HasValue) return this.Alpha.Value;
+            if (this.Material == null) return defaultValue;
+            return this.Material.Alpha;
+        }
 
         public IShaderProgram ShaderProgram;
+        public IShaderProgram GetShaderProgram_(IShaderProgram defaultValue)
+        {
+            return this.ShaderProgram ?? defaultValue;
+        }
+
         public IShaderStage VertexShader;
+        public IShaderStage GetVertexShader_(IShaderStage defaultValue)
+        {
+            return this.VertexShader ?? defaultValue;
+        }
+
         public IShaderStage FragmentShader;
+        public IShaderStage GetFragmentShader_(IShaderStage defaultValue)
+        {
+            return this.FragmentShader ?? defaultValue;
+        }
+
         public ShaderUniforms Uniforms;
+        public ShaderUniforms GetUniforms_(ShaderUniforms defaultValue = null)
+        {
+            return this.Uniforms ?? defaultValue;
+        }
     }
 
     public static class OverridesHelper
@@ -45,41 +78,39 @@ namespace ChamberLib
         public static LightingData? GetLighting(this Overrides overrides, LightingData? defaultValue)
         {
             if (overrides == null) return defaultValue;
-            return overrides.Lighting ?? defaultValue;
+            return overrides.GetLighting_(defaultValue);
         }
 
         public static IMaterial GetMaterial(this Overrides overrides, IMaterial defaultValue)
         {
             if (overrides == null) return defaultValue;
-            return overrides.Material ?? defaultValue;
+            return overrides.GetMaterial_(defaultValue);
         }
         public static float GetAlpha(this Overrides overrides, float defaultValue)
         {
             if (overrides == null) return defaultValue;
-            if (overrides.Alpha.HasValue) return overrides.Alpha.Value;
-            if (overrides.Material == null) return defaultValue;
-            return overrides.Material.Alpha;
+            return overrides.GetAlpha_(defaultValue);
         }
 
         public static IShaderProgram GetShaderProgram(this Overrides overrides, IShaderProgram defaultValue)
         {
             if (overrides == null) return defaultValue;
-            return overrides.ShaderProgram ?? defaultValue;
+            return overrides.GetShaderProgram_(defaultValue);
         }
         public static IShaderStage GetVertexShader(this Overrides overrides, IShaderStage defaultValue)
         {
             if (overrides == null) return defaultValue;
-            return overrides.VertexShader ?? defaultValue;
+            return overrides.GetVertexShader_(defaultValue);
         }
         public static IShaderStage GetFragmentShader(this Overrides overrides, IShaderStage defaultValue)
         {
             if (overrides == null) return defaultValue;
-            return overrides.FragmentShader ?? defaultValue;
+            return overrides.GetFragmentShader_(defaultValue);
         }
         public static ShaderUniforms GetUniforms(this Overrides overrides, ShaderUniforms defaultValue=null)
         {
             if (overrides == null) return defaultValue;
-            return overrides.Uniforms ?? defaultValue;
+            return overrides.GetUniforms_(defaultValue);
         }
     }
 }
