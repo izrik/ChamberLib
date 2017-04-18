@@ -8,6 +8,7 @@ namespace ChamberLib
     public class Overrides
     {
         public Overrides(
+            Overrides prototype=null,
             LightingData? lighting=null,
             IMaterial material=null,
             float? alpha=null,
@@ -16,6 +17,7 @@ namespace ChamberLib
             IShaderStage fragmentShader=null,
             ShaderUniforms uniforms=null)
         {
+            this.Prototype = prototype;
             this.Lighting = lighting;
             this.Material = material;
             this.Alpha = alpha;
@@ -24,6 +26,8 @@ namespace ChamberLib
             this.FragmentShader = fragmentShader;
             this.Uniforms = uniforms ?? new ShaderUniforms();
         }
+
+        public readonly Overrides Prototype;
 
         public LightingData? Lighting;
 
