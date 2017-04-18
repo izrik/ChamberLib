@@ -18,13 +18,13 @@ namespace ChamberLib
             ShaderUniforms uniforms=null)
         {
             this.Prototype = prototype;
-            this.Lighting = lighting;
-            this.Material = material;
-            this.Alpha = alpha;
-            this.ShaderProgram = shaderProgram;
-            this.VertexShader = vertexShader;
-            this.FragmentShader = fragmentShader;
-            this.Uniforms = uniforms ?? new ShaderUniforms();
+            this.Lighting = lighting ?? prototype.GetLighting(null);
+            this.Material = material ?? prototype.GetMaterial(null);
+            this.Alpha = alpha ?? (prototype != null ? prototype.Alpha : null);
+            this.ShaderProgram = shaderProgram ?? prototype.GetShaderProgram(null);
+            this.VertexShader = vertexShader ?? prototype.GetVertexShader(null);
+            this.FragmentShader = fragmentShader ?? prototype.GetFragmentShader(null);
+            this.Uniforms = uniforms ?? prototype.GetUniforms(null) ?? new ShaderUniforms();
         }
 
         public readonly Overrides Prototype;
