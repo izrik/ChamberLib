@@ -27,7 +27,7 @@ namespace ChamberLib.OpenTK
 
         public void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
                             LightingData lighting,
-                            Overrides overrides=null)
+                            Overrides overrides=default(Overrides))
         {
             if (!ParentModel.IsReady) ParentModel.MakeReady();
 
@@ -114,7 +114,7 @@ namespace ChamberLib.OpenTK
 
         public void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
                             LightingData lighting,
-                            Overrides overrides=null)
+                            Overrides overrides=default(Overrides))
         {
             IMaterial material = overrides.GetMaterial(Material);
             var lighting2 = overrides.GetLighting(lighting);
@@ -130,7 +130,7 @@ namespace ChamberLib.OpenTK
 
         public void DrawWireframe(GameTime gameTime, Matrix world, Matrix view,
             Matrix projection, LightingData lighting,
-            Overrides overrides=null)
+            Overrides overrides=default(Overrides))
         {
             var material = overrides.GetMaterial(Material);
 

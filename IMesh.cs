@@ -9,7 +9,7 @@ namespace ChamberLib
         string Name { get; set; }
 
         void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
-                    LightingData lighting, Overrides overrides=null);
+                    LightingData lighting, Overrides overrides=default(Overrides));
     }
 }
 

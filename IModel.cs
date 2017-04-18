@@ -10,7 +10,7 @@ namespace ChamberLib
         IEnumerable<IMesh> GetMeshes();
 
         void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
-            Overrides overrides=null);
+            Overrides overrides=default(Overrides));
 
         IBone Root { get; set; }
         IEnumerable<IBone> EnumerateBones();
@@ -25,7 +25,7 @@ namespace ChamberLib
         void SetTexture(ITexture2D texture);
 
         void SetBoneTransforms(Matrix[] boneTransforms,
-            Overrides overrides=null);
+            Overrides overrides=default(Overrides));
 
         IEnumerable<Triangle> EnumerateTriangles();
     }

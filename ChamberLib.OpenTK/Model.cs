@@ -74,7 +74,7 @@ namespace ChamberLib.OpenTK
         }
 
         public void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
-                            Overrides overrides=null)
+                            Overrides overrides=default(Overrides))
         {
             if (!IsReady)
             {
@@ -141,12 +141,12 @@ namespace ChamberLib.OpenTK
         }
 
         public void SetBoneTransforms(Matrix[] boneTransforms,
-            Overrides overrides=null)
+            Overrides overrides=default(Overrides))
         {
             if (boneTransforms == null) throw new ArgumentNullException("boneTransforms");
 
             IEnumerable<IMaterial> materials;
-            if (overrides != null && overrides.Material != null)
+            if (overrides.Material != null)
             {
                 materials = new[] { overrides.Material };
             }

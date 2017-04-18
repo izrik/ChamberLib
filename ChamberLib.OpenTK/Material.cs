@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using OpenTK.Graphics.OpenGL;
 using ChamberLib.Content;
 
@@ -61,7 +61,7 @@ namespace ChamberLib.OpenTK
 
         public void Apply(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
                             LightingData lighting,
-                            Overrides overrides=null)
+                            Overrides overrides=default(Overrides))
         {
             var shader = overrides.GetShaderProgram(Shader);
             LightingData lighting2 = overrides.GetLighting(lighting).Value;
