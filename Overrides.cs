@@ -17,7 +17,6 @@ namespace ChamberLib
             IShaderStage fragmentShader=null,
             ShaderUniforms uniforms=null)
         {
-            this.Prototype = prototype;
             this.Lighting = lighting ?? prototype.GetLighting(null);
             this.Material = material ?? prototype.GetMaterial(null);
             this.Alpha = alpha ?? (prototype != null ? prototype.Alpha : null);
@@ -26,8 +25,6 @@ namespace ChamberLib
             this.FragmentShader = fragmentShader ?? prototype.GetFragmentShader(null);
             this.Uniforms = uniforms ?? prototype.GetUniforms(null) ?? new ShaderUniforms();
         }
-
-        public readonly Overrides Prototype;
 
         public LightingData? Lighting;
         public LightingData? GetLighting_(LightingData? defaultValue)
