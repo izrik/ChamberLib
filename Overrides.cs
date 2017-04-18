@@ -8,7 +8,6 @@ namespace ChamberLib
     public struct Overrides
     {
         public Overrides(
-            Overrides prototype = default(Overrides),
             LightingData? lighting=null,
             IMaterial material=null,
             float? alpha=null,
@@ -17,13 +16,33 @@ namespace ChamberLib
             IShaderStage fragmentShader=null,
             ShaderUniforms uniforms=null)
         {
-            this.Lighting = lighting ?? prototype.GetLighting(null);
-            this.Material = material ?? prototype.GetMaterial(null);
-            this.Alpha = alpha ?? prototype.Alpha;
-            this.ShaderProgram = shaderProgram ?? prototype.GetShaderProgram(null);
-            this.VertexShader = vertexShader ?? prototype.GetVertexShader(null);
-            this.FragmentShader = fragmentShader ?? prototype.GetFragmentShader(null);
-            this.Uniforms = uniforms ?? prototype.GetUniforms(null) ?? new ShaderUniforms();
+            this.Lighting = lighting;
+            this.Material = material;
+            this.Alpha = alpha;
+            this.ShaderProgram = shaderProgram;
+            this.VertexShader = vertexShader;
+            this.FragmentShader = fragmentShader;
+            this.Uniforms = uniforms ?? new ShaderUniforms();
+        }
+
+        public static Overrides FromPrototype(
+            Overrides prototype,
+            LightingData? lighting = null,
+            IMaterial material = null,
+            float? alpha = null,
+            IShaderProgram shaderProgram = null,
+            IShaderStage vertexShader = null,
+            IShaderStage fragmentShader = null,
+            ShaderUniforms uniforms = null)
+        {
+            return new Overrides(
+                lighting: lighting ?? prototype.Lighting,
+                material: material ?? prototype.Material,
+                alpha: alpha ?? prototype.Alpha,
+                shaderProgram: shaderProgram ?? prototype.ShaderProgram,
+                vertexShader: vertexShader ?? prototype.VertexShader,
+                fragmentShader: fragmentShader ?? prototype.FragmentShader,
+                uniforms: uniforms ?? prototype.Uniforms);
         }
 
         public LightingData? Lighting;
