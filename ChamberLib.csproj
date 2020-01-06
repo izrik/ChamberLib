@@ -8,6 +8,8 @@
     <RootNamespace>ChamberLib</RootNamespace>
     <AssemblyName>ChamberLib</AssemblyName>
     <UseMSBuildEngine>False</UseMSBuildEngine>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,12 +38,11 @@
       <HintPath>packages\NVorbis.0.8.3.0\lib\NVorbis.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>packages\OpenTK.1.1.1589.5941\lib\NET40\OpenTK.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="OpenTK">
+      <HintPath>..\Troublemakers\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.Git.cs" />
@@ -209,6 +210,7 @@
     </None>
     <None Include="ChamberLib.png" />
     <None Include=".travis.yml" />
+    <None Include="OpenTK.dll.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
