@@ -28,6 +28,8 @@ namespace ChamberLib
             Overrides overrides=default(Overrides));
 
         IEnumerable<Triangle> EnumerateTriangles();
+
+        IMaterial GetMaterialByName(string name);
     }
 
     public static class ModelHelper

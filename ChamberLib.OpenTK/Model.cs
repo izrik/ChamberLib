@@ -124,6 +124,19 @@ namespace ChamberLib.OpenTK
             }
         }
 
+        public IMaterial GetMaterialByName(string name)
+        {
+            foreach (var material in GetAllMaterials())
+            {
+                if (material.Name == name)
+                {
+                    return material;
+                }
+            }
+
+            return null;
+        }
+
         public void SetAlpha(float alpha)
         {
             foreach (var material in GetAllMaterials())
