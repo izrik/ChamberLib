@@ -211,6 +211,7 @@
     <None Include="ChamberLib.png" />
     <None Include=".travis.yml" />
     <None Include="OpenTK.dll.config" />
+    <None Include="build.sh" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
