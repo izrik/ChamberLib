@@ -135,9 +135,20 @@ namespace ChamberLib.OpenTK
 
         public void DrawImage(ITexture2D texture, RectangleI destinationRectangle, Color color)
         {
-            DrawImages(new DrawImagesEntry(texture, destinationRectangle, color));
+            DrawImages_Begin();
+            DrawImages_EachEntry(new DrawImagesEntry(texture, destinationRectangle, color));
+            DrawImages_End();
         }
-        public void DrawImages(params DrawImagesEntry[] entries)
+        public void DrawImages(DrawImagesEntry[] entries)
+        {
+            DrawImages_Begin();
+            foreach (var entry in entries)
+            {
+                DrawImages_EachEntry(entry);
+            }
+            DrawImages_End();
+        }
+        protected void DrawImages_Begin()
         {
             if (!_DrawImages_isReady)
             {
@@ -154,27 +165,28 @@ namespace ChamberLib.OpenTK
 
             GL.BindVertexArray(_DrawImages_vao);
             GLHelper.CheckError();
+        }
+        protected void DrawImages_EachEntry(DrawImagesEntry entry)
+        {
+            _DrawImages_lastTexture = entry.Texture;
 
-            foreach (var entry in entries)
-            {
-                _DrawImages_lastTexture = entry.Texture;
+            GL.Uniform2(_DrawImages_spritePositionLocation, entry.DestinationRectangle.TopLeft.ToVector2().ToOpenTK());
+            GLHelper.CheckError();
+            GL.Uniform2(_DrawImages_spriteSizeLocation, entry.DestinationRectangle.Size.ToVector2().ToOpenTK());
+            GLHelper.CheckError();
+            GL.Uniform4(_DrawImages_fragmentColorLocation, entry.Color.ToVector4().ToOpenTK());
+            GLHelper.CheckError();
 
-                GL.Uniform2(_DrawImages_spritePositionLocation, entry.DestinationRectangle.TopLeft.ToVector2().ToOpenTK());
-                GLHelper.CheckError();
-                GL.Uniform2(_DrawImages_spriteSizeLocation, entry.DestinationRectangle.Size.ToVector2().ToOpenTK());
-                GLHelper.CheckError();
-                GL.Uniform4(_DrawImages_fragmentColorLocation, entry.Color.ToVector4().ToOpenTK());
-                GLHelper.CheckError();
+            entry.Texture.Apply();
 
-                entry.Texture.Apply();
+            GL.DrawElements(PrimitiveType.Triangles, _DrawImages_elementCount,
+                DrawElementsType.UnsignedShort, IntPtr.Zero);
+            GLHelper.CheckError();
 
-                GL.DrawElements(PrimitiveType.Triangles, _DrawImages_elementCount,
-                    DrawElementsType.UnsignedShort, IntPtr.Zero);
-                GLHelper.CheckError();
-
-                entry.Texture.UnApply();
-            }
-
+            entry.Texture.UnApply();
+        }
+        protected void DrawImages_End()
+        {
             GL.BindVertexArray(0);
             GLHelper.CheckError();
 
