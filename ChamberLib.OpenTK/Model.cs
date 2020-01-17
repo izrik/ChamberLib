@@ -73,8 +73,8 @@ namespace ChamberLib.OpenTK
             return Meshes;
         }
 
-        public void Draw(Matrix world, Matrix view, Matrix projection,
-                            Overrides overrides=null)
+        public void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
+                            Overrides overrides=default(Overrides))
         {
             if (!IsReady)
             {
@@ -85,7 +85,7 @@ namespace ChamberLib.OpenTK
 
             foreach (var mesh in Meshes)
             {
-                mesh.Draw(world, view, projection, lighting, overrides);
+                mesh.Draw(gameTime, world, view, projection, lighting, overrides);
             }
         }
 
@@ -141,12 +141,12 @@ namespace ChamberLib.OpenTK
         }
 
         public void SetBoneTransforms(Matrix[] boneTransforms,
-            Overrides overrides=null)
+            Overrides overrides=default(Overrides))
         {
             if (boneTransforms == null) throw new ArgumentNullException("boneTransforms");
 
             IEnumerable<IMaterial> materials;
-            if (overrides != null && overrides.Material != null)
+            if (overrides.Material != null)
             {
                 materials = new[] { overrides.Material };
             }

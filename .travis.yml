@@ -12,7 +12,7 @@ addons:
 script:
   - nuget restore ChamberLib.sln
   - xbuild /p:Configuration=Debug ChamberLib.sln
-  - nunit-console ./ChamberLibTests/bin/Debug/ChamberLibTests.dll
+  - mono ./packages/NUnit.ConsoleRunner.3.10.0/tools/nunit3-console.exe ./ChamberLibTests/bin/Debug/ChamberLibTests.dll
 
 branches:
   only:

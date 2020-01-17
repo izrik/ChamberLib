@@ -25,15 +25,15 @@ namespace ChamberLib.OpenTK
 
         public List<Part> Parts = new List<Part>();
 
-        public void Draw(Matrix world, Matrix view, Matrix projection,
+        public void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
                             LightingData lighting,
-                            Overrides overrides=null)
+                            Overrides overrides=default(Overrides))
         {
             if (!ParentModel.IsReady) ParentModel.MakeReady();
 
             foreach (var part in Parts)
             {
-                part.Draw(world, view, projection, lighting, overrides);
+                part.Draw(gameTime, world, view, projection, lighting, overrides);
             }
         }
 
@@ -112,14 +112,14 @@ namespace ChamberLib.OpenTK
 
         public RenderBundle RenderBundle;
 
-        public void Draw(Matrix world, Matrix view, Matrix projection,
+        public void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
                             LightingData lighting,
-                            Overrides overrides=null)
+                            Overrides overrides=default(Overrides))
         {
             IMaterial material = overrides.GetMaterial(Material);
             var lighting2 = overrides.GetLighting(lighting);
 
-            material.Apply(world, view, projection, lighting, overrides);
+            material.Apply(gameTime, world, view, projection, lighting, overrides);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount * 3, StartIndex, VertexOffset);
@@ -128,13 +128,13 @@ namespace ChamberLib.OpenTK
             material.UnApply();
         }
 
-        public void DrawWireframe(Matrix world, Matrix view,
+        public void DrawWireframe(GameTime gameTime, Matrix world, Matrix view,
             Matrix projection, LightingData lighting,
-            Overrides overrides=null)
+            Overrides overrides=default(Overrides))
         {
             var material = overrides.GetMaterial(Material);
 
-            material.Apply(world, view, projection, lighting);
+            material.Apply(gameTime, world, view, projection, lighting);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Lines, PrimitiveCount*2, StartIndex, VertexOffset);

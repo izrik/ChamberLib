@@ -74,7 +74,7 @@ namespace ChamberLib.OpenTK
         IShaderStage IShaderProgram.VertexShader { get { return VertexShader; } }
         IShaderStage IShaderProgram.FragmentShader { get { return FragmentShader; } }
 
-        public void Apply(Overrides overrides=null)
+        public void Apply(Overrides overrides=default(Overrides))
         {
             if (ProgramID <= 0)
             {

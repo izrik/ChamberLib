@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using OpenTK.Graphics.OpenGL;
 using ChamberLib.Content;
 
@@ -45,14 +45,23 @@ namespace ChamberLib.OpenTK
         public Vector3 EmissiveColor { get; set; }
         public Vector3 SpecularColor { get; set; }
         public float SpecularPower { get; set; }
+        private float _alpha;
         public float Alpha { get; set; }
+        public Func<GameTime, float> AlphaFunc { get; set; }
+        public float CalcAlpha(GameTime gameTime)
+        {
+            if (AlphaFunc != null)
+                return AlphaFunc(gameTime);
+
+            return Alpha;
+        }
         public ITexture2D Texture { get; set; }
 
         public IShaderProgram Shader { get; set; }
 
-        public void Apply(Matrix world, Matrix view, Matrix projection,
+        public void Apply(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
                             LightingData lighting,
-                            Overrides overrides=null)
+                            Overrides overrides=default(Overrides))
         {
             var shader = overrides.GetShaderProgram(Shader);
             LightingData lighting2 = overrides.GetLighting(lighting).Value;
@@ -70,7 +79,8 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("material_emissive_color", lighting2.EmissiveColor);
             Shader.SetUniform("material_specular_color", SpecularColor);
             Shader.SetUniform("material_specular_power", SpecularPower);
-            Shader.SetUniform("material_alpha", Alpha);
+            float alpha = overrides.GetAlpha(CalcAlpha(gameTime)); // TODO: reduce call to CalcAlpha when alpha is overridden.
+            Shader.SetUniform("material_alpha", alpha);
             Shader.SetUniform("light_ambient", lighting2.AmbientLightColor);
             if (lighting2.DirectionalLight != null)
             {

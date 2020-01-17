@@ -5,47 +5,87 @@ using System.Text;
 
 namespace ChamberLib
 {
-    public class Overrides
+    public struct Overrides
     {
-        public LightingData? Lighting;
-        public IMaterial Material;
-        public IShaderProgram ShaderProgram;
-        public IShaderStage VertexShader;
-        public IShaderStage FragmentShader;
-        public ShaderUniforms Uniforms;
-    }
+        public Overrides(
+            LightingData? lighting=null,
+            IMaterial material=null,
+            float? alpha=null,
+            IShaderProgram shaderProgram=null,
+            IShaderStage vertexShader=null,
+            IShaderStage fragmentShader=null,
+            ShaderUniforms uniforms=null)
+        {
+            this.Lighting = lighting;
+            this.Material = material;
+            this.Alpha = alpha;
+            this.ShaderProgram = shaderProgram;
+            this.VertexShader = vertexShader;
+            this.FragmentShader = fragmentShader;
+            this.Uniforms = uniforms ?? new ShaderUniforms();
+        }
 
-    public static class OverridesHelper
-    {
-        public static LightingData? GetLighting(this Overrides overrides, LightingData? defaultValue)
+        public static Overrides FromPrototype(
+            Overrides prototype,
+            LightingData? lighting = null,
+            IMaterial material = null,
+            float? alpha = null,
+            IShaderProgram shaderProgram = null,
+            IShaderStage vertexShader = null,
+            IShaderStage fragmentShader = null,
+            ShaderUniforms uniforms = null)
         {
-            if (overrides == null) return defaultValue;
-            return overrides.Lighting ?? defaultValue;
+            return new Overrides(
+                lighting: lighting ?? prototype.Lighting,
+                material: material ?? prototype.Material,
+                alpha: alpha ?? prototype.Alpha,
+                shaderProgram: shaderProgram ?? prototype.ShaderProgram,
+                vertexShader: vertexShader ?? prototype.VertexShader,
+                fragmentShader: fragmentShader ?? prototype.FragmentShader,
+                uniforms: uniforms ?? prototype.Uniforms);
         }
-        public static IMaterial GetMaterial(this Overrides overrides, IMaterial defaultValue)
+
+        public LightingData? Lighting;
+        public LightingData? GetLighting(LightingData? defaultValue)
         {
-            if (overrides == null) return defaultValue;
-            return overrides.Material ?? defaultValue;
+            return this.Lighting ?? defaultValue;
         }
-        public static IShaderProgram GetShaderProgram(this Overrides overrides, IShaderProgram defaultValue)
+
+        public IMaterial Material;
+        public IMaterial GetMaterial(IMaterial defaultValue)
         {
-            if (overrides == null) return defaultValue;
-            return overrides.ShaderProgram ?? defaultValue;
+            return this.Material ?? defaultValue;
         }
-        public static IShaderStage GetVertexShader(this Overrides overrides, IShaderStage defaultValue)
+        public float? Alpha;
+        public float GetAlpha(float defaultValue)
         {
-            if (overrides == null) return defaultValue;
-            return overrides.VertexShader ?? defaultValue;
+            if (this.Alpha.HasValue) return this.Alpha.Value;
+            if (this.Material == null) return defaultValue;
+            return this.Material.Alpha;
         }
-        public static IShaderStage GetFragmentShader(this Overrides overrides, IShaderStage defaultValue)
+
+        public IShaderProgram ShaderProgram;
+        public IShaderProgram GetShaderProgram(IShaderProgram defaultValue)
         {
-            if (overrides == null) return defaultValue;
-            return overrides.FragmentShader ?? defaultValue;
+            return this.ShaderProgram ?? defaultValue;
         }
-        public static ShaderUniforms GetUniforms(this Overrides overrides, ShaderUniforms defaultValue=null)
+
+        public IShaderStage VertexShader;
+        public IShaderStage GetVertexShader(IShaderStage defaultValue)
         {
-            if (overrides == null) return defaultValue;
-            return overrides.Uniforms ?? defaultValue;
+            return this.VertexShader ?? defaultValue;
+        }
+
+        public IShaderStage FragmentShader;
+        public IShaderStage GetFragmentShader(IShaderStage defaultValue)
+        {
+            return this.FragmentShader ?? defaultValue;
+        }
+
+        public ShaderUniforms Uniforms;
+        public ShaderUniforms GetUniforms(ShaderUniforms defaultValue = null)
+        {
+            return this.Uniforms ?? defaultValue;
         }
     }
 }
