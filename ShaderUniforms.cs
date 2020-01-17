@@ -116,7 +116,10 @@ namespace ChamberLib
 
         public IEnumerable<string> GetUniformNames()
         {
-            return entries.Keys;
+            foreach (var kvp in entries)
+            {
+                yield return kvp.Key;
+            }
         }
 
         public IEnumerator<ShaderUniforms.Entry> GetEnumerator()
