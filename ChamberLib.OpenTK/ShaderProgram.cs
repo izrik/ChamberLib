@@ -389,11 +389,13 @@ namespace ChamberLib.OpenTK
         {
             if (uniformsOverride != null)
             {
+                // performance
                 foreach (var name in uniformsOverride.GetUniformNames())
                 {
                     ApplyUniform(name, uniformsOverride);
                 }
             }
+            // performance
             foreach (var name in uniforms.GetUniformNames())
             {
                 ApplyUniform(name, uniformsOverride);

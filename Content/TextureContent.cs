@@ -9,6 +9,7 @@ namespace ChamberLib.Content
     {
         public TextureContent(Bitmap bitmap)
         {
+            // performance
             if (bitmap == null) throw new ArgumentNullException("bitmap");
 
             Width = bitmap.Width;

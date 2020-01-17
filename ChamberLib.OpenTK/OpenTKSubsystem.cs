@@ -197,7 +197,8 @@ namespace ChamberLib.OpenTK
                 base.OnUpdateFrame(e);
 
                 _totalSeconds += (float)e.Time;
-                _gameTime = 
+                _gameTime =
+                    // performance
                     new GameTime(
                         TimeSpan.FromSeconds(_totalSeconds),
                         TimeSpan.FromSeconds(e.Time));
