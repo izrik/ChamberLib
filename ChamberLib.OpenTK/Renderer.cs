@@ -74,7 +74,7 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
             GL.Enable(EnableCap.Blend);
             GLHelper.CheckError();
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             GLHelper.CheckError();
         }
     }
