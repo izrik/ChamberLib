@@ -198,7 +198,7 @@
   <ItemGroup>
     <None Include="ChamberLib.OpenTK\ChamberLib.OpenTK.nuspec" />
     <None Include="ChamberLib.OpenTK\packages.config" />
-    <None Include="LICENSE" />
+    <None Include="LICENSE.txt" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -211,6 +211,7 @@
     <None Include=".travis.yml" />
     <None Include="OpenTK.dll.config" />
     <None Include="build.sh" />
+    <None Include="RELEASING.md" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
