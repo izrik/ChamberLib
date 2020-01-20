@@ -211,6 +211,7 @@
     <None Include=".travis.yml" />
     <None Include="OpenTK.dll.config" />
     <None Include="build.sh" />
+    <None Include="RELEASING.md" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
