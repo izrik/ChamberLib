@@ -198,7 +198,7 @@
   <ItemGroup>
     <None Include="ChamberLib.OpenTK\ChamberLib.OpenTK.nuspec" />
     <None Include="ChamberLib.OpenTK\packages.config" />
-    <None Include="LICENSE" />
+    <None Include="LICENSE.txt" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
