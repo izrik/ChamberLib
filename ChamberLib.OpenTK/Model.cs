@@ -9,7 +9,7 @@ namespace ChamberLib.OpenTK
 {
     public class Model : IModel
     {
-        public Model(Content.ModelContent modelContent, Renderer renderer, IContentProcessor processor)
+        public Model(Content.ModelContent modelContent, IContentProcessor processor)
         {
             var resolver = new ContentResolver();
 

@@ -16,7 +16,7 @@ namespace ChamberLib.OpenTK
 
         public IModel ProcessModel(ModelContent asset, IContentProcessor processor = null)
         {
-            return new Model(asset, Renderer, processor);
+            return new Model(asset, processor);
         }
         public ITexture2D ProcessTexture2D(TextureContent asset, IContentProcessor processor = null)
         {
