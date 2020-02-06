@@ -7,13 +7,6 @@ namespace ChamberLib.OpenTK
 {
     public class OpenTKContentProcessor : IContentProcessor
     {
-        public OpenTKContentProcessor(Renderer renderer)
-        {
-            this.Renderer = renderer;
-        }
-
-        readonly Renderer Renderer;
-
         public IModel ProcessModel(ModelContent asset, IContentProcessor processor = null)
         {
             return new Model(asset, processor);

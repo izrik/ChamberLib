@@ -58,7 +58,7 @@ namespace ChamberLib.OpenTK
 
             var processor =
                 new CachingContentProcessor(
-                    new OpenTKContentProcessor(_renderer));
+                    new OpenTKContentProcessor());
 
             _content = new ContentManager(contentImporter, processor);
             _cachingContent = new CachingContentManager(_content);
