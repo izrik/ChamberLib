@@ -15,10 +15,35 @@ namespace ChamberLib.OpenTK
 
             _subsystem = subsystem;
 
-            _viewport = new Viewport(0, 0, _subsystem.Window.Width, _subsystem.Window.Height);
+            _viewport = new Viewport(0, 0, GetWidth(), GetHeight());
+        }
+        public Renderer(Func<int> widthSrc, Func<int> heightSrc)
+        {
+            if (widthSrc is null) throw new ArgumentNullException(nameof(widthSrc));
+            if (heightSrc is null) throw new ArgumentNullException(nameof(heightSrc));
+
+            _widthSrc = widthSrc;
+            _heightSrc = heightSrc;
+
+            _viewport = new Viewport(0, 0, GetWidth(), GetHeight());
         }
 
         readonly OpenTKSubsystem _subsystem;
+        readonly Func<int> _widthSrc;
+        readonly Func<int> _heightSrc;
+
+        protected int GetWidth()
+        {
+            if (_widthSrc != null)
+                return _widthSrc();
+            return _subsystem.Window.Width;
+        }
+        protected int GetHeight()
+        {
+            if (_heightSrc != null)
+                return _heightSrc();
+            return _subsystem.Window.Height;
+        }
 
         #region IRenderer implementation
 
@@ -54,7 +79,7 @@ namespace ChamberLib.OpenTK
         {
             _viewport = value;
 
-            var height = (windowed ? _subsystem.Window.Height : value.Height);
+            var height = (windowed ? GetHeight() : value.Height);
             var y = height - value.Y - value.Height;
 
             GL.Viewport(
