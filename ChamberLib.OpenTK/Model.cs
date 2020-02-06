@@ -11,8 +11,6 @@ namespace ChamberLib.OpenTK
     {
         public Model(Content.ModelContent modelContent, Renderer renderer, IContentProcessor processor)
         {
-            Renderer = renderer;
-
             var resolver = new ContentResolver();
 
             foreach (var ib in modelContent.IndexBuffers)
@@ -63,8 +61,6 @@ namespace ChamberLib.OpenTK
             this.Tag = modelContent.AnimationData;
             this.Filename = modelContent.Filename;
         }
-
-        public readonly Renderer Renderer;
 
         #region IModel implementation
 
