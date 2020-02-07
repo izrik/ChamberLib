@@ -123,6 +123,19 @@ namespace ChamberLib.OpenTK
                     new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 1),
                     new VertexAttribute(2, VertexAttribPointerType.Float, attributeIndex: 2));
             }
+            else if (vertexes[0] is Vertex_PBiBwNTC)
+            {
+                var size = Marshal.SizeOf(typeof(Vertex_PBiBwNTC));
+                var data = vertexes.Cast<Vertex_PBiBwNTC>().ToArray();
+
+                vb.SetVertexData(data, size,
+                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 0),
+                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 3),
+                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 4),
+                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 1),
+                    new VertexAttribute(2, VertexAttribPointerType.Float, attributeIndex: 2),
+                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 5));
+            }
             else
             if (vertexes[0] is Vertex_PN)
             {
@@ -141,6 +154,16 @@ namespace ChamberLib.OpenTK
                     new VertexAttribute(3, VertexAttribPointerType.Float),
                     new VertexAttribute(3, VertexAttribPointerType.Float),
                     new VertexAttribute(2, VertexAttribPointerType.Float));
+            }
+            else if (vertexes[0] is Vertex_PNTC)
+            {
+                var size = Marshal.SizeOf(typeof(Vertex_PNTC));
+                var data = vertexes.Cast<Vertex_PNTC>().ToArray();
+                vb.SetVertexData(data, size,
+                    new VertexAttribute(3, VertexAttribPointerType.Float),
+                    new VertexAttribute(3, VertexAttribPointerType.Float),
+                    new VertexAttribute(2, VertexAttribPointerType.Float),
+                    new VertexAttribute(4, VertexAttribPointerType.Float));
             }
             else
             if (vertexes[0] is Vertex_PNTT)

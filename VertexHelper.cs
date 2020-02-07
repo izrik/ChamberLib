@@ -110,6 +110,19 @@ namespace ChamberLib
             });
         }
 
+        public static Vertex_PBiBwNTC[] ConvertPBiBwNTC(this IVertex[] array)
+        {
+            return Array.ConvertAll<IVertex, Vertex_PBiBwNTC>(array, v => new Vertex_PBiBwNTC
+            {
+                Position = v.GetPosition(),
+                BlendIndices = v.GetBlendIndices(),
+                BlendWeights = v.GetBlendWeights(),
+                Normal = v.GetNormal(),
+                TextureCoords = v.GetTextureCoords(),
+                Color = v.GetColor(),
+            });
+        }
+
         public static Vertex_PN[] ConvertPN(this IVertex[] array)
         {
             return Array.ConvertAll<IVertex, Vertex_PN>(array, v => new Vertex_PN {
@@ -124,6 +137,17 @@ namespace ChamberLib
                 Position = v.GetPosition(),
                 Normal = v.GetNormal(),
                 TextureCoords = v.GetTextureCoords(),
+            });
+        }
+
+        public static Vertex_PNTC[] ConvertPNTC(this IVertex[] array)
+        {
+            return Array.ConvertAll<IVertex, Vertex_PNTC>(array, v => new Vertex_PNTC
+            {
+                Position = v.GetPosition(),
+                Normal = v.GetNormal(),
+                TextureCoords = v.GetTextureCoords(),
+                Color = v.GetColor(),
             });
         }
 

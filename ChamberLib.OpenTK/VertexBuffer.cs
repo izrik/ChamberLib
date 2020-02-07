@@ -82,8 +82,16 @@ namespace ChamberLib.OpenTK
                     BufferUsageHint.StaticDraw);
                 GLHelper.CheckError();
             }
-            else
-            if (VertexData[0] is Vertex_PN)
+            else if (VertexData[0] is Vertex_PBiBwNTC)
+            {
+                Vertex_PBiBwNTC[] vertexArray = VertexData.ConvertPBiBwNTC();
+                GL.BufferData<Vertex_PBiBwNTC>(BufferTarget.ArrayBuffer,
+                    new IntPtr(VertexData.Length * VertexSizeInBytes),
+                    vertexArray,
+                    BufferUsageHint.StaticDraw);
+                GLHelper.CheckError();
+            }
+            else if (VertexData[0] is Vertex_PN)
             {
                 Vertex_PN[] vertexArray = VertexData.ConvertPN();
                 GL.BufferData<Vertex_PN>(BufferTarget.ArrayBuffer,
@@ -97,6 +105,15 @@ namespace ChamberLib.OpenTK
             {
                 Vertex_PNT[] vertexArray = VertexData.ConvertPNT();
                 GL.BufferData<Vertex_PNT>(BufferTarget.ArrayBuffer,
+                    new IntPtr(VertexData.Length * VertexSizeInBytes),
+                    vertexArray,
+                    BufferUsageHint.StaticDraw);
+                GLHelper.CheckError();
+            }
+            else if (VertexData[0] is Vertex_PNTC)
+            {
+                Vertex_PNTC[] vertexArray = VertexData.ConvertPNTC();
+                GL.BufferData<Vertex_PNTC>(BufferTarget.ArrayBuffer,
                     new IntPtr(VertexData.Length * VertexSizeInBytes),
                     vertexArray,
                     BufferUsageHint.StaticDraw);
@@ -164,6 +181,28 @@ namespace ChamberLib.OpenTK
                     new VertexAttribute(3, VertexAttribPointerType.Float),
                     new VertexAttribute(2, VertexAttribPointerType.Float),
                     new VertexAttribute(2, VertexAttribPointerType.Float));
+            }
+
+            if (vertexes[0] is Vertex_PBiBwNTC)
+            {
+                var size = Marshal.SizeOf(typeof(Vertex_PBiBwNTC));
+                return new VertexBuffer(vertexes, size,
+                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 0),
+                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 3),
+                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 4),
+                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 1),
+                    new VertexAttribute(2, VertexAttribPointerType.Float, attributeIndex: 2),
+                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 5));
+            }
+
+            if (vertexes[0] is Vertex_PNTC)
+            {
+                var size = Marshal.SizeOf(typeof(Vertex_PNTC));
+                return new VertexBuffer(vertexes, size,
+                    new VertexAttribute(3, VertexAttribPointerType.Float),
+                    new VertexAttribute(3, VertexAttribPointerType.Float),
+                    new VertexAttribute(2, VertexAttribPointerType.Float),
+                    new VertexAttribute(4, VertexAttribPointerType.Float));
             }
 
             throw new InvalidOperationException();
