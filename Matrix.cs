@@ -112,19 +112,20 @@ namespace ChamberLib
 
         public static Matrix CreateScale(float s)
         {
-            return new Matrix(
-                s, 0, 0, 0,
-                0, s, 0, 0,
-                0, 0, s, 0,
-                0, 0, 0, 1);
+            return CreateScale(s, s, s);
         }
 
         public static Matrix CreateScale(Vector3 s)
         {
+            return CreateScale(s.X, s.Y, s.Z);
+        }
+
+        public static Matrix CreateScale(float x, float y, float z)
+        {
             return new Matrix(
-                s.X, 0, 0, 0,
-                0, s.Y, 0, 0,
-                0, 0, s.Z, 0,
+                x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, z, 0,
                 0, 0, 0, 1);
         }
 
