@@ -20,17 +20,6 @@ namespace ChamberLib
             FarBottomLeft = inv.TransformHomogeneous(new Vector4(-1, -1, 1, 1));
             FarBottomRight = inv.TransformHomogeneous(new Vector4(1, -1, 1, 1));
 
-            Corners = new[] {
-                NearTopLeft,
-                NearTopRight,
-                NearBottomLeft,
-                NearBottomRight,
-                FarTopLeft,
-                FarTopRight,
-                FarBottomLeft,
-                FarBottomRight,
-            };
-
             Top =       Plane.FromPoints(NearTopLeft     ,  NearTopRight    ,  FarTopLeft       );
             Bottom =    Plane.FromPoints(NearBottomLeft  ,  FarBottomLeft   ,  NearBottomRight  );
             Left =      Plane.FromPoints(NearTopLeft     ,  FarBottomLeft   ,  NearBottomLeft   );
@@ -56,8 +45,6 @@ namespace ChamberLib
         public readonly Vector3 FarTopRight;
         public readonly Vector3 FarBottomLeft;
         public readonly Vector3 FarBottomRight;
-
-        public readonly Vector3[] Corners;
 
         public ContainmentType Contains(Sphere s)
         {
