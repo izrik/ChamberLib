@@ -89,7 +89,12 @@ namespace ChamberLib.OpenTK
             _DrawLines3D_indexBuffer.SetIndexData(Enumerable.Range(0, vertexes.Length).Select(i => (ushort)i).ToArray());
         }
 
-        public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> vs)
+        _OpenTK.Vector3[] __DrawLines_3d_opentk_points;
+        public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3[] vs)
+        {
+            DrawLines(color, world, view, projection, vs, vs.Length);
+        }
+        public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3[] vs, int numPoints)
         {
             if (!_DrawLines3D_isReady)
             {
@@ -98,7 +103,16 @@ namespace ChamberLib.OpenTK
 
             Reset3D();
 
-            var list = vs.ToList();
+            if (__DrawLines_3d_opentk_points == null ||
+                __DrawLines_3d_opentk_points.Length < numPoints)
+            {
+                __DrawLines_3d_opentk_points = new _OpenTK.Vector3[numPoints];
+            }
+            int i;
+            for (i = 0; i < numPoints; i++)
+            {
+                __DrawLines_3d_opentk_points[i] = vs[i].ToOpenTK();
+            }
 
             _DrawLines3D_shader.Apply();
             GLHelper.CheckError();
@@ -109,10 +123,10 @@ namespace ChamberLib.OpenTK
             GL.Uniform4(_DrawLines3D_fragmentColorLocation, color.ToVector4(1).ToOpenTK());
             GLHelper.CheckError();
 
-            _DrawLines3D_SetVertices(list.Select(v => v.ToOpenTK()).ToArray());
+            _DrawLines3D_SetVertices(__DrawLines_3d_opentk_points);
 
             _DrawLines3D_renderData.Apply();
-            _DrawLines3D_renderData.Draw(PrimitiveType.LineStrip, list.Count, 0);
+            _DrawLines3D_renderData.Draw(PrimitiveType.LineStrip, numPoints, 0);
             _DrawLines3D_renderData.UnApply();
 
             _DrawLines3D_shader.UnApply();
