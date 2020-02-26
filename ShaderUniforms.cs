@@ -23,11 +23,6 @@ namespace ChamberLib
 
         protected readonly Dictionary<string, Entry> entries = new Dictionary<string, Entry>();
 
-        public Entry GetEntry(string name)
-        {
-            return entries[name];
-        }
-
         public ShaderUniformType GetType(string name)
         {
             return entries[name].Type;
