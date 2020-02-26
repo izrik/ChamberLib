@@ -39,6 +39,60 @@ namespace ChamberLib
                 return entries[name].Value;
             return null;
         }
+
+        public bool GetValueBool(string name)
+        {
+            return (bool)entries[name].Value;
+        }
+        public byte GetValueByte(string name)
+        {
+            return (byte)entries[name].Value;
+        }
+        public sbyte GetValueSByte(string name)
+        {
+            return (sbyte)entries[name].Value;
+        }
+        public short GetValueShort(string name)
+        {
+            return (short)entries[name].Value;
+        }
+        public ushort GetValueUShort(string name)
+        {
+            return (ushort)entries[name].Value;
+        }
+        public int GetValueInt(string name)
+        {
+            return (int)entries[name].Value;
+        }
+        public uint GetValueUInt(string name)
+        {
+            return (uint)entries[name].Value;
+        }
+        public float GetValueSingle(string name)
+        {
+            return (float)entries[name].Value;
+        }
+        public double GetValueDouble(string name)
+        {
+            return (double)entries[name].Value;
+        }
+        public Vector2 GetValueVector2(string name)
+        {
+            return (Vector2)entries[name].Value;
+        }
+        public Vector3 GetValueVector3(string name)
+        {
+            return (Vector3)entries[name].Value;
+        }
+        public Vector4 GetValueVector4(string name)
+        {
+            return (Vector4)entries[name].Value;
+        }
+        public Matrix GetValueMatrix(string name)
+        {
+            return (Matrix)entries[name].Value;
+        }
+
         public void SetValue(string name, bool value)
         {
             entries[name] = new Entry(name, ShaderUniformType.Bool, value);
