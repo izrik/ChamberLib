@@ -28,7 +28,7 @@ namespace ChamberLib
             return entries[name];
         }
 
-        public bool ContainsKey(string name)
+        public bool ContainsName(string name)
         {
             return entries.ContainsKey(name);
         }

@@ -409,7 +409,7 @@ namespace ChamberLib.OpenTK
         {
             ShaderUniforms.Entry entry;
             if (uniformsOverride != null &&
-                uniformsOverride.ContainsKey(name))
+                uniformsOverride.ContainsName(name))
             {
                 entry = uniformsOverride.GetEntry(name);
             }
