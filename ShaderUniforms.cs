@@ -92,28 +92,6 @@ namespace ChamberLib
             entries[name] = new Entry(name, ShaderUniformType.Matrix, value);
         }
 
-        public static ShaderUniformType GetTypeFromValue(object value)
-        {
-            if (value == null) throw new ArgumentNullException("value");
-
-            var type = value.GetType();
-            if (type == typeof(bool)) return ShaderUniformType.Bool;
-            if (type == typeof(byte)) return ShaderUniformType.Byte;
-            if (type == typeof(sbyte)) return ShaderUniformType.SByte;
-            if (type == typeof(short)) return ShaderUniformType.Byte;
-            if (type == typeof(ushort)) return ShaderUniformType.UShort;
-            if (type == typeof(int)) return ShaderUniformType.Int;
-            if (type == typeof(uint)) return ShaderUniformType.UInt;
-            if (type == typeof(float)) return ShaderUniformType.Single;
-            if (type == typeof(double)) return ShaderUniformType.Double;
-            if (type == typeof(Vector2)) return ShaderUniformType.Vector2;
-            if (type == typeof(Vector2)) return ShaderUniformType.Vector3;
-            if (type == typeof(Vector4)) return ShaderUniformType.Vector4;
-            if (type == typeof(Matrix)) return ShaderUniformType.Matrix;
-
-            throw new ArgumentException("The value's type is not supported: " + type.FullName, "value");
-        }
-
         public IEnumerable<string> GetUniformNames()
         {
             return entries.Keys;
