@@ -269,7 +269,7 @@ namespace ChamberLib
             }
         }
 
-        public IEnumerable<string> GetUniformNames()
+        public Dictionary<string, Entry>.KeyCollection GetUniformNames()
         {
             return entries.Keys;
         }
