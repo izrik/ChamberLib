@@ -22,7 +22,7 @@ namespace ChamberLib
             this.ShaderProgram = shaderProgram;
             this.VertexShader = vertexShader;
             this.FragmentShader = fragmentShader;
-            this.Uniforms = uniforms ?? new ShaderUniforms();
+            this.Uniforms = uniforms;
         }
 
         public static Overrides FromPrototype(
