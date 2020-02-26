@@ -149,6 +149,16 @@ namespace ChamberLib.OpenTK
             }
         }
 
+        static List<string> boneNames = new List<string>();
+        static string GetBoneUniformName(int i)
+        {
+            int j;
+            for (j = boneNames.Count; j <= i; j++)
+            {
+                boneNames.Add(string.Format("bones[{0}]", j));
+            }
+            return boneNames[i];
+        }
         public void SetBoneTransforms(Matrix[] boneTransforms,
             Overrides overrides=default(Overrides))
         {
@@ -169,7 +179,7 @@ namespace ChamberLib.OpenTK
                 int i;
                 for (i = 0; i < boneTransforms.Length; i++)
                 {
-                    var name = string.Format("bones[{0}]", i);
+                    var name = GetBoneUniformName(i);
                     material.Shader.SetUniform(name, boneTransforms[i]);
                 }
             }
