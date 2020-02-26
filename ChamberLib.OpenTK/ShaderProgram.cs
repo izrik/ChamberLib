@@ -91,11 +91,11 @@ namespace ChamberLib.OpenTK
                     (ShaderStage)vertexShader,
                     (ShaderStage)fragmentShader);
 
-                effectiveProgram.ApplyBase(overrides.GetUniforms());
+                effectiveProgram.ApplyBase(overrides.GetUniforms(uniforms));
             }
             else
             {
-                ApplyBase(overrides.GetUniforms());
+                ApplyBase(overrides.GetUniforms(uniforms));
             }
         }
 
