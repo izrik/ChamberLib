@@ -400,11 +400,6 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        public object GetUniformValue(string name)
-        {
-            return uniforms.GetValue(name);
-        }
-
         protected void ApplyUniform(string name, ShaderUniforms uniformsOverride=null)
         {
             ShaderUniforms source = uniforms;

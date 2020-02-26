@@ -33,13 +33,6 @@ namespace ChamberLib
             return entries.ContainsKey(name);
         }
 
-        public object GetValue(string name)
-        {
-            if (entries.ContainsKey(name))
-                return entries[name].Value;
-            return null;
-        }
-
         public bool GetValueBool(string name)
         {
             return (bool)entries[name].Value;
