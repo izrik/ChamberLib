@@ -17,7 +17,6 @@ namespace ChamberLib.OpenTK
             {
                 this.Parts.Add(new Part(part, resolver));
             }
-            ParentBone = resolver.Bones[mesh.ParentBone];
             Name = mesh.Name;
         }
 
@@ -75,8 +74,6 @@ namespace ChamberLib.OpenTK
                 throw new NotImplementedException();
             }
         }
-
-        public IBone ParentBone { get; set; }
 
         public string Name { get; set; }
 

@@ -251,7 +251,6 @@ namespace ChamberLib.OpenTK
         void WriteMesh(TextWriter writer, Mesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Material> materials)
         {
             writer.WriteLine("mesh name");//mesh.Name);
-            writer.WriteLine(mesh.ParentBone != null ? model.Bones.IndexOf((Bone)mesh.ParentBone) : -1);
             writer.WriteLine("MeshParts {0}", mesh.Parts.Count);
             foreach (var part in mesh.Parts)
             {
