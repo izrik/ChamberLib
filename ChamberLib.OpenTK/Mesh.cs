@@ -96,7 +96,6 @@ namespace ChamberLib.OpenTK
             this.StartIndex = part.StartIndex;
             this.PrimitiveCount = part.PrimitiveCount;
             this.VertexOffset = part.VertexOffset;
-            this.NumVertexes = part.NumVertexes;
         }
 
         public IndexBuffer Indexes;
@@ -104,7 +103,6 @@ namespace ChamberLib.OpenTK
         public int StartIndex;
         public int PrimitiveCount;
         public int VertexOffset;
-        public int NumVertexes;
         public Material Material;
 
         public RenderBundle RenderBundle;

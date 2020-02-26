@@ -9,9 +9,7 @@ namespace ChamberLib.Content
         public int StartIndex;
         public int PrimitiveCount;
         public int VertexOffset;
-        public int NumVertexes;
         public MaterialContent Material;
-
     }
 }
 

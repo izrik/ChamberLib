@@ -267,7 +267,6 @@ namespace ChamberLib.Content
                 Indexes = ibuffers[indexBufferIndex],
                 StartIndex = startIndex,
                 VertexOffset = vertexOffset,
-                NumVertexes = numvertices,
                 PrimitiveCount = primCount,
                 Material = (materialIndex >= 0 ? materials[materialIndex] : null),
             };

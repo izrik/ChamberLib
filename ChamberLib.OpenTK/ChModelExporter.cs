@@ -262,7 +262,6 @@ namespace ChamberLib.OpenTK
         {
             writer.WriteLine(part.Material != null ? materials.IndexOf(part.Material) : -1);
             writer.WriteLine(part.Indexes != null ? ibuffers.IndexOf(part.Indexes) : -1);
-            writer.WriteLine(part.NumVertexes);
             writer.WriteLine(part.PrimitiveCount);
             writer.WriteLine(part.StartIndex);
             writer.WriteLine(part.Vertexes != null ? vbuffers.IndexOf(part.Vertexes) : -1);
