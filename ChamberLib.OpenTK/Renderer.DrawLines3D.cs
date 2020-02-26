@@ -83,10 +83,26 @@ namespace ChamberLib.OpenTK
             _DrawLines3D_isReady = true;
         }
 
-        static void _DrawLines3D_SetVertices(_OpenTK.Vector3[] vertexes)
+        ushort[] __DrawLines3D_indexes;
+        void _DrawLines3D_SetVertices(_OpenTK.Vector3[] vertexes)
         {
+            if (__DrawLines3D_indexes == null)
+            {
+                __DrawLines3D_indexes = new ushort[4] { 0, 1, 2, 3 };
+            }
+            if (__DrawLines3D_indexes.Length < vertexes.Length)
+            {
+                var temp = new ushort[__DrawLines3D_indexes.Length * 2];
+                int i;
+                for (i = 0; i < temp.Length; i++)
+                {
+                    temp[i] = (ushort)i;
+                }
+                __DrawLines3D_indexes = temp;
+            }
+
             _DrawLines3D_vertexBuffer.SetVertexData(vertexes, _OpenTK.Vector3.SizeInBytes, VertexAttribPointerType.Float, 3);
-            _DrawLines3D_indexBuffer.SetIndexData(Enumerable.Range(0, vertexes.Length).Select(i => (ushort)i).ToArray());
+            _DrawLines3D_indexBuffer.SetIndexData(__DrawLines3D_indexes, vertexes.Length);
         }
 
         _OpenTK.Vector3[] __DrawLines_3d_opentk_points;
