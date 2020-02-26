@@ -87,11 +87,6 @@ namespace ChamberLib
 
             return (intersecting ? ContainmentType.Intersects : ContainmentType.Contains);
         }
-
-        public Vector3[] GetCorners()
-        {
-            return Corners;
-        }
     }
 }
 
