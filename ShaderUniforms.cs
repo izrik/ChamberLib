@@ -28,6 +28,11 @@ namespace ChamberLib
             return entries[name];
         }
 
+        public ShaderUniformType GetType(string name)
+        {
+            return entries[name].Type;
+        }
+
         public bool ContainsName(string name)
         {
             return entries.ContainsKey(name);
