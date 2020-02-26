@@ -61,7 +61,14 @@ namespace ChamberLib
 
         public ContainmentType Contains(Sphere s)
         {
-            var center = Corners.Aggregate((a, b) => a + b) / Corners.Length;
+            var center = (NearTopLeft +
+                            NearTopRight +
+                            NearBottomLeft +
+                            NearBottomRight +
+                            FarTopLeft +
+                            FarTopRight +
+                            FarBottomLeft +
+                            FarBottomRight) / 8;
             bool intersecting = false;
             foreach (var p in new[] { Top, Bottom, Left, Right, Near, Far })
             {
