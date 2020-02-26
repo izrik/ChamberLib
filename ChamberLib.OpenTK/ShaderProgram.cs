@@ -407,18 +407,14 @@ namespace ChamberLib.OpenTK
 
         protected void ApplyUniform(string name, ShaderUniforms uniformsOverride=null)
         {
-            ShaderUniforms.Entry entry;
+            ShaderUniforms source = uniforms;
             if (uniformsOverride != null &&
                 uniformsOverride.ContainsName(name))
             {
-                entry = uniformsOverride.GetEntry(name);
+                source = uniformsOverride;
             }
-            else
-            {
-                entry = uniforms.GetEntry(name);
-            }
-            var value = entry.Value;
-            var type = entry.Type;
+            var value = source.GetValue(name);
+            var type = source.GetType(name);
             var location = GetUniformLocation(name);
 
             switch (type)
