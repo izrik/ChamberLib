@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ChamberLib
 {
-    public class ShaderUniforms : IEnumerable<ShaderUniforms.Entry>
+    public class ShaderUniforms
     {
         public struct Entry
         {
@@ -117,16 +117,6 @@ namespace ChamberLib
         public IEnumerable<string> GetUniformNames()
         {
             return entries.Keys;
-        }
-
-        public IEnumerator<ShaderUniforms.Entry> GetEnumerator()
-        {
-            return entries.Values.GetEnumerator();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }
