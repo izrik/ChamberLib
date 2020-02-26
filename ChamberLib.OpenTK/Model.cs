@@ -64,9 +64,14 @@ namespace ChamberLib.OpenTK
 
         #region IModel implementation
 
-        public System.Collections.Generic.IEnumerable<IMesh> GetMeshes()
+        public List<Mesh> GetMeshes()
         {
             return Meshes;
+        }
+
+        IEnumerable<IMesh> IModel.GetMeshes()
+        {
+            return GetMeshes();
         }
 
         public void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
