@@ -413,7 +413,6 @@ namespace ChamberLib.OpenTK
             {
                 source = uniformsOverride;
             }
-            var value = source.GetValue(name);
             var type = source.GetType(name);
             var location = GetUniformLocation(name);
 
