@@ -17,7 +17,8 @@ namespace ChamberLib.OpenTK
         static RenderBundle _DrawLines3D_renderData;
         static MutableVertexBuffer _DrawLines3D_vertexBuffer;
         static MutableIndexBuffer _DrawLines3D_indexBuffer;
-
+        static readonly VertexAttribute[] __DrawLines3D_vattr = new[]{
+            new VertexAttribute(3, VertexAttribPointerType.Float)};
         static void _DrawLines3D_MakeReady()
         {
             /*
@@ -74,8 +75,7 @@ namespace ChamberLib.OpenTK
             _DrawLines3D_vertexBuffer.SetVertexData(
                 vertexes,
                 _OpenTK.Vector3.SizeInBytes,
-                VertexAttribPointerType.Float,
-                3);
+                __DrawLines3D_vattr);
             _DrawLines3D_indexBuffer = new MutableIndexBuffer();
             _DrawLines3D_indexBuffer.SetIndexData(indexes);
             _DrawLines3D_renderData = new RenderBundle(_DrawLines3D_vertexBuffer, _DrawLines3D_indexBuffer);
@@ -101,7 +101,7 @@ namespace ChamberLib.OpenTK
                 __DrawLines3D_indexes = temp;
             }
 
-            _DrawLines3D_vertexBuffer.SetVertexData(vertexes, _OpenTK.Vector3.SizeInBytes, VertexAttribPointerType.Float, 3);
+            _DrawLines3D_vertexBuffer.SetVertexData(vertexes, _OpenTK.Vector3.SizeInBytes, __DrawLines3D_vattr);
             _DrawLines3D_indexBuffer.SetIndexData(__DrawLines3D_indexes, vertexes.Length);
         }
 

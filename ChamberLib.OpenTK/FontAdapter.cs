@@ -133,13 +133,13 @@ namespace ChamberLib.OpenTK
 
         }
 
+        static readonly VertexAttribute[] __MakeReady_vattr = new[] {
+            new VertexAttribute(2, VertexAttribPointerType.Float)};
         static void MakeReady()
         {
             _OpenTK.Vector2[] vertexData = Vertexes.Select(v => v.ToOpenTK()).ToArray();
             int vertexSizeInBytes = _OpenTK.Vector2.SizeInBytes;
             short[] indexData = Indexes;
-            VertexAttribPointerType vertexAttributeComponentType = VertexAttribPointerType.Float;
-            int numVertexAttributeComponents = 2;
 
             /*
              * Shader
@@ -179,8 +179,7 @@ namespace ChamberLib.OpenTK
             vertexBuffer.SetVertexData(
                 vertexData,
                 vertexSizeInBytes,
-                vertexAttributeComponentType,
-                numVertexAttributeComponents);
+                __MakeReady_vattr);
             indexBuffer = new IndexBuffer(indexData);
             renderData = new RenderBundle(vertexBuffer, indexBuffer);
 

@@ -18,7 +18,8 @@ namespace ChamberLib.OpenTK
         static RenderBundle _DrawLines2D_renderData;
         static MutableVertexBuffer _DrawLines2D_vertexData;
         static MutableIndexBuffer _DrawLines2D_indexData;
-
+        static readonly VertexAttribute[] __DrawLines2D_vattr = new[] {
+            new VertexAttribute(3, VertexAttribPointerType.Float)};
         static void _DrawLines2D_MakeReady()
         {
             /*
@@ -77,8 +78,7 @@ namespace ChamberLib.OpenTK
             _DrawLines2D_vertexData.SetVertexData(
                 vertexes,
                 _OpenTK.Vector3.SizeInBytes,
-                VertexAttribPointerType.Float,
-                3);
+                __DrawLines2D_vattr);
             _DrawLines2D_indexData = new MutableIndexBuffer();
             _DrawLines2D_indexData.SetIndexData(indexes);
             _DrawLines2D_renderData = new RenderBundle(_DrawLines2D_vertexData, _DrawLines2D_indexData);
@@ -88,7 +88,7 @@ namespace ChamberLib.OpenTK
 
         static void _DrawLines2D_SetVertices(_OpenTK.Vector3[] vertexes)
         {
-            _DrawLines2D_vertexData.SetVertexData(vertexes, _OpenTK.Vector3.SizeInBytes, VertexAttribPointerType.Float, 3);
+            _DrawLines2D_vertexData.SetVertexData(vertexes, _OpenTK.Vector3.SizeInBytes, __DrawLines2D_vattr);
             _DrawLines2D_indexData.SetIndexData(Enumerable.Range(0, vertexes.Length).Select(i => (ushort)i).ToArray());
         }
 

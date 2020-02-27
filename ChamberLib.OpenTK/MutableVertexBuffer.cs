@@ -16,21 +16,7 @@ namespace ChamberLib.OpenTK
         public void SetVertexData<T>(
             T[] vertexData,
             int vertexSizeInBytes,
-            VertexAttribPointerType vertexAttributeComponentType,
-            int numVertexAttributeComponents)
-            where T : struct
-        {
-            SetVertexData(
-                vertexData,
-                vertexSizeInBytes,
-                new VertexAttribute(
-                    numVertexAttributeComponents,
-                    vertexAttributeComponentType));
-        }
-        public void SetVertexData<T>(
-            T[] vertexData,
-            int vertexSizeInBytes,
-            params VertexAttribute[] attributes)
+            VertexAttribute[] attributes)
             where T : struct
         {
             if (!IsReady)
@@ -107,6 +93,36 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
         }
 
+        static readonly VertexAttribute[] __FromArray_attirbutes_PBiBwNT = new [] {
+            new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 0),
+            new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 3),
+            new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 4),
+            new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 1),
+            new VertexAttribute(2, VertexAttribPointerType.Float, attributeIndex: 2)};
+        static readonly VertexAttribute[] __FromArray_attirbutes_PBiBwNTC = new[] {
+            new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 0),
+            new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 3),
+            new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 4),
+            new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 1),
+            new VertexAttribute(2, VertexAttribPointerType.Float, attributeIndex: 2),
+            new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 5)};
+        static readonly VertexAttribute[] __FromArray_attirbutes_PN = new[] {
+            new VertexAttribute(3, VertexAttribPointerType.Float),
+            new VertexAttribute(3, VertexAttribPointerType.Float)};
+        static readonly VertexAttribute[] __FromArray_attirbutes_PNT = new[] {
+            new VertexAttribute(3, VertexAttribPointerType.Float),
+            new VertexAttribute(3, VertexAttribPointerType.Float),
+            new VertexAttribute(2, VertexAttribPointerType.Float) };
+        static readonly VertexAttribute[] __FromArray_attirbutes_PNTC = new[] {
+            new VertexAttribute(3, VertexAttribPointerType.Float),
+            new VertexAttribute(3, VertexAttribPointerType.Float),
+            new VertexAttribute(2, VertexAttribPointerType.Float),
+            new VertexAttribute(4, VertexAttribPointerType.Float) };
+        static readonly VertexAttribute[] __FromArray_attirbutes_PNTT = new[] {
+            new VertexAttribute(3, VertexAttribPointerType.Float),
+            new VertexAttribute(3, VertexAttribPointerType.Float),
+            new VertexAttribute(2, VertexAttribPointerType.Float),
+            new VertexAttribute(2, VertexAttribPointerType.Float) };
         public static MutableVertexBuffer FromArray(IVertex[] vertexes)
         {
             var vb = new MutableVertexBuffer();
@@ -116,65 +132,41 @@ namespace ChamberLib.OpenTK
                 var size = Marshal.SizeOf(typeof(Vertex_PBiBwNT));
                 var data = vertexes.Cast<Vertex_PBiBwNT>().ToArray();
 
-                vb.SetVertexData(data, size,
-                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 0),
-                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 3),
-                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 4),
-                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 1),
-                    new VertexAttribute(2, VertexAttribPointerType.Float, attributeIndex: 2));
+                vb.SetVertexData(data, size, __FromArray_attirbutes_PBiBwNT);
             }
             else if (vertexes[0] is Vertex_PBiBwNTC)
             {
                 var size = Marshal.SizeOf(typeof(Vertex_PBiBwNTC));
                 var data = vertexes.Cast<Vertex_PBiBwNTC>().ToArray();
 
-                vb.SetVertexData(data, size,
-                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 0),
-                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 3),
-                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 4),
-                    new VertexAttribute(3, VertexAttribPointerType.Float, attributeIndex: 1),
-                    new VertexAttribute(2, VertexAttribPointerType.Float, attributeIndex: 2),
-                    new VertexAttribute(4, VertexAttribPointerType.Float, attributeIndex: 5));
+                vb.SetVertexData(data, size, __FromArray_attirbutes_PBiBwNTC);
             }
             else
             if (vertexes[0] is Vertex_PN)
             {
                 var size = Marshal.SizeOf(typeof(Vertex_PN));
                 var data = vertexes.Cast<Vertex_PN>().ToArray();
-                vb.SetVertexData(data, size,
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(3, VertexAttribPointerType.Float));
+                vb.SetVertexData(data, size, __FromArray_attirbutes_PN);
             }
             else
             if (vertexes[0] is Vertex_PNT)
             {
                 var size = Marshal.SizeOf(typeof(Vertex_PNT));
                 var data = vertexes.Cast<Vertex_PNT>().ToArray();
-                vb.SetVertexData(data, size,
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(2, VertexAttribPointerType.Float));
+                vb.SetVertexData(data, size, __FromArray_attirbutes_PNT);
             }
             else if (vertexes[0] is Vertex_PNTC)
             {
                 var size = Marshal.SizeOf(typeof(Vertex_PNTC));
                 var data = vertexes.Cast<Vertex_PNTC>().ToArray();
-                vb.SetVertexData(data, size,
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(2, VertexAttribPointerType.Float),
-                    new VertexAttribute(4, VertexAttribPointerType.Float));
+                vb.SetVertexData(data, size, __FromArray_attirbutes_PNTC);
             }
             else
             if (vertexes[0] is Vertex_PNTT)
             {
                 var size = Marshal.SizeOf(typeof(Vertex_PNTT));
                 var data = vertexes.Cast<Vertex_PNTT>().ToArray();
-                vb.SetVertexData(data, size, 
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(3, VertexAttribPointerType.Float),
-                    new VertexAttribute(2, VertexAttribPointerType.Float),
-                    new VertexAttribute(2, VertexAttribPointerType.Float));
+                vb.SetVertexData(data, size, __FromArray_attirbutes_PNTT);
             }
             else
             {
