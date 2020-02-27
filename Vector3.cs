@@ -2,7 +2,7 @@
 
 namespace ChamberLib
 {
-    public struct Vector3 : IFormattable
+    public struct Vector3 : IFormattable, IEquatable<Vector3>
     {
         public Vector3(float x, float y, float z)
         {
