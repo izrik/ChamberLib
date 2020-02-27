@@ -17,7 +17,6 @@ namespace ChamberLib
                         Vector2 origin,
                         float scaleX, float scaleY);
 
-        void DrawImage(ITexture2D texture, RectangleI destinationRectangle, Color color);
         void DrawImages(params DrawImagesEntry[] entries);
 
         void Clear(Color color);
