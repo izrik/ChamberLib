@@ -22,6 +22,9 @@ namespace ChamberLib
             Sequences = sequences;
             Transforms = transforms.ToArray();
             AbsoluteTransforms = absoluteTransforms.ToArray();
+
+            // TODO: check for cycles
+            // TODO: make sure it's monotonic increasing, or create a lookup table
             SkeletonHierarchy = skeletonHierarchy.ToArray();
         }
     }
