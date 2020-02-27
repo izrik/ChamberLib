@@ -50,9 +50,12 @@ namespace ChamberLib
 
     public static class RendererHelper
     {
+        static readonly Vector3[] __DrawLine_points = new Vector3[2];
         public static void DrawLine(this IRenderer renderer, Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3 p1, Vector3 p2)
         {
-            renderer.DrawLines(color, world, view, projection, new [] { p1, p2 });
+            __DrawLine_points[0] = p1;
+            __DrawLine_points[1] = p2;
+            renderer.DrawLines(color, world, view, projection, __DrawLine_points);
         }
     }
 
