@@ -2,7 +2,7 @@
 
 namespace ChamberLib
 {
-    public class GameTime
+    public struct GameTime
     {
         public GameTime(TimeSpan totalGameTime=default(TimeSpan), TimeSpan elapsedGameTime=default(TimeSpan))
         {
