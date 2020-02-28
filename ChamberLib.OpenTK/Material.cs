@@ -68,7 +68,7 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("world", world);
             Shader.SetUniform("use_texture", (Texture != null));
             Shader.SetUniform("material_diffuse_color", Diffuse);
-            Shader.SetUniform("material_emissive_color", lighting2.EmissiveColor);
+            Shader.SetUniform("material_emissive_color", EmissiveColor);
             Shader.SetUniform("material_specular_color", SpecularColor);
             Shader.SetUniform("material_specular_power", SpecularPower);
             float alpha = overrides.GetAlpha(Alpha);
