@@ -8,7 +8,6 @@ namespace ChamberLib
     public struct Overrides
     {
         public Overrides(
-            LightingData? lighting=null,
             IMaterial material=null,
             float? alpha=null,
             IShaderProgram shaderProgram=null,
@@ -17,7 +16,6 @@ namespace ChamberLib
             ShaderUniforms uniforms=null,
             TypeDictionary components=null)
         {
-            this.Lighting = lighting;
             this.Material = material;
             this.Alpha = alpha;
             this.ShaderProgram = shaderProgram;
@@ -29,7 +27,6 @@ namespace ChamberLib
 
         public static Overrides FromPrototype(
             Overrides prototype,
-            LightingData? lighting = null,
             IMaterial material = null,
             float? alpha = null,
             IShaderProgram shaderProgram = null,
@@ -39,7 +36,6 @@ namespace ChamberLib
             TypeDictionary components=null)
         {
             return new Overrides(
-                lighting: lighting ?? prototype.Lighting,
                 material: material ?? prototype.Material,
                 alpha: alpha ?? prototype.Alpha,
                 shaderProgram: shaderProgram ?? prototype.ShaderProgram,
@@ -47,12 +43,6 @@ namespace ChamberLib
                 fragmentShader: fragmentShader ?? prototype.FragmentShader,
                 uniforms: uniforms ?? prototype.Uniforms,
                 components: components ?? prototype.Components);
-        }
-
-        public LightingData? Lighting;
-        public LightingData? GetLighting(LightingData? defaultValue)
-        {
-            return this.Lighting ?? defaultValue;
         }
 
         public IMaterial Material;
