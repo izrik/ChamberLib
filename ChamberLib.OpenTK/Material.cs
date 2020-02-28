@@ -45,7 +45,6 @@ namespace ChamberLib.OpenTK
         public Vector3 EmissiveColor { get; set; }
         public Vector3 SpecularColor { get; set; }
         public float SpecularPower { get; set; }
-        private float _alpha;
         public float Alpha { get; set; }
         public float CalcAlpha(GameTime gameTime)
         {
