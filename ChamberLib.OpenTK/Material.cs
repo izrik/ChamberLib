@@ -64,13 +64,6 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("viewProj", view * projection);
             Shader.SetUniform("view", view);
             Shader.SetUniform("world", world);
-            Shader.SetUniform("use_texture", (Texture != null));
-            Shader.SetUniform("material_diffuse_color", Diffuse);
-            Shader.SetUniform("material_emissive_color", EmissiveColor);
-            Shader.SetUniform("material_specular_color", SpecularColor);
-            Shader.SetUniform("material_specular_power", SpecularPower);
-            float alpha = overrides.GetAlpha(Alpha);
-            Shader.SetUniform("material_alpha", alpha);
 
             var ambient = overrides.Components?.Get<AmbientLight>();
             Shader.SetUniform("light_ambient", ambient?.Color ?? Vector3.Zero);
@@ -81,6 +74,14 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("light_specular_color", light?.SpecularColor ?? Vector3.One);
 
             Shader.SetUniform("camera_position_ws", view.Inverted().Translation);
+
+            Shader.SetUniform("use_texture", (Texture != null));
+            Shader.SetUniform("material_diffuse_color", Diffuse);
+            Shader.SetUniform("material_emissive_color", EmissiveColor);
+            Shader.SetUniform("material_specular_color", SpecularColor);
+            Shader.SetUniform("material_specular_power", SpecularPower);
+            float alpha = overrides.GetAlpha(Alpha);
+            Shader.SetUniform("material_alpha", alpha);
 
             if (Texture != null)
             {
