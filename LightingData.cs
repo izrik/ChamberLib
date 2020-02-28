@@ -6,7 +6,6 @@ namespace ChamberLib
     {
         public Vector3 AmbientLightColor;
         public DirectionalLight DirectionalLight;
-        public Vector3 EmissiveColor;
     }
 }
 

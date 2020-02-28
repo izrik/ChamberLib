@@ -97,7 +97,7 @@ namespace ChamberLib.OpenTK
 
         public void SetEmissiveColor(Vector3 value)
         {
-            _lighting.EmissiveColor = value;
+            // TODO: set the emissive on the material(s)
         }
 
         public void SetDirectionalLight(DirectionalLight light, int index = 0)
