@@ -14,7 +14,8 @@ namespace ChamberLib
             IShaderProgram shaderProgram=null,
             IShaderStage vertexShader=null,
             IShaderStage fragmentShader=null,
-            ShaderUniforms uniforms=null)
+            ShaderUniforms uniforms=null,
+            TypeDictionary components=null)
         {
             this.Lighting = lighting;
             this.Material = material;
@@ -23,6 +24,7 @@ namespace ChamberLib
             this.VertexShader = vertexShader;
             this.FragmentShader = fragmentShader;
             this.Uniforms = uniforms;
+            Components = components;
         }
 
         public static Overrides FromPrototype(
@@ -33,7 +35,8 @@ namespace ChamberLib
             IShaderProgram shaderProgram = null,
             IShaderStage vertexShader = null,
             IShaderStage fragmentShader = null,
-            ShaderUniforms uniforms = null)
+            ShaderUniforms uniforms = null,
+            TypeDictionary components=null)
         {
             return new Overrides(
                 lighting: lighting ?? prototype.Lighting,
@@ -42,7 +45,8 @@ namespace ChamberLib
                 shaderProgram: shaderProgram ?? prototype.ShaderProgram,
                 vertexShader: vertexShader ?? prototype.VertexShader,
                 fragmentShader: fragmentShader ?? prototype.FragmentShader,
-                uniforms: uniforms ?? prototype.Uniforms);
+                uniforms: uniforms ?? prototype.Uniforms,
+                components: components ?? prototype.Components);
         }
 
         public LightingData? Lighting;
@@ -87,5 +91,7 @@ namespace ChamberLib
         {
             return this.Uniforms ?? defaultValue;
         }
+
+        public readonly TypeDictionary Components;
     }
 }
