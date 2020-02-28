@@ -46,10 +46,7 @@ namespace ChamberLib.OpenTK
         public Vector3 SpecularColor { get; set; }
         public float SpecularPower { get; set; }
         public float Alpha { get; set; }
-        public float CalcAlpha(GameTime gameTime)
-        {
-            return Alpha;
-        }
+
         public ITexture2D Texture { get; set; }
 
         public IShaderProgram Shader { get; set; }
@@ -74,7 +71,7 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("material_emissive_color", lighting2.EmissiveColor);
             Shader.SetUniform("material_specular_color", SpecularColor);
             Shader.SetUniform("material_specular_power", SpecularPower);
-            float alpha = overrides.GetAlpha(CalcAlpha(gameTime)); // TODO: reduce call to CalcAlpha when alpha is overridden.
+            float alpha = overrides.GetAlpha(Alpha);
             Shader.SetUniform("material_alpha", alpha);
             Shader.SetUniform("light_ambient", lighting2.AmbientLightColor);
             if (lighting2.DirectionalLight != null)
