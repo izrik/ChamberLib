@@ -55,8 +55,6 @@ namespace ChamberLib.OpenTK
                             LightingData lighting,
                             Overrides overrides=default(Overrides))
         {
-            LightingData lighting2 = overrides.GetLighting(lighting).Value;
-
             if (Shader == null) throw new InvalidOperationException("No shader specified");
 
             Shader.Apply(overrides);
@@ -73,13 +71,14 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("material_specular_power", SpecularPower);
             float alpha = overrides.GetAlpha(Alpha);
             Shader.SetUniform("material_alpha", alpha);
-            Shader.SetUniform("light_ambient", lighting2.AmbientLightColor);
-            if (lighting2.DirectionalLight != null)
-            {
-                Shader.SetUniform("light_direction_ws", lighting2.DirectionalLight.Direction.Normalized());
-                Shader.SetUniform("light_diffuse_color", lighting2.DirectionalLight.DiffuseColor);
-                Shader.SetUniform("light_specular_color", lighting2.DirectionalLight.SpecularColor);
-            }
+
+            var ambient = overrides.Components?.Get<AmbientLight>();
+            Shader.SetUniform("light_ambient", ambient?.Color ?? Vector3.Zero);
+
+            var light = overrides.Components?.Get<DirectionalLight>();
+            Shader.SetUniform("light_direction_ws", light?.Direction.Normalized() ?? -Vector3.UnitY);
+            Shader.SetUniform("light_diffuse_color", light?.DiffuseColor ?? Vector3.One);
+            Shader.SetUniform("light_specular_color", light?.SpecularColor ?? Vector3.One);
             Shader.SetUniform("camera_position_ws", view.Inverted().ToOpenTK().ExtractTranslation().ToChamber());
 
             if (Texture != null)
