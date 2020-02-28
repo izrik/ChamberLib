@@ -47,12 +47,8 @@ namespace ChamberLib.OpenTK
         public float SpecularPower { get; set; }
         private float _alpha;
         public float Alpha { get; set; }
-        public Func<GameTime, float> AlphaFunc { get; set; }
         public float CalcAlpha(GameTime gameTime)
         {
-            if (AlphaFunc != null)
-                return AlphaFunc(gameTime);
-
             return Alpha;
         }
         public ITexture2D Texture { get; set; }
