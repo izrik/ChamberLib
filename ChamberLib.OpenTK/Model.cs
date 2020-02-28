@@ -88,30 +88,9 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        public LightingData _lighting;
-        public LightingData Lighting { get { return _lighting; } }
-        public void SetAmbientLightColor(Vector3 value)
-        {
-            _lighting.AmbientLightColor = value;
-        }
-
         public void SetEmissiveColor(Vector3 value)
         {
             // TODO: set the emissive on the material(s)
-        }
-
-        public void SetDirectionalLight(DirectionalLight light, int index = 0)
-        {
-            if (index != 0)
-                throw new ArgumentOutOfRangeException("index");
-
-            _lighting.DirectionalLight = light;
-        }
-
-        public void DisableDirectionalLight(int index)
-        {
-            if (index == 0)
-                throw new ArgumentOutOfRangeException("index");
         }
 
         public IMaterial GetMaterialByName(string name)
