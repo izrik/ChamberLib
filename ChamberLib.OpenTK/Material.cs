@@ -63,7 +63,6 @@ namespace ChamberLib.OpenTK
                             LightingData lighting,
                             Overrides overrides=default(Overrides))
         {
-            var shader = overrides.GetShaderProgram(Shader);
             LightingData lighting2 = overrides.GetLighting(lighting).Value;
 
             if (Shader == null) throw new InvalidOperationException("No shader specified");
