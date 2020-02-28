@@ -112,7 +112,6 @@ namespace ChamberLib.OpenTK
                             Overrides overrides=default(Overrides))
         {
             IMaterial material = overrides.GetMaterial(Material);
-            var lighting2 = overrides.GetLighting(lighting);
 
             material.Apply(gameTime, world, view, projection, lighting, overrides);
             RenderBundle.Apply();
