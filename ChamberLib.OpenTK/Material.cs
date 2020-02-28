@@ -79,7 +79,8 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("light_direction_ws", light?.Direction.Normalized() ?? -Vector3.UnitY);
             Shader.SetUniform("light_diffuse_color", light?.DiffuseColor ?? Vector3.One);
             Shader.SetUniform("light_specular_color", light?.SpecularColor ?? Vector3.One);
-            Shader.SetUniform("camera_position_ws", view.Inverted().ToOpenTK().ExtractTranslation().ToChamber());
+
+            Shader.SetUniform("camera_position_ws", view.Inverted().Translation);
 
             if (Texture != null)
             {
