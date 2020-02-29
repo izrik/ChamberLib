@@ -9,7 +9,7 @@ namespace ChamberLib
         {
         }
 
-        readonly Dictionary<Type, object> _dictionary = new Dictionary<Type, object>();
+        readonly Dictionary<object, object> _dictionary = new Dictionary<object, object>();
 
         public T Get<T>()
             where T : class
@@ -19,10 +19,25 @@ namespace ChamberLib
             return null;
         }
 
+        public T Get<T>(string key)
+            where T : class
+        {
+            if (_dictionary.ContainsKey(key))
+                return (T)_dictionary[key];
+            return null;
+        }
+
         public void Set<T>(T item)
             where T : class
         {
             _dictionary[typeof(T)] = item;
         }
+
+        public object this[string key]
+        {
+            get { return _dictionary[key]; }
+            set { _dictionary[key] = value; }
+        }
+
     }
 }
