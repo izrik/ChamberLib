@@ -14,7 +14,7 @@ namespace ChamberLib
             IShaderStage vertexShader=null,
             IShaderStage fragmentShader=null,
             ShaderUniforms uniforms=null,
-            TypeDictionary components=null)
+            ComponentCollection components=null)
         {
             this.Material = material;
             this.Alpha = alpha;
@@ -33,7 +33,7 @@ namespace ChamberLib
             IShaderStage vertexShader = null,
             IShaderStage fragmentShader = null,
             ShaderUniforms uniforms = null,
-            TypeDictionary components=null)
+            ComponentCollection components=null)
         {
             return new Overrides(
                 material: material ?? prototype.Material,
@@ -82,6 +82,6 @@ namespace ChamberLib
             return this.Uniforms ?? defaultValue;
         }
 
-        public readonly TypeDictionary Components;
+        public readonly ComponentCollection Components;
     }
 }

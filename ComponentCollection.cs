@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace ChamberLib
 {
-    public class TypeDictionary
+    public class ComponentCollection
     {
-        public TypeDictionary()
+        public ComponentCollection()
         {
         }
 
