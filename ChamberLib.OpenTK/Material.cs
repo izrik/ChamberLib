@@ -58,6 +58,10 @@ namespace ChamberLib.OpenTK
 
             Shader.Apply(overrides);
 
+            var camera = overrides.Components?.Get<ICamera>();
+            view = camera?.View ?? view;
+            projection = camera?.Projection ?? projection;
+
             Shader.SetUniform("worldViewProj", world * view * projection);
             Shader.SetUniform("worldView", world * view);
             Shader.SetUniform("viewProj", view * projection);
