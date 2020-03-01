@@ -4,6 +4,10 @@ namespace ChamberLib
 {
     public class ViewportSource
     {
+        public ViewportSource(ICamera camera)
+            : this(() => camera.Viewport)
+        {
+        }
         public ViewportSource(Func<Viewport> func)
         {
             _func = func;
@@ -15,6 +19,5 @@ namespace ChamberLib
         {
             get { return _func(); }
         }
-
     }
 }
