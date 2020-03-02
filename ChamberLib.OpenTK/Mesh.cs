@@ -24,16 +24,15 @@ namespace ChamberLib.OpenTK
 
         public List<Part> Parts = new List<Part>();
 
-        public void Draw(GameTime gameTime, Matrix world, Matrix view,
-            Matrix projection, ComponentCollection components,
+        public void Draw(GameTime gameTime, Matrix world,
+            ComponentCollection components,
             Overrides overrides=default(Overrides))
         {
             if (!ParentModel.IsReady) ParentModel.MakeReady();
 
             foreach (var part in Parts)
             {
-                part.Draw(gameTime, world, view, projection, components,
-                    overrides);
+                part.Draw(gameTime, world, components, overrides);
             }
         }
 
@@ -108,8 +107,8 @@ namespace ChamberLib.OpenTK
 
         public RenderBundle RenderBundle;
 
-        public void Draw(GameTime gameTime, Matrix world, Matrix view,
-            Matrix projection, ComponentCollection components,
+        public void Draw(GameTime gameTime, Matrix world,
+            ComponentCollection components,
             Overrides overrides=default(Overrides))
         {
             IMaterial material = overrides.GetMaterial(Material);
@@ -123,8 +122,8 @@ namespace ChamberLib.OpenTK
             material.UnApply();
         }
 
-        public void DrawWireframe(GameTime gameTime, Matrix world, Matrix view,
-            Matrix projection, ComponentCollection components,
+        public void DrawWireframe(GameTime gameTime, Matrix world,
+            ComponentCollection components,
             Overrides overrides=default(Overrides))
         {
             var material = overrides.GetMaterial(Material);

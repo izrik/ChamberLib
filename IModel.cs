@@ -9,8 +9,8 @@ namespace ChamberLib
 
         IEnumerable<IMesh> GetMeshes();
 
-        void Draw(GameTime gameTime, Matrix world, Matrix view,
-            Matrix projection, ComponentCollection components,
+        void Draw(GameTime gameTime, Matrix world,
+            ComponentCollection components,
             Overrides overrides=default(Overrides));
 
         IBone Root { get; set; }
