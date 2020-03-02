@@ -8,7 +8,8 @@ namespace ChamberLib
         string Name { get; set; }
 
         void Draw(GameTime gameTime, Matrix world, Matrix view,
-            Matrix projection, Overrides overrides=default(Overrides));
+            Matrix projection, ComponentCollection components,
+            Overrides overrides=default(Overrides));
     }
 }
 
