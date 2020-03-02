@@ -124,7 +124,8 @@ namespace ChamberLib.OpenTK
         }
 
         public void DrawWireframe(GameTime gameTime, Matrix world, Matrix view,
-            Matrix projection, Overrides overrides=default(Overrides))
+            Matrix projection, ComponentCollection components,
+            Overrides overrides=default(Overrides))
         {
             var material = overrides.GetMaterial(Material);
 
