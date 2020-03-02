@@ -51,8 +51,10 @@ namespace ChamberLib.OpenTK
 
         public IShaderProgram Shader { get; set; }
 
-        public void Apply(GameTime gameTime, Matrix world, Matrix view,
-            Matrix projection, ComponentCollection components,
+        readonly Matrix __Apply_defaultProjection =
+            Matrix.CreateOrthographic(2, 2, 0, 1);
+        public void Apply(GameTime gameTime, Matrix world,
+            ComponentCollection components,
             Overrides overrides=default(Overrides))
         {
             if (Shader == null) throw new InvalidOperationException("No shader specified");
@@ -60,8 +62,8 @@ namespace ChamberLib.OpenTK
             Shader.Apply(overrides);
 
             var camera = components?.Get<ICamera>();
-            view = camera?.View ?? view;
-            projection = camera?.Projection ?? projection;
+            var view = camera?.View ?? Matrix.Identity;
+            var projection = camera?.Projection ?? __Apply_defaultProjection;
 
             Shader.SetUniform("worldViewProj", world * view * projection);
             Shader.SetUniform("worldView", world * view);
