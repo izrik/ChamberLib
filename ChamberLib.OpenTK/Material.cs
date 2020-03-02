@@ -59,7 +59,7 @@ namespace ChamberLib.OpenTK
 
             Shader.Apply(overrides);
 
-            var camera = overrides.Components?.Get<ICamera>();
+            var camera = components?.Get<ICamera>();
             view = camera?.View ?? view;
             projection = camera?.Projection ?? projection;
 
@@ -69,10 +69,10 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("view", view);
             Shader.SetUniform("world", world);
 
-            var ambient = overrides.Components?.Get<AmbientLight>();
+            var ambient = components?.Get<AmbientLight>();
             Shader.SetUniform("light_ambient", ambient?.Color ?? Vector3.Zero);
 
-            var light = overrides.Components?.Get<DirectionalLight>();
+            var light = components?.Get<DirectionalLight>();
             Shader.SetUniform("light_direction_ws", light?.Direction.Normalized() ?? -Vector3.UnitY);
             Shader.SetUniform("light_diffuse_color", light?.DiffuseColor ?? Vector3.One);
             Shader.SetUniform("light_specular_color", light?.SpecularColor ?? Vector3.One);
