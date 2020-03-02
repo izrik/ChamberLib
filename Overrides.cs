@@ -13,8 +13,7 @@ namespace ChamberLib
             IShaderProgram shaderProgram=null,
             IShaderStage vertexShader=null,
             IShaderStage fragmentShader=null,
-            ShaderUniforms uniforms=null,
-            ComponentCollection components=null)
+            ShaderUniforms uniforms=null)
         {
             this.Material = material;
             this.Alpha = alpha;
@@ -22,7 +21,6 @@ namespace ChamberLib
             this.VertexShader = vertexShader;
             this.FragmentShader = fragmentShader;
             this.Uniforms = uniforms;
-            Components = components;
         }
 
         public static Overrides FromPrototype(
@@ -32,8 +30,7 @@ namespace ChamberLib
             IShaderProgram shaderProgram = null,
             IShaderStage vertexShader = null,
             IShaderStage fragmentShader = null,
-            ShaderUniforms uniforms = null,
-            ComponentCollection components=null)
+            ShaderUniforms uniforms = null)
         {
             return new Overrides(
                 material: material ?? prototype.Material,
@@ -41,8 +38,7 @@ namespace ChamberLib
                 shaderProgram: shaderProgram ?? prototype.ShaderProgram,
                 vertexShader: vertexShader ?? prototype.VertexShader,
                 fragmentShader: fragmentShader ?? prototype.FragmentShader,
-                uniforms: uniforms ?? prototype.Uniforms,
-                components: components ?? prototype.Components);
+                uniforms: uniforms ?? prototype.Uniforms);
         }
 
         public IMaterial Material;
@@ -81,7 +77,5 @@ namespace ChamberLib
         {
             return this.Uniforms ?? defaultValue;
         }
-
-        public readonly ComponentCollection Components;
     }
 }
