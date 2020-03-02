@@ -51,8 +51,9 @@ namespace ChamberLib.OpenTK
 
         public IShaderProgram Shader { get; set; }
 
-        public void Apply(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
-                            Overrides overrides=default(Overrides))
+        public void Apply(GameTime gameTime, Matrix world, Matrix view,
+            Matrix projection, ComponentCollection components,
+            Overrides overrides=default(Overrides))
         {
             if (Shader == null) throw new InvalidOperationException("No shader specified");
 
