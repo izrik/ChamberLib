@@ -39,5 +39,12 @@ namespace ChamberLib
             set { _dictionary[key] = value; }
         }
 
+        public void AddRange(object[] components)
+        {
+            foreach (var comp in components)
+            {
+                _dictionary[comp.GetType()] = comp;
+            }
+        }
     }
 }
