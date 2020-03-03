@@ -7,6 +7,5 @@ namespace ChamberLib
         Matrix View { get; }
 
         Matrix Projection { get; }
-        Viewport Viewport { get; }
     }
 }
