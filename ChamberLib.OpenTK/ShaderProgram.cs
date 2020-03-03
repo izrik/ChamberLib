@@ -81,8 +81,8 @@ namespace ChamberLib.OpenTK
                 MakeReady();
             }
 
-            var vertexShader = overrides.GetVertexShader(VertexShader);
-            var fragmentShader = overrides.GetFragmentShader(FragmentShader);
+            var vertexShader = VertexShader;
+            var fragmentShader = FragmentShader;
 
             if ((vertexShader != null && vertexShader != VertexShader) ||
                 (fragmentShader != null && fragmentShader != FragmentShader))
