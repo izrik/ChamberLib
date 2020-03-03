@@ -194,6 +194,12 @@ namespace ChamberLib
                 0, 0, 0, 1);
         }
 
+        public static Matrix CreateRotationAboutAxis(Vector3 axis, float angle)
+        {
+            var q = Quaternion.CreateFromAxisAngle(axis, angle);
+            return CreateFromQuaternion(q);
+        }
+
         public static Matrix CreateFromQuaternion(Quaternion rotation)
         {
             var q2 = rotation;
