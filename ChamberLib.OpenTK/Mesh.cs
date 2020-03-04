@@ -115,7 +115,9 @@ namespace ChamberLib.OpenTK
         {
             IMaterial material = overrides.GetMaterial(Material);
 
-            var shader = material.Shader;
+            var shader = ShaderProgram.GetShaderProgram(
+                (ShaderStage)material.VertexShader,
+                (ShaderStage)material.FragmentShader);
             shader.Apply(overrides);
 
             material.Apply(gameTime, world, components, shader, overrides);
@@ -134,7 +136,9 @@ namespace ChamberLib.OpenTK
         {
             var material = overrides.GetMaterial(Material);
 
-            var shader = material.Shader;
+            var shader = ShaderProgram.GetShaderProgram(
+                (ShaderStage)material.VertexShader,
+                (ShaderStage)material.FragmentShader);
             shader.Apply(overrides);
 
             material.Apply(gameTime, world, components, shader, overrides);
