@@ -35,7 +35,8 @@ namespace ChamberLib.OpenTK
                         "in_blend_indices",
                         "in_blend_weights",
                     });
-                this.Shader = processor.MakeShaderProgram(vertex, fragment);
+                this.VertexShader = vertex;
+                this.FragmentShader = fragment;
             }
         }
 
