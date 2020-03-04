@@ -118,7 +118,8 @@ namespace ChamberLib.OpenTK
                 (ShaderStage)material.VertexShader,
                 (ShaderStage)material.FragmentShader);
 
-            material.Apply(gameTime, world, components, shader, overrides);
+            material.Apply(gameTime, world, components, shader.VertexShader,
+                shader.FragmentShader, overrides);
             shader.Apply(overrides);
             RenderBundle.Apply();
 
@@ -138,7 +139,8 @@ namespace ChamberLib.OpenTK
                 (ShaderStage)material.VertexShader,
                 (ShaderStage)material.FragmentShader);
 
-            material.Apply(gameTime, world, components, shader, overrides);
+            material.Apply(gameTime, world, components, shader.VertexShader,
+                shader.FragmentShader, overrides);
             shader.Apply(overrides);
             RenderBundle.Apply();
 
