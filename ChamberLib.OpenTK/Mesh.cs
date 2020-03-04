@@ -114,20 +114,19 @@ namespace ChamberLib.OpenTK
             Overrides overrides=default(Overrides))
         {
             IMaterial material = overrides.GetMaterial(Material);
-
             var shader = ShaderProgram.GetShaderProgram(
                 (ShaderStage)material.VertexShader,
                 (ShaderStage)material.FragmentShader);
-            shader.Apply(overrides);
 
             material.Apply(gameTime, world, components, shader, overrides);
+            shader.Apply(overrides);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount * 3, StartIndex, VertexOffset);
 
             RenderBundle.UnApply();
-            material.UnApply();
             shader.UnApply();
+            material.UnApply();
         }
 
         public void DrawWireframe(GameTime gameTime, Matrix world,
@@ -135,20 +134,19 @@ namespace ChamberLib.OpenTK
             Overrides overrides=default(Overrides))
         {
             var material = overrides.GetMaterial(Material);
-
             var shader = ShaderProgram.GetShaderProgram(
                 (ShaderStage)material.VertexShader,
                 (ShaderStage)material.FragmentShader);
-            shader.Apply(overrides);
 
             material.Apply(gameTime, world, components, shader, overrides);
+            shader.Apply(overrides);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Lines, PrimitiveCount*2, StartIndex, VertexOffset);
 
             RenderBundle.UnApply();
-            material.UnApply();
             shader.UnApply();
+            material.UnApply();
         }
 
         public void MakeReady()
