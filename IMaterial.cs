@@ -19,6 +19,8 @@ namespace ChamberLib
         ITexture2D Texture { get; set; }
 
         IShaderProgram Shader { get; set; }
+        IShaderStage VertexShader { get; }
+        IShaderStage FragmentShader { get; }
     }
 }
 
