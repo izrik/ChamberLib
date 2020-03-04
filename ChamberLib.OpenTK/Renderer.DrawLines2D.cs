@@ -35,7 +35,7 @@ namespace ChamberLib.OpenTK
                 _DrawLines2D_shader_frag_source, ShaderType.Fragment, name);
 
             _DrawLines2D_shader =
-                ShaderProgram.MakeShaderProgram(
+                ShaderProgram.GetShaderProgram(
                     _DrawLines2D_shader_vert_stage,
                     _DrawLines2D_shader_frag_stage,
                     name);

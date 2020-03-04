@@ -152,7 +152,7 @@ namespace ChamberLib.OpenTK
             _DrawString_shader_frag_stage = new ShaderStage(
                 _DrawString_shader_frag_source, ShaderType.Fragment, name);
 
-            Shader = ShaderProgram.MakeShaderProgram(
+            Shader = ShaderProgram.GetShaderProgram(
                 _DrawString_shader_vert_stage,
                 _DrawString_shader_frag_stage,
                 name);

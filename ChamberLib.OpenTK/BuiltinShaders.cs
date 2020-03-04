@@ -154,9 +154,9 @@ void main(void)
             BasicVertexShaderStage = new ShaderStage(BasicVertexShaderContent);
             SkinnedVertexShaderStage = new ShaderStage(SkinnedVertexShaderContent);
             BasicFragmentShaderStage = new ShaderStage(BasicFragmentShaderContent);
-            
+
             BasicShaderProgram =
-                ShaderProgram.MakeShaderProgram(
+                ShaderProgram.GetShaderProgram(
                     BasicVertexShaderStage,
                     BasicFragmentShaderStage,
                     "$basic");
@@ -168,7 +168,7 @@ void main(void)
                 });
 
             SkinnedShaderProgram =
-                ShaderProgram.MakeShaderProgram(
+                ShaderProgram.GetShaderProgram(
                     SkinnedVertexShaderStage,
                     BasicFragmentShaderStage,
                     "$skinned");
