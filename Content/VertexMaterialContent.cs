@@ -1,7 +1,7 @@
 ﻿using System;
 namespace ChamberLib.Content
 {
-    public class VertexMaterialContent : MaterialContent
+    public class VertexMaterialContent
     {
         public string Name = "";
 

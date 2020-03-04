@@ -1,7 +1,7 @@
 ﻿using System;
 namespace ChamberLib.Content
 {
-    public class FragmentMaterialContent : MaterialContent
+    public class FragmentMaterialContent
     {
         public string Name = "";
 
