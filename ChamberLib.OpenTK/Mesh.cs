@@ -113,13 +113,16 @@ namespace ChamberLib.OpenTK
             ComponentCollection components,
             Overrides overrides=default(Overrides))
         {
-            IMaterial material = overrides.GetFragmentMaterial(Material);
+            var vmaterial = overrides.GetVertexMaterial(VertexMaterial);
+            var fmaterial = overrides.GetFragmentMaterial(Material);
             var shader = ShaderProgram.GetShaderProgram(
-                (ShaderStage)material.VertexShader,
-                (ShaderStage)material.FragmentShader);
+                (ShaderStage)vmaterial.VertexShader,
+                (ShaderStage)fmaterial.FragmentShader);
 
-            material.Apply(gameTime, world, components, shader.VertexShader,
-                shader.FragmentShader, overrides);
+            vmaterial.Apply(gameTime, world, components, shader.VertexShader,
+                overrides);
+            fmaterial.Apply(gameTime, world, components, shader.FragmentShader,
+                overrides);
             shader.Apply(overrides);
             RenderBundle.Apply();
 
@@ -127,20 +130,24 @@ namespace ChamberLib.OpenTK
 
             RenderBundle.UnApply();
             shader.UnApply();
-            material.UnApply();
+            fmaterial.UnApply();
+            vmaterial.UnApply();
         }
 
         public void DrawWireframe(GameTime gameTime, Matrix world,
             ComponentCollection components,
             Overrides overrides=default(Overrides))
         {
-            var material = overrides.GetFragmentMaterial(Material);
+            var vmaterial = overrides.GetVertexMaterial(VertexMaterial);
+            var fmaterial = overrides.GetFragmentMaterial(Material);
             var shader = ShaderProgram.GetShaderProgram(
-                (ShaderStage)material.VertexShader,
-                (ShaderStage)material.FragmentShader);
+                (ShaderStage)vmaterial.VertexShader,
+                (ShaderStage)fmaterial.FragmentShader);
 
-            material.Apply(gameTime, world, components, shader.VertexShader,
-                shader.FragmentShader, overrides);
+            vmaterial.Apply(gameTime, world, components, shader.VertexShader,
+                overrides);
+            fmaterial.Apply(gameTime, world, components, shader.FragmentShader,
+                overrides);
             shader.Apply(overrides);
             RenderBundle.Apply();
 
@@ -148,7 +155,8 @@ namespace ChamberLib.OpenTK
 
             RenderBundle.UnApply();
             shader.UnApply();
-            material.UnApply();
+            fmaterial.UnApply();
+            vmaterial.UnApply();
         }
 
         public void MakeReady()
