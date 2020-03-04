@@ -21,10 +21,10 @@ namespace ChamberLib
 
         public static Overrides FromPrototype(
             Overrides prototype,
-            IMaterial vertexMaterial = null,
-            IMaterial fragmentMaterial = null,
-            float? alpha = null,
-            ShaderUniforms uniforms = null)
+            IMaterial vertexMaterial=null,
+            IMaterial fragmentMaterial=null,
+            float? alpha=null,
+            ShaderUniforms uniforms=null)
         {
             return new Overrides(
                 vertexMaterial: vertexMaterial ?? prototype.VertexMaterial,

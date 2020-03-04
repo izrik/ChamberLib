@@ -144,7 +144,7 @@ namespace ChamberLib.OpenTK
             shader.Apply(overrides);
             RenderBundle.Apply();
 
-            RenderBundle.Draw(PrimitiveType.Lines, PrimitiveCount*2, StartIndex, VertexOffset);
+            RenderBundle.Draw(PrimitiveType.Lines, PrimitiveCount * 2, StartIndex, VertexOffset);
 
             RenderBundle.UnApply();
             shader.UnApply();
