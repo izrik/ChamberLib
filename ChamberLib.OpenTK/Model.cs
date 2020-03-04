@@ -99,7 +99,21 @@ namespace ChamberLib.OpenTK
             // TODO: set the emissive on the material(s)
         }
 
-        public IMaterial GetMaterialByName(string name)
+        public IVertexMaterial GetVertexMaterialByName(string name)
+        {
+            foreach (var mesh in Meshes)
+            {
+                foreach (var part in mesh.Parts)
+                {
+                    if (part.VertexMaterial.Name == name)
+                        return part.VertexMaterial;
+                }
+            }
+
+            return null;
+        }
+
+        public IFragmentMaterial GetFragmentMaterialByName(string name)
         {
             foreach (var mesh in Meshes)
             {

@@ -27,7 +27,8 @@ namespace ChamberLib
 
         IEnumerable<Triangle> EnumerateTriangles();
 
-        IMaterial GetMaterialByName(string name);
+        IVertexMaterial GetVertexMaterialByName(string name);
+        IFragmentMaterial GetFragmentMaterialByName(string name);
     }
 
     public static class ModelHelper
