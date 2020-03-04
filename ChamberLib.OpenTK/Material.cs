@@ -49,9 +49,21 @@ namespace ChamberLib.OpenTK
 
         public ITexture2D Texture { get; set; }
 
-        public IShaderProgram Shader { get; set; }
-        public IShaderStage VertexShader { get { return Shader.VertexShader; } }
-        public IShaderStage FragmentShader { get { return Shader.FragmentShader; } }
+        public IShaderProgram Shader
+        {
+            get
+            {
+                return ShaderProgram.GetShaderProgram(
+                    (ShaderStage)VertexShader, (ShaderStage)FragmentShader);
+            }
+            set
+            {
+                VertexShader = (ShaderStage)value.VertexShader;
+                FragmentShader = (ShaderStage)value.FragmentShader;
+            }
+        }
+        public IShaderStage VertexShader { get; set; }
+        public IShaderStage FragmentShader { get; set; }
 
         readonly Matrix __Apply_defaultProjection =
             Matrix.CreateOrthographic(2, 2, 0, 1);
