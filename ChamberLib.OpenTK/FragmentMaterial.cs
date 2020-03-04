@@ -3,7 +3,7 @@ using ChamberLib.Content;
 
 namespace ChamberLib.OpenTK
 {
-    public class FragmentMaterial : Material
+    public class FragmentMaterial : Material, IFragmentMaterial
     {
         public FragmentMaterial(FragmentMaterialContent material, ContentResolver resolver, IContentProcessor processor)
             : base(material, resolver, processor)
@@ -25,6 +25,14 @@ namespace ChamberLib.OpenTK
                     processor.ProcessShaderStage(material.FragmentShader, processor);
                 this.FragmentShader = fragment;
             }
+        }
+
+        void IFragmentMaterial.Apply(GameTime gameTime, Matrix world,
+            ComponentCollection components, IShaderStage fragmentShader,
+            Overrides overrides=default(Overrides))
+        {
+            ApplyFragmentShader(fragmentShader, gameTime, world, components,
+                overrides);
         }
     }
 }

@@ -3,7 +3,7 @@ using ChamberLib.Content;
 
 namespace ChamberLib.OpenTK
 {
-    public class VertexMaterial : Material
+    public class VertexMaterial : Material, IVertexMaterial
     {
         public VertexMaterial(VertexMaterialContent material, ContentResolver resolver, IContentProcessor processor)
             : base(material, resolver, processor)
@@ -22,6 +22,15 @@ namespace ChamberLib.OpenTK
                     });
                 this.VertexShader = vertex;
             }
+        }
+
+        void IVertexMaterial.Apply(GameTime gameTime, Matrix world,
+                                    ComponentCollection components,
+                                    IShaderStage vertexShader,
+                                    Overrides overrides=default(Overrides))
+        {
+            ApplyVertexShader(vertexShader, gameTime, world, components,
+                overrides);
         }
     }
 }

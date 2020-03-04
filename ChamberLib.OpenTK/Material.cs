@@ -4,7 +4,7 @@ using ChamberLib.Content;
 
 namespace ChamberLib.OpenTK
 {
-    public abstract class Material : IMaterial, IVertexMaterial, IFragmentMaterial
+    public abstract class Material : IMaterial
     {
         protected Material(MaterialContent material, ContentResolver resolver, IContentProcessor processor)
         {
@@ -58,15 +58,6 @@ namespace ChamberLib.OpenTK
             vertexShader.SetUniform("world", world);
         }
 
-        void IVertexMaterial.Apply(GameTime gameTime, Matrix world,
-                                    ComponentCollection components,
-                                    IShaderStage vertexShader,
-                                    Overrides overrides=default(Overrides))
-        {
-            ApplyVertexShader(vertexShader, gameTime, world, components,
-                overrides);
-        }
-
         public void ApplyFragmentShader(IShaderStage fragmentShader,
                                         GameTime gameTime, Matrix world,
                                         ComponentCollection components,
@@ -98,14 +89,6 @@ namespace ChamberLib.OpenTK
             {
                 Texture.Apply();
             }
-        }
-
-        void IFragmentMaterial.Apply(GameTime gameTime, Matrix world,
-            ComponentCollection components, IShaderStage fragmentShader,
-            Overrides overrides=default(Overrides))
-        {
-            ApplyFragmentShader(fragmentShader, gameTime, world, components,
-                overrides);
         }
 
         public void UnApply()
