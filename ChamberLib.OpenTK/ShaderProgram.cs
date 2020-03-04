@@ -27,8 +27,7 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        static Cache2P<ShaderStage, ShaderStage, string, ShaderProgram> cache =
-            new Cache2P<ShaderStage, ShaderStage, string, ShaderProgram>(GetShaderProgramImpl);
+        static Dictionary<STuple<ShaderStage, ShaderStage>, ShaderProgram> cache = new Dictionary<STuple<ShaderStage, ShaderStage>, ShaderProgram>();
         public static ShaderProgram GetShaderProgram(ShaderStage vertexShader,
             ShaderStage fragmentShader, string name=null)
         {
@@ -37,19 +36,14 @@ namespace ChamberLib.OpenTK
             if (fragmentShader.ShaderType != ShaderType.Fragment)
                 throw new ArgumentException("Wrong shader type", "fragmentShader");
 
-            return cache.Call(vertexShader, fragmentShader, name);
-        }
-        protected static ShaderProgram GetShaderProgramImpl(ShaderStage vertexShader,
-            ShaderStage fragmentShader, string name=null)
-        {
-            if (vertexShader.ShaderType != ShaderType.Vertex)
-                throw new ArgumentException("Wrong shader type", "vertexShader");
-            if (fragmentShader.ShaderType != ShaderType.Fragment)
-                throw new ArgumentException("Wrong shader type", "fragmentShader");
+            var stuple = new STuple<ShaderStage, ShaderStage>(vertexShader, fragmentShader);
+            if (!cache.ContainsKey(stuple))
+            {
+                var shader = new ShaderProgram(vertexShader, fragmentShader, name);
+                cache[stuple] = shader;
+            }
 
-            var shader = new ShaderProgram(vertexShader, fragmentShader, name);
-
-            return shader;
+            return cache[stuple];
         }
 
         public int ProgramID;
