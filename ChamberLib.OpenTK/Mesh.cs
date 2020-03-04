@@ -104,8 +104,8 @@ namespace ChamberLib.OpenTK
         public int StartIndex;
         public int PrimitiveCount;
         public int VertexOffset;
-        public IVertexMaterial VertexMaterial;
-        public IFragmentMaterial FragmentMaterial;
+        public VertexMaterial VertexMaterial;
+        public FragmentMaterial FragmentMaterial;
 
         public RenderBundle RenderBundle;
 
