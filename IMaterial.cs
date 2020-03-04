@@ -6,12 +6,6 @@ namespace ChamberLib
     {
         string Name { get; }
 
-        void Apply(GameTime gameTime,
-                    Matrix world,
-                    ComponentCollection components,
-                    IShaderStage vertexShader,
-                    IShaderStage fragmentShader,
-                    Overrides overrides=default(Overrides));
         void UnApply();
 
         Vector3 Diffuse { get; set; }
