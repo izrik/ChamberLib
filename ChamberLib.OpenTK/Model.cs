@@ -168,7 +168,7 @@ namespace ChamberLib.OpenTK
             for (i = 0; i < boneTransforms.Length; i++)
             {
                 var name = GetBoneUniformName(i);
-                material.Shader.SetUniform(name, boneTransforms[i]);
+                material.VertexShader.SetUniform(name, boneTransforms[i]);
             }
         }
 

@@ -18,7 +18,6 @@ namespace ChamberLib
         float Alpha { get; set; }
         ITexture2D Texture { get; set; }
 
-        IShaderProgram Shader { get; set; }
         IShaderStage VertexShader { get; }
         IShaderStage FragmentShader { get; }
     }

@@ -50,19 +50,6 @@ namespace ChamberLib.OpenTK
 
         public ITexture2D Texture { get; set; }
 
-        public IShaderProgram Shader
-        {
-            get
-            {
-                return ShaderProgram.GetShaderProgram(
-                    (ShaderStage)VertexShader, (ShaderStage)FragmentShader);
-            }
-            set
-            {
-                VertexShader = (ShaderStage)value.VertexShader;
-                FragmentShader = (ShaderStage)value.FragmentShader;
-            }
-        }
         public IShaderStage VertexShader { get; set; }
         public IShaderStage FragmentShader { get; set; }
 

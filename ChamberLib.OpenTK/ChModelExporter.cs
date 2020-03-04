@@ -229,7 +229,6 @@ namespace ChamberLib.OpenTK
             Vector3 emissive = mat.EmissiveColor;
             Vector3 specularColor = mat.SpecularColor;
             float specularPower = mat.SpecularPower;
-            string shadername = (mat.Shader != null ? mat.Shader.Name : "");
 
             writer.WriteLine(ImportExportHelper.Convert(diffuse));
             writer.WriteLine(ImportExportHelper.Convert(emissive));
@@ -245,7 +244,6 @@ namespace ChamberLib.OpenTK
             }
             writer.WriteLine(texname);
 
-            writer.WriteLine(shadername);
         }
 
         void WriteMesh(TextWriter writer, Mesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Material> materials)
