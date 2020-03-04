@@ -93,6 +93,7 @@ namespace ChamberLib.OpenTK
             Indexes = resolver.Get(part.Indexes);
             Vertexes = resolver.Get(part.Vertexes);
             Material = resolver.Get(part.Material);
+            VertexMaterial = Material;
             this.StartIndex = part.StartIndex;
             this.PrimitiveCount = part.PrimitiveCount;
             this.VertexOffset = part.VertexOffset;
@@ -103,6 +104,7 @@ namespace ChamberLib.OpenTK
         public int StartIndex;
         public int PrimitiveCount;
         public int VertexOffset;
+        public Material VertexMaterial;
         public Material Material;
 
         public RenderBundle RenderBundle;
