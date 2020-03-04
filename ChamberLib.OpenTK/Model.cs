@@ -47,10 +47,15 @@ namespace ChamberLib.OpenTK
             {
                 foreach (var part in mesh.Parts)
                 {
-                    if (!resolver.Materials.ContainsKey(part.Material))
+                    if (!resolver.VertexMaterials.ContainsKey(part.VertexMaterial))
                     {
-                        var mat2 = new Material(part.Material, resolver, processor);
-                        resolver.Materials.Add(part.Material, mat2);
+                        var mat2 = new Material(part.VertexMaterial, resolver, processor);
+                        resolver.VertexMaterials.Add(part.VertexMaterial, mat2);
+                    }
+                    if (!resolver.FragmentMaterials.ContainsKey(part.FragmentMaterial))
+                    {
+                        var mat2 = new Material(part.FragmentMaterial, resolver, processor);
+                        resolver.FragmentMaterials.Add(part.FragmentMaterial, mat2);
                     }
                 }
             }
@@ -100,8 +105,8 @@ namespace ChamberLib.OpenTK
             {
                 foreach (var part in mesh.Parts)
                 {
-                    if (part.Material.Name == name)
-                        return part.Material;
+                    if (part.FragmentMaterial.Name == name)
+                        return part.FragmentMaterial;
                 }
             }
 
@@ -114,7 +119,7 @@ namespace ChamberLib.OpenTK
             {
                 foreach (var part in mesh.Parts)
                 {
-                    part.Material.Alpha = alpha;
+                    part.FragmentMaterial.Alpha = alpha;
                 }
             }
         }
@@ -125,7 +130,7 @@ namespace ChamberLib.OpenTK
             {
                 foreach (var part in mesh.Parts)
                 {
-                    part.Material.Texture = texture;
+                    part.FragmentMaterial.Texture = texture;
                 }
             }
         }
@@ -145,9 +150,9 @@ namespace ChamberLib.OpenTK
         {
             if (boneTransforms == null) throw new ArgumentNullException("boneTransforms");
 
-            if (overrides.FragmentMaterial != null)
+            if (overrides.VertexMaterial != null)
             {
-                var material = overrides.GetFragmentMaterial(null);
+                var material = overrides.GetVertexMaterial(null);
                 if (material != null)
                     SetBoneUniformsForMaterial(boneTransforms, material);
             }
@@ -157,12 +162,12 @@ namespace ChamberLib.OpenTK
                 {
                     foreach (var part in mesh.Parts)
                     {
-                        SetBoneUniformsForMaterial(boneTransforms, part.Material);
+                        SetBoneUniformsForMaterial(boneTransforms, part.VertexMaterial);
                     }
                 }
             }
         }
-        void SetBoneUniformsForMaterial(Matrix[] boneTransforms, IMaterial material)
+        void SetBoneUniformsForMaterial(Matrix[] boneTransforms, IVertexMaterial material)
         {
             int i;
             for (i = 0; i < boneTransforms.Length; i++)

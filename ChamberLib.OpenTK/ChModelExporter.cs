@@ -42,7 +42,6 @@ namespace ChamberLib.OpenTK
                     {
                         vbuffersset.Add(part.Vertexes);
                         ibuffersset.Add(part.Indexes);
-                        materialsset.Add(part.Material);
                     }
                 }
                 var vbuffers = vbuffersset.ToList();
@@ -251,7 +250,6 @@ namespace ChamberLib.OpenTK
 
         void WriteMeshPart(TextWriter writer, Part part, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Material> materials)
         {
-            writer.WriteLine(part.Material != null ? materials.IndexOf(part.Material) : -1);
             writer.WriteLine(part.Indexes != null ? ibuffers.IndexOf(part.Indexes) : -1);
             writer.WriteLine(part.PrimitiveCount);
             writer.WriteLine(part.StartIndex);

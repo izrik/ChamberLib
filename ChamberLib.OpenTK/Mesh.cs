@@ -92,8 +92,8 @@ namespace ChamberLib.OpenTK
         {
             Indexes = resolver.Get(part.Indexes);
             Vertexes = resolver.Get(part.Vertexes);
-            Material = resolver.Get(part.Material);
-            VertexMaterial = Material;
+            FragmentMaterial = resolver.Get(part.FragmentMaterial);
+            VertexMaterial = resolver.Get(part.VertexMaterial);
             this.StartIndex = part.StartIndex;
             this.PrimitiveCount = part.PrimitiveCount;
             this.VertexOffset = part.VertexOffset;
@@ -104,8 +104,8 @@ namespace ChamberLib.OpenTK
         public int StartIndex;
         public int PrimitiveCount;
         public int VertexOffset;
-        public Material VertexMaterial;
-        public Material Material;
+        public IVertexMaterial VertexMaterial;
+        public IFragmentMaterial FragmentMaterial;
 
         public RenderBundle RenderBundle;
 
@@ -114,7 +114,7 @@ namespace ChamberLib.OpenTK
             Overrides overrides=default(Overrides))
         {
             var vmaterial = overrides.GetVertexMaterial(VertexMaterial);
-            var fmaterial = overrides.GetFragmentMaterial(Material);
+            var fmaterial = overrides.GetFragmentMaterial(FragmentMaterial);
             var shader = ShaderProgram.GetShaderProgram(
                 (ShaderStage)vmaterial.VertexShader,
                 (ShaderStage)fmaterial.FragmentShader);
@@ -139,7 +139,7 @@ namespace ChamberLib.OpenTK
             Overrides overrides=default(Overrides))
         {
             var vmaterial = overrides.GetVertexMaterial(VertexMaterial);
-            var fmaterial = overrides.GetFragmentMaterial(Material);
+            var fmaterial = overrides.GetFragmentMaterial(FragmentMaterial);
             var shader = ShaderProgram.GetShaderProgram(
                 (ShaderStage)vmaterial.VertexShader,
                 (ShaderStage)fmaterial.FragmentShader);

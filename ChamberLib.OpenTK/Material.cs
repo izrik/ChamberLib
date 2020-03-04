@@ -20,13 +20,10 @@ namespace ChamberLib.OpenTK
                 this.Texture = processor.ProcessTexture2D(material.Texture);
             }
 
-            if (material.VertexShader != null ||
-                material.FragmentShader != null)
+            if (material.VertexShader != null)
             {
                 var vertex =
                     processor.ProcessShaderStage(material.VertexShader, processor);
-                var fragment =
-                    processor.ProcessShaderStage(material.FragmentShader, processor);
                 vertex.SetBindAttributes(
                     new[] {
                         "in_position",
@@ -36,6 +33,12 @@ namespace ChamberLib.OpenTK
                         "in_blend_weights",
                     });
                 this.VertexShader = vertex;
+            }
+
+            if (material.FragmentShader != null)
+            {
+                var fragment =
+                    processor.ProcessShaderStage(material.FragmentShader, processor);
                 this.FragmentShader = fragment;
             }
         }

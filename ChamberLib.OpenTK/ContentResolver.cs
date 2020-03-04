@@ -9,7 +9,8 @@ namespace ChamberLib.OpenTK
         public readonly Dictionary<VertexBufferContent, VertexBuffer> VertexBuffers = new Dictionary<VertexBufferContent, VertexBuffer>();
         public readonly Dictionary<IndexBufferContent, IndexBuffer> IndexBuffers = new Dictionary<IndexBufferContent, IndexBuffer>();
         public readonly Dictionary<BoneContent, Bone> Bones = new Dictionary<BoneContent, Bone>();
-        public readonly Dictionary<MaterialContent, Material> Materials = new Dictionary<MaterialContent, Material>();
+        public readonly Dictionary<VertexMaterialContent, IVertexMaterial> VertexMaterials = new Dictionary<VertexMaterialContent, IVertexMaterial>();
+        public readonly Dictionary<FragmentMaterialContent, IFragmentMaterial> FragmentMaterials = new Dictionary<FragmentMaterialContent, IFragmentMaterial>();
         public readonly Dictionary<MeshContent, Mesh> Meshes = new Dictionary<MeshContent, Mesh>();
         public readonly Dictionary<PartContent, Part> Parts = new Dictionary<PartContent, Part>();
 
@@ -40,13 +41,22 @@ namespace ChamberLib.OpenTK
             return Bones[item];
         }
 
-        public void Add(MaterialContent from, Material to)
+        public void Add(VertexMaterialContent from, IVertexMaterial to)
         {
-            Materials.Add(from, to);
+            VertexMaterials.Add(from, to);
         }
-        public Material Get(MaterialContent item)
+        public IVertexMaterial Get(VertexMaterialContent item)
         {
-            return Materials[item];
+            return VertexMaterials[item];
+        }
+
+        public void Add(FragmentMaterialContent from, IFragmentMaterial to)
+        {
+            FragmentMaterials.Add(from, to);
+        }
+        public IFragmentMaterial Get(FragmentMaterialContent item)
+        {
+            return FragmentMaterials[item];
         }
 
         public void Add(MeshContent from, Mesh to)

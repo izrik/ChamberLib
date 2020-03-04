@@ -268,7 +268,6 @@ namespace ChamberLib.Content
                 StartIndex = startIndex,
                 VertexOffset = vertexOffset,
                 PrimitiveCount = primCount,
-                Material = (materialIndex >= 0 ? materials[materialIndex] : null),
             };
             return part;
         }
