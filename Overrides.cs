@@ -8,40 +8,40 @@ namespace ChamberLib
     public struct Overrides
     {
         public Overrides(
-            IMaterial fragmentMaterial=null,
             IMaterial vertexMaterial=null,
+            IMaterial fragmentMaterial=null,
             float? alpha=null,
             ShaderUniforms uniforms=null)
         {
-            this.FragmentMaterial = fragmentMaterial;
             this.VertexMaterial = vertexMaterial;
+            this.FragmentMaterial = fragmentMaterial;
             this.Alpha = alpha;
             this.Uniforms = uniforms;
         }
 
         public static Overrides FromPrototype(
             Overrides prototype,
-            IMaterial fragmentMaterial = null,
             IMaterial vertexMaterial = null,
+            IMaterial fragmentMaterial = null,
             float? alpha = null,
             ShaderUniforms uniforms = null)
         {
             return new Overrides(
-                fragmentMaterial: fragmentMaterial ?? prototype.FragmentMaterial,
                 vertexMaterial: vertexMaterial ?? prototype.VertexMaterial,
+                fragmentMaterial: fragmentMaterial ?? prototype.FragmentMaterial,
                 alpha: alpha ?? prototype.Alpha,
                 uniforms: uniforms ?? prototype.Uniforms);
         }
 
-        public IMaterial FragmentMaterial;
-        public IMaterial GetFragmentMaterial(IMaterial defaultValue)
-        {
-            return this.FragmentMaterial ?? defaultValue;
-        }
         public IMaterial VertexMaterial;
         public IMaterial GetVertexMaterial(IMaterial defaultValue)
         {
             return this.VertexMaterial ?? defaultValue;
+        }
+        public IMaterial FragmentMaterial;
+        public IMaterial GetFragmentMaterial(IMaterial defaultValue)
+        {
+            return this.FragmentMaterial ?? defaultValue;
         }
         public float? Alpha;
         public float GetAlpha(float defaultValue)
