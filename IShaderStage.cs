@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ChamberLib
 {
@@ -7,6 +8,9 @@ namespace ChamberLib
         string Name { get; }
         string Source { get; }
         ShaderType ShaderType { get; }
+
+        IEnumerable<string> BindAttributes { get; }
+        void SetBindAttributes(IEnumerable<string> bindattrs);
     }
 }
 

@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
 using ChamberLib.Content;
 using _OpenTK = global::OpenTK;
+using System.Collections.Generic;
 
 namespace ChamberLib.OpenTK
 {
@@ -53,6 +54,17 @@ namespace ChamberLib.OpenTK
 
                 IsCompiled = (result == 1);
             }
+        }
+
+        List<string> bindAttributes = new List<string>();
+        public IEnumerable<string> BindAttributes
+        {
+            get { return bindAttributes; }
+        }
+        public void SetBindAttributes(IEnumerable<string> bindattrs)
+        {
+            bindAttributes.Clear();
+            bindAttributes.AddRange(bindattrs);
         }
     }
 }

@@ -48,15 +48,13 @@ namespace ChamberLib.OpenTK
 
         public int ProgramID;
 
-        List<string> bindAttributes = new List<string>();
         public IEnumerable<string> BindAttributes
         {
-            get { return bindAttributes; }
+            get { return VertexShader.BindAttributes; }
         }
         public void SetBindAttributes(IEnumerable<string> bindattrs)
         {
-            bindAttributes.Clear();
-            bindAttributes.AddRange(bindattrs);
+            VertexShader.SetBindAttributes(bindattrs);
         }
 
         readonly string _name;
