@@ -49,12 +49,12 @@ namespace ChamberLib.OpenTK
                 {
                     if (!resolver.VertexMaterials.ContainsKey(part.VertexMaterial))
                     {
-                        var mat2 = new Material(part.VertexMaterial, resolver, processor);
+                        var mat2 = new VertexMaterial(part.VertexMaterial, resolver, processor);
                         resolver.VertexMaterials.Add(part.VertexMaterial, mat2);
                     }
                     if (!resolver.FragmentMaterials.ContainsKey(part.FragmentMaterial))
                     {
-                        var mat2 = new Material(part.FragmentMaterial, resolver, processor);
+                        var mat2 = new FragmentMaterial(part.FragmentMaterial, resolver, processor);
                         resolver.FragmentMaterials.Add(part.FragmentMaterial, mat2);
                     }
                 }

@@ -4,43 +4,11 @@ using ChamberLib.Content;
 
 namespace ChamberLib.OpenTK
 {
-    public class Material : IMaterial, IVertexMaterial, IFragmentMaterial
+    public abstract class Material : IMaterial, IVertexMaterial, IFragmentMaterial
     {
-        public Material(MaterialContent material, ContentResolver resolver, IContentProcessor processor)
+        protected Material(MaterialContent material, ContentResolver resolver, IContentProcessor processor)
         {
             this.Name = material.Name;
-            this.Diffuse = material.DiffuseColor;
-            this.EmissiveColor = material.EmissiveColor;
-            this.SpecularColor = material.SpecularColor;
-            this.SpecularPower = material.SpecularPower;
-            this.Alpha = material.Alpha;
-
-            if (material.Texture != null)
-            {
-                this.Texture = processor.ProcessTexture2D(material.Texture);
-            }
-
-            if (material.VertexShader != null)
-            {
-                var vertex =
-                    processor.ProcessShaderStage(material.VertexShader, processor);
-                vertex.SetBindAttributes(
-                    new[] {
-                        "in_position",
-                        "in_normal",
-                        "in_texture_coords",
-                        "in_blend_indices",
-                        "in_blend_weights",
-                    });
-                this.VertexShader = vertex;
-            }
-
-            if (material.FragmentShader != null)
-            {
-                var fragment =
-                    processor.ProcessShaderStage(material.FragmentShader, processor);
-                this.FragmentShader = fragment;
-            }
         }
 
         public string Name { get; set; }
