@@ -81,21 +81,12 @@ namespace ChamberLib.Content
                     ibuffers.Add(ib);
                 }
 
-                // Materials
-                var materials = new List<MaterialContent>();
-                num = int.Parse(reader.ReadLine().Split(' ')[1]);
-                for (i = 0; i < num; i++)
-                {
-                    var material = ReadMaterial(reader, importer);
-                    materials.Add(material);
-                }
-
                 // Meshes
                 num = int.Parse(reader.ReadLine().Split(' ')[1]);
                 var meshes = new List<MeshContent>();
                 for (i = 0; i < num; i++)
                 {
-                    var mesh = ReadMesh(reader, vbuffers, ibuffers, materials, bones);
+                    var mesh = ReadMesh(reader, vbuffers, ibuffers, bones);
 
                     meshes.Add(mesh);
                 }
@@ -195,43 +186,7 @@ namespace ChamberLib.Content
             return indexes;
         }
 
-        MaterialContent ReadMaterial(IReader reader, IContentImporter importer)
-        {
-            var mat = new MaterialContent();
-            mat.DiffuseColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
-            mat.EmissiveColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
-            mat.SpecularColor = ImportExportHelper.ConvertVector3(reader.ReadLine());
-            mat.SpecularPower = float.Parse(reader.ReadLine());
-            var texname = reader.ReadLine();
-            if (!string.IsNullOrEmpty(texname))
-            {
-                mat.Texture = importer.ImportTexture2D(texname, importer);
-            }
-            var shadername = reader.ReadLine();
-            if (!string.IsNullOrEmpty(shadername))
-            {
-                string vertname, fragname;
-                if (shadername.Contains(","))
-                {
-                    var parts = shadername.Split(new[] { ',' }, 2);
-                    vertname = parts[0];
-                    fragname = parts[1];
-                }
-                else
-                {
-                    vertname = fragname = shadername;
-                }
-
-                mat.VertexShader =
-                    importer.ImportShaderStage(vertname, ShaderType.Vertex, importer);
-                mat.FragmentShader =
-                    importer.ImportShaderStage(fragname, ShaderType.Fragment, importer);
-            }
-
-            return mat;
-        }
-
-        static MeshContent ReadMesh(IReader reader, List<VertexBufferContent> vbuffers, List<IndexBufferContent> ibuffers, List<MaterialContent> materials, List<BoneContent> bones)
+        static MeshContent ReadMesh(IReader reader, List<VertexBufferContent> vbuffers, List<IndexBufferContent> ibuffers, List<BoneContent> bones)
         {
             var name = reader.ReadLine();
             int parentBone = int.Parse(reader.ReadLine());
@@ -242,7 +197,7 @@ namespace ChamberLib.Content
             var parts = new List<PartContent>();
             for (j = 0; j < num2; j++)
             {
-                var part = ReadMeshPart(reader, vbuffers, ibuffers, materials);
+                var part = ReadMeshPart(reader, vbuffers, ibuffers);
                 parts.Add(part);
             }
             var mesh = new MeshContent {
@@ -253,7 +208,7 @@ namespace ChamberLib.Content
             return mesh;
         }
 
-        static PartContent ReadMeshPart(IReader reader, List<VertexBufferContent> vbuffers, List<IndexBufferContent>  ibuffers, List<MaterialContent> materials)
+        static PartContent ReadMeshPart(IReader reader, List<VertexBufferContent> vbuffers, List<IndexBufferContent>  ibuffers)
         {
             var materialIndex = int.Parse(reader.ReadLine());
             var indexBufferIndex = int.Parse(reader.ReadLine());
