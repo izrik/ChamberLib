@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace ChamberLib.OpenTK
 {
-    public class ShaderProgram : IShaderProgram
+    public class ShaderProgram
     {
         protected ShaderProgram(ShaderStage vertexShader, ShaderStage fragmentShader,
             string name=null)
@@ -53,9 +53,6 @@ namespace ChamberLib.OpenTK
 
         public readonly ShaderStage VertexShader;
         public readonly ShaderStage FragmentShader;
-
-        IShaderStage IShaderProgram.VertexShader { get { return VertexShader; } }
-        IShaderStage IShaderProgram.FragmentShader { get { return FragmentShader; } }
 
         public void Apply(Overrides overrides=default(Overrides))
         {
