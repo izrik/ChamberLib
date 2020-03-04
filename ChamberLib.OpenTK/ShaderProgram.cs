@@ -355,6 +355,14 @@ namespace ChamberLib.OpenTK
 
         protected void ApplyUniformValues(ShaderUniforms uniformsOverride)
         {
+            foreach (var name in VertexShader.Uniforms.GetUniformNames())
+            {
+                ApplyUniform(name, VertexShader.Uniforms);
+            }
+            foreach (var name in FragmentShader.Uniforms.GetUniformNames())
+            {
+                ApplyUniform(name, FragmentShader.Uniforms);
+            }
             if (uniformsOverride != null)
             {
                 foreach (var name in uniformsOverride.GetUniformNames())
