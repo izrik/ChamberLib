@@ -8,8 +8,8 @@ namespace ChamberLib
     public struct Overrides
     {
         public Overrides(
-            IMaterial vertexMaterial=null,
-            IMaterial fragmentMaterial=null,
+            IVertexMaterial vertexMaterial =null,
+            IFragmentMaterial fragmentMaterial =null,
             float? alpha=null,
             ShaderUniforms uniforms=null)
         {
@@ -21,8 +21,8 @@ namespace ChamberLib
 
         public static Overrides FromPrototype(
             Overrides prototype,
-            IMaterial vertexMaterial=null,
-            IMaterial fragmentMaterial=null,
+            IVertexMaterial vertexMaterial =null,
+            IFragmentMaterial fragmentMaterial =null,
             float? alpha=null,
             ShaderUniforms uniforms=null)
         {
@@ -33,13 +33,13 @@ namespace ChamberLib
                 uniforms: uniforms ?? prototype.Uniforms);
         }
 
-        public IMaterial VertexMaterial;
-        public IMaterial GetVertexMaterial(IMaterial defaultValue)
+        public IVertexMaterial VertexMaterial;
+        public IVertexMaterial GetVertexMaterial(IVertexMaterial defaultValue)
         {
             return this.VertexMaterial ?? defaultValue;
         }
-        public IMaterial FragmentMaterial;
-        public IMaterial GetFragmentMaterial(IMaterial defaultValue)
+        public IFragmentMaterial FragmentMaterial;
+        public IFragmentMaterial GetFragmentMaterial(IFragmentMaterial defaultValue)
         {
             return this.FragmentMaterial ?? defaultValue;
         }
