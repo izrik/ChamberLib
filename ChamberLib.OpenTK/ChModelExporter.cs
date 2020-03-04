@@ -35,7 +35,6 @@ namespace ChamberLib.OpenTK
                 }
                 var vbuffersset = new HashSet<VertexBuffer>();
                 var ibuffersset = new HashSet<IndexBuffer>();
-                var materialsset = new HashSet<Material>();
                 foreach (var mesh in model.Meshes)
                 {
                     foreach (var part in mesh.Parts)
@@ -46,7 +45,6 @@ namespace ChamberLib.OpenTK
                 }
                 var vbuffers = vbuffersset.ToList();
                 var ibuffers = ibuffersset.ToList();
-                var materials = materialsset.ToList();
                 writer.WriteLine("VertexBuffers {0}", vbuffers.Count);
                 k = 0;
                 foreach (var vb in vbuffers)
@@ -73,18 +71,7 @@ namespace ChamberLib.OpenTK
                     WriteIndexBuffer(writer, ib, k);
                     k++;
                 }
-                writer.WriteLine("Materials {0}", materials.Count);
                 k = 0;
-                foreach (var mat in materials)
-                {
-                    if (ImportExportHelper.WriteComments)
-                    {
-                        writer.WriteLine("######################");
-                        writer.WriteLine("# Material {0,2} ########", k++);
-                        writer.WriteLine("######################");
-                    }
-                    WriteMaterial(writer, mat, content);
-                }
                 writer.WriteLine("Meshes {0}", model.Meshes.Count);
                 k = 0;
                 foreach (var mesh in model.Meshes)
@@ -95,7 +82,7 @@ namespace ChamberLib.OpenTK
                         writer.WriteLine("# Mesh {0,2} ############", k++);
                         writer.WriteLine("######################");
                     }
-                    WriteMesh(writer, mesh, model, vbuffers, ibuffers, materials);
+                    WriteMesh(writer, mesh, model, vbuffers, ibuffers);
                 }
                 writer.WriteLine(model.Root != null ? model.Bones.IndexOf(model.RootBone) : -1);
 
@@ -221,23 +208,17 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        void WriteMaterial(TextWriter writer, Material mat, IContentManager content)
-        {
-            string texname = "";
-            writer.WriteLine(texname);
-        }
-
-        void WriteMesh(TextWriter writer, Mesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Material> materials)
+        void WriteMesh(TextWriter writer, Mesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers)
         {
             writer.WriteLine("mesh name");//mesh.Name);
             writer.WriteLine("MeshParts {0}", mesh.Parts.Count);
             foreach (var part in mesh.Parts)
             {
-                WriteMeshPart(writer, part, vbuffers, ibuffers, materials);
+                WriteMeshPart(writer, part, vbuffers, ibuffers);
             }
         }
 
-        void WriteMeshPart(TextWriter writer, Part part, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Material> materials)
+        void WriteMeshPart(TextWriter writer, Part part, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers)
         {
             writer.WriteLine(part.Indexes != null ? ibuffers.IndexOf(part.Indexes) : -1);
             writer.WriteLine(part.PrimitiveCount);

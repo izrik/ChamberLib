@@ -3,10 +3,9 @@ using ChamberLib.Content;
 
 namespace ChamberLib.OpenTK
 {
-    public class FragmentMaterial : Material, IFragmentMaterial
+    public class FragmentMaterial : IFragmentMaterial
     {
         public FragmentMaterial(FragmentMaterialContent material, ContentResolver resolver, IContentProcessor processor)
-            : base(material, resolver, processor)
         {
             this.Name = material.Name;
 

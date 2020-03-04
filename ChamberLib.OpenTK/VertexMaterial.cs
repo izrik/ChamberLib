@@ -3,10 +3,9 @@ using ChamberLib.Content;
 
 namespace ChamberLib.OpenTK
 {
-    public class VertexMaterial : Material, IVertexMaterial
+    public class VertexMaterial : IVertexMaterial
     {
         public VertexMaterial(VertexMaterialContent material, ContentResolver resolver, IContentProcessor processor)
-            : base(material, resolver, processor)
         {
             this.Name = material.Name;
 
