@@ -61,8 +61,6 @@ namespace ChamberLib.OpenTK
         {
             if (Shader == null) throw new InvalidOperationException("No shader specified");
 
-            Shader.Apply(overrides);
-
             var camera = components?.Get<ICamera>();
             var view = camera?.View ?? Matrix.Identity;
             var projection = camera?.Projection ?? __Apply_defaultProjection;
@@ -102,11 +100,6 @@ namespace ChamberLib.OpenTK
             if (Texture != null)
             {
                 Texture.UnApply();
-            }
-
-            if (Shader != null)
-            {
-                Shader.UnApply();
             }
         }
     }

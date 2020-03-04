@@ -115,6 +115,9 @@ namespace ChamberLib.OpenTK
         {
             IMaterial material = overrides.GetMaterial(Material);
 
+            var shader = material.Shader;
+            shader.Apply(overrides);
+
             material.Apply(gameTime, world, components, overrides);
             RenderBundle.Apply();
 
@@ -122,6 +125,7 @@ namespace ChamberLib.OpenTK
 
             RenderBundle.UnApply();
             material.UnApply();
+            shader.UnApply();
         }
 
         public void DrawWireframe(GameTime gameTime, Matrix world,
@@ -130,6 +134,9 @@ namespace ChamberLib.OpenTK
         {
             var material = overrides.GetMaterial(Material);
 
+            var shader = material.Shader;
+            shader.Apply(overrides);
+
             material.Apply(gameTime, world, components, overrides);
             RenderBundle.Apply();
 
@@ -137,6 +144,7 @@ namespace ChamberLib.OpenTK
 
             RenderBundle.UnApply();
             material.UnApply();
+            shader.UnApply();
         }
 
         public void MakeReady()
