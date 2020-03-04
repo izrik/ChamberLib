@@ -223,19 +223,8 @@ namespace ChamberLib.OpenTK
 
         void WriteMaterial(TextWriter writer, Material mat, IContentManager content)
         {
-            TextureAdapter texture = (TextureAdapter)mat.Texture;
-            Vector3 diffuse = mat.Diffuse;
-            Vector3 emissive = mat.EmissiveColor;
-            Vector3 specularColor = mat.SpecularColor;
-            float specularPower = mat.SpecularPower;
-
-            writer.WriteLine(ImportExportHelper.Convert(diffuse));
-            writer.WriteLine(ImportExportHelper.Convert(emissive));
-            writer.WriteLine(ImportExportHelper.Convert(specularColor));
-            writer.WriteLine(specularPower);
             string texname = "";
             writer.WriteLine(texname);
-
         }
 
         void WriteMesh(TextWriter writer, Mesh mesh, Model model, List<VertexBuffer> vbuffers, List<IndexBuffer> ibuffers, List<Material> materials)
