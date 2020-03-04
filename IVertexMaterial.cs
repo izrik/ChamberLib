@@ -1,7 +1,7 @@
 ﻿using System;
 namespace ChamberLib
 {
-    public interface IVertexMaterial : IMaterial
+    public interface IVertexMaterial
     {
         string Name { get; }
 

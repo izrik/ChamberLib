@@ -1,7 +1,7 @@
 ﻿using System;
 namespace ChamberLib
 {
-    public interface IFragmentMaterial : IMaterial
+    public interface IFragmentMaterial
     {
         string Name { get; }
 

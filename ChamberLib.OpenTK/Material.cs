@@ -4,7 +4,7 @@ using ChamberLib.Content;
 
 namespace ChamberLib.OpenTK
 {
-    public abstract class Material : IMaterial
+    public abstract class Material
     {
         protected Material(MaterialContent material, ContentResolver resolver, IContentProcessor processor)
         {
