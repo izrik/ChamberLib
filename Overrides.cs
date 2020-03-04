@@ -8,12 +8,12 @@ namespace ChamberLib
     public struct Overrides
     {
         public Overrides(
-            IMaterial material=null,
+            IMaterial fragmentMaterial=null,
             IMaterial vertexMaterial=null,
             float? alpha=null,
             ShaderUniforms uniforms=null)
         {
-            this.Material = material;
+            this.FragmentMaterial = fragmentMaterial;
             this.VertexMaterial = vertexMaterial;
             this.Alpha = alpha;
             this.Uniforms = uniforms;
@@ -21,22 +21,22 @@ namespace ChamberLib
 
         public static Overrides FromPrototype(
             Overrides prototype,
-            IMaterial material = null,
+            IMaterial fragmentMaterial = null,
             IMaterial vertexMaterial = null,
             float? alpha = null,
             ShaderUniforms uniforms = null)
         {
             return new Overrides(
-                material: material ?? prototype.Material,
+                fragmentMaterial: fragmentMaterial ?? prototype.FragmentMaterial,
                 vertexMaterial: vertexMaterial ?? prototype.VertexMaterial,
                 alpha: alpha ?? prototype.Alpha,
                 uniforms: uniforms ?? prototype.Uniforms);
         }
 
-        public IMaterial Material;
-        public IMaterial GetMaterial(IMaterial defaultValue)
+        public IMaterial FragmentMaterial;
+        public IMaterial GetFragmentMaterial(IMaterial defaultValue)
         {
-            return this.Material ?? defaultValue;
+            return this.FragmentMaterial ?? defaultValue;
         }
         public IMaterial VertexMaterial;
         public IMaterial GetVertexMaterial(IMaterial defaultValue)
@@ -47,8 +47,8 @@ namespace ChamberLib
         public float GetAlpha(float defaultValue)
         {
             if (this.Alpha.HasValue) return this.Alpha.Value;
-            if (this.Material == null) return defaultValue;
-            return this.Material.Alpha;
+            if (this.FragmentMaterial == null) return defaultValue;
+            return this.FragmentMaterial.Alpha;
         }
 
         public ShaderUniforms Uniforms;

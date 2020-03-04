@@ -113,7 +113,7 @@ namespace ChamberLib.OpenTK
             ComponentCollection components,
             Overrides overrides=default(Overrides))
         {
-            IMaterial material = overrides.GetMaterial(Material);
+            IMaterial material = overrides.GetFragmentMaterial(Material);
             var shader = ShaderProgram.GetShaderProgram(
                 (ShaderStage)material.VertexShader,
                 (ShaderStage)material.FragmentShader);
@@ -134,7 +134,7 @@ namespace ChamberLib.OpenTK
             ComponentCollection components,
             Overrides overrides=default(Overrides))
         {
-            var material = overrides.GetMaterial(Material);
+            var material = overrides.GetFragmentMaterial(Material);
             var shader = ShaderProgram.GetShaderProgram(
                 (ShaderStage)material.VertexShader,
                 (ShaderStage)material.FragmentShader);

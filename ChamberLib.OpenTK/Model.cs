@@ -145,9 +145,9 @@ namespace ChamberLib.OpenTK
         {
             if (boneTransforms == null) throw new ArgumentNullException("boneTransforms");
 
-            if (overrides.Material != null)
+            if (overrides.FragmentMaterial != null)
             {
-                var material = overrides.GetMaterial(null);
+                var material = overrides.GetFragmentMaterial(null);
                 if (material != null)
                     SetBoneUniformsForMaterial(boneTransforms, material);
             }
