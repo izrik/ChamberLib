@@ -62,8 +62,19 @@ namespace ChamberLib.OpenTK
                             IShaderStage fragmentShader,
                             Overrides overrides =default(Overrides))
         {
+            ApplyVertexShader(vertexShader, gameTime, world, components,
+                overrides);
+
+            ApplyFragmentShader(fragmentShader, gameTime, world, components,
+                overrides);
+        }
+
+        public void ApplyVertexShader(IShaderStage vertexShader,
+                                        GameTime gameTime, Matrix world,
+                                        ComponentCollection components,
+                                        Overrides overrides=default(Overrides))
+        {
             if (vertexShader == null) throw new InvalidOperationException("No vertex shader specified");
-            if (fragmentShader == null) throw new InvalidOperationException("No fragment shader specified");
 
             var camera = components?.Get<ICamera>();
             var view = camera?.View ?? Matrix.Identity;
@@ -74,24 +85,34 @@ namespace ChamberLib.OpenTK
             vertexShader.SetUniform("viewProj", view * projection);
             vertexShader.SetUniform("view", view);
             vertexShader.SetUniform("world", world);
+        }
+
+        public void ApplyFragmentShader(IShaderStage fragmentShader,
+                                        GameTime gameTime, Matrix world,
+                                        ComponentCollection components,
+                                        Overrides overrides)
+        {
+            if (fragmentShader == null) throw new InvalidOperationException("No fragment shader specified");
 
             var ambient = components?.Get<AmbientLight>();
-            vertexShader.SetUniform("light_ambient", ambient?.Color ?? Vector3.Zero);
+            fragmentShader.SetUniform("light_ambient", ambient?.Color ?? Vector3.Zero);
 
             var light = components?.Get<DirectionalLight>();
-            vertexShader.SetUniform("light_direction_ws", light?.Direction.Normalized() ?? -Vector3.UnitY);
-            vertexShader.SetUniform("light_diffuse_color", light?.DiffuseColor ?? Vector3.One);
-            vertexShader.SetUniform("light_specular_color", light?.SpecularColor ?? Vector3.One);
+            fragmentShader.SetUniform("light_direction_ws", light?.Direction.Normalized() ?? -Vector3.UnitY);
+            fragmentShader.SetUniform("light_diffuse_color", light?.DiffuseColor ?? Vector3.One);
+            fragmentShader.SetUniform("light_specular_color", light?.SpecularColor ?? Vector3.One);
 
-            vertexShader.SetUniform("camera_position_ws", view.Inverted().Translation);
+            var camera = components?.Get<ICamera>();
+            var view = camera?.View ?? Matrix.Identity;
+            fragmentShader.SetUniform("camera_position_ws", view.Inverted().Translation);
 
-            vertexShader.SetUniform("use_texture", (Texture != null));
-            vertexShader.SetUniform("material_diffuse_color", Diffuse);
-            vertexShader.SetUniform("material_emissive_color", EmissiveColor);
-            vertexShader.SetUniform("material_specular_color", SpecularColor);
-            vertexShader.SetUniform("material_specular_power", SpecularPower);
+            fragmentShader.SetUniform("use_texture", (Texture != null));
+            fragmentShader.SetUniform("material_diffuse_color", Diffuse);
+            fragmentShader.SetUniform("material_emissive_color", EmissiveColor);
+            fragmentShader.SetUniform("material_specular_color", SpecularColor);
+            fragmentShader.SetUniform("material_specular_power", SpecularPower);
             float alpha = overrides.GetAlpha(Alpha);
-            vertexShader.SetUniform("material_alpha", alpha);
+            fragmentShader.SetUniform("material_alpha", alpha);
 
             if (Texture != null)
             {
