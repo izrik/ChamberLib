@@ -235,13 +235,6 @@ namespace ChamberLib.OpenTK
             writer.WriteLine(ImportExportHelper.Convert(specularColor));
             writer.WriteLine(specularPower);
             string texname = "";
-            if (texture != null)
-            {
-                texname = content.LookupObjectName(texture);
-                if (texname == null)
-                {
-                }
-            }
             writer.WriteLine(texname);
 
         }

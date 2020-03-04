@@ -60,37 +60,6 @@ namespace ChamberLib.Content
             return soundEffects.Call(name);
         }
 
-        public string LookupObjectName(object o)
-        {
-            if (o is IModel)
-            {
-                var s = models.LookupObject((IModel)o);
-                if (s != null) return s;
-            }
-            if (o is ITexture2D)
-            {
-                var s = textures.LookupObject((ITexture2D)o);
-                if (s != null) return s;
-            }
-            if (o is IFont)
-            {
-                var s = fonts.LookupObject((IFont)o);
-                if (s != null) return s;
-            }
-            if (o is ISong)
-            {
-                var s = songs.LookupObject((ISong)o);
-                if (s != null) return s;
-            }
-            if (o is ISoundEffect)
-            {
-                var s = soundEffects.LookupObject((ISoundEffect)o);
-                if (s != null) return s;
-            }
-
-            return next.LookupObjectName(o);
-        }
-
         public ITexture2D CreateTexture(int width, int height, Color[] data,
             PixelFormat pixelFormat=PixelFormat.Rgba)
         {

@@ -62,16 +62,6 @@ namespace ChamberLib
             return shaderStage;
         }
 
-        public string LookupObjectName(object o)
-        {
-            if (o is IShaderProgram)
-            {
-                return ((IShaderProgram)o).Name;
-            }
-
-            return null;
-        }
-
         public ITexture2D CreateTexture(int width, int height, Color[] data,
             PixelFormat pixelFormat=PixelFormat.Rgba)
         {
