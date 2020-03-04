@@ -56,38 +56,38 @@ namespace ChamberLib.OpenTK
         readonly Matrix __Apply_defaultProjection =
             Matrix.CreateOrthographic(2, 2, 0, 1);
         public void Apply(GameTime gameTime, Matrix world,
-            ComponentCollection components,
+            ComponentCollection components, IShaderProgram shader,
             Overrides overrides=default(Overrides))
         {
-            if (Shader == null) throw new InvalidOperationException("No shader specified");
+            if (shader == null) throw new InvalidOperationException("No shader specified");
 
             var camera = components?.Get<ICamera>();
             var view = camera?.View ?? Matrix.Identity;
             var projection = camera?.Projection ?? __Apply_defaultProjection;
 
-            Shader.SetUniform("worldViewProj", world * view * projection);
-            Shader.SetUniform("worldView", world * view);
-            Shader.SetUniform("viewProj", view * projection);
-            Shader.SetUniform("view", view);
-            Shader.SetUniform("world", world);
+            shader.SetUniform("worldViewProj", world * view * projection);
+            shader.SetUniform("worldView", world * view);
+            shader.SetUniform("viewProj", view * projection);
+            shader.SetUniform("view", view);
+            shader.SetUniform("world", world);
 
             var ambient = components?.Get<AmbientLight>();
-            Shader.SetUniform("light_ambient", ambient?.Color ?? Vector3.Zero);
+            shader.SetUniform("light_ambient", ambient?.Color ?? Vector3.Zero);
 
             var light = components?.Get<DirectionalLight>();
-            Shader.SetUniform("light_direction_ws", light?.Direction.Normalized() ?? -Vector3.UnitY);
-            Shader.SetUniform("light_diffuse_color", light?.DiffuseColor ?? Vector3.One);
-            Shader.SetUniform("light_specular_color", light?.SpecularColor ?? Vector3.One);
+            shader.SetUniform("light_direction_ws", light?.Direction.Normalized() ?? -Vector3.UnitY);
+            shader.SetUniform("light_diffuse_color", light?.DiffuseColor ?? Vector3.One);
+            shader.SetUniform("light_specular_color", light?.SpecularColor ?? Vector3.One);
 
-            Shader.SetUniform("camera_position_ws", view.Inverted().Translation);
+            shader.SetUniform("camera_position_ws", view.Inverted().Translation);
 
-            Shader.SetUniform("use_texture", (Texture != null));
-            Shader.SetUniform("material_diffuse_color", Diffuse);
-            Shader.SetUniform("material_emissive_color", EmissiveColor);
-            Shader.SetUniform("material_specular_color", SpecularColor);
-            Shader.SetUniform("material_specular_power", SpecularPower);
+            shader.SetUniform("use_texture", (Texture != null));
+            shader.SetUniform("material_diffuse_color", Diffuse);
+            shader.SetUniform("material_emissive_color", EmissiveColor);
+            shader.SetUniform("material_specular_color", SpecularColor);
+            shader.SetUniform("material_specular_power", SpecularPower);
             float alpha = overrides.GetAlpha(Alpha);
-            Shader.SetUniform("material_alpha", alpha);
+            shader.SetUniform("material_alpha", alpha);
 
             if (Texture != null)
             {

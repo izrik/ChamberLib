@@ -7,7 +7,7 @@ namespace ChamberLib
         string Name { get; }
 
         void Apply(GameTime gameTime, Matrix world,
-                    ComponentCollection components,
+                    ComponentCollection components, IShaderProgram shader,
                     Overrides overrides=default(Overrides));
         void UnApply();
 

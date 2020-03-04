@@ -118,7 +118,7 @@ namespace ChamberLib.OpenTK
             var shader = material.Shader;
             shader.Apply(overrides);
 
-            material.Apply(gameTime, world, components, overrides);
+            material.Apply(gameTime, world, components, shader, overrides);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount * 3, StartIndex, VertexOffset);
@@ -137,7 +137,7 @@ namespace ChamberLib.OpenTK
             var shader = material.Shader;
             shader.Apply(overrides);
 
-            material.Apply(gameTime, world, components, overrides);
+            material.Apply(gameTime, world, components, shader, overrides);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Lines, PrimitiveCount*2, StartIndex, VertexOffset);
