@@ -35,12 +35,13 @@ namespace ChamberLib.OpenTK
             _DrawImages_shader_frag_stage = new ShaderStage(
                 _DrawImages_shader_frag_source, ShaderType.Fragment, name);
 
+            _DrawImages_shader_vert_stage.SetBindAttributes(new[] {
+                "in_position" });
             _DrawImages_shader =
                 ShaderProgram.GetShaderProgram(
                     _DrawImages_shader_vert_stage,
                     _DrawImages_shader_frag_stage,
                     name);
-            _DrawImages_shader.SetBindAttributes(new[] { "in_position" });
 
             _DrawImages_shader.MakeReady();
             GLHelper.CheckError();

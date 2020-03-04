@@ -27,8 +27,7 @@ namespace ChamberLib.OpenTK
                     processor.ProcessShaderStage(material.VertexShader, processor);
                 var fragment =
                     processor.ProcessShaderStage(material.FragmentShader, processor);
-                this.Shader = processor.MakeShaderProgram(vertex, fragment);
-                this.Shader.SetBindAttributes(
+                vertex.SetBindAttributes(
                     new[] {
                         "in_position",
                         "in_normal",
@@ -36,6 +35,7 @@ namespace ChamberLib.OpenTK
                         "in_blend_indices",
                         "in_blend_weights",
                     });
+                this.Shader = processor.MakeShaderProgram(vertex, fragment);
             }
         }
 

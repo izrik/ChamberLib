@@ -48,15 +48,6 @@ namespace ChamberLib.OpenTK
 
         public int ProgramID;
 
-        public IEnumerable<string> BindAttributes
-        {
-            get { return VertexShader.BindAttributes; }
-        }
-        public void SetBindAttributes(IEnumerable<string> bindattrs)
-        {
-            VertexShader.SetBindAttributes(bindattrs);
-        }
-
         readonly string _name;
         public string Name { get { return _name; } }
 
@@ -128,7 +119,7 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
 
             int i = 0;
-            foreach (var attr in BindAttributes)
+            foreach (var attr in VertexShader.BindAttributes)
             {
                 if (string.IsNullOrEmpty(attr)) continue;
 

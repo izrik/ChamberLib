@@ -152,11 +152,12 @@ namespace ChamberLib.OpenTK
             _DrawString_shader_frag_stage = new ShaderStage(
                 _DrawString_shader_frag_source, ShaderType.Fragment, name);
 
+            _DrawString_shader_vert_stage.SetBindAttributes(new[] {
+                "in_position" });
             Shader = ShaderProgram.GetShaderProgram(
                 _DrawString_shader_vert_stage,
                 _DrawString_shader_frag_stage,
                 name);
-            Shader.SetBindAttributes(new[] { "in_position" });
 
             Shader.Apply();
 
