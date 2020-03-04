@@ -30,18 +30,9 @@ namespace ChamberLib.OpenTK
 
         public string Name { get; set; }
 
-        void IFragmentMaterial.Apply(GameTime gameTime, Matrix world,
+        public void Apply(GameTime gameTime, Matrix world,
             ComponentCollection components, IShaderStage fragmentShader,
             Overrides overrides=default(Overrides))
-        {
-            ApplyFragmentShader(fragmentShader, gameTime, world, components,
-                overrides);
-        }
-
-        public void ApplyFragmentShader(IShaderStage fragmentShader,
-                                        GameTime gameTime, Matrix world,
-                                        ComponentCollection components,
-                                        Overrides overrides = default(Overrides))
         {
             if (fragmentShader == null) throw new InvalidOperationException("No fragment shader specified");
 

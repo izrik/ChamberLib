@@ -29,19 +29,9 @@ namespace ChamberLib.OpenTK
 
         readonly Matrix __Apply_defaultProjection =
             Matrix.CreateOrthographic(2, 2, 0, 1);
-        void IVertexMaterial.Apply(GameTime gameTime, Matrix world,
-                                    ComponentCollection components,
-                                    IShaderStage vertexShader,
-                                    Overrides overrides=default(Overrides))
-        {
-            ApplyVertexShader(vertexShader, gameTime, world, components,
-                overrides);
-        }
-
-        public void ApplyVertexShader(IShaderStage vertexShader,
-                                        GameTime gameTime, Matrix world,
-                                        ComponentCollection components,
-                                        Overrides overrides = default(Overrides))
+        public void Apply(GameTime gameTime, Matrix world,
+            ComponentCollection components, IShaderStage vertexShader,
+            Overrides overrides=default(Overrides))
         {
             if (vertexShader == null) throw new InvalidOperationException("No vertex shader specified");
 
