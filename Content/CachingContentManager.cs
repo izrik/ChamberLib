@@ -16,7 +16,6 @@ namespace ChamberLib.Content
             fonts = new Cache<string, IFont>(next.LoadFont);
             songs = new Cache<string, ISong>(next.LoadSong);
             soundEffects = new Cache<string, ISoundEffect>(next.LoadSoundEffect);
-            shaderPrograms = new Cache2<IShaderStage, IShaderStage, IShaderProgram>(next.MakeShaderProgram);
         }
 
         readonly IContentManager next;
@@ -27,7 +26,6 @@ namespace ChamberLib.Content
         readonly Cache<string, IFont> fonts;
         readonly Cache<string, ISong> songs;
         readonly Cache<string, ISoundEffect> soundEffects;
-        readonly Cache2<IShaderStage, IShaderStage, IShaderProgram> shaderPrograms;
 
         public IContentImporter Importer { get { return next.Importer; } }
         public IContentProcessor Processor { get { return next.Processor; } }
@@ -97,12 +95,6 @@ namespace ChamberLib.Content
             PixelFormat pixelFormat=PixelFormat.Rgba)
         {
             return next.CreateTexture(width, height, data, pixelFormat);
-        }
-
-        public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader)
-        {
-            return shaderPrograms.Call(vertexShader, fragmentShader);
         }
     }
 }

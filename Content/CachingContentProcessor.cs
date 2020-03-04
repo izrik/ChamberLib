@@ -15,7 +15,6 @@ namespace ChamberLib.Content
             fonts = new Cache<FontContent, IContentProcessor, IFont>(next.ProcessFont);
             songs = new Cache<SongContent, IContentProcessor, ISong>(next.ProcessSong);
             soundEffects = new Cache<SoundEffectContent, IContentProcessor, ISoundEffect>(next.ProcessSoundEffect);
-            shaderPrograms = new Cache2<IShaderStage, IShaderStage, IShaderProgram>(next.MakeShaderProgram);
 
             Next = next;
         }
@@ -26,7 +25,6 @@ namespace ChamberLib.Content
         readonly Cache<FontContent, IContentProcessor, IFont> fonts;
         readonly Cache<SongContent, IContentProcessor, ISong> songs;
         readonly Cache<SoundEffectContent, IContentProcessor, ISoundEffect> soundEffects;
-        readonly Cache2<IShaderStage, IShaderStage, IShaderProgram> shaderPrograms;
 
         readonly IContentProcessor Next;
 
@@ -60,12 +58,6 @@ namespace ChamberLib.Content
         public ISoundEffect ProcessSoundEffect(SoundEffectContent asset, IContentProcessor processor = null)
         {
             return soundEffects.Call(asset, processor);
-        }
-
-        public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader)
-        {
-            return shaderPrograms.Call(vertexShader, fragmentShader);
         }
 
         #endregion
