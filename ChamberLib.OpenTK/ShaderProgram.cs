@@ -64,7 +64,22 @@ namespace ChamberLib.OpenTK
             GL.UseProgram(ProgramID);
             GLHelper.CheckError();
 
-            ApplyUniformValues(overrides.GetUniforms(null));
+            foreach (var entry in VertexShader.Uniforms.GetEntries())
+            {
+                ApplyUniform(entry.Name, VertexShader.Uniforms);
+            }
+            foreach (var entry in FragmentShader.Uniforms.GetEntries())
+            {
+                ApplyUniform(entry.Name, FragmentShader.Uniforms);
+            }
+            var uniformOverrides = overrides.GetUniforms(null);
+            if (uniformOverrides != null)
+            {
+                foreach (var entry in uniformOverrides.GetEntries())
+                {
+                    ApplyUniform(entry.Name, uniformOverrides);
+                }
+            }
         }
 
         public void UnApply()
@@ -149,25 +164,6 @@ namespace ChamberLib.OpenTK
             var location = GL.GetUniformLocation(ProgramID, name);
             uniformLocationCache[name] = location;
             return location;
-        }
-
-        protected void ApplyUniformValues(ShaderUniforms uniformsOverride)
-        {
-            foreach (var entry in VertexShader.Uniforms.GetEntries())
-            {
-                ApplyUniform(entry.Name, VertexShader.Uniforms);
-            }
-            foreach (var entry in FragmentShader.Uniforms.GetEntries())
-            {
-                ApplyUniform(entry.Name, FragmentShader.Uniforms);
-            }
-            if (uniformsOverride != null)
-            {
-                foreach (var entry in uniformsOverride.GetEntries())
-                {
-                    ApplyUniform(entry.Name, uniformsOverride);
-                }
-            }
         }
 
         protected void ApplyUniform(string name, ShaderUniforms uniforms)
