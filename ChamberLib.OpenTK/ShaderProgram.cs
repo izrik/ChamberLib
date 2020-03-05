@@ -160,7 +160,9 @@ namespace ChamberLib.OpenTK
                 ActiveUniformType type;
                 var name = GL.GetActiveUniform(ProgramID, i, out size, out type);
                 GLHelper.CheckError();
-                var au = new ActiveUniform(name, size, type);
+                var location = GL.GetUniformLocation(ProgramID, name);
+                GLHelper.CheckError();
+                var au = new ActiveUniform(name, size, type, location);
                 activeUniformIndexByToken[au.Token] = activeUniforms.Count;
                 activeUniforms.Add(au);
             }
@@ -168,7 +170,7 @@ namespace ChamberLib.OpenTK
 
         struct ActiveUniform
         {
-            public ActiveUniform(string name, int size, ActiveUniformType gltype)
+            public ActiveUniform(string name, int size, ActiveUniformType gltype, int location)
             {
                 Name = name;
                 Token = ShaderUniforms.GetTokenForName(name);
@@ -178,6 +180,7 @@ namespace ChamberLib.OpenTK
                     Type = ShaderUniformType.Int;
                 else
                     Type = gltype.ToChamber();
+                Location = location;
             }
 
             public readonly string Name;
@@ -185,6 +188,7 @@ namespace ChamberLib.OpenTK
             public readonly int Size;
             public readonly ActiveUniformType GLType;
             public readonly ShaderUniformType Type;
+            public readonly int Location;
         }
 
         readonly Dictionary<string,int> uniformLocationCache = new Dictionary<string, int>();
