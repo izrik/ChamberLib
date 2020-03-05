@@ -66,18 +66,18 @@ namespace ChamberLib.OpenTK
 
             foreach (var entry in VertexShader.Uniforms.GetEntries())
             {
-                ApplyUniform(entry.Name, VertexShader.Uniforms);
+                ApplyUniform(entry.Token, VertexShader.Uniforms);
             }
             foreach (var entry in FragmentShader.Uniforms.GetEntries())
             {
-                ApplyUniform(entry.Name, FragmentShader.Uniforms);
+                ApplyUniform(entry.Token, FragmentShader.Uniforms);
             }
             var uniformOverrides = overrides.GetUniforms(null);
             if (uniformOverrides != null)
             {
                 foreach (var entry in uniformOverrides.GetEntries())
                 {
-                    ApplyUniform(entry.Name, uniformOverrides);
+                    ApplyUniform(entry.Token, uniformOverrides);
                 }
             }
         }
@@ -206,52 +206,53 @@ namespace ChamberLib.OpenTK
             uniformLocationCache[name] = location;
             return location;
         }
-
-        protected void ApplyUniform(string name, ShaderUniforms uniforms)
+        
+        protected void ApplyUniform(int token, ShaderUniforms uniforms)
         {
-            var type = uniforms.GetType(name);
-            var location = GetUniformLocation(name);
+            var type = uniforms.GetType(token);
+            var location = GetUniformLocation(
+                ShaderUniforms.GetNameFromToken(token));
 
             switch (type)
             {
             case ShaderUniformType.Bool:
-                GL.Uniform1(location, (uniforms.GetValueBool(name) ? 1 : 0));
+                GL.Uniform1(location, (uniforms.GetValueBool(token) ? 1 : 0));
                 break;
             case ShaderUniformType.Byte:
-                GL.Uniform1(location, uniforms.GetValueByte(name));
+                GL.Uniform1(location, uniforms.GetValueByte(token));
                 break;
             case ShaderUniformType.SByte:
-                GL.Uniform1(location, uniforms.GetValueSByte(name));
+                GL.Uniform1(location, uniforms.GetValueSByte(token));
                 break;
             case ShaderUniformType.Short:
-                GL.Uniform1(location, uniforms.GetValueShort(name));
+                GL.Uniform1(location, uniforms.GetValueShort(token));
                 break;
             case ShaderUniformType.UShort:
-                GL.Uniform1(location, uniforms.GetValueUShort(name));
+                GL.Uniform1(location, uniforms.GetValueUShort(token));
                 break;
             case ShaderUniformType.Int:
-                GL.Uniform1(location, uniforms.GetValueInt(name));
+                GL.Uniform1(location, uniforms.GetValueInt(token));
                 break;
             case ShaderUniformType.UInt:
-                GL.Uniform1(location, uniforms.GetValueUInt(name));
+                GL.Uniform1(location, uniforms.GetValueUInt(token));
                 break;
             case ShaderUniformType.Single:
-                GL.Uniform1(location, uniforms.GetValueSingle(name));
+                GL.Uniform1(location, uniforms.GetValueSingle(token));
                 break;
             case ShaderUniformType.Double:
-                GL.Uniform1(location, uniforms.GetValueDouble(name));
+                GL.Uniform1(location, uniforms.GetValueDouble(token));
                 break;
             case ShaderUniformType.Vector2:
-                GL.Uniform2(location, (uniforms.GetValueVector2(name)).ToOpenTK());
+                GL.Uniform2(location, (uniforms.GetValueVector2(token)).ToOpenTK());
                 break;
             case ShaderUniformType.Vector3:
-                GL.Uniform3(location, (uniforms.GetValueVector3(name)).ToOpenTK());
+                GL.Uniform3(location, (uniforms.GetValueVector3(token)).ToOpenTK());
                 break;
             case ShaderUniformType.Vector4:
-                GL.Uniform4(location, (uniforms.GetValueVector4(name)).ToOpenTK());
+                GL.Uniform4(location, (uniforms.GetValueVector4(token)).ToOpenTK());
                 break;
             case ShaderUniformType.Matrix:
-                var value2 = (uniforms.GetValueMatrix(name)).ToOpenTK();
+                var value2 = (uniforms.GetValueMatrix(token)).ToOpenTK();
                 GL.UniformMatrix4(location, false, ref value2);
                 break;
             default:
