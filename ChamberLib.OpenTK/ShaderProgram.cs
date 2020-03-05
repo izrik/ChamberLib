@@ -61,15 +61,10 @@ namespace ChamberLib.OpenTK
                 MakeReady();
             }
 
-            ApplyBase(overrides.GetUniforms(null));
-        }
-
-        protected void ApplyBase(ShaderUniforms uniformsOverride)
-        {
             GL.UseProgram(ProgramID);
             GLHelper.CheckError();
 
-            ApplyUniformValues(uniformsOverride);
+            ApplyUniformValues(overrides.GetUniforms(null));
         }
 
         public void UnApply()
