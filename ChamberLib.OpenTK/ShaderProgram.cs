@@ -207,7 +207,7 @@ namespace ChamberLib.OpenTK
             return location;
         }
 
-        float[] __ApplyUniform_matrixFloatArrayCache;
+        float[] __ApplyUniform_floatArrayCache;
         protected void ApplyUniform(int token, ShaderUniforms uniforms)
         {
             var type = uniforms.GetType(token);
@@ -249,7 +249,17 @@ namespace ChamberLib.OpenTK
                 GL.Uniform2(location, (uniforms.GetValueVector2(token)).ToOpenTK());
                 break;
             case ShaderUniformType.Vector3:
-                GL.Uniform3(location, (uniforms.GetValueVector3(token)).ToOpenTK());
+                if (isArray)
+                {
+                    var value2 = uniforms.GetValueVector3Array(token);
+                    EnsureCapcity(ref __ApplyUniform_floatArrayCache, value2.Length * 3);
+                    value2.ToFloatArray(__ApplyUniform_floatArrayCache);
+                    GL.Uniform3(location, value2.Length, __ApplyUniform_floatArrayCache);
+                }
+                else
+                {
+                    GL.Uniform3(location, (uniforms.GetValueVector3(token)).ToOpenTK());
+                }
                 break;
             case ShaderUniformType.Vector4:
                 GL.Uniform4(location, (uniforms.GetValueVector4(token)).ToOpenTK());
@@ -258,13 +268,9 @@ namespace ChamberLib.OpenTK
                 if (isArray)
                 {
                     var value2 = uniforms.GetValueMatrixArray(token);
-                    if (__ApplyUniform_matrixFloatArrayCache == null ||
-                        __ApplyUniform_matrixFloatArrayCache.Length < value2.Length * 16)
-                    {
-                        __ApplyUniform_matrixFloatArrayCache = new float[value2.Length * 16];
-                    }
-                    value2.ToFloatArray(__ApplyUniform_matrixFloatArrayCache);
-                    GL.UniformMatrix4(location, value2.Length, false, __ApplyUniform_matrixFloatArrayCache);
+                    EnsureCapcity(ref __ApplyUniform_floatArrayCache, value2.Length * 16);
+                    value2.ToFloatArray(__ApplyUniform_floatArrayCache);
+                    GL.UniformMatrix4(location, value2.Length, false, __ApplyUniform_floatArrayCache);
                 }
                 else
                 {
@@ -278,6 +284,18 @@ namespace ChamberLib.OpenTK
                     "Unknown uniform type: " + type.ToString());
             }
             GLHelper.CheckError();
+        }
+
+        void EnsureCapcity<T>(ref T[] array, int desiredCapacity)
+        {
+            if (array == null ||
+                array.Length < desiredCapacity)
+            {
+                var temp = new T[desiredCapacity];
+                if (array != null)
+                    array.CopyTo(temp, 0);
+                array = temp;
+            }
         }
     }
 }

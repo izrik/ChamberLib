@@ -59,6 +59,7 @@ namespace ChamberLib
         protected List<double> doubleValues;
         protected List<Vector2> vector2Values;
         protected List<Vector3> vector3Values;
+        protected List<Vector3[]> vector3ArrayValues;
         protected List<Vector4> vector4Values;
         protected List<Matrix> matrixValues;
         protected List<Matrix[]> matrixArrayValues;
@@ -173,6 +174,14 @@ namespace ChamberLib
         public Vector3 GetValueVector3(int token)
         {
             return vector3Values[entries[entryIndexesByToken[token]].Index];
+        }
+        public Vector3[] GetValueVector3Array(string name)
+        {
+            return GetValueVector3Array(GetTokenForName(name));
+        }
+        public Vector3[] GetValueVector3Array(int token)
+        {
+            return vector3ArrayValues[entries[entryIndexesByToken[token]].Index];
         }
         public Vector4 GetValueVector4(string name)
         {
@@ -392,6 +401,23 @@ namespace ChamberLib
             {
                 AddEntry(token, ShaderUniformType.Vector3, vector3Values.Count);
                 vector3Values.Add(value);
+            }
+        }
+        public void SetValue(string name, Vector3[] value)
+        {
+            SetValue(GetTokenForName(name), value);
+        }
+        public void SetValue(int token, Vector3[] value)
+        {
+            if (vector3ArrayValues == null) vector3ArrayValues = new List<Vector3[]>();
+            if (entryIndexesByToken.ContainsKey(token))
+            {
+                vector3ArrayValues[entries[entryIndexesByToken[token]].Index] = value;
+            }
+            else
+            {
+                AddEntry(token, ShaderUniformType.Vector3, true, vector3ArrayValues.Count);
+                vector3ArrayValues.Add(value);
             }
         }
         public void SetValue(string name, Vector4 value)

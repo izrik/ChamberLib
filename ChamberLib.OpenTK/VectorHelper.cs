@@ -56,6 +56,18 @@ namespace ChamberLib.OpenTK
         {
             return v.Select(mm => mm.ToChamber()).ToArray();
         }
+
+        public static void ToFloatArray(this ChamberLib.Vector3[] vectors, float[] floats)
+        {
+            int i;
+            for (i=0;i<vectors.Length;i++)
+            {
+                int n = i * 3;
+                floats[n + 0] = vectors[i].X;
+                floats[n + 1] = vectors[i].Y;
+                floats[n + 2] = vectors[i].Z;
+            }
+        }
     }
 }
 
