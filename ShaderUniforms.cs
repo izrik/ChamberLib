@@ -15,7 +15,7 @@ namespace ChamberLib
                 return tokensByName[name];
             int token = tokensByName.Count;
             tokensByName[name] = token;
-            namesByToken[token] = name;
+            namesByToken.Add(name);
             return token;
         }
         public string GetNameFromToken(int token)
