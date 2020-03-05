@@ -54,6 +54,7 @@ namespace ChamberLib
         protected List<short> shortValues;
         protected List<ushort> ushortValues;
         protected List<int> intValues;
+        protected List<int[]> intArrayValues;
         protected List<uint> uintValues;
         protected List<float> singleValues;
         protected List<double> doubleValues;
@@ -134,6 +135,14 @@ namespace ChamberLib
         public int GetValueInt(int token)
         {
             return intValues[entries[entryIndexesByToken[token]].Index];
+        }
+        public int[] GetValueIntArray(string name)
+        {
+            return GetValueIntArray(GetTokenForName(name));
+        }
+        public int[] GetValueIntArray(int token)
+        {
+            return intArrayValues[entries[entryIndexesByToken[token]].Index];
         }
         public uint GetValueUInt(string name)
         {
@@ -316,6 +325,23 @@ namespace ChamberLib
             {
                 AddEntry(token, ShaderUniformType.Int, intValues.Count);
                 intValues.Add(value);
+            }
+        }
+        public void SetValue(string name, int[] value)
+        {
+            SetValue(GetTokenForName(name), value);
+        }
+        public void SetValue(int token, int[] value)
+        {
+            if (intArrayValues == null) intArrayValues = new List<int[]>();
+            if (entryIndexesByToken.ContainsKey(token))
+            {
+                intArrayValues[entries[entryIndexesByToken[token]].Index] = value;
+            }
+            else
+            {
+                AddEntry(token, ShaderUniformType.Int, true, intArrayValues.Count);
+                intArrayValues.Add(value);
             }
         }
         public void SetValue(string name, uint value)

@@ -234,7 +234,15 @@ namespace ChamberLib.OpenTK
                 GL.Uniform1(location, uniforms.GetValueUShort(token));
                 break;
             case ShaderUniformType.Int:
-                GL.Uniform1(location, uniforms.GetValueInt(token));
+                if (isArray)
+                {
+                    var value2 = uniforms.GetValueIntArray(token);
+                    GL.Uniform1(location, value2.Length, value2);
+                }
+                else
+                {
+                    GL.Uniform1(location, uniforms.GetValueInt(token));
+                }
                 break;
             case ShaderUniformType.UInt:
                 GL.Uniform1(location, uniforms.GetValueUInt(token));
