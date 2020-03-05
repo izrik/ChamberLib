@@ -61,7 +61,7 @@ namespace ChamberLib.OpenTK
                 MakeReady();
             }
 
-            ApplyBase(overrides.GetUniforms(uniforms));
+            ApplyBase(overrides.GetUniforms(null));
         }
 
         protected void ApplyBase(ShaderUniforms uniformsOverride)
@@ -143,7 +143,6 @@ namespace ChamberLib.OpenTK
         }
 
         readonly Dictionary<string,int> uniformLocationCache = new Dictionary<string, int>();
-        readonly ShaderUniforms uniforms = new ShaderUniforms();
 
         int GetUniformLocation(string name)
         {
@@ -173,10 +172,6 @@ namespace ChamberLib.OpenTK
                 {
                     ApplyUniform(entry.Name, uniformsOverride);
                 }
-            }
-            foreach (var entry in uniforms.GetEntries())
-            {
-                ApplyUniform(entry.Name, uniforms);
             }
         }
 
