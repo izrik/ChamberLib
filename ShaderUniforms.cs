@@ -44,7 +44,8 @@ namespace ChamberLib
             public readonly int Index;
         }
 
-        protected readonly Dictionary<int, Entry> entries = new Dictionary<int, Entry>();
+        protected readonly List<Entry> entries = new List<Entry>();
+        protected readonly Dictionary<int, int> entryIndexesByToken = new Dictionary<int, int>();
         protected List<bool> boolValues;
         protected List<byte> byteValues;
         protected List<sbyte> sbyteValues;
@@ -65,7 +66,7 @@ namespace ChamberLib
         }
         public ShaderUniformType GetType(int token)
         {
-            return entries[token].Type;
+            return entries[entryIndexesByToken[token]].Type;
         }
 
         public bool ContainsName(string name)
@@ -74,7 +75,7 @@ namespace ChamberLib
         }
         public bool ContainsToken(int token)
         {
-            return entries.ContainsKey(token);
+            return entryIndexesByToken.ContainsKey(token);
         }
 
         public bool GetValueBool(string name)
@@ -83,7 +84,7 @@ namespace ChamberLib
         }
         public bool GetValueBool(int token)
         {
-            return boolValues[entries[token].Index];
+            return boolValues[entries[entryIndexesByToken[token]].Index];
         }
         public byte GetValueByte(string name)
         {
@@ -91,7 +92,7 @@ namespace ChamberLib
         }
         public byte GetValueByte(int token)
         {
-            return byteValues[entries[token].Index];
+            return byteValues[entries[entryIndexesByToken[token]].Index];
         }
         public sbyte GetValueSByte(string name)
         {
@@ -99,7 +100,7 @@ namespace ChamberLib
         }
         public sbyte GetValueSByte(int token)
         {
-            return sbyteValues[entries[token].Index];
+            return sbyteValues[entries[entryIndexesByToken[token]].Index];
         }
         public short GetValueShort(string name)
         {
@@ -107,7 +108,7 @@ namespace ChamberLib
         }
         public short GetValueShort(int token)
         {
-            return shortValues[entries[token].Index];
+            return shortValues[entries[entryIndexesByToken[token]].Index];
         }
         public ushort GetValueUShort(string name)
         {
@@ -115,7 +116,7 @@ namespace ChamberLib
         }
         public ushort GetValueUShort(int token)
         {
-            return ushortValues[entries[token].Index];
+            return ushortValues[entries[entryIndexesByToken[token]].Index];
         }
         public int GetValueInt(string name)
         {
@@ -123,7 +124,7 @@ namespace ChamberLib
         }
         public int GetValueInt(int token)
         {
-            return intValues[entries[token].Index];
+            return intValues[entries[entryIndexesByToken[token]].Index];
         }
         public uint GetValueUInt(string name)
         {
@@ -131,7 +132,7 @@ namespace ChamberLib
         }
         public uint GetValueUInt(int token)
         {
-            return uintValues[entries[token].Index];
+            return uintValues[entries[entryIndexesByToken[token]].Index];
         }
         public float GetValueSingle(string name)
         {
@@ -139,7 +140,7 @@ namespace ChamberLib
         }
         public float GetValueSingle(int token)
         {
-            return singleValues[entries[token].Index];
+            return singleValues[entries[entryIndexesByToken[token]].Index];
         }
         public double GetValueDouble(string name)
         {
@@ -147,7 +148,7 @@ namespace ChamberLib
         }
         public double GetValueDouble(int token)
         {
-            return doubleValues[entries[token].Index];
+            return doubleValues[entries[entryIndexesByToken[token]].Index];
         }
         public Vector2 GetValueVector2(string name)
         {
@@ -155,7 +156,7 @@ namespace ChamberLib
         }
         public Vector2 GetValueVector2(int token)
         {
-            return vector2Values[entries[token].Index];
+            return vector2Values[entries[entryIndexesByToken[token]].Index];
         }
         public Vector3 GetValueVector3(string name)
         {
@@ -163,7 +164,7 @@ namespace ChamberLib
         }
         public Vector3 GetValueVector3(int token)
         {
-            return vector3Values[entries[token].Index];
+            return vector3Values[entries[entryIndexesByToken[token]].Index];
         }
         public Vector4 GetValueVector4(string name)
         {
@@ -171,7 +172,7 @@ namespace ChamberLib
         }
         public Vector4 GetValueVector4(int token)
         {
-            return vector4Values[entries[token].Index];
+            return vector4Values[entries[entryIndexesByToken[token]].Index];
         }
         public Matrix GetValueMatrix(string name)
         {
@@ -179,7 +180,15 @@ namespace ChamberLib
         }
         public Matrix GetValueMatrix(int token)
         {
-            return matrixValues[entries[token].Index];
+            return matrixValues[entries[entryIndexesByToken[token]].Index];
+        }
+
+        protected void AddEntry(int token, ShaderUniformType type, int valueIndex)
+        {
+            var index = entries.Count;
+            entryIndexesByToken[token] = index;
+            var entry = new Entry(GetNameFromToken(token), token, type, valueIndex);
+            entries.Add(entry);
         }
 
         public void SetValue(string name, bool value)
@@ -189,13 +198,13 @@ namespace ChamberLib
         public void SetValue(int token, bool value)
         { 
             if (boolValues == null) boolValues = new List<bool>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                boolValues[entries[token].Index] = value;
+                boolValues[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.Bool, boolValues.Count);
+                AddEntry(token, ShaderUniformType.Bool, boolValues.Count);
                 boolValues.Add(value);
             }
         }
@@ -206,13 +215,13 @@ namespace ChamberLib
         public void SetValue(int token, byte value)
         {
             if (byteValues == null) byteValues = new List<byte>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                byteValues[entries[token].Index] = value;
+                byteValues[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.Byte, byteValues.Count);
+                AddEntry(token, ShaderUniformType.Byte, byteValues.Count);
                 byteValues.Add(value);
             }
         }
@@ -223,13 +232,13 @@ namespace ChamberLib
         public void SetValue(int token, sbyte value)
         {
             if (sbyteValues == null) sbyteValues = new List<sbyte>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                sbyteValues[entries[token].Index] = value;
+                sbyteValues[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.SByte, sbyteValues.Count);
+                AddEntry(token, ShaderUniformType.SByte, sbyteValues.Count);
                 sbyteValues.Add(value);
             }
         }
@@ -240,13 +249,13 @@ namespace ChamberLib
         public void SetValue(int token, short value)
         {
             if (shortValues == null) shortValues = new List<short>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                shortValues[entries[token].Index] = value;
+                shortValues[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.Short, shortValues.Count);
+                AddEntry(token, ShaderUniformType.Short, shortValues.Count);
                 shortValues.Add(value);
             }
         }
@@ -257,13 +266,13 @@ namespace ChamberLib
         public void SetValue(int token, ushort value)
         {
             if (ushortValues == null) ushortValues = new List<ushort>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                ushortValues[entries[token].Index] = value;
+                ushortValues[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.UShort, ushortValues.Count);
+                AddEntry(token, ShaderUniformType.UShort, ushortValues.Count);
                 ushortValues.Add(value);
             }
         }
@@ -274,13 +283,13 @@ namespace ChamberLib
         public void SetValue(int token, int value)
         {
             if (intValues == null) intValues = new List<int>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                intValues[entries[token].Index] = value;
+                intValues[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.Int, intValues.Count);
+                AddEntry(token, ShaderUniformType.Int, intValues.Count);
                 intValues.Add(value);
             }
         }
@@ -291,13 +300,13 @@ namespace ChamberLib
         public void SetValue(int token, uint value)
         {
             if (uintValues == null) uintValues = new List<uint>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                uintValues[entries[token].Index] = value;
+                uintValues[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.UInt, uintValues.Count);
+                AddEntry(token, ShaderUniformType.UInt, uintValues.Count);
                 uintValues.Add(value);
             }
         }
@@ -308,13 +317,13 @@ namespace ChamberLib
         public void SetValue(int token, float value)
         {
             if (singleValues == null) singleValues = new List<float>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                singleValues[entries[token].Index] = value;
+                singleValues[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.Single, singleValues.Count);
+                AddEntry(token, ShaderUniformType.Single, singleValues.Count);
                 singleValues.Add(value);
             }
         }
@@ -325,13 +334,13 @@ namespace ChamberLib
         public void SetValue(int token, double value)
         {
             if (doubleValues == null) doubleValues = new List<double>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                doubleValues[entries[token].Index] = value;
+                doubleValues[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.Double, doubleValues.Count);
+                AddEntry(token, ShaderUniformType.Double, doubleValues.Count);
                 doubleValues.Add(value);
             }
         }
@@ -342,13 +351,13 @@ namespace ChamberLib
         public void SetValue(int token, Vector2 value)
         {
             if (vector2Values == null) vector2Values = new List<Vector2>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                vector2Values[entries[token].Index] = value;
+                vector2Values[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.Vector2, vector2Values.Count);
+                AddEntry(token, ShaderUniformType.Vector2, vector2Values.Count);
                 vector2Values.Add(value);
             }
         }
@@ -359,13 +368,13 @@ namespace ChamberLib
         public void SetValue(int token, Vector3 value)
         {
             if (vector3Values == null) vector3Values = new List<Vector3>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                vector3Values[entries[token].Index] = value;
+                vector3Values[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.Vector3, vector3Values.Count);
+                AddEntry(token, ShaderUniformType.Vector3, vector3Values.Count);
                 vector3Values.Add(value);
             }
         }
@@ -376,13 +385,13 @@ namespace ChamberLib
         public void SetValue(int token, Vector4 value)
         {
             if (vector4Values == null) vector4Values = new List<Vector4>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                vector4Values[entries[token].Index] = value;
+                vector4Values[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.Vector4, vector4Values.Count);
+                AddEntry(token, ShaderUniformType.Vector4, vector4Values.Count);
                 vector4Values.Add(value);
             }
         }
@@ -393,13 +402,13 @@ namespace ChamberLib
         public void SetValue(int token, Matrix value)
         {
             if (matrixValues == null) matrixValues = new List<Matrix>();
-            if (entries.ContainsKey(token))
+            if (entryIndexesByToken.ContainsKey(token))
             {
-                matrixValues[entries[token].Index] = value;
+                matrixValues[entries[entryIndexesByToken[token]].Index] = value;
             }
             else
             {
-                entries[token] = new Entry(GetNameFromToken(token), token, ShaderUniformType.Matrix, matrixValues.Count);
+                AddEntry(token, ShaderUniformType.Matrix, matrixValues.Count);
                 matrixValues.Add(value);
             }
         }
