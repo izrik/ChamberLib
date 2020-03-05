@@ -206,10 +206,12 @@ namespace ChamberLib.OpenTK
             uniformLocationCache[name] = location;
             return location;
         }
-        
+
+        float[] __ApplyUniform_matrixFloatArrayCache;
         protected void ApplyUniform(int token, ShaderUniforms uniforms)
         {
             var type = uniforms.GetType(token);
+            bool isArray = uniforms.GetIsArray(token);
             if (!activeUniformIndexByToken.ContainsKey(token))
                 return;
             var location = activeUniforms[activeUniformIndexByToken[token]].Location;
@@ -253,8 +255,22 @@ namespace ChamberLib.OpenTK
                 GL.Uniform4(location, (uniforms.GetValueVector4(token)).ToOpenTK());
                 break;
             case ShaderUniformType.Matrix:
-                var value2 = (uniforms.GetValueMatrix(token)).ToOpenTK();
-                GL.UniformMatrix4(location, false, ref value2);
+                if (isArray)
+                {
+                    var value2 = uniforms.GetValueMatrixArray(token);
+                    if (__ApplyUniform_matrixFloatArrayCache == null ||
+                        __ApplyUniform_matrixFloatArrayCache.Length < value2.Length * 16)
+                    {
+                        __ApplyUniform_matrixFloatArrayCache = new float[value2.Length * 16];
+                    }
+                    value2.ToFloatArray(__ApplyUniform_matrixFloatArrayCache);
+                    GL.UniformMatrix4(location, value2.Length, false, __ApplyUniform_matrixFloatArrayCache);
+                }
+                else
+                {
+                    var value2 = (uniforms.GetValueMatrix(token)).ToOpenTK();
+                    GL.UniformMatrix4(location, false, ref value2);
+                }
                 break;
             default:
                 throw new ArgumentOutOfRangeException(

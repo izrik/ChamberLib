@@ -30,17 +30,19 @@ namespace ChamberLib
 
         public struct Entry
         {
-            public Entry(string name, int token, ShaderUniformType type, int index)
+            public Entry(string name, int token, ShaderUniformType type, bool isArray, int index)
             {
                 Name = name;
                 Token = token;
                 Type = type;
+                IsArray = isArray;
                 Index = index;
             }
 
             public readonly string Name;
             public readonly int Token;
             public readonly ShaderUniformType Type;
+            public readonly bool IsArray;
             public readonly int Index;
         }
 
@@ -59,6 +61,7 @@ namespace ChamberLib
         protected List<Vector3> vector3Values;
         protected List<Vector4> vector4Values;
         protected List<Matrix> matrixValues;
+        protected List<Matrix[]> matrixArrayValues;
 
         public ShaderUniformType GetType(string name)
         {
@@ -67,6 +70,11 @@ namespace ChamberLib
         public ShaderUniformType GetType(int token)
         {
             return entries[entryIndexesByToken[token]].Type;
+        }
+
+        public bool GetIsArray(int token)
+        {
+            return entries[entryIndexesByToken[token]].IsArray;
         }
 
         public bool ContainsName(string name)
@@ -182,12 +190,20 @@ namespace ChamberLib
         {
             return matrixValues[entries[entryIndexesByToken[token]].Index];
         }
+        public Matrix[] GetValueMatrixArray(int token)
+        {
+            return matrixArrayValues[entries[entryIndexesByToken[token]].Index];
+        }
 
         protected void AddEntry(int token, ShaderUniformType type, int valueIndex)
         {
+            AddEntry(token, type, false, valueIndex);
+        }
+        protected void AddEntry(int token, ShaderUniformType type, bool isArray, int valueIndex)
+        {
             var index = entries.Count;
             entryIndexesByToken[token] = index;
-            var entry = new Entry(GetNameFromToken(token), token, type, valueIndex);
+            var entry = new Entry(GetNameFromToken(token), token, type, isArray, valueIndex);
             entries.Add(entry);
         }
 
@@ -410,6 +426,23 @@ namespace ChamberLib
             {
                 AddEntry(token, ShaderUniformType.Matrix, matrixValues.Count);
                 matrixValues.Add(value);
+            }
+        }
+        public void SetValue(string name, Matrix[] value)
+        {
+            SetValue(GetTokenForName(name), value);
+        }
+        public void SetValue(int token, Matrix[] value)
+        {
+            if (matrixArrayValues == null) matrixArrayValues = new List<Matrix[]>();
+            if (entryIndexesByToken.ContainsKey(token))
+            {
+                matrixArrayValues[entries[entryIndexesByToken[token]].Index] = value;
+            }
+            else
+            {
+                AddEntry(token, ShaderUniformType.Matrix, true, matrixArrayValues.Count);
+                matrixArrayValues.Add(value);
             }
         }
 
