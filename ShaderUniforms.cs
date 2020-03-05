@@ -417,5 +417,10 @@ namespace ChamberLib
         {
             throw new NotImplementedException();
         }
+
+        public List<Entry> GetEntries()
+        {
+            return entries;
+        }
     }
 }
