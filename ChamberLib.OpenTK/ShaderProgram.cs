@@ -210,8 +210,9 @@ namespace ChamberLib.OpenTK
         protected void ApplyUniform(int token, ShaderUniforms uniforms)
         {
             var type = uniforms.GetType(token);
-            var location = GetUniformLocation(
-                ShaderUniforms.GetNameFromToken(token));
+            if (!activeUniformIndexByToken.ContainsKey(token))
+                return;
+            var location = activeUniforms[activeUniformIndexByToken[token]].Location;
 
             switch (type)
             {
