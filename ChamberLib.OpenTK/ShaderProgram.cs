@@ -174,7 +174,10 @@ namespace ChamberLib.OpenTK
                 Token = ShaderUniforms.GetTokenForName(name);
                 Size = size;
                 GLType = gltype;
-                Type = gltype.ToChamber();
+                if (gltype == ActiveUniformType.Sampler2D)
+                    Type = ShaderUniformType.Int;
+                else
+                    Type = gltype.ToChamber();
             }
 
             public readonly string Name;
