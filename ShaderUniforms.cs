@@ -9,7 +9,7 @@ namespace ChamberLib
     {
         static Dictionary<string, int> tokensByName = new Dictionary<string, int>();
         static List<string> namesByToken = new List<string>();
-        public int GetTokenForName(string name)
+        public static int GetTokenForName(string name)
         {
             if (tokensByName.ContainsKey(name))
                 return tokensByName[name];
@@ -18,7 +18,7 @@ namespace ChamberLib
             namesByToken.Add(name);
             return token;
         }
-        public string GetNameFromToken(int token)
+        public static string GetNameFromToken(int token)
         {
             if (token >= namesByToken.Count ||
                 token < 0)

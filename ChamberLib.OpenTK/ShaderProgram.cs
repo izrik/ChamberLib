@@ -150,9 +150,40 @@ namespace ChamberLib.OpenTK
             string programInfoLog;
             GL.GetProgramInfoLog(ProgramID, out programInfoLog );
             GLHelper.CheckError();
+
+            int numUniforms;
+            GL.GetProgram(ProgramID, GetProgramParameterName.ActiveUniforms, out numUniforms);
+            GLHelper.CheckError();
+            for (i = 0; i < numUniforms; i++)
+            {
+                int size;
+                ActiveUniformType type;
+                var name = GL.GetActiveUniform(ProgramID, i, out size, out type);
+                GLHelper.CheckError();
+                activeUniforms.Add(new ActiveUniform(name, size, type));
+            }
+        }
+
+        struct ActiveUniform
+        {
+            public ActiveUniform(string name, int size, ActiveUniformType gltype)
+            {
+                Name = name;
+                Token = ShaderUniforms.GetTokenForName(name);
+                Size = size;
+                GLType = gltype;
+                Type = gltype.ToChamber();
+            }
+
+            readonly string Name;
+            readonly int Token;
+            readonly int Size;
+            readonly ActiveUniformType GLType;
+            readonly ShaderUniformType Type;
         }
 
         readonly Dictionary<string,int> uniformLocationCache = new Dictionary<string, int>();
+        List<ActiveUniform> activeUniforms = new List<ActiveUniform>();
 
         int GetUniformLocation(string name)
         {
