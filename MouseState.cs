@@ -20,5 +20,21 @@ namespace ChamberLib
         public readonly bool MiddleButton;
         public readonly bool RightButton;
         public readonly int Wheel;
+
+        public bool IsButtonDown(MouseButtons button)
+        {
+            switch (button)
+            {
+                case MouseButtons.Left: return LeftButton;
+                case MouseButtons.Middle: return MiddleButton;
+                case MouseButtons.Right: return RightButton;
+            }
+            return false;
+        }
+
+        public bool IsButtonUp(MouseButtons button)
+        {
+            return !(IsButtonDown(button));
+        }
     }
 }
