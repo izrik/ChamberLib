@@ -93,7 +93,7 @@ namespace ChamberLib.OpenTK
         }
         public IMouse GetMouse()
         {
-            return Mouse.GetMouse();
+            return Mouse.GetMouse(Window, Renderer);
         }
 
         public string WindowTitle

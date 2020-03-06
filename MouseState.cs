@@ -3,7 +3,7 @@ namespace ChamberLib
 {
     public struct MouseState
     {
-        public MouseState(int x, int y, bool leftButton, bool middleButton,
+        public MouseState(float x, float y, bool leftButton, bool middleButton,
             bool rightButton, int wheel)
         {
             X = x;
@@ -14,12 +14,14 @@ namespace ChamberLib
             Wheel = wheel;
         }
 
-        public readonly int X;
-        public readonly int Y;
+        public readonly float X;
+        public readonly float Y;
         public readonly bool LeftButton;
         public readonly bool MiddleButton;
         public readonly bool RightButton;
         public readonly int Wheel;
+
+        public Vector2 Position { get { return new Vector2(X, Y); } }
 
         public bool IsButtonDown(MouseButtons button)
         {

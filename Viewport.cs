@@ -75,9 +75,20 @@ namespace ChamberLib
 
         public Vector2 PointToRelativeCoordinates(Point2 pt)
         {
+            return PointToRelativeCoordinates(pt.X, pt.Y);
+        }
+        public Vector2 PointToRelativeCoordinates(int x, int y)
+        {
             return new Vector2(
-                pt.X / (float)Width,
-                pt.Y / (float)Height);
+                x / (float)Width,
+                y / (float)Height);
+        }
+
+        public Point2 PointToPixelCoordinates(Vector2 v)
+        {
+            return new Point2(
+                (v.X * Width).RoundToInt(),
+                (v.Y * Height).RoundToInt());
         }
     }
 }
