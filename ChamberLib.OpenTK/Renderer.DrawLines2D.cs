@@ -93,7 +93,11 @@ namespace ChamberLib.OpenTK
             _DrawLines2D_indexData.SetIndexData(Enumerable.Range(0, vertexes.Length).Select(i => (ushort)i).ToArray());
         }
 
-        public void DrawLines(Color color, IEnumerable<Vector2> vs)
+        public void DrawLines(Color color, Vector2[] vs)
+        {
+            DrawLines(color, vs, vs.Length);
+        }
+        public void DrawLines(Color color, Vector2[] vs, int count)
         {
             if (!_DrawLines2D_isReady)
             {

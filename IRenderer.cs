@@ -6,7 +6,8 @@ namespace ChamberLib
     public interface IRenderer
     {
         void DrawLine(Color color, Vector2 v1, Vector2 v2);
-        void DrawLines(Color color, IEnumerable<Vector2> vs);
+        void DrawLines(Color color, Vector2[] vs);
+        void DrawLines(Color color, Vector2[] vs, int count);
 
         void DrawString(IFont font, string text, Vector2 position, Color color,
                         float rotation = 0,
