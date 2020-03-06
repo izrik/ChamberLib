@@ -6,6 +6,13 @@ namespace ChamberLib.OpenTK
 {
     public class Mouse : IMouse
     {
+        static Mouse _cache = new Mouse();
+
+        public static IMouse GetMouse()
+        {
+            return _cache;
+        }
+
         public MouseState GetState()
         {
             var cstate = _OpenTKI.Mouse.GetCursorState();

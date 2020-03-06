@@ -87,6 +87,10 @@ namespace ChamberLib.OpenTK
         {
             return Keyboard.GetKeyboard();
         }
+        public IMouse GetMouse()
+        {
+            return Mouse.GetMouse();
+        }
 
         public string WindowTitle
         {

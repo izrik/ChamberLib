@@ -10,6 +10,7 @@ namespace ChamberLib
 
         IGamePad GetGamePad(PlayerIndex index);
         IKeyboard GetKeyboard();
+        IMouse GetMouse();
 
         string WindowTitle { get; set; }
         bool AllowUserResizing { get; set; }
