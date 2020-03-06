@@ -72,6 +72,13 @@ namespace ChamberLib
 
             return v3;
         }
+
+        public Vector2 PointToRelativeCoordinates(Point2 pt)
+        {
+            return new Vector2(
+                pt.X / (float)Width,
+                pt.Y / (float)Height);
+        }
     }
 }
 
