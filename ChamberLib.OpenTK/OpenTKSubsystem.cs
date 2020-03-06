@@ -65,6 +65,10 @@ namespace ChamberLib.OpenTK
         }
 
         public readonly ChamberGameWindow Window;
+        GameWindow ISubsystem.GameWindow
+        {
+            get { return Window; }
+        }
 
         readonly Renderer _renderer;
         public IRenderer Renderer { get { return _renderer; } }

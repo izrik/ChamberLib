@@ -23,6 +23,8 @@ namespace ChamberLib
 
         IRenderTarget CreateRenderTarget(int width, int height,
             PixelFormat pixelFormat=PixelFormat.Rgba);
+
+        global::OpenTK.GameWindow GameWindow { get; }
     }
 }
 
