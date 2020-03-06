@@ -67,6 +67,11 @@ namespace ChamberLib
                 Math.Max(u.Y, v.Y));
         }
 
+        public override string ToString()
+        {
+            return string.Format("{{X:{0} Y:{1}}}", X, Y);
+        }
+
         public Vector2 ToVector2()
         {
             return new Vector2(X, Y);
