@@ -41,6 +41,8 @@ namespace ChamberLib
 
         public void AddRange(object[] components)
         {
+            if (components == null)
+                return;
             foreach (var comp in components)
             {
                 _dictionary[comp.GetType()] = comp;
