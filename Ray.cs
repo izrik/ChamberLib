@@ -143,6 +143,24 @@ namespace ChamberLib
             return Position + n * Direction;
         }
 
+        public bool Intersects(Sphere s)
+        {
+            var direction = Direction.Normalized();
+            var position = Position;
+            var r2 = s.Radius * s.Radius;
+
+            var v = s.Center - position;
+            if (v.LengthSquared() <= r2) return true;
+
+            var distAlongRay = v.Dot(direction);
+            if (distAlongRay < 0) return false;
+
+            var closestPointToCenter = position + direction * distAlongRay;
+            var minDist2 = (closestPointToCenter - s.Center).LengthSquared();
+
+            return (minDist2 <= r2);
+        }
+
         public override string ToString()
         {
             return string.Format("{{Position:{0} Direction:{1}}}", Position, Direction);

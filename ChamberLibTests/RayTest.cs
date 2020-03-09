@@ -118,7 +118,45 @@ namespace ChamberLibTests
             Assert.AreEqual(null, p);
         }
 
+        [Test]
+        [TestCase(0, 0, 0, 1, 0, 0, 0, 0, 0, 1)]
+        [TestCase(0, 0, 0, 1, 0, 0, 1, 0, 0, 1)]
+        [TestCase(0, 0, 0, 1, 0, 0, 2, 0, 0, 1)]
+        [TestCase(0, 0, 0, 1, 0, 0, 2, 1, 0, 1)]
+        [TestCase(0, 0, 0, 1, 0, 0, -1, 0, 0, 1)]
+        [TestCase(0, 0, 0, 0.6f, 0.8f, 0, -3, 0, 0, 3)]
+        [TestCase(0, 0, 0, 0.6f, 0.8f, 0, -3, 0, 0, 3.001f)]
+        public void TestRayIntersectsSphere(
+            float rpx, float rpy,float rpz,
+            float rdx, float rdy, float rdz,
+            float sx, float sy, float sz, float sr)
+        {
+            // given
+            var ray = new Ray(
+                new Vector3(rpx, rpy, rpz),
+                new Vector3(rdx, rdy, rdz));
+            var sphere = new Sphere(new Vector3(sx, sy, sz), sr);
 
+            // expect
+            Assert.True(ray.Intersects(sphere));
+        }
+
+        [Test]
+        [TestCase(0, 0, 0, 0.6f, 0.8f, 0, -3, 0, 0, 2.999f)]
+        public void TestRayDoesNotIntersectSphere(
+            float rpx, float rpy, float rpz,
+            float rdx, float rdy, float rdz,
+            float sx, float sy, float sz, float sr)
+        {
+            // given
+            var ray = new Ray(
+                new Vector3(rpx, rpy, rpz),
+                new Vector3(rdx, rdy, rdz));
+            var sphere = new Sphere(new Vector3(sx, sy, sz), sr);
+
+            // expect
+            Assert.False(ray.Intersects(sphere));
+        }
     }
 }
 
