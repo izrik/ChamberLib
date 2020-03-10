@@ -69,5 +69,37 @@ namespace ChamberLibTests
             // then
             Assert.AreEqual(p, PlaneIntersectionType.Back);
         }
+
+        [Test]
+        public void Plane_FromPoints()
+        {
+            // given
+            var v1 = Vector3.Zero;
+            var v2 = Vector3.UnitX;
+            var v3 = Vector3.UnitY;
+
+            // when
+            var p = Plane.FromPoints(v1, v2, v3);
+
+            // then
+            Assert.AreEqual(0, p.Distance);
+            Assert.AreEqual(Vector3.UnitZ, p.Normal);
+        }
+
+        [Test]
+        public void Plane_FromPoints_DegenerateDefaultsToNormalOfUnitX()
+        {
+            // given
+            var v1 = Vector3.Zero;
+            var v2 = Vector3.UnitX;
+            var v3 = 2 * Vector3.UnitX;
+
+            // when
+            var p = Plane.FromPoints(v1, v2, v3);
+
+            // then
+            Assert.AreEqual(0, p.Distance);
+            Assert.AreEqual(Vector3.UnitX, p.Normal);
+        }
     }
 }
