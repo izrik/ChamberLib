@@ -159,5 +159,57 @@ namespace ChamberLibTests
             Assert.AreEqual(0, p.Value.Y, 0.00001f);
             Assert.AreEqual(1, p.Value.Z, 0.00001f);
         }
+
+        [Test]
+        public void IsDegenerate_ThreeEqualVertices_YieldsTrue()
+        {
+            // given
+            var t = new Triangle(Vector3.Zero, Vector3.Zero, Vector3.Zero);
+
+            // expect
+            Assert.True(t.IsDegenerate());
+        }
+
+        [Test]
+        public void IsDegenerate_TwoEqualVertices_YieldsTrue()
+        {
+            // given
+            var t = new Triangle(Vector3.UnitX, Vector3.Zero, Vector3.Zero);
+
+            // expect
+            Assert.True(t.IsDegenerate());
+
+            // given
+            t = new Triangle(Vector3.Zero, Vector3.UnitX, Vector3.Zero);
+
+            // expect
+            Assert.True(t.IsDegenerate());
+
+            // given
+            t = new Triangle(Vector3.Zero, Vector3.Zero, Vector3.UnitX);
+
+            // expect
+            Assert.True(t.IsDegenerate());
+        }
+
+        [Test]
+        public void IsDegenerate_ColinearVertices_YieldsTrue()
+        {
+            // given
+            var t = new Triangle(Vector3.Zero, Vector3.UnitX, 2 * Vector3.UnitX);
+
+            // expect
+            Assert.True(t.IsDegenerate());
+        }
+
+        [Test]
+        public void IsDegenerate_NormalTriangle_YieldsFalse()
+        {
+            // given
+            var t = new Triangle(Vector3.UnitX, Vector3.UnitY, Vector3.UnitZ);
+
+            // expect
+            Assert.False(t.IsDegenerate());
+        }
     }
 }

@@ -33,6 +33,13 @@ namespace ChamberLib
             }
         }
 
+        public bool IsDegenerate(float epsilon=0)
+        {
+            var ab = V2 - V1;
+            var ac = V3 - V1;
+            return Vector3.Cross(ab, ac).LengthSquared() <= epsilon;
+        }
+
         public Vector3? Intersects(Ray ray, float epsilon=0)
         {
             var plane = this.ToPlane();
