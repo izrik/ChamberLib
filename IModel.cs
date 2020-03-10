@@ -40,6 +40,8 @@ namespace ChamberLib
 
             foreach (var tri in model.EnumerateTriangles())
             {
+                if (tri.IsDegenerate()) continue;
+
                 IntersectClosest_IntersectRaySingleTriangle(tri, ref rayInModelSpace, ref closest, ref closestDist);
             }
 
