@@ -157,6 +157,72 @@ namespace ChamberLibTests
             // expect
             Assert.False(ray.Intersects(sphere));
         }
+
+        [Test]
+        public void TransformedBy_TransformsRays_Translation()
+        {
+            // given
+            var r = new Ray(Vector3.Zero, Vector3.UnitX);
+            var m = Matrix.CreateTranslation(2, 0, 0);
+
+            // when
+            var r2 = r.TransformedBy(m);
+
+            // then
+            Assert.AreEqual(new Vector3(2, 0, 0), r2.Position);
+            Assert.AreEqual(Vector3.UnitX, r2.Direction);
+        }
+
+        [Test]
+        public void TransformedBy_TransformsRays_Rotation()
+        {
+            // given
+            var r = new Ray(Vector3.Zero, Vector3.UnitX);
+            var m = Matrix.CreateRotationY((90f).ToRadians());
+
+            // when
+            var r2 = r.TransformedBy(m);
+
+            // then
+            Assert.AreEqual(Vector3.Zero, r2.Position);
+            Assert.AreEqual(0, r2.Direction.X, 0.0001f);
+            Assert.AreEqual(0, r2.Direction.Y, 0.0001f);
+            Assert.AreEqual(-1, r2.Direction.Z, 0.0001f);
+        }
+
+        [Test]
+        public void TransformedBy_TransformsRays_TranslationAndScale()
+        {
+            // given
+            var r = new Ray(Vector3.One, Vector3.One);
+            var m = Matrix.CreateScale(1, 1, 2) *
+                Matrix.CreateTranslation(2, 0, 0);
+
+            // when
+            var r2 = r.TransformedBy(m);
+
+            // then
+            Assert.AreEqual(new Vector3(3, 1, 2), r2.Position);
+            Assert.AreEqual(new Vector3(1, 1, 2), r2.Direction);
+        }
+
+        [Test]
+        public void TransformedBy_TransformsAndInverseRoundtrip_YieldsOriginalValue()
+        {
+            // given
+            var r = new Ray(Vector3.One, Vector3.One);
+            var m = Matrix.CreateScale(1, 1, 2) *
+                Matrix.CreateTranslation(2, 0, 0);
+            var m2 = m.Inverted();
+
+            // when
+            var r2 = r.TransformedBy(m);
+            var r3 = r2.TransformedBy(m2);
+
+            // then
+            Assert.AreEqual(Vector3.One, r3.Position);
+            Assert.AreEqual(Vector3.One, r3.Direction);
+        }
     }
 }
 
