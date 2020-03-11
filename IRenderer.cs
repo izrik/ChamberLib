@@ -11,7 +11,6 @@ namespace ChamberLib
 
         void DrawString(IFont font, string text, Vector2 position, Color color,
                         float rotation=0,
-                        Vector2 origin=default(Vector2),
                         float scaleX=1,
                         float scaleY=1);
 
