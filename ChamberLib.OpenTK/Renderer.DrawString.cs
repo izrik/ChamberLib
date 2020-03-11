@@ -12,7 +12,8 @@ namespace ChamberLib.OpenTK
             float scaleY=1)
         {
             var font2 = (FontAdapter)font;
-            font2.DrawString(this, text, position, color, rotation, origin, scaleX, scaleY);
+            font2.DrawString(this, text, position - origin, color, rotation,
+                scaleX, scaleY);
         }
 
     }
