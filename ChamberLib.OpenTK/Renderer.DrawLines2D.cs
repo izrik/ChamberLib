@@ -106,7 +106,7 @@ namespace ChamberLib.OpenTK
 
             Reset2D();
 
-            var list = vs.ToList();
+            var list = vs.Take(count).ToList();
 
             _DrawLines2D_shader.Apply();
             GLHelper.CheckError();
