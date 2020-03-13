@@ -48,11 +48,51 @@ namespace ChamberLib
     public static class RendererHelper
     {
         static readonly Vector3[] __DrawLine_points = new Vector3[2];
-        public static void DrawLine(this IRenderer renderer, Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3 p1, Vector3 p2)
+        public static void DrawLine(this IRenderer renderer, Vector3 color,
+            Matrix world, Matrix view, Matrix projection,
+            Vector3 p1, Vector3 p2)
         {
             __DrawLine_points[0] = p1;
             __DrawLine_points[1] = p2;
-            renderer.DrawLines(color, world, view, projection, __DrawLine_points);
+            renderer.DrawLines(color, world, view, projection,
+                __DrawLine_points);
+        }
+
+        static Vector3[] __DrawBoundingBox_lines = new Vector3[16];
+        public static void DrawBoundingBox(this IRenderer renderer,
+            Vector3 color, Matrix world, Matrix view, Matrix projection,
+            BoundingBox boundingBox)
+        {
+
+            var bb = boundingBox;
+            var xxx = new Vector3(bb.Max.X, bb.Max.Y, bb.Max.Z);
+            var nxx = new Vector3(bb.Min.X, bb.Max.Y, bb.Max.Z);
+            var xnx = new Vector3(bb.Max.X, bb.Min.Y, bb.Max.Z);
+            var nnx = new Vector3(bb.Min.X, bb.Min.Y, bb.Max.Z);
+            var xxn = new Vector3(bb.Max.X, bb.Max.Y, bb.Min.Z);
+            var nxn = new Vector3(bb.Min.X, bb.Max.Y, bb.Min.Z);
+            var xnn = new Vector3(bb.Max.X, bb.Min.Y, bb.Min.Z);
+            var nnn = new Vector3(bb.Min.X, bb.Min.Y, bb.Min.Z);
+
+            __DrawBoundingBox_lines[0] = nnn;
+            __DrawBoundingBox_lines[1] = nnx;
+            __DrawBoundingBox_lines[2] = nxx;
+            __DrawBoundingBox_lines[3] = nxn;
+            __DrawBoundingBox_lines[4] = nnn;
+            __DrawBoundingBox_lines[5] = xnn;
+            __DrawBoundingBox_lines[6] = xnx;
+            __DrawBoundingBox_lines[7] = nnx;
+            __DrawBoundingBox_lines[8] = xnx;
+            __DrawBoundingBox_lines[9] = xxx;
+            __DrawBoundingBox_lines[10] = nxx;
+            __DrawBoundingBox_lines[11] = nxn;
+            __DrawBoundingBox_lines[12] = xxn;
+            __DrawBoundingBox_lines[13] = xnn;
+            __DrawBoundingBox_lines[14] = xxn;
+            __DrawBoundingBox_lines[15] = xxx;
+
+            renderer.DrawLines(color, world, view, projection,
+                __DrawBoundingBox_lines);
         }
     }
 
