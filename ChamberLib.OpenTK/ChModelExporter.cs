@@ -92,19 +92,14 @@ namespace ChamberLib.OpenTK
                     writer.WriteLine("# Animation Data    ##", k++);
                     writer.WriteLine("######################");
                 }
-                if (model.Tag == null)
+                if (model.AnimationData == null)
                 {
                     writer.WriteLine(false);
-                }
-                else if (!(model.Tag is AnimationData))
-                {
-                    writer.WriteLine(false);
-                    writer.WriteLine("# type: {0}", model.Tag.GetType().AssemblyQualifiedName);
                 }
                 else
                 {
                     writer.WriteLine(true);
-                    var ad = model.Tag as AnimationData;
+                    var ad = model.AnimationData;
                     var ae = new AnimationExporter();
                     int kk = 0;
 //                    Action action = () => {

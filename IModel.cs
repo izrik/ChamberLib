@@ -5,7 +5,7 @@ namespace ChamberLib
 {
     public interface IModel
     {
-        object Tag { get; set; }
+        AnimationData AnimationData { get; set; }
 
         IEnumerable<IMesh> GetMeshes();
 

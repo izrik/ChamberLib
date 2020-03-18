@@ -63,7 +63,7 @@ namespace ChamberLib.OpenTK
             {
                 this.Meshes.Add(new Mesh(this, mesh, resolver));
             }
-            this.Tag = modelContent.AnimationData;
+            this.AnimationData = modelContent.AnimationData;
             this.Filename = modelContent.Filename;
         }
 
@@ -186,7 +186,7 @@ namespace ChamberLib.OpenTK
             material.VertexShader.SetUniform("bones[0]", boneTransforms);
         }
 
-        public object Tag { get; set; }
+        public AnimationData AnimationData { get; set; }
 
         public IBone Root
         {
