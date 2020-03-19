@@ -127,6 +127,8 @@ namespace ChamberLib
 
         public static Vector4 NormalizeAxisAngleOrientation(Vector4 axisAngle, float delta=0)
         {
+            // TODO: define and document "orientation"
+
             var _axis = axisAngle.ToVectorXYZ();
 
             if (_axis == Vector3.Zero)
@@ -263,6 +265,8 @@ namespace ChamberLib
 
         public bool IsEquivalentOrientationTo(Quaternion other, float delta=0)
         {
+            // TODO: define and document "orientation"
+
             var v1 = this.ToAxisAngle();
             var thisV = NormalizeAxisAngleOrientation(v1, delta);
 
