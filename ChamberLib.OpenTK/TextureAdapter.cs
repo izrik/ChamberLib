@@ -58,25 +58,28 @@ namespace ChamberLib.OpenTK
                 var numpixels = Width * Height;
                 n = numpixels * 4;
                 var bytes = new byte[n];
-                var last = ( (PixelData == null || PixelData.Length <= 0) ? Color.Black : PixelData[PixelData.Length - 1]);
-                for (i = 0; i < 4*PixelData.Length; i += 4)
+                for (i = 0; i < 4 * PixelData.Length; i += 4)
                 {
                     var c = PixelData[i / 4];
-                    bytes[i] = c.A;
-                    bytes[i + 1] = c.R;
-                    bytes[i + 2] = c.G;
-                    bytes[i + 3] = c.B;
+                    bytes[i + 0] = c.R;
+                    bytes[i + 1] = c.G;
+                    bytes[i + 2] = c.B;
+                    bytes[i + 3] = c.A;
                 }
-                for (; i < n; i += 4)
+                if (i < n)
                 {
-                    bytes[i] = last.A;
-                    bytes[i + 1] = last.R;
-                    bytes[i + 2] = last.G;
-                    bytes[i + 3] = last.B;
+                    var last = ((PixelData == null || PixelData.Length <= 0) ? Color.Black : PixelData[PixelData.Length - 1]);
+                    for (; i < n; i += 4)
+                    {
+                        bytes[i + 0] = last.R;
+                        bytes[i + 1] = last.G;
+                        bytes[i + 2] = last.B;
+                        bytes[i + 3] = last.A;
+                    }
                 }
 
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, Width, Height, 0,
-                    _OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bytes);
+                    _OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte, bytes);
                 break;
             case PixelFormat.R32f:
 
