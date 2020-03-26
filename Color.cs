@@ -47,14 +47,15 @@ namespace ChamberLib
             return new Vector4(R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
         }
 
+        public ColorF ToColorF()
+        {
+            var v = this.ToVector4();
+            return new ColorF(v.X, v.Y, v.Z, v.W);
+        }
+
         public static Color FromHsl(float h, float s, float l)
         {
             return new Color(Vector3Colors.FromHslVector(h,s,l));
-        }
-
-        public int[] ToIntegerArrayRgba()
-        {
-            return new int[] { R, G, B, A };
         }
     }
 }
