@@ -134,7 +134,13 @@ namespace ChamberLib.OpenTK
             _DrawImages_isReady = true;
         }
 
-        public void DrawImages(params DrawImagesEntry[] entries)
+        DrawImagesEntry[] __DrawImage_entry = new DrawImagesEntry[1];
+        public void DrawImage(DrawImagesEntry entry)
+        {
+            __DrawImage_entry[0] = entry;
+            DrawImages(__DrawImage_entry);
+        }
+        public void DrawImages(DrawImagesEntry[] entries)
         {
             if (!_DrawImages_isReady)
             {

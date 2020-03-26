@@ -14,6 +14,7 @@ namespace ChamberLib
                         float scaleX=1,
                         float scaleY=1);
 
+        void DrawImage(DrawImagesEntry entry);
         void DrawImages(params DrawImagesEntry[] entries);
 
         void Clear(Color color);
