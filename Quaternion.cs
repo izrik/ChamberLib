@@ -507,6 +507,17 @@ namespace ChamberLib
                 Z.ToString(format, formatProvider),
                 W.ToString(format, formatProvider));
         }
+
+        public static Quaternion FromAngleBetweenVectors(Vector3 from,
+            Vector3 to)
+        {
+            from = from.Normalized();
+            to = to.Normalized();
+            Vector3 c = Vector3.Cross(from, to);
+            var axis = c.Normalized();
+            var angle = (float)Math.Asin(c.Length());
+            return Quaternion.CreateFromAxisAngle(axis, angle);
+        }
     }
 }
 

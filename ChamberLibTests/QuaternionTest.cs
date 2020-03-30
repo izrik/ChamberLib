@@ -180,6 +180,29 @@ namespace ChamberLibTests
                         Math.Abs(e2.W - a2.W) <= delta) ? 0 : 1;
                 }));
         }
+
+        [Test]
+        public void TestFromAngleBetweenVectors()
+        {
+            // given
+            var from = Vector3.UnitY;
+            var to = new Vector3(1, 1, 0).Normalized();
+            var expected = Quaternion.FromRotationZ(-45f.ToRadians());
+
+            // when
+            var result = Quaternion.FromAngleBetweenVectors(from, to);
+
+            // then
+            float delta = 0.0001f;
+            Assert.That(
+                expected,
+                Is.EqualTo(result)
+                .Using((Quaternion ex, Quaternion ac) => (
+                        Math.Abs(ex.X - ac.X) <= delta &&
+                        Math.Abs(ex.Y - ac.Y) <= delta &&
+                        Math.Abs(ex.Z - ac.Z) <= delta &&
+                        Math.Abs(ex.W - ac.W) <= delta) ? 0 : 1));
+        }
     }
 }
 
