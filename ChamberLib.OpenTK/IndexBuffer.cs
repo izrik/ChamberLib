@@ -1,35 +1,124 @@
 ﻿using System;
 using OpenTK.Graphics.OpenGL;
 using ChamberLib.Content;
+using System.Collections.Generic;
 
 namespace ChamberLib.OpenTK
 {
     public class IndexBuffer : IIndexBuffer
     {
         public IndexBuffer(IndexBufferContent indexData)
-            : this(indexData.Indexes)
         {
+            if (indexData == null)
+                throw new ArgumentNullException("indexData");
+
+            if (indexData.Indexes32 != null)
+                Indexes32 = indexData.Indexes32;
+            else if (indexData.Indexes16 != null)
+                Indexes16 = indexData.Indexes16;
+            else if (indexData.Indexes8 != null)
+                Indexes8 = indexData.Indexes8;
+            else
+                throw new InvalidOperationException("No index data present");
+        }
+        public IndexBuffer(int[] indexData)
+        {
+            if (indexData == null)
+                throw new ArgumentNullException("indexData");
+            Indexes32 = indexData;
         }
         public IndexBuffer(short[] indexData)
         {
             if (indexData == null)
-            {
                 throw new ArgumentNullException("indexData");
-            }
-
-            IndexData = indexData;
+            Indexes16 = indexData;
+        }
+        public IndexBuffer(byte[] indexData)
+        {
+            if (indexData == null)
+                throw new ArgumentNullException("indexData");
+            Indexes8 = indexData;
         }
 
         public int IndexBufferID;
-        public int IndexSizeInBytes { get; protected set; }
-        public DrawElementsType DrawElementsType;
 
-        public short[] IndexData;
+        public readonly int[] Indexes32;
+        public readonly short[] Indexes16;
+        public readonly byte[] Indexes8;
 
-        public static IndexBuffer FromArray(short[] indexes)
+        public Array GetActiveArray()
         {
-            var ib = new IndexBuffer(indexes);
-            return ib;
+            if (Indexes32 != null) return Indexes32;
+            if (Indexes16 != null) return Indexes16;
+            if (Indexes8 != null) return Indexes8;
+            throw new InvalidOperationException("No index data present");
+        }
+
+        public int IndexSizeInBytes
+        {
+            get
+            {
+                if (Indexes32 != null) return sizeof(int);
+                if (Indexes16 != null) return sizeof(short);
+                if (Indexes8 != null) return sizeof(byte);
+                throw new InvalidOperationException("No index data present");
+            }
+        }
+
+        public DrawElementsType DrawElementsType
+        {
+            get
+            {
+                if (Indexes32 != null) return DrawElementsType.UnsignedInt;
+                if (Indexes16 != null) return DrawElementsType.UnsignedShort;
+                if (Indexes8 != null) return DrawElementsType.UnsignedByte;
+                throw new InvalidOperationException("No index data present");
+            }
+        }
+
+        public int GetIndex(int indexOfIndex)
+        {
+            if (Indexes32 != null) return Indexes32[indexOfIndex];
+            if (Indexes16 != null) return Indexes16[indexOfIndex];
+            if (Indexes8 != null) return Indexes8[indexOfIndex];
+            throw new InvalidOperationException("No index data present");
+        }
+
+        public int this [ int indexOfIndex ]
+        {
+            get => GetIndex(indexOfIndex);
+        }
+
+        public IEnumerable<int> EnumerateIndexes()
+        {
+            if (Indexes32 != null)
+            {
+                foreach (var index in Indexes32)
+                    yield return index;
+            }
+            else if (Indexes16 != null)
+            {
+                foreach (var index in Indexes16)
+                    yield return index;
+            }
+            else if (Indexes8 != null)
+            {
+                foreach (var index in Indexes8)
+                    yield return index;
+            }
+            else
+                throw new InvalidOperationException("No index data present");
+        }
+
+        public int Length
+        {
+            get
+            {
+                if (Indexes32 != null) return Indexes32.Length;
+                if (Indexes16 != null) return Indexes16.Length;
+                if (Indexes8 != null) return Indexes8.Length;
+                throw new InvalidOperationException("No index data present");
+            }
         }
 
         bool _isReady = false;
@@ -38,39 +127,27 @@ namespace ChamberLib.OpenTK
             IndexBufferID = GL.GenBuffer();
             GLHelper.CheckError();
 
-            var tindex = IndexData.GetType().GetElementType();// typeof(T);
-            if (tindex == typeof(int) || tindex == typeof(uint))
-            {
-                DrawElementsType = DrawElementsType.UnsignedInt;
-                IndexSizeInBytes = sizeof(int);
-            }
-            else if (tindex == typeof(short) || tindex == typeof(ushort))
-            {
-                DrawElementsType = DrawElementsType.UnsignedShort;
-                IndexSizeInBytes = sizeof(short);
-            }
-            else if (tindex == typeof(byte) || tindex == typeof(sbyte))
-            {
-                DrawElementsType = DrawElementsType.UnsignedByte;
-                IndexSizeInBytes = sizeof(byte);
-            }
-            else
-            {
-                throw new ArgumentException(
-                    string.Format(
-                        "Index type is {0}. The indexes must be of integral " +
-                        "type (int, uint, short, ushort, byte, sbyte)",
-                        tindex),
-                    "T");
-            }
-
-
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, IndexBufferID);
             GLHelper.CheckError();
 
-            GL.BufferData<short/*T*/>(BufferTarget.ElementArrayBuffer,
-                new IntPtr(IndexData.Length * IndexSizeInBytes),
-                IndexData, BufferUsageHint.StaticDraw);
+            if (Indexes32 != null)
+                GL.BufferData<int>(
+                    BufferTarget.ElementArrayBuffer,
+                    new IntPtr(Indexes32.Length * IndexSizeInBytes),
+                    Indexes32, BufferUsageHint.StaticDraw);
+            else if (Indexes16 != null)
+                GL.BufferData<short>(
+                    BufferTarget.ElementArrayBuffer,
+                    new IntPtr(Indexes16.Length * IndexSizeInBytes),
+                    Indexes16, BufferUsageHint.StaticDraw);
+            else if (Indexes8 != null)
+                GL.BufferData<byte>(
+                    BufferTarget.ElementArrayBuffer,
+                    new IntPtr(Indexes8.Length * IndexSizeInBytes),
+                    Indexes8, BufferUsageHint.StaticDraw);
+            else
+                throw new InvalidOperationException("No index data present");
+
             GLHelper.CheckError();
 
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);

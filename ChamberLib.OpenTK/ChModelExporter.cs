@@ -180,13 +180,11 @@ namespace ChamberLib.OpenTK
 
         void WriteIndexBuffer(TextWriter writer, IndexBuffer ib, int bufferNumber)
         {
-            short[] indexData = ib.IndexData;
-
-            writer.WriteLine(indexData.Length);
+            writer.WriteLine(ib.Length);
             writer.WriteLine(16);//ib.IndexElementSize == IndexElementSize.SixteenBits ? "16" : "32");
             writer.WriteLine("");//ib.Name);
             int k = 0;
-            foreach (var index in indexData)
+            foreach (var index in ib.EnumerateIndexes())
             {
                 if (k % 100 == 0)
                 {

@@ -139,7 +139,7 @@ namespace ChamberLib.OpenTK
         {
             _OpenTK.Vector2[] vertexData = Vertexes.Select(v => v.ToOpenTK()).ToArray();
             int vertexSizeInBytes = _OpenTK.Vector2.SizeInBytes;
-            short[] indexData = Indexes;
+            int[] indexData = Indexes;
 
             /*
              * Shader
@@ -357,7 +357,7 @@ namespace ChamberLib.OpenTK
 
 
         static Vector2[] Vertexes;
-        static short[] Indexes;
+        static int[] Indexes;
         static Dictionary<char, Glyph> Glyphs;
 
         static void GenerateGlyphs()
@@ -375,7 +375,7 @@ namespace ChamberLib.OpenTK
             }
 
             var vertexes = points.ToList();
-            var indexes = new List<short>();
+            var indexes = new List<int>();
 
             foreach (var ch in paths.Keys.ToArray())
             {
@@ -387,7 +387,7 @@ namespace ChamberLib.OpenTK
                         NumPrimitives = path.Length - 1,
                     };
                     segments.Add(segment);
-                    indexes.AddRange(path.Select(v => (short)vertexes.IndexOf(v)));
+                    indexes.AddRange(path.Select(v => (int)vertexes.IndexOf(v)));
                 }
                 var glyph = new Glyph {
                     Segments = segments.ToArray()

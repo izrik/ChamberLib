@@ -25,7 +25,7 @@ namespace ChamberLib.OpenTK
                 GL.DrawElements(
                     primitiveType,
                     count,
-                    DrawElementsType.UnsignedShort,
+                    IndexBuffer.DrawElementsType,
                     new IntPtr(firstIndexInTheIndexBuffer * IndexBuffer.IndexSizeInBytes));
                 GLHelper.CheckError();
             }
@@ -34,7 +34,7 @@ namespace ChamberLib.OpenTK
                 GL.DrawElementsBaseVertex(
                     primitiveType,
                     count,
-                    DrawElementsType.UnsignedShort,
+                    IndexBuffer.DrawElementsType,
                     new IntPtr(firstIndexInTheIndexBuffer * IndexBuffer.IndexSizeInBytes),
                     vertexOffset);
             }
