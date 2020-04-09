@@ -46,14 +46,6 @@ namespace ChamberLib.OpenTK
         public readonly short[] Indexes16;
         public readonly byte[] Indexes8;
 
-        public Array GetActiveArray()
-        {
-            if (Indexes32 != null) return Indexes32;
-            if (Indexes16 != null) return Indexes16;
-            if (Indexes8 != null) return Indexes8;
-            throw new InvalidOperationException("No index data present");
-        }
-
         public int IndexSizeInBytes
         {
             get
