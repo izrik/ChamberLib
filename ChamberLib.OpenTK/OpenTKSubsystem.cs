@@ -17,7 +17,8 @@ namespace ChamberLib.OpenTK
             Action onLoadMethod=null,
             Action<GameTime> onRenderFrameMethod=null,
             Action<GameTime> onUpdateFrameMethod=null,
-            IContentImporter contentImporter=null)
+            IContentImporter contentImporter=null,
+            IContentProcessor contentProcessor=null)
         {
 
             // audio playback
@@ -56,11 +57,14 @@ namespace ChamberLib.OpenTK
                             basePath: "Content.OpenTK"));
             }
 
-            var processor =
-                new CachingContentProcessor(
-                    new OpenTKContentProcessor());
+            if (contentProcessor == null)
+            {
+                contentProcessor =
+                    new CachingContentProcessor(
+                        new OpenTKContentProcessor());
+            }
 
-            _content = new ContentManager(contentImporter, processor);
+            _content = new ContentManager(contentImporter, contentProcessor);
             _cachingContent = new CachingContentManager(_content);
         }
 
