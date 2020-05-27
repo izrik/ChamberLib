@@ -236,6 +236,14 @@ namespace ChamberLib.OpenTK
             }
         }
 
+        int _triangleCount = -1;
+        public int CountTriangles()
+        {
+            if (_triangleCount < 0)
+                _triangleCount = EnumerateTriangles().Count();
+            return _triangleCount;
+        }
+
         #endregion
 
         public List<Mesh> Meshes = new List<Mesh>();
