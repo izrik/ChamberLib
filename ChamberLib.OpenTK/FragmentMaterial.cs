@@ -5,27 +5,33 @@ namespace ChamberLib.OpenTK
 {
     public class FragmentMaterial : IFragmentMaterial
     {
-        public FragmentMaterial(FragmentMaterialContent material, ContentResolver resolver, IContentProcessor processor)
+        public FragmentMaterial(FragmentMaterialContent material,
+            ContentResolver resolver, IContentProcessor processor)
+            : this(material.DiffuseColor, material.EmissiveColor,
+                  material.SpecularColor, material.SpecularPower,
+                  material.Alpha,
+                  material.Texture != null ?
+                    processor.ProcessTexture2D(material.Texture) : null,
+                  material.FragmentShader != null ?
+                    processor.ProcessShaderStage(material.FragmentShader,
+                      processor) : null,
+                  material.Name)
         {
-            this.Name = material.Name;
+        }
+        public FragmentMaterial(Vector3 diffuse, Vector3 emissive,
+            Vector3 specular, float specularPower, float alpha,
+            ITexture2D texture, IShaderStage fragmentShader, string name)
+        {
+            this.Name = name;
 
-            this.Diffuse = material.DiffuseColor;
-            this.EmissiveColor = material.EmissiveColor;
-            this.SpecularColor = material.SpecularColor;
-            this.SpecularPower = material.SpecularPower;
-            this.Alpha = material.Alpha;
+            this.Diffuse = diffuse;
+            this.EmissiveColor = emissive;
+            this.SpecularColor = specular;
+            this.SpecularPower = specularPower;
+            this.Alpha = alpha;
 
-            if (material.Texture != null)
-            {
-                this.Texture = processor.ProcessTexture2D(material.Texture);
-            }
-
-            if (material.FragmentShader != null)
-            {
-                var fragment =
-                    processor.ProcessShaderStage(material.FragmentShader, processor);
-                this.FragmentShader = fragment;
-            }
+            this.Texture = texture;
+            this.FragmentShader = fragmentShader;
         }
 
         public string Name { get; set; }
