@@ -66,7 +66,13 @@ namespace ChamberLib.OpenTK
             {
                 Texture.Apply();
             }
+
+            OnApply?.Invoke(gameTime, world, components, fragmentShader,
+                overrides);
         }
+
+        public Action<GameTime, Matrix, ComponentCollection, IShaderStage,
+            Overrides> OnApply { get; set; }
 
         public void UnApply()
         {
