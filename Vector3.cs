@@ -202,6 +202,11 @@ namespace ChamberLib
         {
             return new Vector4(X, Y, Z, w);
         }
+
+        public Vector2 ToVector2()
+        {
+            return new Vector2(X, Y);
+        }
     }
 }
 
