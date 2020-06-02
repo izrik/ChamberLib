@@ -37,6 +37,8 @@ namespace ChamberLib.OpenTK
 
         public Vector2 MeasureString(string text)
         {
+            if (string.IsNullOrEmpty(text)) return Vector2.Zero;
+
             int numlines = 1;
             int maxchars = 0;
             int linechars = 0;
