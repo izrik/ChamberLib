@@ -85,6 +85,41 @@ namespace ChamberLib.OpenTK
                     return _value;
                 }
             }
+
+            public Enumerator GetEnumerator()
+            {
+                return new Enumerator(this);
+            }
+
+            public struct Enumerator
+            {
+                public Enumerator(Span span)
+                {
+                    _span = span;
+                    i = -1;
+                }
+
+                private readonly Span _span;
+                private int i;
+
+                public char Current => _span.String[i];
+
+                public bool MoveNext()
+                {
+                    if (i < 0)
+                        i = _span.Start;
+                    else
+                        i++;
+
+                    if (i >= _span.End) return false;
+                    return true;
+                }
+
+                public void Reset()
+                {
+                    i = -1;
+                }
+            }
         }
 
         public static void SplitLines(Span s, List<Span> spans)
@@ -201,13 +236,13 @@ namespace ChamberLib.OpenTK
         readonly ThreadLocal<List<Span>> __MeasureString_lines =
             new ThreadLocal<List<Span>>(() => new List<Span>());
         public Vector2 MeasureString(string text,
-            int? wrapWordsToMaxLineWidth=null)
+            float? wrapWordsToMaxLineWidth=null)
         {
             if (string.IsNullOrEmpty(text)) return Vector2.Zero;
             return MeasureString(new Span(text), wrapWordsToMaxLineWidth);
         }
         public Vector2 MeasureString(Span text,
-            int? wrapWordsToMaxLineWidth=null)
+            float? wrapWordsToMaxLineWidth=null)
         {
             var lines = __MeasureString_lines.Value;
             SplitLines(text, lines);
@@ -230,7 +265,9 @@ namespace ChamberLib.OpenTK
 
         public static bool IsReady = false;
 
-        public void DrawString(Renderer renderer, string text, Vector2 position, Color color, float rotation, float scaleX, float scaleY)
+        public void DrawString(Renderer renderer, string text,
+            Vector2 position, Color color, float rotation, float scaleX,
+            float scaleY, float? wrapWordsToMaxLineWidth=null)
         {
             if (!IsReady)
             {
@@ -260,19 +297,26 @@ namespace ChamberLib.OpenTK
             GL.Uniform4(fragmentColorLocation, color.ToVector4().ToOpenTK());
             GLHelper.CheckError();
 
-            foreach (char ch in text)
-            {
-                // set p
-                GL.Uniform2(offsetLocation, p.ToOpenTK());
-                GLHelper.CheckError();
+            var s = new Span(text);
+            var lines = __MeasureString_lines.Value;
+            SplitLines(s, lines);
+            if (wrapWordsToMaxLineWidth.HasValue)
+                WrapWords(lines,
+                    wrapWordsToMaxLineWidth.Value);
 
-                switch (ch)
+            foreach (var line in lines)
+            {
+                foreach (var ch in line)
                 {
+                    GL.Uniform2(offsetLocation, p.ToOpenTK());
+                    GLHelper.CheckError();
+
+                    switch (ch)
+                    {
                     case '\r':
                         continue;
                     case '\n':
-                        p = new Vector2(x, p.Y + (LineHeight + SpaceBetweenLines) * scaleY);
-                        break;
+                        continue;
                     default:
                         var glyph = GetGlyph(ch);
 
@@ -280,14 +324,16 @@ namespace ChamberLib.OpenTK
                         {
                             renderData.Draw(
                                 PrimitiveType.LineStrip,
-                                segment.NumPrimitives+1,
+                                segment.NumPrimitives + 1,
                                 segment.StartIndex);
                             GLHelper.CheckError();
 
                         }
                         p = new Vector2(p.X + (CharacterWidth + SpaceBetweenChars) * scaleX, p.Y);
                         break;
+                    }
                 }
+                p = new Vector2(x, p.Y + (LineHeight + SpaceBetweenLines) * scaleY);
             }
 
             renderData.UnApply();
