@@ -35,35 +35,195 @@ namespace ChamberLib.OpenTK
         static int screenHeightLocation;
         static int fragmentColorLocation;
 
-        public Vector2 MeasureString(string text)
+        static bool IsWordChar(char ch)
         {
-            if (string.IsNullOrEmpty(text)) return Vector2.Zero;
+            return !char.IsWhiteSpace(ch);
+        }
 
-            int numlines = 1;
-            int maxchars = 0;
-            int linechars = 0;
-            foreach (char ch in text)
+        public struct Span
+        {
+            //TODO: Move this to its own file and namespace?
+
+            // TODO: see Span<T> and Memory<T> from C# 7.2
+
+            public Span(string s)
+                : this(s, 0, s.Length)
             {
-                switch (ch)
+            }
+            public Span(string s, int start, int length)
+            {
+                String = s;
+                Start = start;
+                Length = length;
+                _value = null;
+            }
+            public Span(Span s, int start, int length)
+            {
+                String = s.String;
+                Start = s.Start + start;
+                Length = length;
+                _value = null;
+            }
+
+            public readonly string String;
+            public readonly int Start;
+            public readonly int Length;
+
+            public int End => Start + Length;
+
+            public char this[int index] => String[index + Start];
+
+            string _value;
+            public string Value
+            {
+                get
                 {
-                    case '\r':
-                        continue;
-                    case '\n':
-                        numlines++;
-                        maxchars = Math.Max(maxchars, linechars);
-                        linechars = 0;
-                        break;
-                    default:
-                        linechars++;
-                        break;
+                    if (_value == null)
+                        _value = String.Substring(Start, Length);
+                    return _value;
                 }
             }
-            maxchars = Math.Max(maxchars, linechars);
+        }
 
-            return 
-                new Vector2(
-                maxchars * CharacterWidth + (maxchars - 1) * SpaceBetweenChars,
-                numlines * LineHeight + (numlines - 1) * SpaceBetweenLines);
+        public static void SplitLines(Span s, List<Span> spans)
+        {
+            int start = 0;
+            int end = -1;
+            int i;
+            spans.Clear();
+            for (i = 0; i < s.Length; i++)
+            {
+                if (s[i] == '\n')
+                {
+                    spans.Add(new Span(s, start, end - start + 1));
+                    start = i + 1;
+                    end = i;
+                }
+                else if (IsWordChar(s[i]))
+                {
+                    end = i;
+                }
+            }
+            spans.Add(new Span(s, start, end - start + 1));
+        }
+
+        public static void SplitWords(Span line, List<Span> words)
+        {
+            words.Clear();
+
+            if (line.Length < 1) return;
+
+            int i;
+            bool prevCharIsWord = IsWordChar(line[0]);
+            bool curCharIsWord;
+            int start = 0;
+            for (i = 0; i < line.Length; i++)
+            {
+                curCharIsWord = IsWordChar(line[i]);
+                if (curCharIsWord && !prevCharIsWord)
+                {
+                    // start new word
+                    start = i;
+                }
+                else if (!curCharIsWord && prevCharIsWord)
+                {
+                    // end a word
+                    words.Add(new Span(line, start, i - start));
+                    start = line.Length;
+                }
+                prevCharIsWord = curCharIsWord;
+            }
+
+            if (prevCharIsWord && start<line.Length)
+                words.Add(new Span(line, start, i - start));
+        }
+
+        public static float MeasureLineWidth(Span line,
+            bool ignoreTrailingWhitespace=true)
+        {
+            if (line.Length < 1) return 0;
+
+            int end = line.Length - 1;
+            if (ignoreTrailingWhitespace)
+                while (end > 0 && !IsWordChar(line[end]))
+                    end--;
+            //int i;
+            //float width = 0;
+            //for (i = 0; i < end; i++)
+            //{
+            //    width += 
+            //}
+            return (end + 1) * CharacterWidth + end * SpaceBetweenChars;
+
+        }
+
+        // TODO: simple field means this is not thread-safe. make it
+        //       thread-safe.
+        static List<Span> __WrapWords_words = new List<Span>();
+        public static void WrapWords(List<Span> lines, int maxLineWidth)
+        {
+            int i;
+            for (i = 0; i < lines.Count; i++)
+            {
+                var line = lines[i];
+
+                var width = MeasureLineWidth(line);
+
+                if (width <= maxLineWidth) continue;
+
+                __WrapWords_words.Clear();
+                SplitWords(line, __WrapWords_words);
+
+                int j;
+                for (j = 1; j < __WrapWords_words.Count; j++)
+                {
+                    var w = __WrapWords_words[j];
+                    var ws = new Span(line, 0, w.End - line.Start);
+                    var ww = MeasureLineWidth(ws);
+                    if (ww > maxLineWidth)
+                    {
+                        var w1 = __WrapWords_words[j - 1];
+                        var newPrevLine =
+                            new Span(line, 0, w1.End - line.Start);
+                        var newNextLine =
+                            new Span(line, w.Start - line.Start,
+                                line.End - w.Start);
+                        lines[i] = newPrevLine;
+                        lines.Insert(i + 1, newNextLine);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // TODO: simple field means this is not thread-safe. make it
+        //       thread-safe.
+        readonly List<Span> __MeasureString_lines = new List<Span>();
+        public Vector2 MeasureString(string text,
+            int? wrapWordsToMaxLineWidth=null)
+        {
+            if (string.IsNullOrEmpty(text)) return Vector2.Zero;
+            return MeasureString(new Span(text), wrapWordsToMaxLineWidth);
+        }
+        public Vector2 MeasureString(Span text,
+            int? wrapWordsToMaxLineWidth=null)
+        {
+            SplitLines(text, __MeasureString_lines);
+            if (wrapWordsToMaxLineWidth.HasValue)
+                WrapWords(__MeasureString_lines,
+                    wrapWordsToMaxLineWidth.Value);
+
+            float maxWidth = 0;
+            foreach(var line in __MeasureString_lines)
+            {
+                maxWidth = Math.Max(maxWidth, MeasureLineWidth(line));
+            }
+
+            int numlines = __MeasureString_lines.Count;
+            float height = numlines * LineHeight +
+                (numlines - 1) * SpaceBetweenLines;
+
+            return new Vector2(maxWidth, height);
         }
 
         public static bool IsReady = false;

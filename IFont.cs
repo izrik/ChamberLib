@@ -4,7 +4,7 @@ namespace ChamberLib
 {
     public interface IFont
     {
-        Vector2 MeasureString(string text);
+        Vector2 MeasureString(string text, int? wrapWordsToMaxLineWidth=null);
     }
 }
 

@@ -46,6 +46,10 @@
     <Compile Include="QuaternionTest.cs" />
     <Compile Include="FrustumTest.cs" />
     <Compile Include="OpenTK\FontAdapterTests\MeasureStringTest.cs" />
+    <Compile Include="OpenTK\FontAdapterTests\SplitLinesTest.cs" />
+    <Compile Include="OpenTK\FontAdapterTests\MeasureLineWidthTest.cs" />
+    <Compile Include="OpenTK\FontAdapterTests\WrapWordsTest.cs" />
+    <Compile Include="OpenTK\FontAdapterTests\SplitWordsTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
