@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using ChamberLib.Content;
 
 using _OpenTK = global::OpenTK;
+using System.Collections;
+using System.Threading;
 
 namespace ChamberLib.OpenTK
 {
@@ -157,10 +159,9 @@ namespace ChamberLib.OpenTK
 
         }
 
-        // TODO: simple field means this is not thread-safe. make it
-        //       thread-safe.
-        static List<Span> __WrapWords_words = new List<Span>();
-        public static void WrapWords(List<Span> lines, int maxLineWidth)
+        static readonly ThreadLocal<List<Span>> __WrapWords_words =
+            new ThreadLocal<List<Span>>(() => new List<Span>());
+        public static void WrapWords(List<Span> lines, float maxLineWidth)
         {
             int i;
             for (i = 0; i < lines.Count; i++)
@@ -171,18 +172,19 @@ namespace ChamberLib.OpenTK
 
                 if (width <= maxLineWidth) continue;
 
-                __WrapWords_words.Clear();
-                SplitWords(line, __WrapWords_words);
+                var words = __WrapWords_words.Value;
+                words.Clear();
+                SplitWords(line, words);
 
                 int j;
-                for (j = 1; j < __WrapWords_words.Count; j++)
+                for (j = 1; j < words.Count; j++)
                 {
-                    var w = __WrapWords_words[j];
+                    var w = words[j];
                     var ws = new Span(line, 0, w.End - line.Start);
                     var ww = MeasureLineWidth(ws);
                     if (ww > maxLineWidth)
                     {
-                        var w1 = __WrapWords_words[j - 1];
+                        var w1 = words[j - 1];
                         var newPrevLine =
                             new Span(line, 0, w1.End - line.Start);
                         var newNextLine =
@@ -196,9 +198,8 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        // TODO: simple field means this is not thread-safe. make it
-        //       thread-safe.
-        readonly List<Span> __MeasureString_lines = new List<Span>();
+        readonly ThreadLocal<List<Span>> __MeasureString_lines =
+            new ThreadLocal<List<Span>>(() => new List<Span>());
         public Vector2 MeasureString(string text,
             int? wrapWordsToMaxLineWidth=null)
         {
@@ -208,18 +209,19 @@ namespace ChamberLib.OpenTK
         public Vector2 MeasureString(Span text,
             int? wrapWordsToMaxLineWidth=null)
         {
-            SplitLines(text, __MeasureString_lines);
+            var lines = __MeasureString_lines.Value;
+            SplitLines(text, lines);
             if (wrapWordsToMaxLineWidth.HasValue)
-                WrapWords(__MeasureString_lines,
+                WrapWords(lines,
                     wrapWordsToMaxLineWidth.Value);
 
             float maxWidth = 0;
-            foreach(var line in __MeasureString_lines)
+            foreach(var line in lines)
             {
                 maxWidth = Math.Max(maxWidth, MeasureLineWidth(line));
             }
 
-            int numlines = __MeasureString_lines.Count;
+            int numlines = lines.Count;
             float height = numlines * LineHeight +
                 (numlines - 1) * SpaceBetweenLines;
 
