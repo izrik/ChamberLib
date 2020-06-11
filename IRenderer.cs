@@ -13,7 +13,8 @@ namespace ChamberLib
                         float rotation=0,
                         float scaleX=1,
                         float scaleY=1,
-                        float? wrapWordsToMaxLineWidth=null);
+                        float? wrapWordsToMaxLineWidth=null,
+                        int? numCharsToDraw=null);
 
         void DrawImage(DrawImagesEntry entry);
         void DrawImages(params DrawImagesEntry[] entries);

@@ -267,7 +267,8 @@ namespace ChamberLib.OpenTK
 
         public void DrawString(Renderer renderer, string text,
             Vector2 position, Color color, float rotation, float scaleX,
-            float scaleY, float? wrapWordsToMaxLineWidth=null)
+            float scaleY, float? wrapWordsToMaxLineWidth=null,
+            int? numCharsToDraw=null)
         {
             if (!IsReady)
             {
@@ -304,6 +305,7 @@ namespace ChamberLib.OpenTK
                 WrapWords(lines,
                     wrapWordsToMaxLineWidth.Value);
 
+            int numCharsDrawn = 0;
             foreach (var line in lines)
             {
                 foreach (var ch in line)
@@ -332,7 +334,15 @@ namespace ChamberLib.OpenTK
                         p = new Vector2(p.X + (CharacterWidth + SpaceBetweenChars) * scaleX, p.Y);
                         break;
                     }
+
+                    numCharsDrawn++;
+                    if (numCharsToDraw.HasValue &&
+                        numCharsDrawn >= numCharsToDraw.Value)
+                        break;
                 }
+                if (numCharsToDraw.HasValue &&
+                    numCharsDrawn >= numCharsToDraw.Value)
+                    break;
                 p = new Vector2(x, p.Y + (LineHeight + SpaceBetweenLines) * scaleY);
             }
 

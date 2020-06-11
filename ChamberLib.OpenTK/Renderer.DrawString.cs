@@ -9,11 +9,12 @@ namespace ChamberLib.OpenTK
             float rotation=0,
             float scaleX=1,
             float scaleY=1,
-            float? wrapWordsToMaxLineWidth=null)
+            float? wrapWordsToMaxLineWidth=null,
+            int? numCharsToDraw=null)
         {
             var font2 = (FontAdapter)font;
             font2.DrawString(this, text, position, color, rotation,
-                scaleX, scaleY, wrapWordsToMaxLineWidth);
+                scaleX, scaleY, wrapWordsToMaxLineWidth, numCharsToDraw);
         }
 
     }
