@@ -56,6 +56,9 @@
     <Compile Include="Audio\ISoundEffect.cs" />
     <Compile Include="Audio\ISoundEffectInstance.cs" />
     <Compile Include="Audio\MediaState.cs" />
+    <Compile Include="Cameras\BasicCamera.cs" />
+    <Compile Include="Cameras\CameraAboutTarget.cs" />
+    <Compile Include="Cameras\CameraFromDirectionalLight.cs" />
     <Compile Include="Cameras\ICamera.cs" />
     <Compile Include="ChamberLib.OpenTK\BasicSongImporter.cs" />
     <Compile Include="ChamberLib.OpenTK\Bone.cs" />
