@@ -51,6 +51,23 @@ namespace ChamberLib
 
             return value;
         }
+
+        public static int ManhattanDistance(Vector2 a, Vector2 b)
+        {
+            return
+                Math.Abs(a.X.RoundToInt() - b.X.RoundToInt()) +
+                Math.Abs(a.Y.RoundToInt() - b.Y.RoundToInt());
+        }
+
+        public static Matrix Transform(Matrix mat, Quaternion rotation)
+        {
+            return mat * Matrix.CreateFromQuaternion(rotation);
+        }
+
+        public static float Lerp(float a, float b, float s)
+        {
+            return a * (1 - s) + b * s;
+        }
     }
 }
 
