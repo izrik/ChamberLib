@@ -109,5 +109,14 @@ namespace ChamberLib
                 }
             }
         }
+
+        public static T[] CloneArray<T>(this T[] array)
+        {
+            T[] other = new T[array.Length];
+
+            array.CopyTo(other, 0);
+
+            return other;
+        }
     }
 }
