@@ -40,6 +40,7 @@
     <Compile Include="PlaneTest.cs" />
     <Compile Include="RayTest.cs" />
     <Compile Include="MatrixTest.cs" />
+    <Compile Include="TimelineTest.cs" />
     <Compile Include="TriangleTest.cs" />
     <Compile Include="Vector3Test.cs" />
     <Compile Include="ViewportTest.cs" />
