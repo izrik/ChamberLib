@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmbientLight.cs" />
     <Compile Include="AssemblyInfo.Git.cs" />
     <Compile Include="ChamberLib.OpenTK\BasicSongImporter.cs" />
     <Compile Include="ChamberLib.OpenTK\Bone.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="ChamberLib.OpenTK\ContentResolver.cs" />
     <Compile Include="ChamberLib.OpenTK\FontAdapter.cs" />
     <Compile Include="ChamberLib.OpenTK\FontAdapter.Shaders.cs" />
+    <Compile Include="ChamberLib.OpenTK\FragmentMaterial.cs" />
     <Compile Include="ChamberLib.OpenTK\FrameBuffer.cs" />
     <Compile Include="ChamberLib.OpenTK\GamePad.cs" />
     <Compile Include="ChamberLib.OpenTK\GameTimeHelper.cs" />
@@ -67,11 +69,11 @@
     <Compile Include="ChamberLib.OpenTK\IndexBuffer.cs" />
     <Compile Include="ChamberLib.OpenTK\IVertexBuffer.cs" />
     <Compile Include="ChamberLib.OpenTK\Keyboard.cs" />
-    <Compile Include="ChamberLib.OpenTK\Material.cs" />
     <Compile Include="ChamberLib.OpenTK\MatrixHelper.cs" />
     <Compile Include="ChamberLib.OpenTK\MediaManager.cs" />
     <Compile Include="ChamberLib.OpenTK\Mesh.cs" />
     <Compile Include="ChamberLib.OpenTK\Model.cs" />
+    <Compile Include="ChamberLib.OpenTK\Mouse.cs" />
     <Compile Include="ChamberLib.OpenTK\MutableIndexBuffer.cs" />
     <Compile Include="ChamberLib.OpenTK\MutableVertexBuffer.cs" />
     <Compile Include="ChamberLib.OpenTK\OggVorbisSoundEffectImporter.cs" />
@@ -85,20 +87,33 @@
     <Compile Include="ChamberLib.OpenTK\Renderer.DrawLines2D.cs" />
     <Compile Include="ChamberLib.OpenTK\Renderer.DrawLines3D.cs" />
     <Compile Include="ChamberLib.OpenTK\Renderer.DrawString.cs" />
+    <Compile Include="ChamberLib.OpenTK\ShaderUniformTypeHelper.cs" />
     <Compile Include="ChamberLib.OpenTK\Song.cs" />
     <Compile Include="ChamberLib.OpenTK\SoundEffect.cs" />
     <Compile Include="ChamberLib.OpenTK\TextureAdapter.cs" />
     <Compile Include="ChamberLib.OpenTK\VectorHelper.cs" />
     <Compile Include="ChamberLib.OpenTK\VertexAttribute.cs" />
     <Compile Include="ChamberLib.OpenTK\VertexBuffer.cs" />
+    <Compile Include="ChamberLib.OpenTK\VertexMaterial.cs" />
     <Compile Include="ChamberLib.OpenTK\WaveSoundEffectImporter.cs" />
+    <Compile Include="ColorF.cs" />
+    <Compile Include="ComponentCollection.cs" />
+    <Compile Include="Content\FragmentMaterialContent.cs" />
     <Compile Include="Content\Geometry.cs" />
+    <Compile Include="Content\VertexMaterialContent.cs" />
+    <Compile Include="ICamera.cs" />
+    <Compile Include="IFragmentMaterial.cs" />
+    <Compile Include="IMouse.cs" />
     <Compile Include="IRenderer.cs" />
+    <Compile Include="IVertexMaterial.cs" />
+    <Compile Include="MouseButtons.cs" />
+    <Compile Include="MouseState.cs" />
     <Compile Include="Overrides.cs" />
     <Compile Include="ShaderUniforms.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ShaderUniformType.cs" />
+    <Compile Include="STuple.cs" />
     <Compile Include="Triangle.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="MathHelper.cs" />
@@ -149,7 +164,6 @@
     <Compile Include="IVertex.cs" />
     <Compile Include="ImportExportHelper.cs" />
     <Compile Include="VertexHelper.cs" />
-    <Compile Include="IMaterial.cs" />
     <Compile Include="LightingData.cs" />
     <Compile Include="ListWrapper.cs" />
     <Compile Include="AnimationData.cs" />
@@ -163,7 +177,6 @@
     <Compile Include="Content\ModelContent.cs" />
     <Compile Include="Content\PartContent.cs" />
     <Compile Include="Content\VertexBufferContent.cs" />
-    <Compile Include="Content\MaterialContent.cs" />
     <Compile Include="Content\TextureContent.cs" />
     <Compile Include="Content\ShaderContent.cs" />
     <Compile Include="Content\FontContent.cs" />
@@ -187,7 +200,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IRenderTarget.cs" />
     <Compile Include="PixelFormat.cs" />
-    <Compile Include="IShaderProgram.cs" />
     <Compile Include="ChamberLib.OpenTK\ShaderProgram.cs" />
     <Compile Include="IShaderStage.cs" />
     <Compile Include="ShaderType.cs" />
