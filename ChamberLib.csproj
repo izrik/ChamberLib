@@ -113,6 +113,7 @@
     <Compile Include="Images\IRenderTarget.cs" />
     <Compile Include="Images\ITexture2D.cs" />
     <Compile Include="Images\PixelFormat.cs" />
+    <Compile Include="Input\AnalogInput.cs" />
     <Compile Include="Input\Buttons.cs" />
     <Compile Include="Input\ButtonState.cs" />
     <Compile Include="Input\GamePadButtons.cs" />
@@ -120,14 +121,19 @@
     <Compile Include="Input\GamePadState.cs" />
     <Compile Include="Input\GamePadThumbsticks.cs" />
     <Compile Include="Input\GamePadTriggers.cs" />
+    <Compile Include="Input\IActionSource.cs" />
     <Compile Include="Input\IGamePad.cs" />
     <Compile Include="Input\IKeyboard.cs" />
     <Compile Include="Input\IMouse.cs" />
+    <Compile Include="Input\InputMapper.cs" />
+    <Compile Include="Input\InputSource.cs" />
     <Compile Include="Input\KeyboardState.cs" />
     <Compile Include="Input\Keys.cs" />
     <Compile Include="Input\MouseButtons.cs" />
     <Compile Include="Input\MouseState.cs" />
     <Compile Include="Input\PlayerIndex.cs" />
+    <Compile Include="Input\RecordingInputSource.cs" />
+    <Compile Include="Input\SettableActionSource.cs" />
     <Compile Include="Lights\AmbientLight.cs" />
     <Compile Include="Lights\DirectionalLight.cs" />
     <Compile Include="Lights\LightingData.cs" />
