@@ -182,7 +182,6 @@
     <Compile Include="Input\MouseButtons.cs" />
     <Compile Include="Input\MouseState.cs" />
     <Compile Include="Input\PlayerIndex.cs" />
-    <Compile Include="Input\RecordingInputSource.cs" />
     <Compile Include="Input\SettableActionSource.cs" />
     <Compile Include="Lights\AmbientLight.cs" />
     <Compile Include="Lights\DirectionalLight.cs" />
