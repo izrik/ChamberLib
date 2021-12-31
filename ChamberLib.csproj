@@ -63,7 +63,6 @@
     <Compile Include="ChamberLib.OpenTK\Audio\MediaManager.cs" />
     <Compile Include="ChamberLib.OpenTK\Audio\Song.cs" />
     <Compile Include="ChamberLib.OpenTK\Audio\SoundEffect.cs" />
-    <Compile Include="ChamberLib.OpenTK\ChModelExporter.cs" />
     <Compile Include="ChamberLib.OpenTK\Content\BasicSongImporter.cs" />
     <Compile Include="ChamberLib.OpenTK\Content\BuiltinContentImporter.cs" />
     <Compile Include="ChamberLib.OpenTK\Content\BuiltinFontImporter.cs" />
@@ -73,7 +72,6 @@
     <Compile Include="ChamberLib.OpenTK\Content\OggVorbisSoundEffectImporter.cs" />
     <Compile Include="ChamberLib.OpenTK\Content\OpenTKContentProcessor.cs" />
     <Compile Include="ChamberLib.OpenTK\Content\WaveSoundEffectImporter.cs" />
-    <Compile Include="ChamberLib.OpenTK\GameTimeHelper.cs" />
     <Compile Include="ChamberLib.OpenTK\GLHelper.cs" />
     <Compile Include="ChamberLib.OpenTK\Images\FrameBuffer.cs" />
     <Compile Include="ChamberLib.OpenTK\Images\TextureAdapter.cs" />
