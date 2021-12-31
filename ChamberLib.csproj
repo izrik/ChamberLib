@@ -286,6 +286,7 @@
   <ItemGroup>
     <Content Include="ChamberLib.OpenTK\ChamberLib.OpenTK.png" />
     <Content Include="ChamberLib.OpenTK\todo.txt" />
+    <Content Include="check_code_style.sh" />
     <Content Include="pre-build.py" />
   </ItemGroup>
   <PropertyGroup>
