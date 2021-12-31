@@ -148,12 +148,15 @@
     <Compile Include="Events\EventSequence.cs" />
     <Compile Include="Events\IEvents.cs" />
     <Compile Include="Events\NullEvent.cs" />
+    <Compile Include="Events\PlayAnimationSequenceEvent.cs" />
     <Compile Include="Events\RemoveEntityEvent.cs" />
     <Compile Include="Events\RunActionEvent.cs" />
     <Compile Include="Events\RunTimelineEvent.cs" />
+    <Compile Include="Events\SetAlphaEvent.cs" />
     <Compile Include="Events\SetPositionEvent.cs" />
     <Compile Include="Events\SetPositionOverTimeEvent.cs" />
     <Compile Include="Events\SetRotationEvent.cs" />
+    <Compile Include="Events\StartAnimationSequenceEvent.cs" />
     <Compile Include="Events\TimeEvent.cs" />
     <Compile Include="Events\Timeline.cs" />
     <Compile Include="Events\VectorOverTimeEvent.cs" />
