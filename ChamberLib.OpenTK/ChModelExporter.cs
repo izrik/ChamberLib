@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
-using ChamberLib;
 using System.Collections.Generic;
 using System.Linq;
+using ChamberLib.OpenTK.Models;
+using ChamberLib.OpenTK.System;
 
 namespace ChamberLib.OpenTK
 {

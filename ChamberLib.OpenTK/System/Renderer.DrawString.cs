@@ -1,0 +1,23 @@
+﻿using System;
+using ChamberLib.OpenTK.Text;
+
+namespace ChamberLib.OpenTK.System
+{
+    public partial class Renderer
+    {
+        public void DrawString(IFont font, string text, Vector2 position,
+            Color color,
+            float rotation=0,
+            float scaleX=1,
+            float scaleY=1,
+            float? wrapWordsToMaxLineWidth=null,
+            int? numCharsToDraw=null)
+        {
+            var font2 = (FontAdapter)font;
+            font2.DrawString(this, text, position, color, rotation,
+                scaleX, scaleY, wrapWordsToMaxLineWidth, numCharsToDraw);
+        }
+
+    }
+}
+

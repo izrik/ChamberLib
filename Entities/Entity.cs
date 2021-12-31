@@ -272,7 +272,7 @@ namespace ChamberLib
         {
             if (Model != null)
             {
-                foreach (var mesh in (Model as ChamberLib.OpenTK.Model).GetMeshes())
+                foreach (var mesh in (Model as ChamberLib.OpenTK.Models.Model).GetMeshes())
                 {
                     spheres.Add(mesh.BoundingSphere.Transform(Transform));
                 }
@@ -280,7 +280,7 @@ namespace ChamberLib
         }
         public int CountTriangles()
         {
-            return ((ChamberLib.OpenTK.Model)Model).CountTriangles();
+            return ((ChamberLib.OpenTK.Models.Model)Model).CountTriangles();
         }
 
         public virtual bool CastsShadow => true;

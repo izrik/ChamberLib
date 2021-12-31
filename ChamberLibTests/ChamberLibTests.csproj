@@ -37,20 +37,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlaneTest.cs" />
-    <Compile Include="RayTest.cs" />
-    <Compile Include="MatrixTest.cs" />
-    <Compile Include="TimelineTest.cs" />
-    <Compile Include="TriangleTest.cs" />
-    <Compile Include="Vector3Test.cs" />
-    <Compile Include="ViewportTest.cs" />
-    <Compile Include="QuaternionTest.cs" />
-    <Compile Include="FrustumTest.cs" />
-    <Compile Include="OpenTK\FontAdapterTests\MeasureStringTest.cs" />
-    <Compile Include="OpenTK\FontAdapterTests\SplitLinesTest.cs" />
-    <Compile Include="OpenTK\FontAdapterTests\MeasureLineWidthTest.cs" />
-    <Compile Include="OpenTK\FontAdapterTests\WrapWordsTest.cs" />
-    <Compile Include="OpenTK\FontAdapterTests\SplitWordsTest.cs" />
+    <Compile Include="EventsT\TimelineTest.cs" />
+    <Compile Include="MathT\FrustumTest.cs" />
+    <Compile Include="MathT\MatrixTest.cs" />
+    <Compile Include="MathT\PlaneTest.cs" />
+    <Compile Include="MathT\QuaternionTest.cs" />
+    <Compile Include="MathT\RayTest.cs" />
+    <Compile Include="MathT\TriangleTest.cs" />
+    <Compile Include="MathT\Vector3Test.cs" />
+    <Compile Include="MathT\ViewportTest.cs" />
+    <Compile Include="OpenTK\TextT\FontAdapterTests\MeasureLineWidthTest.cs" />
+    <Compile Include="OpenTK\TextT\FontAdapterTests\MeasureStringTest.cs" />
+    <Compile Include="OpenTK\TextT\FontAdapterTests\SplitLinesTest.cs" />
+    <Compile Include="OpenTK\TextT\FontAdapterTests\SplitWordsTest.cs" />
+    <Compile Include="OpenTK\TextT\FontAdapterTests\WrapWordsTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -62,6 +62,6 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Folder Include="OpenTK\" />
-    <Folder Include="OpenTK\FontAdapterTests\" />
+    <Folder Include="OpenTK\TextT" />
   </ItemGroup>
 </Project>
