@@ -87,8 +87,26 @@ namespace ChamberLib
 
         public override RectangleF GetBounds()
         {
-            return new RectangleF(Position, Size.X, Size.Y);
+            var x = Position.X;
+            var y = Position.Y;
+            var w = Size.X;
+            var h = Size.Y;
+            if (HorizontalAlignment == HorizontalAlignment.Center)
+                x -= w / 2;
+            else if (HorizontalAlignment == HorizontalAlignment.Right)
+                x -= w;
+            if (VerticalAlignment == VerticalAlignment.Center)
+                y -= h / 2;
+            else if (VerticalAlignment == VerticalAlignment.Bottom)
+                y -= h;
+            return new RectangleF(x, y, w, h);
         }
+
+        public VerticalAlignment VerticalAlignment { get; set; } =
+            VerticalAlignment.Top;
+
+        public HorizontalAlignment HorizontalAlignment { get; set; } =
+            HorizontalAlignment.Left;
 
         public void SetBounds(RectangleF bounds)
         {
