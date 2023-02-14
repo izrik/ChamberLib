@@ -74,8 +74,8 @@ namespace ChamberLib.OpenTK
             return GetMeshes();
         }
 
-        public void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
-                            Overrides overrides=default(Overrides))
+        public void Draw(GameTime gameTime, Matrix world, Matrix view,
+            Matrix projection, Overrides overrides=default(Overrides))
         {
             if (!IsReady)
             {
@@ -84,34 +84,13 @@ namespace ChamberLib.OpenTK
 
             foreach (var mesh in Meshes)
             {
-                mesh.Draw(gameTime, world, view, projection, Lighting, overrides);
+                mesh.Draw(gameTime, world, view, projection, overrides);
             }
-        }
-
-        public LightingData _lighting;
-        public LightingData Lighting { get { return _lighting; } }
-        public void SetAmbientLightColor(Vector3 value)
-        {
-            _lighting.AmbientLightColor = value;
         }
 
         public void SetEmissiveColor(Vector3 value)
         {
-            _lighting.EmissiveColor = value;
-        }
-
-        public void SetDirectionalLight(DirectionalLight light, int index = 0)
-        {
-            if (index != 0)
-                throw new ArgumentOutOfRangeException("index");
-
-            _lighting.DirectionalLight = light;
-        }
-
-        public void DisableDirectionalLight(int index)
-        {
-            if (index == 0)
-                throw new ArgumentOutOfRangeException("index");
+            // TODO: set the emissive on the material(s)
         }
 
         public IMaterial GetMaterialByName(string name)

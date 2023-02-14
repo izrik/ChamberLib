@@ -8,47 +8,41 @@ namespace ChamberLib
     public struct Overrides
     {
         public Overrides(
-            LightingData? lighting=null,
             IMaterial material=null,
             float? alpha=null,
             IShaderProgram shaderProgram=null,
             IShaderStage vertexShader=null,
             IShaderStage fragmentShader=null,
-            ShaderUniforms uniforms=null)
+            ShaderUniforms uniforms=null,
+            TypeDictionary components=null)
         {
-            this.Lighting = lighting;
             this.Material = material;
             this.Alpha = alpha;
             this.ShaderProgram = shaderProgram;
             this.VertexShader = vertexShader;
             this.FragmentShader = fragmentShader;
             this.Uniforms = uniforms;
+            Components = components;
         }
 
         public static Overrides FromPrototype(
             Overrides prototype,
-            LightingData? lighting = null,
             IMaterial material = null,
             float? alpha = null,
             IShaderProgram shaderProgram = null,
             IShaderStage vertexShader = null,
             IShaderStage fragmentShader = null,
-            ShaderUniforms uniforms = null)
+            ShaderUniforms uniforms = null,
+            TypeDictionary components=null)
         {
             return new Overrides(
-                lighting: lighting ?? prototype.Lighting,
                 material: material ?? prototype.Material,
                 alpha: alpha ?? prototype.Alpha,
                 shaderProgram: shaderProgram ?? prototype.ShaderProgram,
                 vertexShader: vertexShader ?? prototype.VertexShader,
                 fragmentShader: fragmentShader ?? prototype.FragmentShader,
-                uniforms: uniforms ?? prototype.Uniforms);
-        }
-
-        public LightingData? Lighting;
-        public LightingData? GetLighting(LightingData? defaultValue)
-        {
-            return this.Lighting ?? defaultValue;
+                uniforms: uniforms ?? prototype.Uniforms,
+                components: components ?? prototype.Components);
         }
 
         public IMaterial Material;
@@ -87,5 +81,7 @@ namespace ChamberLib
         {
             return this.Uniforms ?? defaultValue;
         }
+
+        public readonly TypeDictionary Components;
     }
 }

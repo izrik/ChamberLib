@@ -15,10 +15,7 @@ namespace ChamberLib
         IBone Root { get; set; }
         IEnumerable<IBone> EnumerateBones();
 
-        void SetAmbientLightColor(Vector3 value);
         void SetEmissiveColor(Vector3 value);
-        void SetDirectionalLight(DirectionalLight light, int index=0);
-        void DisableDirectionalLight(int index);
 
         void SetAlpha(float alpha);
 
