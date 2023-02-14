@@ -5,128 +5,273 @@ using System.Text;
 
 namespace ChamberLib
 {
-    public class ShaderUniforms : IEnumerable<ShaderUniforms.Entry>
+    public class ShaderUniforms
     {
         public struct Entry
         {
-            public Entry(string name, ShaderUniformType type, object value)
+            public Entry(string name, ShaderUniformType type, int index)
             {
                 Name = name;
                 Type = type;
-                Value = value;
+                Index = index;
             }
 
             public readonly string Name;
             public readonly ShaderUniformType Type;
-            public readonly object Value;
+            public readonly int Index;
         }
 
         protected readonly Dictionary<string, Entry> entries = new Dictionary<string, Entry>();
+        protected List<bool> boolValues;
+        protected List<byte> byteValues;
+        protected List<sbyte> sbyteValues;
+        protected List<short> shortValues;
+        protected List<ushort> ushortValues;
+        protected List<int> intValues;
+        protected List<uint> uintValues;
+        protected List<float> singleValues;
+        protected List<double> doubleValues;
+        protected List<Vector2> vector2Values;
+        protected List<Vector3> vector3Values;
+        protected List<Vector4> vector4Values;
+        protected List<Matrix> matrixValues;
 
-        public Entry GetEntry(string name)
+        public ShaderUniformType GetType(string name)
         {
-            return entries[name];
+            return entries[name].Type;
         }
 
-        public bool ContainsKey(string name)
+        public bool ContainsName(string name)
         {
             return entries.ContainsKey(name);
         }
 
-        public object GetValue(string name)
+        public bool GetValueBool(string name)
         {
-            if (entries.ContainsKey(name))
-                return entries[name].Value;
-            return null;
+            return boolValues[entries[name].Index];
         }
+        public byte GetValueByte(string name)
+        {
+            return byteValues[entries[name].Index];
+        }
+        public sbyte GetValueSByte(string name)
+        {
+            return sbyteValues[entries[name].Index];
+        }
+        public short GetValueShort(string name)
+        {
+            return shortValues[entries[name].Index];
+        }
+        public ushort GetValueUShort(string name)
+        {
+            return ushortValues[entries[name].Index];
+        }
+        public int GetValueInt(string name)
+        {
+            return intValues[entries[name].Index];
+        }
+        public uint GetValueUInt(string name)
+        {
+            return uintValues[entries[name].Index];
+        }
+        public float GetValueSingle(string name)
+        {
+            return singleValues[entries[name].Index];
+        }
+        public double GetValueDouble(string name)
+        {
+            return doubleValues[entries[name].Index];
+        }
+        public Vector2 GetValueVector2(string name)
+        {
+            return vector2Values[entries[name].Index];
+        }
+        public Vector3 GetValueVector3(string name)
+        {
+            return vector3Values[entries[name].Index];
+        }
+        public Vector4 GetValueVector4(string name)
+        {
+            return vector4Values[entries[name].Index];
+        }
+        public Matrix GetValueMatrix(string name)
+        {
+            return matrixValues[entries[name].Index];
+        }
+
         public void SetValue(string name, bool value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.Bool, value);
+            if (boolValues == null) boolValues = new List<bool>();
+            if (entries.ContainsKey(name))
+            {
+                boolValues[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.Bool, boolValues.Count);
+                boolValues.Add(value);
+            }
         }
         public void SetValue(string name, byte value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.Byte, value);
+            if (byteValues == null) byteValues = new List<byte>();
+            if (entries.ContainsKey(name))
+            {
+                byteValues[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.Byte, byteValues.Count);
+                byteValues.Add(value);
+            }
         }
         public void SetValue(string name, sbyte value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.SByte, value);
+            if (sbyteValues == null) sbyteValues = new List<sbyte>();
+            if (entries.ContainsKey(name))
+            {
+                sbyteValues[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.SByte, sbyteValues.Count);
+                sbyteValues.Add(value);
+            }
         }
         public void SetValue(string name, short value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.Short, value);
+            if (shortValues == null) shortValues = new List<short>();
+            if (entries.ContainsKey(name))
+            {
+                shortValues[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.Short, shortValues.Count);
+                shortValues.Add(value);
+            }
         }
         public void SetValue(string name, ushort value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.UShort, value);
+            if (ushortValues == null) ushortValues = new List<ushort>();
+            if (entries.ContainsKey(name))
+            {
+                ushortValues[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.UShort, ushortValues.Count);
+                ushortValues.Add(value);
+            }
         }
         public void SetValue(string name, int value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.Int, value);
+            if (intValues == null) intValues = new List<int>();
+            if (entries.ContainsKey(name))
+            {
+                intValues[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.Int, intValues.Count);
+                intValues.Add(value);
+            }
         }
         public void SetValue(string name, uint value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.UInt, value);
+            if (uintValues == null) uintValues = new List<uint>();
+            if (entries.ContainsKey(name))
+            {
+                uintValues[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.UInt, uintValues.Count);
+                uintValues.Add(value);
+            }
         }
         public void SetValue(string name, float value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.Single, value);
+            if (singleValues == null) singleValues = new List<float>();
+            if (entries.ContainsKey(name))
+            {
+                singleValues[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.Single, singleValues.Count);
+                singleValues.Add(value);
+            }
         }
         public void SetValue(string name, double value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.Double, value);
+            if (doubleValues == null) doubleValues = new List<double>();
+            if (entries.ContainsKey(name))
+            {
+                doubleValues[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.Double, doubleValues.Count);
+                doubleValues.Add(value);
+            }
         }
         public void SetValue(string name, Vector2 value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.Vector2, value);
+            if (vector2Values == null) vector2Values = new List<Vector2>();
+            if (entries.ContainsKey(name))
+            {
+                vector2Values[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.Vector2, vector2Values.Count);
+                vector2Values.Add(value);
+            }
         }
         public void SetValue(string name, Vector3 value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.Vector3, value);
+            if (vector3Values == null) vector3Values = new List<Vector3>();
+            if (entries.ContainsKey(name))
+            {
+                vector3Values[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.Vector3, vector3Values.Count);
+                vector3Values.Add(value);
+            }
         }
         public void SetValue(string name, Vector4 value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.Vector4, value);
+            if (vector4Values == null) vector4Values = new List<Vector4>();
+            if (entries.ContainsKey(name))
+            {
+                vector4Values[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.Vector4, vector4Values.Count);
+                vector4Values.Add(value);
+            }
         }
         public void SetValue(string name, Matrix value)
         {
-            entries[name] = new Entry(name, ShaderUniformType.Matrix, value);
+            if (matrixValues == null) matrixValues = new List<Matrix>();
+            if (entries.ContainsKey(name))
+            {
+                matrixValues[entries[name].Index] = value;
+            }
+            else
+            {
+                entries[name] = new Entry(name, ShaderUniformType.Matrix, matrixValues.Count);
+                matrixValues.Add(value);
+            }
         }
 
-        public static ShaderUniformType GetTypeFromValue(object value)
-        {
-            if (value == null) throw new ArgumentNullException("value");
-
-            var type = value.GetType();
-            if (type == typeof(bool)) return ShaderUniformType.Bool;
-            if (type == typeof(byte)) return ShaderUniformType.Byte;
-            if (type == typeof(sbyte)) return ShaderUniformType.SByte;
-            if (type == typeof(short)) return ShaderUniformType.Byte;
-            if (type == typeof(ushort)) return ShaderUniformType.UShort;
-            if (type == typeof(int)) return ShaderUniformType.Int;
-            if (type == typeof(uint)) return ShaderUniformType.UInt;
-            if (type == typeof(float)) return ShaderUniformType.Single;
-            if (type == typeof(double)) return ShaderUniformType.Double;
-            if (type == typeof(Vector2)) return ShaderUniformType.Vector2;
-            if (type == typeof(Vector2)) return ShaderUniformType.Vector3;
-            if (type == typeof(Vector4)) return ShaderUniformType.Vector4;
-            if (type == typeof(Matrix)) return ShaderUniformType.Matrix;
-
-            throw new ArgumentException("The value's type is not supported: " + type.FullName, "value");
-        }
-
-        public IEnumerable<string> GetUniformNames()
+        public Dictionary<string, Entry>.KeyCollection GetUniformNames()
         {
             return entries.Keys;
-        }
-
-        public IEnumerator<ShaderUniforms.Entry> GetEnumerator()
-        {
-            return entries.Values.GetEnumerator();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

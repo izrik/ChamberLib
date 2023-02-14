@@ -45,7 +45,7 @@ namespace ChamberLib
                 }
                 k++;
             }
-            writer.WriteLine("Transforms {0}", ad.Transforms.Count);
+            writer.WriteLine("Transforms {0}", ad.Transforms.Length);
             k = 0;
             foreach (var tr in ad.Transforms)
             {
@@ -68,7 +68,7 @@ namespace ChamberLib
                 ImportExportHelper.WriteMatrix(writer, tr);
                 k++;
             }
-            writer.WriteLine("AbsoluteTransforms {0}", ad.Transforms.Count);
+            writer.WriteLine("AbsoluteTransforms {0}", ad.Transforms.Length);
             k = 0;
             foreach (var tr in ad.AbsoluteTransforms)
             {
@@ -92,7 +92,7 @@ namespace ChamberLib
                 ImportExportHelper.WriteMatrix(writer, tr.Inverted(), true, "Transform Inverse");
                 k++;
             }
-            writer.WriteLine("SkeletonHierarchy {0}", ad.Transforms.Count);
+            writer.WriteLine("SkeletonHierarchy {0}", ad.Transforms.Length);
             foreach (var s in ad.SkeletonHierarchy)
             {
                 writer.WriteLine(s);

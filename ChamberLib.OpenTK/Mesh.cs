@@ -17,7 +17,6 @@ namespace ChamberLib.OpenTK
             {
                 this.Parts.Add(new Part(part, resolver));
             }
-            ParentBone = resolver.Bones[mesh.ParentBone];
             Name = mesh.Name;
         }
 
@@ -76,8 +75,6 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        public IBone ParentBone { get; set; }
-
         public string Name { get; set; }
 
         public void MakeReady()
@@ -99,7 +96,6 @@ namespace ChamberLib.OpenTK
             this.StartIndex = part.StartIndex;
             this.PrimitiveCount = part.PrimitiveCount;
             this.VertexOffset = part.VertexOffset;
-            this.NumVertexes = part.NumVertexes;
         }
 
         public IndexBuffer Indexes;
@@ -107,7 +103,6 @@ namespace ChamberLib.OpenTK
         public int StartIndex;
         public int PrimitiveCount;
         public int VertexOffset;
-        public int NumVertexes;
         public Material Material;
 
         public RenderBundle RenderBundle;

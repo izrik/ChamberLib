@@ -2,7 +2,7 @@
 
 namespace ChamberLib
 {
-    public struct Vector3 : IFormattable
+    public struct Vector3 : IFormattable, IEquatable<Vector3>
     {
         public Vector3(float x, float y, float z)
         {
@@ -73,7 +73,9 @@ namespace ChamberLib
         }
         public override int GetHashCode()
         {
-            return X.GetHashCode() ^ Y.GetHashCode() ^ Z.GetHashCode();
+            var x = 113 * X.GetHashCode();
+            x = (x ^ 127) * Y.GetHashCode();
+            return x ^ Z.GetHashCode();
         }
 
         public float Length()

@@ -133,10 +133,6 @@ namespace ChamberLib.OpenTK
             _DrawImages_isReady = true;
         }
 
-        public void DrawImage(ITexture2D texture, RectangleI destinationRectangle, Color color)
-        {
-            DrawImages(new DrawImagesEntry(texture, destinationRectangle, color));
-        }
         public void DrawImages(params DrawImagesEntry[] entries)
         {
             if (!_DrawImages_isReady)

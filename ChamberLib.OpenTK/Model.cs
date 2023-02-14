@@ -64,9 +64,14 @@ namespace ChamberLib.OpenTK
 
         #region IModel implementation
 
-        public System.Collections.Generic.IEnumerable<IMesh> GetMeshes()
+        public List<Mesh> GetMeshes()
         {
             return Meshes;
+        }
+
+        IEnumerable<IMesh> IModel.GetMeshes()
+        {
+            return GetMeshes();
         }
 
         public void Draw(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
@@ -111,22 +116,14 @@ namespace ChamberLib.OpenTK
                 throw new ArgumentOutOfRangeException("index");
         }
 
-        public IEnumerable<Material> GetAllMaterials()
-        {
-            var materials = new HashSet<Material>(Meshes.SelectMany(m => m.Parts).Select(p => p.Material));
-            foreach (var material in materials)
-            {
-                yield return material;
-            }
-        }
-
         public IMaterial GetMaterialByName(string name)
         {
-            foreach (var material in GetAllMaterials())
+            foreach (var mesh in Meshes)
             {
-                if (material.Name == name)
+                foreach (var part in mesh.Parts)
                 {
-                    return material;
+                    if (part.Material.Name == name)
+                        return part.Material;
                 }
             }
 
@@ -135,43 +132,65 @@ namespace ChamberLib.OpenTK
 
         public void SetAlpha(float alpha)
         {
-            foreach (var material in GetAllMaterials())
+            foreach (var mesh in Meshes)
             {
-                material.Alpha = alpha;
+                foreach (var part in mesh.Parts)
+                {
+                    part.Material.Alpha = alpha;
+                }
             }
         }
 
         public void SetTexture(ITexture2D texture)
         {
-            foreach (var material in GetAllMaterials())
+            foreach (var mesh in Meshes)
             {
-                material.Texture = texture;
+                foreach (var part in mesh.Parts)
+                {
+                    part.Material.Texture = texture;
+                }
             }
         }
 
+        static List<string> boneNames = new List<string>();
+        static string GetBoneUniformName(int i)
+        {
+            int j;
+            for (j = boneNames.Count; j <= i; j++)
+            {
+                boneNames.Add(string.Format("bones[{0}]", j));
+            }
+            return boneNames[i];
+        }
         public void SetBoneTransforms(Matrix[] boneTransforms,
             Overrides overrides=default(Overrides))
         {
             if (boneTransforms == null) throw new ArgumentNullException("boneTransforms");
 
-            IEnumerable<IMaterial> materials;
             if (overrides.Material != null)
             {
-                materials = new[] { overrides.Material };
+                var material = overrides.GetMaterial(null);
+                if (material != null)
+                    SetBoneUniformsForMaterial(boneTransforms, material);
             }
             else
             {
-                materials = GetAllMaterials();
-            }
-
-            foreach (var material in materials)
-            {
-                int i;
-                for (i = 0; i < boneTransforms.Length; i++)
+                foreach (var mesh in Meshes)
                 {
-                    var name = string.Format("bones[{0}]", i);
-                    material.Shader.SetUniform(name, boneTransforms[i]);
+                    foreach (var part in mesh.Parts)
+                    {
+                        SetBoneUniformsForMaterial(boneTransforms, part.Material);
+                    }
                 }
+            }
+        }
+        void SetBoneUniformsForMaterial(Matrix[] boneTransforms, IMaterial material)
+        {
+            int i;
+            for (i = 0; i < boneTransforms.Length; i++)
+            {
+                var name = GetBoneUniformName(i);
+                material.Shader.SetUniform(name, boneTransforms[i]);
             }
         }
 

@@ -2,6 +2,8 @@
 
 namespace ChamberLib
 {
+    // TODO: clean this up a lot
+
     public enum Keys
     {
         None,
@@ -65,7 +67,17 @@ namespace ChamberLib
         LeftWindows,
         RightWindows,
         Apps,
-        Sleep = 95,
+        Number0,
+        Number1,
+        Number2,
+        Number3,
+        Number4,
+        Number5,
+        Number6,
+        Number7,
+        Number8,
+        Number9,
+        Sleep,
         NumPad0,
         NumPad1,
         NumPad2,
@@ -106,8 +118,8 @@ namespace ChamberLib
         F22,
         F23,
         F24,
-        NumLock = 144,
-        Scroll,
+        NumLock,
+        ScrollLock,
         LeftShift = 160,
         RightShift,
         LeftControl,
@@ -163,7 +175,8 @@ namespace ChamberLib
         Kanji = 25,
         OemAuto = 243,
         OemCopy = 242,
-        OemEnlW = 244
+        OemEnlW = 244,
+        Menu,
     }
 }
 

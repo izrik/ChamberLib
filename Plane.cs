@@ -60,20 +60,50 @@ namespace ChamberLib
 
         public PlaneIntersectionType Intersects(Frustum f)
         {
-            var pointIntersections = f.GetCorners().Select(IntersectsPoint).Distinct().ToList();
+            var x1 = IntersectsPoint(f.NearTopLeft);
+            var x2 = IntersectsPoint(f.NearTopRight);
+            var x3 = IntersectsPoint(f.NearBottomLeft);
+            var x4 = IntersectsPoint(f.NearBottomRight);
+            var x5 = IntersectsPoint(f.FarTopLeft);
+            var x6 = IntersectsPoint(f.FarTopRight);
+            var x7 = IntersectsPoint(f.FarBottomLeft);
+            var x8 = IntersectsPoint(f.FarBottomRight);
 
-            if (pointIntersections.Contains(PlaneIntersectionType.Intersecting))
+            if (x1 == PlaneIntersectionType.Intersecting ||
+                x2 == PlaneIntersectionType.Intersecting ||
+                x3 == PlaneIntersectionType.Intersecting ||
+                x4 == PlaneIntersectionType.Intersecting ||
+                x5 == PlaneIntersectionType.Intersecting ||
+                x6 == PlaneIntersectionType.Intersecting ||
+                x7 == PlaneIntersectionType.Intersecting ||
+                x8 == PlaneIntersectionType.Intersecting)
             {
                 return PlaneIntersectionType.Intersecting;
             }
 
-            if (pointIntersections.Contains(PlaneIntersectionType.Front) &&
-                pointIntersections.Contains(PlaneIntersectionType.Back))
-            {
-                return PlaneIntersectionType.Intersecting;
-            }
+            var front =
+                (x1 == PlaneIntersectionType.Front) ||
+                (x2 == PlaneIntersectionType.Front) ||
+                (x3 == PlaneIntersectionType.Front) ||
+                (x4 == PlaneIntersectionType.Front) ||
+                (x5 == PlaneIntersectionType.Front) ||
+                (x6 == PlaneIntersectionType.Front) ||
+                (x7 == PlaneIntersectionType.Front) ||
+                (x8 == PlaneIntersectionType.Front);
 
-            return pointIntersections[0];
+            var back =
+                (x1 == PlaneIntersectionType.Back) ||
+                (x2 == PlaneIntersectionType.Back) ||
+                (x3 == PlaneIntersectionType.Back) ||
+                (x4 == PlaneIntersectionType.Back) ||
+                (x5 == PlaneIntersectionType.Back) ||
+                (x6 == PlaneIntersectionType.Back) ||
+                (x7 == PlaneIntersectionType.Back) ||
+                (x8 == PlaneIntersectionType.Back);
+
+            if (front && back) return PlaneIntersectionType.Intersecting;
+
+            return x1;
         }
 
         public PlaneIntersectionType Intersects(Sphere s)

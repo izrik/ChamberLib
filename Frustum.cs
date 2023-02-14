@@ -20,17 +20,6 @@ namespace ChamberLib
             FarBottomLeft = inv.TransformHomogeneous(new Vector4(-1, -1, 1, 1));
             FarBottomRight = inv.TransformHomogeneous(new Vector4(1, -1, 1, 1));
 
-            Corners = new[] {
-                NearTopLeft,
-                NearTopRight,
-                NearBottomLeft,
-                NearBottomRight,
-                FarTopLeft,
-                FarTopRight,
-                FarBottomLeft,
-                FarBottomRight,
-            };
-
             Top =       Plane.FromPoints(NearTopLeft     ,  NearTopRight    ,  FarTopLeft       );
             Bottom =    Plane.FromPoints(NearBottomLeft  ,  FarBottomLeft   ,  NearBottomRight  );
             Left =      Plane.FromPoints(NearTopLeft     ,  FarBottomLeft   ,  NearBottomLeft   );
@@ -57,33 +46,102 @@ namespace ChamberLib
         public readonly Vector3 FarBottomLeft;
         public readonly Vector3 FarBottomRight;
 
-        public readonly Vector3[] Corners;
-
         public ContainmentType Contains(Sphere s)
         {
-            var center = Corners.Aggregate((a, b) => a + b) / Corners.Length;
+            var center = (NearTopLeft +
+                            NearTopRight +
+                            NearBottomLeft +
+                            NearBottomRight +
+                            FarTopLeft +
+                            FarTopRight +
+                            FarBottomLeft +
+                            FarBottomRight) / 8;
+
             bool intersecting = false;
-            foreach (var p in new[] { Top, Bottom, Left, Right, Near, Far })
+
+            Plane p;
+            PlaneIntersectionType intersect;
+            PlaneIntersectionType centerSide;
+
+            p = Top;
+            intersect = p.Intersects(s);
+            if (intersect == PlaneIntersectionType.Intersecting)
             {
-                var intersect = p.Intersects(s);
-                if (intersect == PlaneIntersectionType.Intersecting)
-                {
-                    intersecting = true;
-                }
-                var centerSide = p.IntersectsPoint(center);
-                if ((intersect == PlaneIntersectionType.Front && centerSide == PlaneIntersectionType.Back) ||
-                    (intersect == PlaneIntersectionType.Back && centerSide == PlaneIntersectionType.Front))
-                {
-                    return ContainmentType.Disjoint;
-                }
+                intersecting = true;
+            }
+            centerSide = p.IntersectsPoint(center);
+            if ((intersect == PlaneIntersectionType.Front && centerSide == PlaneIntersectionType.Back) ||
+                (intersect == PlaneIntersectionType.Back && centerSide == PlaneIntersectionType.Front))
+            {
+                return ContainmentType.Disjoint;
+            }
+
+            p = Bottom;
+            intersect = p.Intersects(s);
+            if (intersect == PlaneIntersectionType.Intersecting)
+            {
+                intersecting = true;
+            }
+            centerSide = p.IntersectsPoint(center);
+            if ((intersect == PlaneIntersectionType.Front && centerSide == PlaneIntersectionType.Back) ||
+                (intersect == PlaneIntersectionType.Back && centerSide == PlaneIntersectionType.Front))
+            {
+                return ContainmentType.Disjoint;
+            }
+
+            p = Left;
+            intersect = p.Intersects(s);
+            if (intersect == PlaneIntersectionType.Intersecting)
+            {
+                intersecting = true;
+            }
+            centerSide = p.IntersectsPoint(center);
+            if ((intersect == PlaneIntersectionType.Front && centerSide == PlaneIntersectionType.Back) ||
+                (intersect == PlaneIntersectionType.Back && centerSide == PlaneIntersectionType.Front))
+            {
+                return ContainmentType.Disjoint;
+            }
+
+            p = Right;
+            intersect = p.Intersects(s);
+            if (intersect == PlaneIntersectionType.Intersecting)
+            {
+                intersecting = true;
+            }
+            centerSide = p.IntersectsPoint(center);
+            if ((intersect == PlaneIntersectionType.Front && centerSide == PlaneIntersectionType.Back) ||
+                (intersect == PlaneIntersectionType.Back && centerSide == PlaneIntersectionType.Front))
+            {
+                return ContainmentType.Disjoint;
+            }
+
+            p = Near;
+            intersect = p.Intersects(s);
+            if (intersect == PlaneIntersectionType.Intersecting)
+            {
+                intersecting = true;
+            }
+            centerSide = p.IntersectsPoint(center);
+            if ((intersect == PlaneIntersectionType.Front && centerSide == PlaneIntersectionType.Back) ||
+                (intersect == PlaneIntersectionType.Back && centerSide == PlaneIntersectionType.Front))
+            {
+                return ContainmentType.Disjoint;
+            }
+
+            p = Far;
+            intersect = p.Intersects(s);
+            if (intersect == PlaneIntersectionType.Intersecting)
+            {
+                intersecting = true;
+            }
+            centerSide = p.IntersectsPoint(center);
+            if ((intersect == PlaneIntersectionType.Front && centerSide == PlaneIntersectionType.Back) ||
+                (intersect == PlaneIntersectionType.Back && centerSide == PlaneIntersectionType.Front))
+            {
+                return ContainmentType.Disjoint;
             }
 
             return (intersecting ? ContainmentType.Intersects : ContainmentType.Contains);
-        }
-
-        public Vector3[] GetCorners()
-        {
-            return Corners;
         }
     }
 }

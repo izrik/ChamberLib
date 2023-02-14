@@ -18,6 +18,11 @@ namespace ChamberLib.OpenTK
         public void SetIndexData<T>(T[] indexData)
             where T : struct
         {
+            SetIndexData(indexData, indexData.Length);
+        }
+        public void SetIndexData<T>(T[] indexData, int numIndexes)
+            where T : struct
+        {
             if (indexData == null)
             {
                 throw new ArgumentNullException("indexData");
@@ -54,7 +59,7 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
 
             GL.BufferData<T>(BufferTarget.ElementArrayBuffer,
-                new IntPtr(indexData.Length * IndexSizeInBytes),
+                new IntPtr(numIndexes * IndexSizeInBytes),
                 indexData, BufferUsageHint.StaticDraw);
             GLHelper.CheckError();
 

@@ -91,11 +91,11 @@ namespace ChamberLib.OpenTK
                     (ShaderStage)vertexShader,
                     (ShaderStage)fragmentShader);
 
-                effectiveProgram.ApplyBase(overrides.GetUniforms());
+                effectiveProgram.ApplyBase(overrides.GetUniforms(uniforms));
             }
             else
             {
-                ApplyBase(overrides.GetUniforms());
+                ApplyBase(overrides.GetUniforms(uniforms));
             }
         }
 
@@ -400,67 +400,57 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        public object GetUniformValue(string name)
-        {
-            return uniforms.GetValue(name);
-        }
-
         protected void ApplyUniform(string name, ShaderUniforms uniformsOverride=null)
         {
-            ShaderUniforms.Entry entry;
+            ShaderUniforms source = uniforms;
             if (uniformsOverride != null &&
-                uniformsOverride.ContainsKey(name))
+                uniformsOverride.ContainsName(name))
             {
-                entry = uniformsOverride.GetEntry(name);
+                source = uniformsOverride;
             }
-            else
-            {
-                entry = uniforms.GetEntry(name);
-            }
-            var value = entry.Value;
-            var type = entry.Type;
+            var type = source.GetType(name);
             var location = GetUniformLocation(name);
 
             switch (type)
             {
             case ShaderUniformType.Bool:
-                GL.Uniform1(location, ((bool)value ? 1 : 0));
+                GL.Uniform1(location, (source.GetValueBool(name) ? 1 : 0));
                 break;
             case ShaderUniformType.Byte:
-                GL.Uniform1(location, (byte)value);
+                GL.Uniform1(location, source.GetValueByte(name));
                 break;
             case ShaderUniformType.SByte:
-                GL.Uniform1(location, (sbyte)value);
+                GL.Uniform1(location, source.GetValueSByte(name));
                 break;
             case ShaderUniformType.Short:
-                GL.Uniform1(location, (short)value);
+                GL.Uniform1(location, source.GetValueShort(name));
                 break;
             case ShaderUniformType.UShort:
-                GL.Uniform1(location, (ushort)value);
+                GL.Uniform1(location, source.GetValueUShort(name));
                 break;
             case ShaderUniformType.Int:
-                GL.Uniform1(location, (int)value);
+                GL.Uniform1(location, source.GetValueInt(name));
                 break;
             case ShaderUniformType.UInt:
-                GL.Uniform1(location, (uint)value);
+                GL.Uniform1(location, source.GetValueUInt(name));
                 break;
             case ShaderUniformType.Single:
-                GL.Uniform1(location, (float)value);
+                GL.Uniform1(location, source.GetValueSingle(name));
                 break;
             case ShaderUniformType.Double:
-                GL.Uniform1(location, (double)value);
+                GL.Uniform1(location, source.GetValueDouble(name));
                 break;
             case ShaderUniformType.Vector2:
-                GL.Uniform2(location, ((Vector2)value).ToOpenTK());
+                GL.Uniform2(location, (source.GetValueVector2(name)).ToOpenTK());
                 break;
             case ShaderUniformType.Vector3:
-                GL.Uniform3(location, ((Vector3)value).ToOpenTK());
+                GL.Uniform3(location, (source.GetValueVector3(name)).ToOpenTK());
                 break;
             case ShaderUniformType.Vector4:
-                GL.Uniform4(location, ((Vector4)value).ToOpenTK());
+                GL.Uniform4(location, (source.GetValueVector4(name)).ToOpenTK());
                 break;
             case ShaderUniformType.Matrix:
-                var value2 = ((Matrix)value).ToOpenTK();
+                var value2 = (source.GetValueMatrix(name)).ToOpenTK();
                 GL.UniformMatrix4(location, false, ref value2);
                 break;
             default:

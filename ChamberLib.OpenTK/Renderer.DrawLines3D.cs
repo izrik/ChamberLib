@@ -17,7 +17,8 @@ namespace ChamberLib.OpenTK
         static RenderBundle _DrawLines3D_renderData;
         static MutableVertexBuffer _DrawLines3D_vertexBuffer;
         static MutableIndexBuffer _DrawLines3D_indexBuffer;
-
+        static readonly VertexAttribute[] __DrawLines3D_vattr = new[]{
+            new VertexAttribute(3, VertexAttribPointerType.Float)};
         static void _DrawLines3D_MakeReady()
         {
             /*
@@ -74,8 +75,7 @@ namespace ChamberLib.OpenTK
             _DrawLines3D_vertexBuffer.SetVertexData(
                 vertexes,
                 _OpenTK.Vector3.SizeInBytes,
-                VertexAttribPointerType.Float,
-                3);
+                __DrawLines3D_vattr);
             _DrawLines3D_indexBuffer = new MutableIndexBuffer();
             _DrawLines3D_indexBuffer.SetIndexData(indexes);
             _DrawLines3D_renderData = new RenderBundle(_DrawLines3D_vertexBuffer, _DrawLines3D_indexBuffer);
@@ -83,13 +83,34 @@ namespace ChamberLib.OpenTK
             _DrawLines3D_isReady = true;
         }
 
-        static void _DrawLines3D_SetVertices(_OpenTK.Vector3[] vertexes)
+        ushort[] __DrawLines3D_indexes;
+        void _DrawLines3D_SetVertices(_OpenTK.Vector3[] vertexes)
         {
-            _DrawLines3D_vertexBuffer.SetVertexData(vertexes, _OpenTK.Vector3.SizeInBytes, VertexAttribPointerType.Float, 3);
-            _DrawLines3D_indexBuffer.SetIndexData(Enumerable.Range(0, vertexes.Length).Select(i => (ushort)i).ToArray());
+            if (__DrawLines3D_indexes == null)
+            {
+                __DrawLines3D_indexes = new ushort[4] { 0, 1, 2, 3 };
+            }
+            if (__DrawLines3D_indexes.Length < vertexes.Length)
+            {
+                var temp = new ushort[__DrawLines3D_indexes.Length * 2];
+                int i;
+                for (i = 0; i < temp.Length; i++)
+                {
+                    temp[i] = (ushort)i;
+                }
+                __DrawLines3D_indexes = temp;
+            }
+
+            _DrawLines3D_vertexBuffer.SetVertexData(vertexes, _OpenTK.Vector3.SizeInBytes, __DrawLines3D_vattr);
+            _DrawLines3D_indexBuffer.SetIndexData(__DrawLines3D_indexes, vertexes.Length);
         }
 
-        public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, IEnumerable<Vector3> vs)
+        _OpenTK.Vector3[] __DrawLines_3d_opentk_points;
+        public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3[] vs)
+        {
+            DrawLines(color, world, view, projection, vs, vs.Length);
+        }
+        public void DrawLines(Vector3 color, Matrix world, Matrix view, Matrix projection, Vector3[] vs, int numPoints)
         {
             if (!_DrawLines3D_isReady)
             {
@@ -98,7 +119,16 @@ namespace ChamberLib.OpenTK
 
             Reset3D();
 
-            var list = vs.ToList();
+            if (__DrawLines_3d_opentk_points == null ||
+                __DrawLines_3d_opentk_points.Length < numPoints)
+            {
+                __DrawLines_3d_opentk_points = new _OpenTK.Vector3[numPoints];
+            }
+            int i;
+            for (i = 0; i < numPoints; i++)
+            {
+                __DrawLines_3d_opentk_points[i] = vs[i].ToOpenTK();
+            }
 
             _DrawLines3D_shader.Apply();
             GLHelper.CheckError();
@@ -109,10 +139,10 @@ namespace ChamberLib.OpenTK
             GL.Uniform4(_DrawLines3D_fragmentColorLocation, color.ToVector4(1).ToOpenTK());
             GLHelper.CheckError();
 
-            _DrawLines3D_SetVertices(list.Select(v => v.ToOpenTK()).ToArray());
+            _DrawLines3D_SetVertices(__DrawLines_3d_opentk_points);
 
             _DrawLines3D_renderData.Apply();
-            _DrawLines3D_renderData.Draw(PrimitiveType.LineStrip, list.Count, 0);
+            _DrawLines3D_renderData.Draw(PrimitiveType.LineStrip, numPoints, 0);
             _DrawLines3D_renderData.UnApply();
 
             _DrawLines3D_shader.UnApply();
