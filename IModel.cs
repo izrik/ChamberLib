@@ -33,52 +33,54 @@ namespace ChamberLib
 
     public static class ModelHelper
     {
-        public static Vector3? IntersectClosest(this IModel model, Ray ray)
+        public static Vector3? IntersectClosest(this IModel model, Ray rayInModelSpace)
         {
             Vector3? closest = null;
             float closestDist = -1;
 
             foreach (var tri in model.EnumerateTriangles())
             {
-                IntersectClosest_IntersectRaySingleTriangle(tri, ref ray, ref closest, ref closestDist);
+                if (tri.IsDegenerate()) continue;
+
+                IntersectClosest_IntersectRaySingleTriangle(tri, ref rayInModelSpace, ref closest, ref closestDist);
             }
 
             return closest;
         }
 
-        public static Vector3?[] IntersectClosest(this IModel model, Ray[] rays)
+        public static Vector3?[] IntersectClosest(this IModel model, Ray[] raysInModelSpace)
         {
-            Vector3?[] closest = new Vector3?[rays.Length];
-            float[] closestDist = new float[rays.Length];
+            Vector3?[] closest = new Vector3?[raysInModelSpace.Length];
+            float[] closestDist = new float[raysInModelSpace.Length];
 
             foreach (var tri in model.EnumerateTriangles())
             {
                 int i;
-                for (i = 0; i < rays.Length; i++)
+                for (i = 0; i < raysInModelSpace.Length; i++)
                 {
-                    var ray = rays[i];
-                    IntersectClosest_IntersectRaySingleTriangle(tri, ref ray, ref closest[i], ref closestDist[i]);
+                    var rayInModelSpace = raysInModelSpace[i];
+                    IntersectClosest_IntersectRaySingleTriangle(tri, ref rayInModelSpace, ref closest[i], ref closestDist[i]);
                 }
             }
 
             return closest;
         }
 
-        public static Vector3?[,] IntersectClosest(this IModel model, Ray[,] rays)
+        public static Vector3?[,] IntersectClosest(this IModel model, Ray[,] raysInModelSpace)
         {
-            Vector3?[,] closest = new Vector3?[rays.GetLength(0), rays.GetLength(1)];
-            float[,] closestDist = new float[rays.GetLength(0), rays.GetLength(1)];
+            Vector3?[,] closest = new Vector3?[raysInModelSpace.GetLength(0), raysInModelSpace.GetLength(1)];
+            float[,] closestDist = new float[raysInModelSpace.GetLength(0), raysInModelSpace.GetLength(1)];
 
             foreach (var tri in model.EnumerateTriangles())
             {
                 int i;
                 int j;
-                for (i = 0; i < rays.GetLength(0); i++)
+                for (i = 0; i < raysInModelSpace.GetLength(0); i++)
                 {
-                    for (j = 0; j < rays.GetLength(1); j++)
+                    for (j = 0; j < raysInModelSpace.GetLength(1); j++)
                     {
-                        var ray = rays[i, j];
-                        IntersectClosest_IntersectRaySingleTriangle(tri, ref ray, ref closest[i, j], ref closestDist[i, j]);
+                        var rayInModelSpace = raysInModelSpace[i, j];
+                        IntersectClosest_IntersectRaySingleTriangle(tri, ref rayInModelSpace, ref closest[i, j], ref closestDist[i, j]);
                     }
                 }
             }
@@ -86,19 +88,19 @@ namespace ChamberLib
             return closest;
         }
 
-        private static void IntersectClosest_IntersectRaySingleTriangle(Triangle tri, ref Ray ray, ref Vector3? closest, ref float closestDist)
+        private static void IntersectClosest_IntersectRaySingleTriangle(Triangle triInModelSpace, ref Ray rayInModelSpace, ref Vector3? closest, ref float closestDist)
         {
-            var p = tri.Intersects(ray);
+            var p = triInModelSpace.Intersects(rayInModelSpace);
             if (!p.HasValue) return;
 
             if (!closest.HasValue)
             {
                 closest = p;
-                closestDist = (p.Value - ray.Position).LengthSquared();
+                closestDist = (p.Value - rayInModelSpace.Position).LengthSquared();
             }
             else
             {
-                var dist = (p.Value - ray.Position).LengthSquared();
+                var dist = (p.Value - rayInModelSpace.Position).LengthSquared();
                 if (dist < closestDist)
                 {
                     closest = p;

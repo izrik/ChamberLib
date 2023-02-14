@@ -65,6 +65,10 @@ namespace ChamberLib.OpenTK
         }
 
         public readonly ChamberGameWindow Window;
+        GameWindow ISubsystem.GameWindow
+        {
+            get { return Window; }
+        }
 
         readonly Renderer _renderer;
         public IRenderer Renderer { get { return _renderer; } }
@@ -86,6 +90,10 @@ namespace ChamberLib.OpenTK
         public IKeyboard GetKeyboard()
         {
             return Keyboard.GetKeyboard();
+        }
+        public IMouse GetMouse()
+        {
+            return Mouse.GetMouse(Window, Renderer);
         }
 
         public string WindowTitle

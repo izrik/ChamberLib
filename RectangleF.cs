@@ -91,5 +91,14 @@ namespace ChamberLib
         {
             return string.Format("{{Left:{0} Top:{1} Width:{2} Height:{3}}}", Left, Top, Width, Height);
         }
+
+        public bool Contains(Vector2 v)
+        {
+            if (v.X < Left) return false;
+            if (v.X > Right) return false;
+            if (v.Y < Top) return false;
+            if (v.Y > Bottom) return false;
+            return true;
+        }
     }
 }

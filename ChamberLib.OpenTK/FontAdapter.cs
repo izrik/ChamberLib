@@ -66,7 +66,7 @@ namespace ChamberLib.OpenTK
 
         public static bool IsReady = false;
 
-        public void DrawString(Renderer renderer, string text, Vector2 position, Color color, float rotation, Vector2 origin, float scaleX, float scaleY)
+        public void DrawString(Renderer renderer, string text, Vector2 position, Color color, float rotation, float scaleX, float scaleY)
         {
             if (!IsReady)
             {
@@ -81,7 +81,7 @@ namespace ChamberLib.OpenTK
 
             renderData.Apply();
 
-            var p = position - origin;
+            var p = position;
             var x = p.X;
 
             // set scale, char size, and color
