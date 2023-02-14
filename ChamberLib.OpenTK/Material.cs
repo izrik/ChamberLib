@@ -51,12 +51,19 @@ namespace ChamberLib.OpenTK
 
         public IShaderProgram Shader { get; set; }
 
-        public void Apply(GameTime gameTime, Matrix world, Matrix view, Matrix projection,
-                            Overrides overrides=default(Overrides))
+        readonly Matrix __Apply_defaultProjection =
+            Matrix.CreateOrthographic(2, 2, 0, 1);
+        public void Apply(GameTime gameTime, Matrix world,
+            ComponentCollection components,
+            Overrides overrides=default(Overrides))
         {
             if (Shader == null) throw new InvalidOperationException("No shader specified");
 
             Shader.Apply(overrides);
+
+            var camera = components?.Get<ICamera>();
+            var view = camera?.View ?? Matrix.Identity;
+            var projection = camera?.Projection ?? __Apply_defaultProjection;
 
             Shader.SetUniform("worldViewProj", world * view * projection);
             Shader.SetUniform("worldView", world * view);
@@ -64,10 +71,10 @@ namespace ChamberLib.OpenTK
             Shader.SetUniform("view", view);
             Shader.SetUniform("world", world);
 
-            var ambient = overrides.Components?.Get<AmbientLight>();
+            var ambient = components?.Get<AmbientLight>();
             Shader.SetUniform("light_ambient", ambient?.Color ?? Vector3.Zero);
 
-            var light = overrides.Components?.Get<DirectionalLight>();
+            var light = components?.Get<DirectionalLight>();
             Shader.SetUniform("light_direction_ws", light?.Direction.Normalized() ?? -Vector3.UnitY);
             Shader.SetUniform("light_diffuse_color", light?.DiffuseColor ?? Vector3.One);
             Shader.SetUniform("light_specular_color", light?.SpecularColor ?? Vector3.One);

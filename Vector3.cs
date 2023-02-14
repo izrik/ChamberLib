@@ -175,6 +175,12 @@ namespace ChamberLib
             return new Vector3((float)Math.Cos(angle), 0, (float)Math.Sin(angle));
         }
 
+        public Vector3 RotateAboutAxis(Vector3 axis, float angle)
+        {
+            var q = Quaternion.CreateFromAxisAngle(axis, angle);
+            return q.Transform(this);
+        }
+
         public override string ToString()
         {
             return string.Format("{{X:{0} Y:{1} Z:{2}}}", X, Y, Z);
