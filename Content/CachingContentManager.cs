@@ -16,7 +16,6 @@ namespace ChamberLib.Content
             fonts = new Cache<string, IFont>(next.LoadFont);
             songs = new Cache<string, ISong>(next.LoadSong);
             soundEffects = new Cache<string, ISoundEffect>(next.LoadSoundEffect);
-            shaderPrograms = new Cache2<IShaderStage, IShaderStage, IShaderProgram>(next.MakeShaderProgram);
         }
 
         readonly IContentManager next;
@@ -27,7 +26,6 @@ namespace ChamberLib.Content
         readonly Cache<string, IFont> fonts;
         readonly Cache<string, ISong> songs;
         readonly Cache<string, ISoundEffect> soundEffects;
-        readonly Cache2<IShaderStage, IShaderStage, IShaderProgram> shaderPrograms;
 
         public IContentImporter Importer { get { return next.Importer; } }
         public IContentProcessor Processor { get { return next.Processor; } }
@@ -62,47 +60,10 @@ namespace ChamberLib.Content
             return soundEffects.Call(name);
         }
 
-        public string LookupObjectName(object o)
-        {
-            if (o is IModel)
-            {
-                var s = models.LookupObject((IModel)o);
-                if (s != null) return s;
-            }
-            if (o is ITexture2D)
-            {
-                var s = textures.LookupObject((ITexture2D)o);
-                if (s != null) return s;
-            }
-            if (o is IFont)
-            {
-                var s = fonts.LookupObject((IFont)o);
-                if (s != null) return s;
-            }
-            if (o is ISong)
-            {
-                var s = songs.LookupObject((ISong)o);
-                if (s != null) return s;
-            }
-            if (o is ISoundEffect)
-            {
-                var s = soundEffects.LookupObject((ISoundEffect)o);
-                if (s != null) return s;
-            }
-
-            return next.LookupObjectName(o);
-        }
-
         public ITexture2D CreateTexture(int width, int height, Color[] data,
             PixelFormat pixelFormat=PixelFormat.Rgba)
         {
             return next.CreateTexture(width, height, data, pixelFormat);
-        }
-
-        public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader)
-        {
-            return shaderPrograms.Call(vertexShader, fragmentShader);
         }
     }
 }

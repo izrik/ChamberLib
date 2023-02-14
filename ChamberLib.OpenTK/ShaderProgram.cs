@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace ChamberLib.OpenTK
 {
-    public class ShaderProgram : IShaderProgram
+    public class ShaderProgram
     {
         protected ShaderProgram(ShaderStage vertexShader, ShaderStage fragmentShader,
             string name=null)
@@ -27,9 +27,8 @@ namespace ChamberLib.OpenTK
             }
         }
 
-        static Cache2P<ShaderStage, ShaderStage, string, ShaderProgram> cache =
-            new Cache2P<ShaderStage, ShaderStage, string, ShaderProgram>(MakeShaderProgramImpl);
-        public static ShaderProgram MakeShaderProgram(ShaderStage vertexShader,
+        static Dictionary<STuple<ShaderStage, ShaderStage>, ShaderProgram> cache = new Dictionary<STuple<ShaderStage, ShaderStage>, ShaderProgram>();
+        public static ShaderProgram GetShaderProgram(ShaderStage vertexShader,
             ShaderStage fragmentShader, string name=null)
         {
             if (vertexShader.ShaderType != ShaderType.Vertex)
@@ -37,42 +36,23 @@ namespace ChamberLib.OpenTK
             if (fragmentShader.ShaderType != ShaderType.Fragment)
                 throw new ArgumentException("Wrong shader type", "fragmentShader");
 
-            return cache.Call(vertexShader, fragmentShader, name);
-        }
-        protected static ShaderProgram MakeShaderProgramImpl(ShaderStage vertexShader,
-            ShaderStage fragmentShader, string name=null)
-        {
-            if (vertexShader.ShaderType != ShaderType.Vertex)
-                throw new ArgumentException("Wrong shader type", "vertexShader");
-            if (fragmentShader.ShaderType != ShaderType.Fragment)
-                throw new ArgumentException("Wrong shader type", "fragmentShader");
+            var stuple = new STuple<ShaderStage, ShaderStage>(vertexShader, fragmentShader);
+            if (!cache.ContainsKey(stuple))
+            {
+                var shader = new ShaderProgram(vertexShader, fragmentShader, name);
+                cache[stuple] = shader;
+            }
 
-            var shader = new ShaderProgram(vertexShader, fragmentShader, name);
-
-            return shader;
+            return cache[stuple];
         }
 
         public int ProgramID;
-
-        List<string> bindAttributes = new List<string>();
-        public IEnumerable<string> BindAttributes
-        {
-            get { return bindAttributes; }
-        }
-        public void SetBindAttributes(IEnumerable<string> bindattrs)
-        {
-            bindAttributes.Clear();
-            bindAttributes.AddRange(bindattrs);
-        }
 
         readonly string _name;
         public string Name { get { return _name; } }
 
         public readonly ShaderStage VertexShader;
         public readonly ShaderStage FragmentShader;
-
-        IShaderStage IShaderProgram.VertexShader { get { return VertexShader; } }
-        IShaderStage IShaderProgram.FragmentShader { get { return FragmentShader; } }
 
         public void Apply(Overrides overrides=default(Overrides))
         {
@@ -81,22 +61,7 @@ namespace ChamberLib.OpenTK
                 MakeReady();
             }
 
-            var vertexShader = overrides.GetVertexShader(VertexShader);
-            var fragmentShader = overrides.GetFragmentShader(FragmentShader);
-
-            if ((vertexShader != null && vertexShader != VertexShader) ||
-                (fragmentShader != null && fragmentShader != FragmentShader))
-            {
-                var effectiveProgram = MakeShaderProgram(
-                    (ShaderStage)vertexShader,
-                    (ShaderStage)fragmentShader);
-
-                effectiveProgram.ApplyBase(overrides.GetUniforms(uniforms));
-            }
-            else
-            {
-                ApplyBase(overrides.GetUniforms(uniforms));
-            }
+            ApplyBase(overrides.GetUniforms(uniforms));
         }
 
         protected void ApplyBase(ShaderUniforms uniformsOverride)
@@ -151,7 +116,7 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
 
             int i = 0;
-            foreach (var attr in BindAttributes)
+            foreach (var attr in VertexShader.BindAttributes)
             {
                 if (string.IsNullOrEmpty(attr)) continue;
 
@@ -387,6 +352,14 @@ namespace ChamberLib.OpenTK
 
         protected void ApplyUniformValues(ShaderUniforms uniformsOverride)
         {
+            foreach (var name in VertexShader.Uniforms.GetUniformNames())
+            {
+                ApplyUniform(name, VertexShader.Uniforms);
+            }
+            foreach (var name in FragmentShader.Uniforms.GetUniformNames())
+            {
+                ApplyUniform(name, FragmentShader.Uniforms);
+            }
             if (uniformsOverride != null)
             {
                 foreach (var name in uniformsOverride.GetUniformNames())

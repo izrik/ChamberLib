@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL;
 using System.Diagnostics;
 using ChamberLib.Content;
 using _OpenTK = global::OpenTK;
+using System.Collections.Generic;
 
 namespace ChamberLib.OpenTK
 {
@@ -53,6 +54,71 @@ namespace ChamberLib.OpenTK
 
                 IsCompiled = (result == 1);
             }
+        }
+
+        List<string> bindAttributes = new List<string>();
+        public IEnumerable<string> BindAttributes
+        {
+            get { return bindAttributes; }
+        }
+        public void SetBindAttributes(IEnumerable<string> bindattrs)
+        {
+            bindAttributes.Clear();
+            bindAttributes.AddRange(bindattrs);
+        }
+
+        public ShaderUniforms Uniforms = new ShaderUniforms();
+        public void SetUniform(string name, float value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, Vector2 value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, Vector3 value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, Vector4 value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, Matrix value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, bool value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, byte value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, sbyte value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, short value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, ushort value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, int value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, uint value)
+        {
+            Uniforms.SetValue(name, value);
+        }
+        public void SetUniform(string name, double value)
+        {
+            Uniforms.SetValue(name, value);
         }
     }
 }

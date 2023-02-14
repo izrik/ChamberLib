@@ -15,13 +15,8 @@ namespace ChamberLib
         ISoundEffect LoadSoundEffect(string name);
         IShaderStage LoadShaderStage(string name, ShaderType type);
 
-        string LookupObjectName(object o);
-
         ITexture2D CreateTexture(int width, int height, Color[] data,
             PixelFormat pixelFormat=PixelFormat.Rgba);
-
-        IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader);
     }
 
     public static class IContentManagerHelper

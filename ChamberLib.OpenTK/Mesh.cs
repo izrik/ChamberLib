@@ -92,7 +92,8 @@ namespace ChamberLib.OpenTK
         {
             Indexes = resolver.Get(part.Indexes);
             Vertexes = resolver.Get(part.Vertexes);
-            Material = resolver.Get(part.Material);
+            FragmentMaterial = resolver.Get(part.FragmentMaterial);
+            VertexMaterial = resolver.Get(part.VertexMaterial);
             this.StartIndex = part.StartIndex;
             this.PrimitiveCount = part.PrimitiveCount;
             this.VertexOffset = part.VertexOffset;
@@ -103,7 +104,8 @@ namespace ChamberLib.OpenTK
         public int StartIndex;
         public int PrimitiveCount;
         public int VertexOffset;
-        public Material Material;
+        public VertexMaterial VertexMaterial;
+        public FragmentMaterial FragmentMaterial;
 
         public RenderBundle RenderBundle;
 
@@ -111,30 +113,50 @@ namespace ChamberLib.OpenTK
             ComponentCollection components,
             Overrides overrides=default(Overrides))
         {
-            IMaterial material = overrides.GetMaterial(Material);
+            var vmaterial = overrides.GetVertexMaterial(VertexMaterial);
+            var fmaterial = overrides.GetFragmentMaterial(FragmentMaterial);
+            var shader = ShaderProgram.GetShaderProgram(
+                (ShaderStage)vmaterial.VertexShader,
+                (ShaderStage)fmaterial.FragmentShader);
 
-            material.Apply(gameTime, world, components, overrides);
+            vmaterial.Apply(gameTime, world, components, shader.VertexShader,
+                overrides);
+            fmaterial.Apply(gameTime, world, components, shader.FragmentShader,
+                overrides);
+            shader.Apply(overrides);
             RenderBundle.Apply();
 
             RenderBundle.Draw(PrimitiveType.Triangles, PrimitiveCount * 3, StartIndex, VertexOffset);
 
             RenderBundle.UnApply();
-            material.UnApply();
+            shader.UnApply();
+            fmaterial.UnApply();
+            vmaterial.UnApply();
         }
 
         public void DrawWireframe(GameTime gameTime, Matrix world,
             ComponentCollection components,
             Overrides overrides=default(Overrides))
         {
-            var material = overrides.GetMaterial(Material);
+            var vmaterial = overrides.GetVertexMaterial(VertexMaterial);
+            var fmaterial = overrides.GetFragmentMaterial(FragmentMaterial);
+            var shader = ShaderProgram.GetShaderProgram(
+                (ShaderStage)vmaterial.VertexShader,
+                (ShaderStage)fmaterial.FragmentShader);
 
-            material.Apply(gameTime, world, components, overrides);
+            vmaterial.Apply(gameTime, world, components, shader.VertexShader,
+                overrides);
+            fmaterial.Apply(gameTime, world, components, shader.FragmentShader,
+                overrides);
+            shader.Apply(overrides);
             RenderBundle.Apply();
 
-            RenderBundle.Draw(PrimitiveType.Lines, PrimitiveCount*2, StartIndex, VertexOffset);
+            RenderBundle.Draw(PrimitiveType.Lines, PrimitiveCount * 2, StartIndex, VertexOffset);
 
             RenderBundle.UnApply();
-            material.UnApply();
+            shader.UnApply();
+            fmaterial.UnApply();
+            vmaterial.UnApply();
         }
 
         public void MakeReady()

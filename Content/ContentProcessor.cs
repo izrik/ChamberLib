@@ -51,12 +51,6 @@ namespace ChamberLib.Content
         {
             return ShaderStageProcessor(asset, processor);
         }
-
-        public IShaderProgram MakeShaderProgram(IShaderStage vertexShader,
-            IShaderStage fragmentShader)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 

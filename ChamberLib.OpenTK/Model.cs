@@ -47,10 +47,15 @@ namespace ChamberLib.OpenTK
             {
                 foreach (var part in mesh.Parts)
                 {
-                    if (!resolver.Materials.ContainsKey(part.Material))
+                    if (!resolver.VertexMaterials.ContainsKey(part.VertexMaterial))
                     {
-                        var mat2 = new Material(part.Material, resolver, processor);
-                        resolver.Materials.Add(part.Material, mat2);
+                        var mat2 = new VertexMaterial(part.VertexMaterial, resolver, processor);
+                        resolver.VertexMaterials.Add(part.VertexMaterial, mat2);
+                    }
+                    if (!resolver.FragmentMaterials.ContainsKey(part.FragmentMaterial))
+                    {
+                        var mat2 = new FragmentMaterial(part.FragmentMaterial, resolver, processor);
+                        resolver.FragmentMaterials.Add(part.FragmentMaterial, mat2);
                     }
                 }
             }
@@ -94,14 +99,28 @@ namespace ChamberLib.OpenTK
             // TODO: set the emissive on the material(s)
         }
 
-        public IMaterial GetMaterialByName(string name)
+        public IVertexMaterial GetVertexMaterialByName(string name)
         {
             foreach (var mesh in Meshes)
             {
                 foreach (var part in mesh.Parts)
                 {
-                    if (part.Material.Name == name)
-                        return part.Material;
+                    if (part.VertexMaterial.Name == name)
+                        return part.VertexMaterial;
+                }
+            }
+
+            return null;
+        }
+
+        public IFragmentMaterial GetFragmentMaterialByName(string name)
+        {
+            foreach (var mesh in Meshes)
+            {
+                foreach (var part in mesh.Parts)
+                {
+                    if (part.FragmentMaterial.Name == name)
+                        return part.FragmentMaterial;
                 }
             }
 
@@ -114,7 +133,7 @@ namespace ChamberLib.OpenTK
             {
                 foreach (var part in mesh.Parts)
                 {
-                    part.Material.Alpha = alpha;
+                    part.FragmentMaterial.Alpha = alpha;
                 }
             }
         }
@@ -125,7 +144,7 @@ namespace ChamberLib.OpenTK
             {
                 foreach (var part in mesh.Parts)
                 {
-                    part.Material.Texture = texture;
+                    part.FragmentMaterial.Texture = texture;
                 }
             }
         }
@@ -145,9 +164,9 @@ namespace ChamberLib.OpenTK
         {
             if (boneTransforms == null) throw new ArgumentNullException("boneTransforms");
 
-            if (overrides.Material != null)
+            if (overrides.VertexMaterial != null)
             {
-                var material = overrides.GetMaterial(null);
+                var material = overrides.GetVertexMaterial(null);
                 if (material != null)
                     SetBoneUniformsForMaterial(boneTransforms, material);
             }
@@ -157,18 +176,18 @@ namespace ChamberLib.OpenTK
                 {
                     foreach (var part in mesh.Parts)
                     {
-                        SetBoneUniformsForMaterial(boneTransforms, part.Material);
+                        SetBoneUniformsForMaterial(boneTransforms, part.VertexMaterial);
                     }
                 }
             }
         }
-        void SetBoneUniformsForMaterial(Matrix[] boneTransforms, IMaterial material)
+        void SetBoneUniformsForMaterial(Matrix[] boneTransforms, IVertexMaterial material)
         {
             int i;
             for (i = 0; i < boneTransforms.Length; i++)
             {
                 var name = GetBoneUniformName(i);
-                material.Shader.SetUniform(name, boneTransforms[i]);
+                material.VertexShader.SetUniform(name, boneTransforms[i]);
             }
         }
 
@@ -204,10 +223,10 @@ namespace ChamberLib.OpenTK
                     var vv = part.Vertexes.VertexData;
                     var ii = part.Indexes.IndexData;
                     int i;
-                    int n= part.PrimitiveCount*3;
-                    for (i=0;i<n;i+=3)
+                    int n = part.PrimitiveCount * 3;
+                    for (i = 0; i < n; i += 3)
                     {
-                        int j = part.StartIndex+i;
+                        int j = part.StartIndex + i;
                         var t = new Triangle(
                             vv[ii[j]].GetPosition(),
                             vv[ii[j + 1]].GetPosition(),

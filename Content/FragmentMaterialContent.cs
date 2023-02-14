@@ -1,10 +1,10 @@
 ﻿using System;
-
 namespace ChamberLib.Content
 {
-    public class MaterialContent
+    public class FragmentMaterialContent
     {
         public string Name = "";
+
         public Vector3 DiffuseColor;
         public Vector3 EmissiveColor;
         public Vector3 SpecularColor;
@@ -13,8 +13,6 @@ namespace ChamberLib.Content
 
         public TextureContent Texture;
 
-        public ShaderContent VertexShader;
         public ShaderContent FragmentShader;
     }
 }
-

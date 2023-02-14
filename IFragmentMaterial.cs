@@ -1,13 +1,14 @@
 ﻿using System;
-
 namespace ChamberLib
 {
-    public interface IMaterial
+    public interface IFragmentMaterial
     {
         string Name { get; }
 
-        void Apply(GameTime gameTime, Matrix world,
+        void Apply(GameTime gameTime,
+                    Matrix world,
                     ComponentCollection components,
+                    IShaderStage fragmentShader,
                     Overrides overrides=default(Overrides));
         void UnApply();
 
@@ -18,7 +19,6 @@ namespace ChamberLib
         float Alpha { get; set; }
         ITexture2D Texture { get; set; }
 
-        IShaderProgram Shader { get; set; }
+        IShaderStage FragmentShader { get; }
     }
 }
-

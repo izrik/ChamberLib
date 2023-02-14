@@ -34,12 +34,13 @@ namespace ChamberLib.OpenTK
             _DrawLines2D_shader_frag_stage = new ShaderStage(
                 _DrawLines2D_shader_frag_source, ShaderType.Fragment, name);
 
+            _DrawLines2D_shader_vert_stage.SetBindAttributes(new[] {
+                "in_position" });
             _DrawLines2D_shader =
-                ShaderProgram.MakeShaderProgram(
+                ShaderProgram.GetShaderProgram(
                     _DrawLines2D_shader_vert_stage,
                     _DrawLines2D_shader_frag_stage,
                     name);
-            _DrawLines2D_shader.SetBindAttributes(new[] { "in_position" });
 
             _DrawLines2D_shader.MakeReady();
             GLHelper.CheckError();
