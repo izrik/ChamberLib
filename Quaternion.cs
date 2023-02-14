@@ -127,6 +127,8 @@ namespace ChamberLib
 
         public static Vector4 NormalizeAxisAngleOrientation(Vector4 axisAngle, float delta=0)
         {
+            // TODO: define and document "orientation"
+
             var _axis = axisAngle.ToVectorXYZ();
 
             if (_axis == Vector3.Zero)
@@ -263,6 +265,8 @@ namespace ChamberLib
 
         public bool IsEquivalentOrientationTo(Quaternion other, float delta=0)
         {
+            // TODO: define and document "orientation"
+
             var v1 = this.ToAxisAngle();
             var thisV = NormalizeAxisAngleOrientation(v1, delta);
 
@@ -502,6 +506,17 @@ namespace ChamberLib
                 Y.ToString(format, formatProvider),
                 Z.ToString(format, formatProvider),
                 W.ToString(format, formatProvider));
+        }
+
+        public static Quaternion FromAngleBetweenVectors(Vector3 from,
+            Vector3 to)
+        {
+            from = from.Normalized();
+            to = to.Normalized();
+            Vector3 c = Vector3.Cross(from, to);
+            var axis = c.Normalized();
+            var angle = (float)Math.Asin(c.Length());
+            return Quaternion.CreateFromAxisAngle(axis, angle);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace ChamberLib.OpenTK
                         var n = part.PrimitiveCount * 3;
                         for (i = 0; i < n; i++)
                         {
-                            var ii = part.Indexes.IndexData[i + part.StartIndex];
+                            var ii = part.Indexes.GetIndex(i + part.StartIndex);
                             points.Add(part.Vertexes.VertexData[ii].GetPosition());
                         }
                     }

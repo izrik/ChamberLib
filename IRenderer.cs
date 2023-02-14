@@ -12,8 +12,11 @@ namespace ChamberLib
         void DrawString(IFont font, string text, Vector2 position, Color color,
                         float rotation=0,
                         float scaleX=1,
-                        float scaleY=1);
+                        float scaleY=1,
+                        float? wrapWordsToMaxLineWidth=null,
+                        int? numCharsToDraw=null);
 
+        void DrawImage(DrawImagesEntry entry);
         void DrawImages(params DrawImagesEntry[] entries);
 
         void Clear(Color color);

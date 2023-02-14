@@ -67,13 +67,6 @@ namespace ChamberLib.OpenTK
             GLHelper.CheckError();
         }
 
-        public static MutableIndexBuffer FromArray(short[] indexes)
-        {
-            var ib = new MutableIndexBuffer();
-            ib.SetIndexData(indexes);
-            return ib;
-        }
-
         public void Apply()
         {
 //            if (!_isReady)

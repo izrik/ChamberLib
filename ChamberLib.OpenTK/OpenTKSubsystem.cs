@@ -17,9 +17,10 @@ namespace ChamberLib.OpenTK
             Action onLoadMethod=null,
             Action<GameTime> onRenderFrameMethod=null,
             Action<GameTime> onUpdateFrameMethod=null,
-            IContentImporter contentImporter=null)
+            IContentManager contentManager=null,
+            IContentImporter contentImporter=null,
+            IContentProcessor contentProcessor=null)
         {
-
             // audio playback
             _media = new MediaManager();
             _audioContext = new AudioContext();
@@ -38,30 +39,39 @@ namespace ChamberLib.OpenTK
             _renderer = new Renderer(this);
 
             // content management
-            if (contentImporter == null)
+            if (contentManager == null)
             {
-                var glsl = new GlslShaderImporter();
-                contentImporter =
-                    new BuiltinContentImporter(
-                        new ResolvingContentImporter(
-                            new ContentImporter(
-                                new ChModelImporter().ImportModel,
-                                new BasicTextureImporter().ImportTexture,
-                                glsl.ImportShaderStage,
-                                null,
-                                new BasicSongImporter().ImportSong,
-                                new OggVorbisSoundEffectImporter(
-                                    new WaveSoundEffectImporter().ImportSoundEffect).ImportSoundEffect
-                            ),
-                            basePath: "Content.OpenTK"));
+                if (contentImporter == null)
+                {
+                    var glsl = new GlslShaderImporter();
+                    var wav = new WaveSoundEffectImporter();
+                    var ogg = new OggVorbisSoundEffectImporter(
+                        wav.ImportSoundEffect);
+                    contentImporter =
+                        new BuiltinContentImporter(
+                            new ResolvingContentImporter(
+                                new ContentImporter(
+                                    new ChModelImporter().ImportModel,
+                                    new BasicTextureImporter().ImportTexture,
+                                    glsl.ImportShaderStage,
+                                    null,
+                                    new BasicSongImporter().ImportSong,
+                                    ogg.ImportSoundEffect
+                                ),
+                                basePath: "Content.OpenTK"));
+                }
+
+                if (contentProcessor == null)
+                {
+                    contentProcessor =
+                        new CachingContentProcessor(
+                            new OpenTKContentProcessor());
+                }
+
+                contentManager = new CachingContentManager(
+                    new ContentManager(contentImporter, contentProcessor));
             }
-
-            var processor =
-                new CachingContentProcessor(
-                    new OpenTKContentProcessor());
-
-            _content = new ContentManager(contentImporter, processor);
-            _cachingContent = new CachingContentManager(_content);
+            ContentManager = contentManager;
         }
 
         public readonly ChamberGameWindow Window;
@@ -73,9 +83,7 @@ namespace ChamberLib.OpenTK
         readonly Renderer _renderer;
         public IRenderer Renderer { get { return _renderer; } }
 
-        readonly ContentManager _content;
-        readonly CachingContentManager _cachingContent;
-        public IContentManager ContentManager { get { return _cachingContent; } }
+        public IContentManager ContentManager { get; protected set; }
 
         readonly MediaManager _media;
         public IMediaManager MediaManager { get { return _media; } }

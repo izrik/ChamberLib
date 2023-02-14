@@ -27,15 +27,26 @@ namespace ChamberLib
         public byte A;
 
         public static readonly Color White = new Color(255, 255, 255, 255);
-        public static readonly Color Black = new Color(0, 0, 0, 255);
-        public static readonly Color Red = new Color(255, 0, 0, 255);
-        public static readonly Color Green = new Color(0, 255, 0, 255);
-        public static readonly Color Blue = new Color(0, 0, 255, 255);
-        public static readonly Color Yellow = new Color(255, 255, 0, 255);
-        public static readonly Color Cyan = new Color(0, 255, 255, 255);
-        public static readonly Color Magenta = new Color(255, 0, 255, 255);
+        public static readonly Color LightGray = new Color(191, 191, 191, 255);
         public static readonly Color Gray = new Color(127, 127, 127, 255);
         public static readonly Color DarkGray = new Color(63, 63, 63, 255);
+        public static readonly Color Black = new Color(0, 0, 0, 255);
+
+        public static readonly Color Red = new Color(255, 0, 0, 255);
+        public static readonly Color DarkRed = new Color(127, 0, 0, 255);
+        public static readonly Color Green = new Color(0, 255, 0, 255);
+        public static readonly Color DarkGreen = new Color(0, 127, 0, 255);
+        public static readonly Color Blue = new Color(0, 0, 255, 255);
+        public static readonly Color DarkBlue = new Color(0, 0, 127, 255);
+        public static readonly Color Yellow = new Color(255, 255, 0, 255);
+        public static readonly Color DarkYellow = new Color(127, 127, 0, 255);
+        public static readonly Color Cyan = new Color(0, 255, 255, 255);
+        public static readonly Color DarkCyan = new Color(0, 127, 127, 255);
+        public static readonly Color Magenta = new Color(255, 0, 255, 255);
+        public static readonly Color DarkMagenta = new Color(127, 0, 127, 255);
+
+        public static readonly Color Brown = new Color(63, 63, 0, 255);
+        public static readonly Color DarkBrown = new Color(31, 31, 0, 255);
 
         public Vector3 ToVector3()
         {
@@ -47,14 +58,15 @@ namespace ChamberLib
             return new Vector4(R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
         }
 
+        public ColorF ToColorF()
+        {
+            var v = this.ToVector4();
+            return new ColorF(v.X, v.Y, v.Z, v.W);
+        }
+
         public static Color FromHsl(float h, float s, float l)
         {
             return new Color(Vector3Colors.FromHslVector(h,s,l));
-        }
-
-        public int[] ToIntegerArrayRgba()
-        {
-            return new int[] { R, G, B, A };
         }
     }
 }

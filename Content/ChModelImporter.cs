@@ -77,7 +77,7 @@ namespace ChamberLib.Content
                 for (i = 0; i < num; i++)
                 {
                     var indexes = ReadIndexBuffer(reader);
-                    var ib = new IndexBufferContent{Indexes=indexes};
+                    var ib = new IndexBufferContent{Indexes32=indexes};
                     ibuffers.Add(ib);
                 }
 
@@ -171,16 +171,16 @@ namespace ChamberLib.Content
             return vs;
         }
 
-        static short[] ReadIndexBuffer(IReader reader)
+        static int[] ReadIndexBuffer(IReader reader)
         {
             var numIndexes = int.Parse(reader.ReadLine());
             var indexSize = int.Parse(reader.ReadLine());
             var indexBufferName = reader.ReadLine();
-            var indexes = new short[numIndexes];
+            var indexes = new int[numIndexes];
             int k;
             for (k = 0; k < numIndexes; k++)
             {
-                indexes[k] = short.Parse(reader.ReadLine());
+                indexes[k] = int.Parse(reader.ReadLine());
             }
 
             return indexes;

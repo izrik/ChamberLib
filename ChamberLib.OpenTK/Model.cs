@@ -63,7 +63,7 @@ namespace ChamberLib.OpenTK
             {
                 this.Meshes.Add(new Mesh(this, mesh, resolver));
             }
-            this.Tag = modelContent.AnimationData;
+            this.AnimationData = modelContent.AnimationData;
             this.Filename = modelContent.Filename;
         }
 
@@ -186,7 +186,7 @@ namespace ChamberLib.OpenTK
             material.VertexShader.SetUniform("bones[0]", boneTransforms);
         }
 
-        public object Tag { get; set; }
+        public AnimationData AnimationData { get; set; }
 
         public IBone Root
         {
@@ -216,14 +216,14 @@ namespace ChamberLib.OpenTK
                 foreach (var part in mesh.Parts)
                 {
                     var vv = part.Vertexes.VertexData;
-                    var ii = part.Indexes.IndexData;
+                    var ii = part.Indexes;
                     int i;
                     int n = part.PrimitiveCount * 3;
                     for (i = 0; i < n; i += 3)
                     {
                         int j = part.StartIndex + i;
                         var t = new Triangle(
-                            vv[ii[j]].GetPosition(),
+                            vv[ii[j + 0]].GetPosition(),
                             vv[ii[j + 1]].GetPosition(),
                             vv[ii[j + 2]].GetPosition());
                         if (!set.Contains(t))
@@ -234,6 +234,14 @@ namespace ChamberLib.OpenTK
                     }
                 }
             }
+        }
+
+        int _triangleCount = -1;
+        public int CountTriangles()
+        {
+            if (_triangleCount < 0)
+                _triangleCount = EnumerateTriangles().Count();
+            return _triangleCount;
         }
 
         #endregion

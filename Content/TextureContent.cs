@@ -18,7 +18,6 @@ namespace ChamberLib.Content
                 ImageLockMode.ReadOnly,
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-
             PixelData = new Color[bitmap.Width * bitmap.Height];
 
             try
@@ -32,11 +31,13 @@ namespace ChamberLib.Content
                     Marshal.Copy(IntPtr.Add(bmpdata.Scan0, j * bmpdata.Stride), bytes, 0, bytes.Length);
                     for (i = 0; i < n; i += 4)
                     {
+                        // BGRA - reverse of Argb above.
+                        // Must be a little/big endianness thing.
                         var c = new Color(
-                                        bytes[i + 1],
-                                        bytes[i + 2],
-                                        bytes[i + 3],
-                                        bytes[i]);
+                                        r: bytes[i + 2],
+                                        g: bytes[i + 1],
+                                        b: bytes[i + 0],
+                                        a: bytes[i + 3]);
                         PixelData[j * bitmap.Width + i / 4] = c;
                     }
                 }

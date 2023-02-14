@@ -197,6 +197,24 @@ void main(void)
 
         public static ShaderProgram BasicShaderProgram;
         public static ShaderProgram SkinnedShaderProgram;
+
+        public static void Initialize()
+        {
+            // TODO: Fix this.
+            //       This method does nothing in particular. It only exists so
+            //       that client code can call it and thereby trigger the
+            //       static constructor at a specific time on a specific
+            //       thread. Currently, there is a heisenbug in the static
+            //       constructor of BuiltinShaders. The root cause is not yet
+            //       entirely understood, but it seems that if client code
+            //       tries to access this method and ShaderProgram
+            //       simultaneously, the ShaderProgram.cache dictionary can be
+            //       modified by multiple threads at the same time, cauing an
+            //       InvalidOperationException. In order to avoid that, we
+            //       provide this Initialize() method for client code to call
+            //       at a pre-determined time, before any background threads
+            //       access the classes.
+        }
     }
 }
 

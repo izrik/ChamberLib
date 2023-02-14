@@ -12,6 +12,9 @@ namespace ChamberLib
                     Overrides overrides=default(Overrides));
         void UnApply();
 
+        Action<GameTime, Matrix, ComponentCollection, IShaderStage,
+            Overrides> OnApply { get; set; }
+
         Vector3 Diffuse { get; set; }
         Vector3 EmissiveColor { get; set; }
         Vector3 SpecularColor { get; set; }

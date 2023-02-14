@@ -92,19 +92,14 @@ namespace ChamberLib.OpenTK
                     writer.WriteLine("# Animation Data    ##", k++);
                     writer.WriteLine("######################");
                 }
-                if (model.Tag == null)
+                if (model.AnimationData == null)
                 {
                     writer.WriteLine(false);
-                }
-                else if (!(model.Tag is AnimationData))
-                {
-                    writer.WriteLine(false);
-                    writer.WriteLine("# type: {0}", model.Tag.GetType().AssemblyQualifiedName);
                 }
                 else
                 {
                     writer.WriteLine(true);
-                    var ad = model.Tag as AnimationData;
+                    var ad = model.AnimationData;
                     var ae = new AnimationExporter();
                     int kk = 0;
 //                    Action action = () => {
@@ -185,13 +180,11 @@ namespace ChamberLib.OpenTK
 
         void WriteIndexBuffer(TextWriter writer, IndexBuffer ib, int bufferNumber)
         {
-            short[] indexData = ib.IndexData;
-
-            writer.WriteLine(indexData.Length);
+            writer.WriteLine(ib.Length);
             writer.WriteLine(16);//ib.IndexElementSize == IndexElementSize.SixteenBits ? "16" : "32");
             writer.WriteLine("");//ib.Name);
             int k = 0;
-            foreach (var index in indexData)
+            foreach (var index in ib.EnumerateIndexes())
             {
                 if (k % 100 == 0)
                 {

@@ -59,8 +59,15 @@ namespace ChamberLib.OpenTK
             IsReady = true;
         }
 
-        static readonly int[] __Apply_black = new[] { 0, 0, 0, 0 };
         public void Apply()
+        {
+            Apply(ColorF.Black);
+        }
+        public void Apply(Color clearColor)
+        {
+            Apply(clearColor.ToColorF());
+        }
+        public void Apply(ColorF clearColor)
         {
             if (!IsReady)
             {
@@ -77,8 +84,10 @@ namespace ChamberLib.OpenTK
 
             float one = 1;
             GL.ClearBuffer(ClearBuffer.Depth, 0, ref one); 
-            GL.ClearBuffer(ClearBuffer.Color, 0, __Apply_black);
-
+            GL.ClearColor(clearColor.R, clearColor.G, clearColor.B,
+                clearColor.A);
+            GL.Clear(ClearBufferMask.ColorBufferBit |
+                ClearBufferMask.DepthBufferBit);
         }
 
         public void UnApply()

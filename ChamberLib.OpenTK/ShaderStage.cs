@@ -49,7 +49,8 @@ namespace ChamberLib.OpenTK
                 Debug.WriteLine("{1} compile status: {0}", result, ShaderType);
                 GLHelper.CheckError();
                 Debug.WriteLine("{0} info:", ShaderType);
-                Debug.WriteLine(GL.GetShaderInfoLog(ShaderID));
+                var infoLog = GL.GetShaderInfoLog(ShaderID);
+                Debug.WriteLine(infoLog);
                 GLHelper.CheckError();
 
                 IsCompiled = (result == 1);

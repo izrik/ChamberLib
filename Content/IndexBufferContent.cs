@@ -4,7 +4,9 @@ namespace ChamberLib.Content
 {
     public class IndexBufferContent
     {
-        public short[] Indexes;
+        public int[] Indexes32;
+        public short[] Indexes16;
+        public byte[] Indexes8;
     }
 }
 

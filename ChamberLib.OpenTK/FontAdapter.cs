@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using ChamberLib.Content;
 
 using _OpenTK = global::OpenTK;
+using System.Collections;
+using System.Threading;
 
 namespace ChamberLib.OpenTK
 {
@@ -35,38 +37,238 @@ namespace ChamberLib.OpenTK
         static int screenHeightLocation;
         static int fragmentColorLocation;
 
-        public Vector2 MeasureString(string text)
+        static bool IsWordChar(char ch)
         {
-            int numlines = 1;
-            int maxchars = 0;
-            int linechars = 0;
-            foreach (char ch in text)
+            return !char.IsWhiteSpace(ch);
+        }
+
+        public struct Span
+        {
+            //TODO: Move this to its own file and namespace?
+
+            // TODO: see Span<T> and Memory<T> from C# 7.2
+
+            public Span(string s)
+                : this(s, 0, s.Length)
             {
-                switch (ch)
+            }
+            public Span(string s, int start, int length)
+            {
+                String = s;
+                Start = start;
+                Length = length;
+                _value = null;
+            }
+            public Span(Span s, int start, int length)
+            {
+                String = s.String;
+                Start = s.Start + start;
+                Length = length;
+                _value = null;
+            }
+
+            public readonly string String;
+            public readonly int Start;
+            public readonly int Length;
+
+            public int End => Start + Length;
+
+            public char this[int index] => String[index + Start];
+
+            string _value;
+            public string Value
+            {
+                get
                 {
-                    case '\r':
-                        continue;
-                    case '\n':
-                        numlines++;
-                        maxchars = Math.Max(maxchars, linechars);
-                        linechars = 0;
-                        break;
-                    default:
-                        linechars++;
-                        break;
+                    if (_value == null)
+                        _value = String.Substring(Start, Length);
+                    return _value;
                 }
             }
-            maxchars = Math.Max(maxchars, linechars);
 
-            return 
-                new Vector2(
-                maxchars * CharacterWidth + (maxchars - 1) * SpaceBetweenChars,
-                numlines * LineHeight + (numlines - 1) * SpaceBetweenLines);
+            public Enumerator GetEnumerator()
+            {
+                return new Enumerator(this);
+            }
+
+            public struct Enumerator
+            {
+                public Enumerator(Span span)
+                {
+                    _span = span;
+                    i = -1;
+                }
+
+                private readonly Span _span;
+                private int i;
+
+                public char Current => _span.String[i];
+
+                public bool MoveNext()
+                {
+                    if (i < 0)
+                        i = _span.Start;
+                    else
+                        i++;
+
+                    if (i >= _span.End) return false;
+                    return true;
+                }
+
+                public void Reset()
+                {
+                    i = -1;
+                }
+            }
+        }
+
+        public static void SplitLines(Span s, List<Span> spans)
+        {
+            int start = 0;
+            int end = -1;
+            int i;
+            spans.Clear();
+            for (i = 0; i < s.Length; i++)
+            {
+                if (s[i] == '\n')
+                {
+                    spans.Add(new Span(s, start, end - start + 1));
+                    start = i + 1;
+                    end = i;
+                }
+                else if (IsWordChar(s[i]))
+                {
+                    end = i;
+                }
+            }
+            spans.Add(new Span(s, start, end - start + 1));
+        }
+
+        public static void SplitWords(Span line, List<Span> words)
+        {
+            words.Clear();
+
+            if (line.Length < 1) return;
+
+            int i;
+            bool prevCharIsWord = IsWordChar(line[0]);
+            bool curCharIsWord;
+            int start = 0;
+            for (i = 0; i < line.Length; i++)
+            {
+                curCharIsWord = IsWordChar(line[i]);
+                if (curCharIsWord && !prevCharIsWord)
+                {
+                    // start new word
+                    start = i;
+                }
+                else if (!curCharIsWord && prevCharIsWord)
+                {
+                    // end a word
+                    words.Add(new Span(line, start, i - start));
+                    start = line.Length;
+                }
+                prevCharIsWord = curCharIsWord;
+            }
+
+            if (prevCharIsWord && start<line.Length)
+                words.Add(new Span(line, start, i - start));
+        }
+
+        public static float MeasureLineWidth(Span line,
+            bool ignoreTrailingWhitespace=true)
+        {
+            if (line.Length < 1) return 0;
+
+            int end = line.Length - 1;
+            if (ignoreTrailingWhitespace)
+                while (end > 0 && !IsWordChar(line[end]))
+                    end--;
+            //int i;
+            //float width = 0;
+            //for (i = 0; i < end; i++)
+            //{
+            //    width += 
+            //}
+            return (end + 1) * CharacterWidth + end * SpaceBetweenChars;
+
+        }
+
+        static readonly ThreadLocal<List<Span>> __WrapWords_words =
+            new ThreadLocal<List<Span>>(() => new List<Span>());
+        public static void WrapWords(List<Span> lines, float maxLineWidth)
+        {
+            int i;
+            for (i = 0; i < lines.Count; i++)
+            {
+                var line = lines[i];
+
+                var width = MeasureLineWidth(line);
+
+                if (width <= maxLineWidth) continue;
+
+                var words = __WrapWords_words.Value;
+                words.Clear();
+                SplitWords(line, words);
+
+                int j;
+                for (j = 1; j < words.Count; j++)
+                {
+                    var w = words[j];
+                    var ws = new Span(line, 0, w.End - line.Start);
+                    var ww = MeasureLineWidth(ws);
+                    if (ww > maxLineWidth)
+                    {
+                        var w1 = words[j - 1];
+                        var newPrevLine =
+                            new Span(line, 0, w1.End - line.Start);
+                        var newNextLine =
+                            new Span(line, w.Start - line.Start,
+                                line.End - w.Start);
+                        lines[i] = newPrevLine;
+                        lines.Insert(i + 1, newNextLine);
+                        break;
+                    }
+                }
+            }
+        }
+
+        readonly ThreadLocal<List<Span>> __MeasureString_lines =
+            new ThreadLocal<List<Span>>(() => new List<Span>());
+        public Vector2 MeasureString(string text,
+            float? wrapWordsToMaxLineWidth=null)
+        {
+            if (string.IsNullOrEmpty(text)) return Vector2.Zero;
+            return MeasureString(new Span(text), wrapWordsToMaxLineWidth);
+        }
+        public Vector2 MeasureString(Span text,
+            float? wrapWordsToMaxLineWidth=null)
+        {
+            var lines = __MeasureString_lines.Value;
+            SplitLines(text, lines);
+            if (wrapWordsToMaxLineWidth.HasValue)
+                WrapWords(lines,
+                    wrapWordsToMaxLineWidth.Value);
+
+            float maxWidth = 0;
+            foreach(var line in lines)
+            {
+                maxWidth = Math.Max(maxWidth, MeasureLineWidth(line));
+            }
+
+            int numlines = lines.Count;
+            float height = numlines * LineHeight +
+                (numlines - 1) * SpaceBetweenLines;
+
+            return new Vector2(maxWidth, height);
         }
 
         public static bool IsReady = false;
 
-        public void DrawString(Renderer renderer, string text, Vector2 position, Color color, float rotation, float scaleX, float scaleY)
+        public void DrawString(Renderer renderer, string text,
+            Vector2 position, Color color, float rotation, float scaleX,
+            float scaleY, float? wrapWordsToMaxLineWidth=null,
+            int? numCharsToDraw=null)
         {
             if (!IsReady)
             {
@@ -96,19 +298,27 @@ namespace ChamberLib.OpenTK
             GL.Uniform4(fragmentColorLocation, color.ToVector4().ToOpenTK());
             GLHelper.CheckError();
 
-            foreach (char ch in text)
-            {
-                // set p
-                GL.Uniform2(offsetLocation, p.ToOpenTK());
-                GLHelper.CheckError();
+            var s = new Span(text);
+            var lines = __MeasureString_lines.Value;
+            SplitLines(s, lines);
+            if (wrapWordsToMaxLineWidth.HasValue)
+                WrapWords(lines,
+                    wrapWordsToMaxLineWidth.Value);
 
-                switch (ch)
+            int numCharsDrawn = 0;
+            foreach (var line in lines)
+            {
+                foreach (var ch in line)
                 {
+                    GL.Uniform2(offsetLocation, p.ToOpenTK());
+                    GLHelper.CheckError();
+
+                    switch (ch)
+                    {
                     case '\r':
                         continue;
                     case '\n':
-                        p = new Vector2(x, p.Y + (LineHeight + SpaceBetweenLines) * scaleY);
-                        break;
+                        continue;
                     default:
                         var glyph = GetGlyph(ch);
 
@@ -116,14 +326,24 @@ namespace ChamberLib.OpenTK
                         {
                             renderData.Draw(
                                 PrimitiveType.LineStrip,
-                                segment.NumPrimitives+1,
+                                segment.NumPrimitives + 1,
                                 segment.StartIndex);
                             GLHelper.CheckError();
 
                         }
                         p = new Vector2(p.X + (CharacterWidth + SpaceBetweenChars) * scaleX, p.Y);
                         break;
+                    }
+
+                    numCharsDrawn++;
+                    if (numCharsToDraw.HasValue &&
+                        numCharsDrawn >= numCharsToDraw.Value)
+                        break;
                 }
+                if (numCharsToDraw.HasValue &&
+                    numCharsDrawn >= numCharsToDraw.Value)
+                    break;
+                p = new Vector2(x, p.Y + (LineHeight + SpaceBetweenLines) * scaleY);
             }
 
             renderData.UnApply();
@@ -139,7 +359,7 @@ namespace ChamberLib.OpenTK
         {
             _OpenTK.Vector2[] vertexData = Vertexes.Select(v => v.ToOpenTK()).ToArray();
             int vertexSizeInBytes = _OpenTK.Vector2.SizeInBytes;
-            short[] indexData = Indexes;
+            int[] indexData = Indexes;
 
             /*
              * Shader
@@ -357,7 +577,7 @@ namespace ChamberLib.OpenTK
 
 
         static Vector2[] Vertexes;
-        static short[] Indexes;
+        static int[] Indexes;
         static Dictionary<char, Glyph> Glyphs;
 
         static void GenerateGlyphs()
@@ -375,7 +595,7 @@ namespace ChamberLib.OpenTK
             }
 
             var vertexes = points.ToList();
-            var indexes = new List<short>();
+            var indexes = new List<int>();
 
             foreach (var ch in paths.Keys.ToArray())
             {
@@ -387,7 +607,7 @@ namespace ChamberLib.OpenTK
                         NumPrimitives = path.Length - 1,
                     };
                     segments.Add(segment);
-                    indexes.AddRange(path.Select(v => (short)vertexes.IndexOf(v)));
+                    indexes.AddRange(path.Select(v => (int)vertexes.IndexOf(v)));
                 }
                 var glyph = new Glyph {
                     Segments = segments.ToArray()

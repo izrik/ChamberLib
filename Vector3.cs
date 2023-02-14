@@ -153,8 +153,11 @@ namespace ChamberLib
                 Math.Min(u.Z, v.Z));
         }
 
-        public static Vector3 Lerp(Vector3 u, Vector3 v, float s)
+        public static Vector3 Lerp(Vector3 u, Vector3 v, float s,
+            bool clampToEnds=true)
         {
+            if (clampToEnds)
+                s = s.Clamp(0, 1);
             return u * (1 - s) + v * s;
         }
 
@@ -198,6 +201,11 @@ namespace ChamberLib
         public Vector4 ToVector4(float w=0)
         {
             return new Vector4(X, Y, Z, w);
+        }
+
+        public Vector2 ToVector2()
+        {
+            return new Vector2(X, Y);
         }
     }
 }
