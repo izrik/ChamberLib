@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 [assembly: AssemblyTitle("ChamberLib")]
 [assembly: AssemblyDescription("A cross-platform library to make 3D graphics a little easier.")]
