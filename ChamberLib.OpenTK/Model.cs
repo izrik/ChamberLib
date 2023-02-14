@@ -82,11 +82,9 @@ namespace ChamberLib.OpenTK
                 MakeReady();
             }
 
-            var lighting = overrides.GetLighting(Lighting).Value;
-
             foreach (var mesh in Meshes)
             {
-                mesh.Draw(gameTime, world, view, projection, lighting, overrides);
+                mesh.Draw(gameTime, world, view, projection, Lighting, overrides);
             }
         }
 
