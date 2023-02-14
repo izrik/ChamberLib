@@ -35,6 +35,7 @@ namespace ChamberLib
         public static readonly Color Cyan = new Color(0, 255, 255, 255);
         public static readonly Color Magenta = new Color(255, 0, 255, 255);
         public static readonly Color Gray = new Color(127, 127, 127, 255);
+        public static readonly Color DarkGray = new Color(63, 63, 63, 255);
 
         public Vector3 ToVector3()
         {
