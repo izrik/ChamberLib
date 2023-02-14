@@ -72,6 +72,7 @@ namespace ChamberLib.OpenTK
 
             Shader.SetUniform("worldViewProj", world * view * projection);
             Shader.SetUniform("worldView", world * view);
+            Shader.SetUniform("viewProj", view * projection);
             Shader.SetUniform("view", view);
             Shader.SetUniform("world", world);
             Shader.SetUniform("use_texture", (Texture != null));
