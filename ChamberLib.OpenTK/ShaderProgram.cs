@@ -61,15 +61,25 @@ namespace ChamberLib.OpenTK
                 MakeReady();
             }
 
-            ApplyBase(overrides.GetUniforms(uniforms));
-        }
-
-        protected void ApplyBase(ShaderUniforms uniformsOverride)
-        {
             GL.UseProgram(ProgramID);
             GLHelper.CheckError();
 
-            ApplyUniformValues(uniformsOverride);
+            foreach (var entry in VertexShader.Uniforms.GetEntries())
+            {
+                ApplyUniform(entry.Token, VertexShader.Uniforms);
+            }
+            foreach (var entry in FragmentShader.Uniforms.GetEntries())
+            {
+                ApplyUniform(entry.Token, FragmentShader.Uniforms);
+            }
+            var uniformOverrides = overrides.GetUniforms(null);
+            if (uniformOverrides != null)
+            {
+                foreach (var entry in uniformOverrides.GetEntries())
+                {
+                    ApplyUniform(entry.Token, uniformOverrides);
+                }
+            }
         }
 
         public void UnApply()
@@ -140,10 +150,50 @@ namespace ChamberLib.OpenTK
             string programInfoLog;
             GL.GetProgramInfoLog(ProgramID, out programInfoLog );
             GLHelper.CheckError();
+
+            int numUniforms;
+            GL.GetProgram(ProgramID, GetProgramParameterName.ActiveUniforms, out numUniforms);
+            GLHelper.CheckError();
+            for (i = 0; i < numUniforms; i++)
+            {
+                int size;
+                ActiveUniformType type;
+                var name = GL.GetActiveUniform(ProgramID, i, out size, out type);
+                GLHelper.CheckError();
+                var location = GL.GetUniformLocation(ProgramID, name);
+                GLHelper.CheckError();
+                var au = new ActiveUniform(name, size, type, location);
+                activeUniformIndexByToken[au.Token] = activeUniforms.Count;
+                activeUniforms.Add(au);
+            }
+        }
+
+        struct ActiveUniform
+        {
+            public ActiveUniform(string name, int size, ActiveUniformType gltype, int location)
+            {
+                Name = name;
+                Token = ShaderUniforms.GetTokenForName(name);
+                Size = size;
+                GLType = gltype;
+                if (gltype == ActiveUniformType.Sampler2D)
+                    Type = ShaderUniformType.Int;
+                else
+                    Type = gltype.ToChamber();
+                Location = location;
+            }
+
+            public readonly string Name;
+            public readonly int Token;
+            public readonly int Size;
+            public readonly ActiveUniformType GLType;
+            public readonly ShaderUniformType Type;
+            public readonly int Location;
         }
 
         readonly Dictionary<string,int> uniformLocationCache = new Dictionary<string, int>();
-        readonly ShaderUniforms uniforms = new ShaderUniforms();
+        List<ActiveUniform> activeUniforms = new List<ActiveUniform>();
+        Dictionary<int, int> activeUniformIndexByToken = new Dictionary<int, int>();
 
         int GetUniformLocation(string name)
         {
@@ -156,275 +206,85 @@ namespace ChamberLib.OpenTK
             uniformLocationCache[name] = location;
             return location;
         }
-        public void SetUniform(string name, float value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-        public void SetUniform(string name, Vector2 value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-        public void SetUniform(string name, Vector3 value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-        public void SetUniform(string name, Vector4 value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-        public void SetUniform(string name, Matrix value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-        public void SetUniform(string name, bool value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
 
-        public Matrix GetUniformMatrix(string name)
+        float[] __ApplyUniform_floatArrayCache;
+        protected void ApplyUniform(int token, ShaderUniforms uniforms)
         {
-            Apply();
-            var location = GetUniformLocation(name);
-            var values = new float[16];
-            GL.GetUniform(ProgramID, location, values);
-            return new Matrix(
-                values[0], values[1], values[2], values[3], 
-                values[4], values[5], values[6], values[7], 
-                values[8], values[9], values[10], values[11], 
-                values[12], values[13], values[14], values[15]);
-        }
-
-        public void SetUniform(string name, byte value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-
-        public void SetUniform(string name, sbyte value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-
-        public void SetUniform(string name, short value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-
-        public void SetUniform(string name, ushort value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-
-        public void SetUniform(string name, int value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-
-        public void SetUniform(string name, uint value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-
-        public void SetUniform(string name, double value)
-        {
-            uniforms.SetValue(name, value);
-            if (IsApplied) ApplyUniform(name);
-        }
-
-        public bool GetUniformBool(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            int value;
-            GL.GetUniform(ProgramID, location, out value);
-            return (value != 0);
-        }
-
-        public byte GetUniformByte(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            uint value;
-            GL.GetUniform((uint)ProgramID, location, out value);
-            return (byte)value;
-        }
-
-        public sbyte GetUniformSByte(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            int value;
-            GL.GetUniform(ProgramID, location, out value);
-            return (sbyte)value;
-        }
-
-        public short GetUniformShort(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            int value;
-            GL.GetUniform(ProgramID, location, out value);
-            return (short)value;
-        }
-
-        public ushort GetUniformUShort(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            uint value;
-            GL.GetUniform((uint)ProgramID, location, out value);
-            return (ushort)value;
-        }
-
-        public int GetUniformInt(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            int value;
-            GL.GetUniform(ProgramID, location, out value);
-            return value;
-        }
-
-        public uint GetUniformUInt(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            uint value;
-            GL.GetUniform((uint)ProgramID, location, out value);
-            return value;
-        }
-
-        public float GetUniformSingle(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            float value;
-            GL.GetUniform(ProgramID, location, out value);
-            return value;
-        }
-
-        public double GetUniformDouble(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            double value;
-            GL.GetUniform(ProgramID, location, out value);
-            return value;
-        }
-
-        public Vector2 GetUniformVector2(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            float [] values = new float[2];
-            GL.GetUniform(ProgramID, location, values);
-            return new Vector2(values[0], values[1]);
-        }
-
-        public Vector3 GetUniformVector3(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            float [] values = new float[3];
-            GL.GetUniform(ProgramID, location, values);
-            return new Vector3(values[0], values[1], values[2]);
-        }
-
-        public Vector4 GetUniformVector4(string name)
-        {
-            Apply();
-            var location = GetUniformLocation(name);
-            float [] values = new float[4];
-            GL.GetUniform(ProgramID, location, values);
-            return new Vector4(values[0], values[1], values[2], values[3]);
-        }
-
-        protected void ApplyUniformValues(ShaderUniforms uniformsOverride)
-        {
-            foreach (var name in VertexShader.Uniforms.GetUniformNames())
-            {
-                ApplyUniform(name, VertexShader.Uniforms);
-            }
-            foreach (var name in FragmentShader.Uniforms.GetUniformNames())
-            {
-                ApplyUniform(name, FragmentShader.Uniforms);
-            }
-            if (uniformsOverride != null)
-            {
-                foreach (var name in uniformsOverride.GetUniformNames())
-                {
-                    ApplyUniform(name, uniformsOverride);
-                }
-            }
-            foreach (var name in uniforms.GetUniformNames())
-            {
-                ApplyUniform(name, uniformsOverride);
-            }
-        }
-
-        protected void ApplyUniform(string name, ShaderUniforms uniformsOverride=null)
-        {
-            ShaderUniforms source = uniforms;
-            if (uniformsOverride != null &&
-                uniformsOverride.ContainsName(name))
-            {
-                source = uniformsOverride;
-            }
-            var type = source.GetType(name);
-            var location = GetUniformLocation(name);
+            var type = uniforms.GetType(token);
+            bool isArray = uniforms.GetIsArray(token);
+            if (!activeUniformIndexByToken.ContainsKey(token))
+                return;
+            var location = activeUniforms[activeUniformIndexByToken[token]].Location;
 
             switch (type)
             {
             case ShaderUniformType.Bool:
-                GL.Uniform1(location, (source.GetValueBool(name) ? 1 : 0));
+                GL.Uniform1(location, (uniforms.GetValueBool(token) ? 1 : 0));
                 break;
             case ShaderUniformType.Byte:
-                GL.Uniform1(location, source.GetValueByte(name));
+                GL.Uniform1(location, uniforms.GetValueByte(token));
                 break;
             case ShaderUniformType.SByte:
-                GL.Uniform1(location, source.GetValueSByte(name));
+                GL.Uniform1(location, uniforms.GetValueSByte(token));
                 break;
             case ShaderUniformType.Short:
-                GL.Uniform1(location, source.GetValueShort(name));
+                GL.Uniform1(location, uniforms.GetValueShort(token));
                 break;
             case ShaderUniformType.UShort:
-                GL.Uniform1(location, source.GetValueUShort(name));
+                GL.Uniform1(location, uniforms.GetValueUShort(token));
                 break;
             case ShaderUniformType.Int:
-                GL.Uniform1(location, source.GetValueInt(name));
+                if (isArray)
+                {
+                    var value2 = uniforms.GetValueIntArray(token);
+                    GL.Uniform1(location, value2.Length, value2);
+                }
+                else
+                {
+                    GL.Uniform1(location, uniforms.GetValueInt(token));
+                }
                 break;
             case ShaderUniformType.UInt:
-                GL.Uniform1(location, source.GetValueUInt(name));
+                GL.Uniform1(location, uniforms.GetValueUInt(token));
                 break;
             case ShaderUniformType.Single:
-                GL.Uniform1(location, source.GetValueSingle(name));
+                GL.Uniform1(location, uniforms.GetValueSingle(token));
                 break;
             case ShaderUniformType.Double:
-                GL.Uniform1(location, source.GetValueDouble(name));
+                GL.Uniform1(location, uniforms.GetValueDouble(token));
                 break;
             case ShaderUniformType.Vector2:
-                GL.Uniform2(location, (source.GetValueVector2(name)).ToOpenTK());
+                GL.Uniform2(location, (uniforms.GetValueVector2(token)).ToOpenTK());
                 break;
             case ShaderUniformType.Vector3:
-                GL.Uniform3(location, (source.GetValueVector3(name)).ToOpenTK());
+                if (isArray)
+                {
+                    var value2 = uniforms.GetValueVector3Array(token);
+                    EnsureCapcity(ref __ApplyUniform_floatArrayCache, value2.Length * 3);
+                    value2.ToFloatArray(__ApplyUniform_floatArrayCache);
+                    GL.Uniform3(location, value2.Length, __ApplyUniform_floatArrayCache);
+                }
+                else
+                {
+                    GL.Uniform3(location, (uniforms.GetValueVector3(token)).ToOpenTK());
+                }
                 break;
             case ShaderUniformType.Vector4:
-                GL.Uniform4(location, (source.GetValueVector4(name)).ToOpenTK());
+                GL.Uniform4(location, (uniforms.GetValueVector4(token)).ToOpenTK());
                 break;
             case ShaderUniformType.Matrix:
-                var value2 = (source.GetValueMatrix(name)).ToOpenTK();
-                GL.UniformMatrix4(location, false, ref value2);
+                if (isArray)
+                {
+                    var value2 = uniforms.GetValueMatrixArray(token);
+                    EnsureCapcity(ref __ApplyUniform_floatArrayCache, value2.Length * 16);
+                    value2.ToFloatArray(__ApplyUniform_floatArrayCache);
+                    GL.UniformMatrix4(location, value2.Length, false, __ApplyUniform_floatArrayCache);
+                }
+                else
+                {
+                    var value2 = (uniforms.GetValueMatrix(token)).ToOpenTK();
+                    GL.UniformMatrix4(location, false, ref value2);
+                }
                 break;
             default:
                 throw new ArgumentOutOfRangeException(
@@ -432,6 +292,18 @@ namespace ChamberLib.OpenTK
                     "Unknown uniform type: " + type.ToString());
             }
             GLHelper.CheckError();
+        }
+
+        void EnsureCapcity<T>(ref T[] array, int desiredCapacity)
+        {
+            if (array == null ||
+                array.Length < desiredCapacity)
+            {
+                var temp = new T[desiredCapacity];
+                if (array != null)
+                    array.CopyTo(temp, 0);
+                array = temp;
+            }
         }
     }
 }

@@ -25,6 +25,7 @@ namespace ChamberLib
         void SetUniform(string name, Vector3 value);
         void SetUniform(string name, Vector4 value);
         void SetUniform(string name, Matrix value);
+        void SetUniform(string name, Matrix[] value);
     }
 }
 

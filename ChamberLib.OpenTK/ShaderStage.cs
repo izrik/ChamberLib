@@ -88,6 +88,10 @@ namespace ChamberLib.OpenTK
         {
             Uniforms.SetValue(name, value);
         }
+        public void SetUniform(string name, Matrix[] value)
+        {
+            Uniforms.SetValue(name, value);
+        }
         public void SetUniform(string name, bool value)
         {
             Uniforms.SetValue(name, value);
